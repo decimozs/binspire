@@ -5,10 +5,7 @@ import { organizationsTable, usersTable } from "./user";
 export const sessionsTable = pgTable(
   "sessions",
   {
-    id: text("id")
-      .$defaultFn(() => nanoid())
-      .notNull()
-      .primaryKey(),
+    id: text("id").notNull().primaryKey(),
     expiresAt: timestamp("expires_at").notNull(),
     token: text("token").notNull().unique(),
     ipAddress: text("ip_address"),

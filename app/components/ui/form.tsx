@@ -42,7 +42,9 @@ const FormField = ({
   return (
     <div className="grid gap-2">
       <div className="flex items-center">
-        <Label htmlFor={id}>{label}</Label>
+        <Label htmlFor={id} className={error ? "text-red-500" : ""}>
+          {label}
+        </Label>
         {option === "field-with-sub-link" && option && optionHref && (
           <Link
             to={optionHref}
