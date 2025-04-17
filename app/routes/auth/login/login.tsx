@@ -22,6 +22,8 @@ import { getFieldError } from "~/lib/utils";
 import { useEffect, useRef } from "react";
 import { commitSession, getSession } from "~/sessions.server";
 import type { Route } from "./+types/login";
+import { accountsTable } from "~/db";
+import { and, eq } from "drizzle-orm";
 
 export const loginSchema = z.object({
   email: z
@@ -63,13 +65,19 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   const userId = user.id;
-  const account = await db.query.accountsTable.findFirst({
-    where: (table, { eq }) => eq(table.userId, userId),
-  });
+  const [account] = await db
+    .select()
+    .from(accountsTable)
+    .where(
+      and(
+        eq(accountsTable.userId, userId),
+        eq(accountsTable.providerId, "email"),
+      ),
+    );
 
   if (!account) {
     return {
-      errors: "Account not found",
+      errors: "Account not found. Please request access first",
     };
   }
 
@@ -177,10 +185,12 @@ export default function LoginPage() {
           Login
         </Button>
         <FormDivider label="Or continue with" />
-        <Button variant="outline" className="w-full h-12 p-4" type="button">
-          <SVG icon="github" />
-          Login with GitHub
-        </Button>
+        <Form method="GET" action="/auth/callback/google">
+          <Button variant="outline" className="w-full h-12 p-4" type="submit">
+            <SVG icon="google" />
+            Login with Google
+          </Button>
+        </Form>
       </div>
       <FormFooter
         message="Don't have an access?"

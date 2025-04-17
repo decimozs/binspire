@@ -44,11 +44,11 @@ export const EmailVerification = ({
           <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] max-w-[465px]">
             <Section className="mt-[32px]">
               <Img
-                src={`${baseUrl}/static/binspire-logo.png`}
-                width="40"
-                height="37"
+                src="https://i.ibb.co/rK4P145L/logo.png"
+                width="100"
+                height="100"
                 alt="Binspire Logo"
-                className="my-0 mx-auto"
+                className="my-0 mx-auto rounded-md"
               />
             </Section>
             <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">

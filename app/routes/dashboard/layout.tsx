@@ -13,19 +13,7 @@ import {
   SidebarTrigger,
 } from "~/components/ui/sidebar";
 import { DashboardSidebar } from "~/components/sidebar/dashboard-sidebar";
-import { Outlet, redirect } from "react-router";
-import type { Route } from "./+types/layout";
-import { getSession } from "~/sessions.server";
-
-export async function loader({ request }: Route.LoaderArgs) {
-  const session = await getSession(request.headers.get("cookie"));
-
-  if (!session.has("userId")) {
-    return redirect("/login");
-  }
-
-  return session;
-}
+import { Outlet } from "react-router";
 
 export default function DashboardLayoutPage() {
   return (
