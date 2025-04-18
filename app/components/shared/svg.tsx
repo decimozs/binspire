@@ -1,4 +1,4 @@
-import { icons } from "~/lib/constants";
+import { icons } from "@/lib/constants";
 
 export const SVG: React.FC<{ icon: keyof typeof icons }> = ({ icon }) => {
   return (

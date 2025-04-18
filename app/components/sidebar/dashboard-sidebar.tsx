@@ -1,19 +1,20 @@
-import * as React from "react";
 import {
   AudioWaveform,
   BookOpen,
   Bot,
-  Command,
   Frame,
   GalleryVerticalEnd,
+  House,
   Map,
   PieChart,
   Settings2,
   SquareTerminal,
+  Trash,
+  UserRound,
 } from "lucide-react";
 import { NavOperations } from "./nav-operations";
 import { NavShortcuts } from "./nav-shortcuts";
-import MapSwitcher from "./map-switcher";
+import NavActiveTeams from "./nav-teams";
 import { NavUser } from "./nav-user";
 import {
   Sidebar,
@@ -22,74 +23,73 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "../ui/sidebar";
+import type { User } from "~/lib/types";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/logo.png",
-  },
   teams: [
     {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      name: "Admin",
+      icon: GalleryVerticalEnd,
+      onlines: "123",
     },
     {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
+      name: "Collector",
+      icon: AudioWaveform,
+      onlines: "42",
     },
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "Dashboard",
       url: "#",
-      icon: SquareTerminal,
+      icon: House,
       isActive: true,
       items: [
+        {
+          title: "Home",
+          url: "/dashboard",
+        },
+        {
+          title: "Map",
+          url: "#",
+        },
+        {
+          title: "Reports",
+          url: "#",
+        },
         {
           title: "History",
           url: "#",
         },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
       ],
     },
     {
-      title: "Models",
+      title: "User",
       url: "#",
-      icon: Bot,
+      icon: UserRound,
       items: [
         {
-          title: "Genesis",
+          title: "Management",
           url: "#",
         },
         {
-          title: "Explorer",
+          title: "Access Requests",
+          url: "/dashboard/user/access-requests",
+        },
+        {
+          title: "Activity Logs",
           url: "#",
         },
         {
-          title: "Quantum",
+          title: "Roles & Permissions",
           url: "#",
         },
       ],
     },
     {
-      title: "Documentation",
+      title: "Trashbin",
       url: "#",
-      icon: BookOpen,
+      icon: Trash,
       items: [
         {
           title: "Introduction",
@@ -152,20 +152,18 @@ const data = {
   ],
 };
 
-export function DashboardSidebar({
-  ...props
-}: React.ComponentProps<typeof Sidebar>) {
+export function DashboardSidebar({ user }: { user: User }) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
-        <MapSwitcher teams={data.teams} />
+        <NavActiveTeams teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
         <NavOperations items={data.navMain} />
         <NavShortcuts projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

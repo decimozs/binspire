@@ -8,6 +8,7 @@ import {
 } from "react-router";
 import { Toaster } from "sonner";
 import type { Route } from "./+types/root";
+import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -33,7 +34,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Toaster position="top-right" richColors />
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -43,7 +43,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <>
+      <Toaster position="top-right" richColors />
+      <NuqsAdapter>
+        <Outlet />
+      </NuqsAdapter>
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

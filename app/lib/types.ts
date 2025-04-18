@@ -1,23 +1,18 @@
-import type { sessionsTable } from "~/db";
+import type { LucideIcon } from "lucide-react";
+import type { requestAccessTable, sessionsTable, usersTable } from "@/db";
 
-export type SessionData = typeof sessionsTable.$inferInsert;
+export type Session = typeof sessionsTable.$inferInsert;
 
 export type VerificationType = "email-verification" | "forgot-password";
 
-export interface GoogleToken {
-  token: {
-    token: string;
-    expires_in: number;
-  };
+export type User = typeof usersTable.$inferSelect;
+
+export type SessionData = Session & Pick<User, "permission">;
+
+export interface Teams {
+  name: string;
+  icon: LucideIcon;
+  onlines: string;
 }
 
-export interface GoogleUser {
-  id: string;
-  email: string;
-  verified_email: boolean;
-  name: string;
-  given_name: string;
-  family_name: string;
-  picture: string;
-  locale: string;
-}
+export type RequestAccess = typeof requestAccessTable.$inferSelect;

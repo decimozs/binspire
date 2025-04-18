@@ -1,7 +1,7 @@
 import type { Route } from "./+types/success-verification";
 import { redirect, useLoaderData } from "react-router";
-import db from "~/lib/db";
-import { usersTable, verificationsTable } from "~/db";
+import db from "@/lib/db.server";
+import { usersTable, verificationsTable } from "@/db";
 import { and, eq } from "drizzle-orm";
 import { useEffect } from "react";
 

@@ -5,24 +5,24 @@ import {
   useNavigate,
   useNavigation,
 } from "react-router";
-import { Button } from "~/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
   FormDivider,
   FormField,
   FormFooter,
   FormHeader,
-} from "~/components/ui/form";
+} from "@/components/ui/form";
 import { Loader2, LogIn } from "lucide-react";
-import { SVG } from "~/components/shared/svg";
+import { SVG } from "@/components/shared/svg";
 import { z } from "zod";
-import db from "~/lib/db";
+import db from "@/lib/db.server";
 import argon2 from "argon2";
-import { getFieldError } from "~/lib/utils";
+import { getFieldError } from "@/lib/utils";
 import { useEffect, useRef } from "react";
-import { commitSession, getSession } from "~/sessions.server";
+import { commitSession, getSession } from "@/lib/sessions.server";
 import type { Route } from "./+types/login";
-import { accountsTable } from "~/db";
+import { accountsTable } from "@/db";
 import { and, eq } from "drizzle-orm";
 
 export const loginSchema = z.object({
@@ -108,6 +108,7 @@ export async function action({ request }: Route.ActionArgs) {
   session.set("orgId", user.orgId);
   session.set("ipAddress", ipAddress);
   session.set("userAgent", userAgent);
+  session.set("permission", user.permission);
 
   return redirect("/dashboard", {
     headers: {

@@ -1,9 +1,9 @@
 import { redirect } from "react-router";
 import { createHonoServer } from "react-router-hono-server/node";
-import { commitSession, getSession } from "./sessions.server";
+import { commitSession, getSession } from "./lib/sessions.server";
 import { googleAuth } from "@hono/oauth-providers/google";
 import env from "@config/env.server";
-import db from "./lib/db";
+import db from "./lib/db.server";
 import { accountsTable, usersTable } from "./db";
 import { eq, and } from "drizzle-orm";
 
@@ -21,7 +21,6 @@ export default await createHonoServer({
       const token = c.get("token");
       const grantedScopes = c.get("granted-scopes");
       const userGoogle = c.get("user-google");
-
       const accountId = userGoogle?.id as string;
       const userEmail = userGoogle?.email as string;
       const userFullname = userGoogle?.name as string;
@@ -43,8 +42,10 @@ export default await createHonoServer({
             email: userEmail,
             emailVerified: userEmailStatus,
             image: userImage,
+            permission: "viewer",
           })
           .returning();
+
         currentUser = newUser;
       } else {
         await db
@@ -98,7 +99,7 @@ export default await createHonoServer({
       }
 
       const orgId = currentUser?.orgId as string;
-
+      const permission = currentUser?.permission as string;
       const ipAddress = c.req.header("x-forwarded-for");
       const userAgent = c.req.header("user-agent");
       const session = await getSession(c.req.header("cookie"));
@@ -106,6 +107,8 @@ export default await createHonoServer({
       session.set("orgId", orgId);
       session.set("ipAddress", ipAddress);
       session.set("userAgent", userAgent);
+      session.set("permission", permission);
+      console.log("session: ", session.data);
 
       return redirect("/dashboard", {
         headers: {

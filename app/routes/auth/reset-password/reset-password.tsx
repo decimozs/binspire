@@ -1,12 +1,12 @@
 import { Loader2, Lock } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Form, redirect, useActionData, useNavigation } from "react-router";
-import { FormField, FormFooter, FormHeader } from "~/components/ui/form";
-import { getFieldError } from "~/lib/utils";
+import { FormField, FormFooter, FormHeader } from "@/components/ui/form";
+import { getFieldError } from "@/lib/utils";
 import type { Route } from "./+types/reset-password";
 import { z } from "zod";
-import db from "~/lib/db";
-import { accountsTable, verificationsTable } from "~/db";
+import db from "@/lib/db.server";
+import { accountsTable, verificationsTable } from "@/db";
 import { and, eq } from "drizzle-orm";
 import { useEffect } from "react";
 import { toast } from "sonner";

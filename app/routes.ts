@@ -15,6 +15,10 @@ export default [
   ]),
   layout("./routes/dashboard/layout.tsx", [
     route("/dashboard", "./routes/dashboard/dashboard.tsx"),
+    route(
+      "/dashboard/user/access-requests",
+      "./routes/dashboard/user/access-request.tsx",
+    ),
   ]),
   route(
     "verification-successful",

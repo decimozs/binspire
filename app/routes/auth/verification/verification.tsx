@@ -1,11 +1,4 @@
-import {
-  AlertCircle,
-  CheckCircle,
-  Loader2,
-  LogIn,
-  Mail,
-  XCircle,
-} from "lucide-react";
+import { CheckCircle, Loader2, LogIn, Mail, XCircle } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Form,
@@ -15,18 +8,18 @@ import {
   useNavigation,
 } from "react-router";
 import { render } from "@react-email/components";
-import { email as nodemailer } from "~/lib/email";
-import { Button } from "~/components/ui/button";
-import { FormField, FormFooter, FormHeader } from "~/components/ui/form";
-import { getFieldError, hashUrlToken } from "~/lib/utils";
+import { email as nodemailer } from "@/lib/email";
+import { Button } from "@/components/ui/button";
+import { FormField, FormFooter, FormHeader } from "@/components/ui/form";
+import { getFieldError, hashUrlToken } from "@/lib/utils";
 import type { Route } from "./+types/verification";
-import db from "~/lib/db";
-import { verificationsTable } from "~/db";
+import db from "@/lib/db.server";
+import { verificationsTable } from "@/db";
 import { nanoid } from "nanoid";
 import env from "@config/env.server";
-import EmailVerification from "~/components/email/email-verification";
+import EmailVerification from "@/components/email/email-verification";
 import { toast } from "sonner";
-import type { VerificationType } from "~/lib/types";
+import type { VerificationType } from "@/lib/types";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
 
@@ -176,15 +169,13 @@ export default function VerificationPage() {
       setPending(true);
       setLoaderPending(true);
     }
-  }, [isSubmitting, errors]);
+  }, [isSubmitting, errors, actionData]);
 
   useEffect(() => {
     const channel = new BroadcastChannel("email-verification");
 
     channel.onmessage = (event) => {
       const { type, email, verificationType, token } = event.data;
-
-      console.log(event.data);
 
       if (type === "success" && verificationType === "email-verification") {
         setLoaderPending(false);

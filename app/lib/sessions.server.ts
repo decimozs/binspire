@@ -1,10 +1,10 @@
 import env from "@config/env.server";
 import { createSessionStorage } from "react-router";
 import { nanoid } from "nanoid";
-import { sessionsTable } from "./db";
-import db from "./lib/db";
+import { sessionsTable } from "@/db";
+import db from "./db.server";
 import { eq } from "drizzle-orm";
-import type { SessionData } from "./lib/types";
+import type { SessionData } from "@/lib/types";
 
 type SessionErrorData = {
   error: string;
