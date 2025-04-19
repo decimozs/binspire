@@ -17,10 +17,13 @@ import {
 } from "@react-email/components";
 
 interface EmailInvitation {
+  id: string;
   email: string;
   token: string;
   type: string;
   role: string;
+  orgId: string;
+  permission: string;
   intent: "approved" | "rejected";
   inviteFromIp: string;
   inviteFromLocation: string;
@@ -29,12 +32,15 @@ interface EmailInvitation {
 const baseUrl = "http://localhost:5173";
 
 export default function EmailInvitation({
+  id,
+  orgId,
   email,
   type,
   token,
   role,
   inviteFromIp,
   intent,
+  permission,
   inviteFromLocation,
 }: EmailInvitation) {
   const previewText = `Verify your email for Binspire`;
@@ -78,7 +84,11 @@ export default function EmailInvitation({
                 <>
                   <strong>Binspire</strong> has invited you to the{" "}
                   <strong className="capitalize">{role}</strong> team on{" "}
-                  <strong>Arcovia</strong>.
+                  <strong>Arcovia</strong> with{" "}
+                  <strong className="capitalize">
+                    {permission.replace(",", " ")}
+                  </strong>{" "}
+                  permissions.
                 </>
               )}
               {intent === "rejected" && (
@@ -122,22 +132,34 @@ export default function EmailInvitation({
                 </Row>
               </Section>
             )}
-            <Section className="text-center mt-[32px] mb-[32px]">
-              <Button
-                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center px-5 py-3"
-                href="mailto:support@binspire.com?subject=Access Request Support"
-              >
-                Contact Support
-              </Button>
-            </Section>
+            {intent === "rejected" && (
+              <Section className="text-center mt-[32px] mb-[32px]">
+                <Button
+                  className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center px-5 py-3"
+                  href="mailto:support@binspire.com?subject=Access Request Support"
+                >
+                  Contact Support
+                </Button>
+              </Section>
+            )}
+            {intent === "approved" && (
+              <Section className="text-center mt-[32px] mb-[32px]">
+                <Button
+                  className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center px-5 py-3"
+                  href={`${baseUrl}/sign-up?t=${token}&id=${id}&o=${orgId}&p=${permission}`}
+                >
+                  Join the Team
+                </Button>
+              </Section>
+            )}
             {intent === "approved" && (
               <Text className="text-black text-[14px] leading-[24px]">
                 or copy and paste this URL into your browser:{" "}
                 <Link
-                  href={`${baseUrl}/verification?t=${token}&tp=${type}&e=${email}`}
+                  href={`${baseUrl}/sign-up?t=${token}&id=${id}&o=${orgId}&p=${permission}`}
                   className="text-blue-600 no-underline"
                 >
-                  {`${baseUrl}/sign-up?t=${token}&tp=${type}&e=${email}`}
+                  {`${baseUrl}/sign-up?t=${token}&id=${id}&o=${orgId}&p=${permission}`}
                 </Link>
               </Text>
             )}

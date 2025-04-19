@@ -9,6 +9,7 @@ export default [
   index("routes/home.tsx"),
   layout("./routes/auth/layout.tsx", [
     route("login", "./routes/auth/login/login.tsx"),
+    route("sign-up", "./routes/auth/sign-up/sign-up.tsx"),
     route("verification", "./routes/auth/verification/verification.tsx"),
     route("request-access", "./routes/auth/request-access/request-access.tsx"),
     route("reset-password", "./routes/auth/reset-password/reset-password.tsx"),

@@ -80,6 +80,7 @@ import { render } from "@react-email/components";
 import EmailInvitation from "@/components/email/email-invitation";
 import { toast } from "sonner";
 import { useQueryState } from "nuqs";
+import { getSession } from "@/lib/sessions.server";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const data = await db.query.requestAccessTable.findMany();
@@ -94,6 +95,9 @@ export async function action({ request }: Route.ActionArgs) {
   const intent = formData.get("intent");
   const requestId = formData.get("requestId") as string;
   const email = formData.get("email") as string;
+  const accessControl = formData.get("access-control") as string;
+  const session = await getSession(request.headers.get("cookie"));
+  const orgId = session.get("orgId") as string;
 
   if (intent === "delete") {
     await db
@@ -121,6 +125,8 @@ export async function action({ request }: Route.ActionArgs) {
 
     const emailHtml = await render(
       <EmailInvitation
+        id={requestId}
+        orgId={orgId}
         email={email}
         intent={intent}
         token={verification?.value as string}
@@ -128,6 +134,7 @@ export async function action({ request }: Route.ActionArgs) {
         type={verification?.identifier as string}
         inviteFromIp="192.168.0.1"
         inviteFromLocation="Manila, Philippines"
+        permission={accessControl}
       />,
     );
 
@@ -166,6 +173,7 @@ export async function action({ request }: Route.ActionArgs) {
 
     const emailHtml = await render(
       <EmailInvitation
+        id={requestId}
         email={email}
         intent={intent}
         token={verification?.value as string}
@@ -477,7 +485,7 @@ export default function UserAccessRequestPage() {
                               </p>
                             </div>
                           </div>
-                          <div className="grid grid-cols-2">
+                          <div className="flex flex-row gap-4">
                             <div className="flex flex-col gap-2">
                               <h1 className="text-sm text-muted-foreground">
                                 Email
@@ -493,7 +501,9 @@ export default function UserAccessRequestPage() {
                               </h1>
                               <p className="text-sm flex flex-row gap-2 items-center">
                                 <Phone size={15} className="mt-[0.2rem]" />
-                                {item.phoneNumber}
+                                {!item.phoneNumber
+                                  ? "Not available"
+                                  : item.phoneNumber}
                               </p>
                             </div>
                           </div>
@@ -513,7 +523,7 @@ export default function UserAccessRequestPage() {
                               hour12: true,
                             })}
                           </p>
-                          <p className="text-sm">Request for Access</p>
+                          <p className="text-sm">Reason for Access</p>
                           <div className="text-sm border-[1px] border-input p-4 rounded-md bg-muted/50">
                             <p>{item.reason}</p>
                           </div>

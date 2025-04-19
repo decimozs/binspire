@@ -39,7 +39,8 @@ export async function loader({ request }: Route.ActionArgs) {
   });
 
   const verification = await db.query.verificationsTable.findFirst({
-    where: (table, { eq }) => eq(table.value, token),
+    where: (table, { and }) =>
+      and(eq(table.value, token), eq(table.identifier, "forgot-password")),
   });
 
   if (!user || !verification) {
@@ -112,7 +113,7 @@ export default function ResetPasswordPage() {
   }, [actionData]);
 
   return (
-    <Form method="POST" className="flex flex-col gap-6">
+    <Form method="POST" className="flex flex-col gap-6 w-md">
       <FormHeader
         title="Reset your password"
         description="Please enter your new password to reset it"

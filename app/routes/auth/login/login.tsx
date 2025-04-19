@@ -2,6 +2,8 @@ import {
   Form,
   redirect,
   useActionData,
+  useLoaderData,
+  useLocation,
   useNavigate,
   useNavigation,
 } from "react-router";
@@ -33,6 +35,16 @@ export const loginSchema = z.object({
     .string({ required_error: "Password is required" })
     .min(6, { message: "Password must be at least 6 characters long" }),
 });
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const searchParams = new URLSearchParams(url.searchParams);
+  const error = searchParams.get("e");
+
+  return {
+    error,
+  };
+}
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
@@ -119,13 +131,19 @@ export async function action({ request }: Route.ActionArgs) {
 
 export default function LoginPage() {
   const actionData = useActionData<typeof action>();
+  const { error } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
+  const location = useLocation();
   const navigate = useNavigate();
   const isSubmitting = navigation.state === "submitting";
   const errors = actionData?.errors;
   const hasSubmitted = useRef(false);
 
   useEffect(() => {
+    if (location.search || location.hash) {
+      navigate(location.pathname, { replace: true });
+    }
+
     if (isSubmitting) {
       hasSubmitted.current = true;
     }
@@ -145,59 +163,65 @@ export default function LoginPage() {
       toast.error(errors);
       hasSubmitted.current = false;
     }
+
+    if (error === "account-not-found") {
+      toast.warning("Account not found. Please request access first.");
+    }
   }, [isSubmitting, errors]);
 
   return (
-    <Form method="post" className="flex flex-col gap-6">
-      <FormHeader
-        title="Login to your account"
-        description="Enter your email below to login to your account"
-      />
-      <div className="grid gap-6">
-        <FormField
-          id="email"
-          name="email"
-          type="text"
-          label="Email"
-          placeholder="email@example.com"
-          error={getFieldError(errors, "email")}
+    <div className="flex flex-col">
+      <Form method="post" className="flex w-md flex-col gap-6">
+        <FormHeader
+          title="Login to your account"
+          description="Enter your email below to login to your account"
         />
-        <FormField
-          id="password"
-          name="password"
-          type="password"
-          label="Password"
-          placeholder="Enter your password here"
-          option="field-with-sub-link"
-          optionLabel="Forgot your password?"
-          optionHref={`/verification?tp=forgot-password`}
-          error={getFieldError(errors, "password")}
-        />
-        <Button
-          type="submit"
-          className="w-full h-12 p-4"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <LogIn className="mr-2 h-4 w-4" />
-          )}
-          Login
-        </Button>
-        <FormDivider label="Or continue with" />
-        <Form method="GET" action="/auth/callback/google">
-          <Button variant="outline" className="w-full h-12 p-4" type="submit">
-            <SVG icon="google" />
-            Login with Google
+        <div className="grid gap-6">
+          <FormField
+            id="email"
+            name="email"
+            type="text"
+            label="Email"
+            placeholder="email@example.com"
+            error={getFieldError(errors, "email")}
+          />
+          <FormField
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="Enter your password here"
+            option="field-with-sub-link"
+            optionLabel="Forgot your password?"
+            optionHref={`/verification?tp=forgot-password`}
+            error={getFieldError(errors, "password")}
+          />
+          <Button
+            type="submit"
+            className="w-full h-12 p-4"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <LogIn className="mr-2 h-4 w-4" />
+            )}
+            Login
           </Button>
-        </Form>
+          <FormDivider label="Or continue with" />
+        </div>
+      </Form>
+      <Button variant="outline" className="w-full h-12 p-4 mt-6" type="submit">
+        <SVG icon="google" />
+        <a href="/auth/google/login">Login with Google</a>
+      </Button>
+      <div className="mt-6">
+        <FormFooter
+          message="Don't have an access?"
+          linkText="Request access"
+          href="/request-access"
+        />
       </div>
-      <FormFooter
-        message="Don't have an access?"
-        linkText="Request access"
-        href="/request-access"
-      />
-    </Form>
+    </div>
   );
 }

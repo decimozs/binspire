@@ -1,31 +1,26 @@
-import { Form, useActionData, useNavigation } from "react-router";
-import { Button } from "@/components/ui/button";
+import { useActionData, useNavigation } from "react-router";
 import type { Route } from "./+types/request-access";
-import { FormField, FormFooter, FormHeader } from "@/components/ui/form";
-import { getFieldError, hashUrlToken } from "@/lib/utils";
-import { Loader2, Mail } from "lucide-react";
-import { verificationSchema } from "../verification/verification";
+import { hashUrlToken } from "@/lib/utils";
 import db from "@/lib/db.server";
 import { requestAccessTable, verificationsTable } from "@/db";
 import env from "@config/env.server";
 import { nanoid } from "nanoid";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import RequestAccessForm from "./_components/form";
+import { requestAccessSchema } from "@/lib/validations.server";
+import { PendingVerification } from "@/components/shared/pending";
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
-  const formEmail = formData.get("email");
-  const validatedData = verificationSchema.safeParse({
-    email: formEmail,
-  });
+  const data = Object.fromEntries(formData.entries());
+  const validatedData = requestAccessSchema.safeParse(data);
 
   if (!validatedData.success) {
     return {
       errors: validatedData.error.flatten().fieldErrors,
     };
   }
-
-  const email = validatedData.data.email;
 
   try {
     const verificationToken = nanoid();
@@ -41,7 +36,7 @@ export async function action({ request }: Route.ActionArgs) {
     const verificationId = verification.id;
 
     await db.insert(requestAccessTable).values({
-      email: email,
+      ...validatedData.data,
       status: "pending",
       verificationId: verificationId,
     });
@@ -60,6 +55,7 @@ export default function RequestAccessPage() {
   const isSubmitting = navigation.state === "submitting";
   const errors = actionData?.errors;
   const hasSubmitted = useRef(false);
+  const [requestPending, setRequestPending] = useState(false);
 
   useEffect(() => {
     if (isSubmitting) {
@@ -73,42 +69,17 @@ export default function RequestAccessPage() {
 
     if (actionData?.success === true) {
       toast.success("Request access sent successfully");
+      setRequestPending(true);
     }
-  }, [errors, actionData, errors]);
+  }, [errors, actionData]);
 
   return (
-    <Form method="post" className="flex flex-col gap-6">
-      <FormHeader
-        title="Request Access"
-        description="Provide your email address and we'll review your access request shortly."
-      />
-      <div className="grid gap-6">
-        <FormField
-          id="email"
-          name="email"
-          type="text"
-          label="Email"
-          placeholder="email@example.com"
-          error={getFieldError(errors, "email")}
-        />
-        <Button
-          type="submit"
-          className="w-full h-12 p-4"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Mail className="mr-2 h-4 w-4" />
-          )}
-          Request Access
-        </Button>
-      </div>
-      <FormFooter
-        message="Already verified your email?"
-        linkText="Login"
-        href="/login"
-      />
-    </Form>
+    <>
+      {!requestPending ? (
+        <RequestAccessForm errors={errors} isSubmitting={isSubmitting} />
+      ) : (
+        <PendingVerification identifier="request-access" />
+      )}
+    </>
   );
 }
