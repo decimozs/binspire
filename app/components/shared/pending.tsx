@@ -11,18 +11,12 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { FormFooter } from "../ui/form";
-
-type VerificationType =
-  | "request-access"
-  | "forgot-password"
-  | "email-verification";
-
-type VerificationStatus = "success" | "failed" | null;
+import type { VerificationStatus, VerificationType } from "@/lib/types";
 
 const PendingVerification = ({
   identifier,
 }: {
-  identifier: VerificationType;
+  identifier: VerificationType | undefined;
 }) => {
   const navigate = useNavigate();
   const [verificationStatus, setVerificationStatus] =

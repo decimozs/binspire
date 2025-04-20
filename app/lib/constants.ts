@@ -2,6 +2,17 @@ import type { LucideIcon } from "lucide-react";
 import { NavOperations } from "@/components/sidebar/nav-operations";
 import { NavShortcuts } from "@/components/sidebar/nav-shortcuts";
 import { NavUser } from "@/components/sidebar/nav-user";
+import {
+  AudioWaveform,
+  Frame,
+  GalleryVerticalEnd,
+  House,
+  Map,
+  PieChart,
+  Settings2,
+  Trash,
+  UserRound,
+} from "lucide-react";
 
 export const icons = {
   github: `
@@ -57,85 +68,256 @@ export interface NavigationItems {
   shortcuts: NavShortcuts[];
 }
 
-export type DataTableConfig = typeof dataTableConfig;
+export const adminData = {
+  teams: [
+    {
+      name: "Admin",
+      icon: GalleryVerticalEnd,
+      onlines: "123",
+    },
+    {
+      name: "Collector",
+      icon: AudioWaveform,
+      onlines: "42",
+    },
+  ],
+  navMain: [
+    {
+      title: "Dashboard",
+      url: "#",
+      icon: House,
+      isActive: true,
+      items: [
+        {
+          title: "Home",
+          url: "/dashboard",
+        },
+        {
+          title: "Map",
+          url: "#",
+        },
+        {
+          title: "Reports",
+          url: "#",
+        },
+        {
+          title: "History",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "User",
+      url: "#",
+      icon: UserRound,
+      items: [
+        {
+          title: "Management",
+          url: "#",
+        },
+        {
+          title: "Access Requests",
+          url: "/dashboard/user/access-requests",
+        },
+        {
+          title: "Activity Logs",
+          url: "#",
+        },
+        {
+          title: "Roles & Permissions",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Trashbin",
+      url: "#",
+      icon: Trash,
+      items: [
+        {
+          title: "Introduction",
+          url: "#",
+        },
+        {
+          title: "Get Started",
+          url: "#",
+        },
+        {
+          title: "Tutorials",
+          url: "#",
+        },
+        {
+          title: "Changelog",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Settings",
+      url: "#",
+      icon: Settings2,
+      items: [
+        {
+          title: "General",
+          url: "#",
+        },
+        {
+          title: "Team",
+          url: "#",
+        },
+        {
+          title: "Billing",
+          url: "#",
+        },
+        {
+          title: "Limits",
+          url: "#",
+        },
+      ],
+    },
+  ],
+  projects: [
+    {
+      name: "Design Engineering",
+      url: "#",
+      icon: Frame,
+    },
+    {
+      name: "Sales & Marketing",
+      url: "#",
+      icon: PieChart,
+    },
+    {
+      name: "Travel",
+      url: "#",
+      icon: Map,
+    },
+  ],
+};
 
-export const dataTableConfig = {
-  textOperators: [
-    { label: "Contains", value: "iLike" as const },
-    { label: "Does not contain", value: "notILike" as const },
-    { label: "Is", value: "eq" as const },
-    { label: "Is not", value: "ne" as const },
-    { label: "Is empty", value: "isEmpty" as const },
-    { label: "Is not empty", value: "isNotEmpty" as const },
+export const collectorData = {
+  teams: [
+    {
+      name: "Admin",
+      icon: GalleryVerticalEnd,
+      onlines: "123",
+    },
+    {
+      name: "Collector",
+      icon: AudioWaveform,
+      onlines: "42",
+    },
   ],
-  numericOperators: [
-    { label: "Is", value: "eq" as const },
-    { label: "Is not", value: "ne" as const },
-    { label: "Is less than", value: "lt" as const },
-    { label: "Is less than or equal to", value: "lte" as const },
-    { label: "Is greater than", value: "gt" as const },
-    { label: "Is greater than or equal to", value: "gte" as const },
-    { label: "Is between", value: "isBetween" as const },
-    { label: "Is empty", value: "isEmpty" as const },
-    { label: "Is not empty", value: "isNotEmpty" as const },
+  navMain: [
+    {
+      title: "Collector",
+      url: "#",
+      icon: House,
+      isActive: true,
+      items: [
+        {
+          title: "Home",
+          url: "/dashboard",
+        },
+        {
+          title: "Map",
+          url: "#",
+        },
+        {
+          title: "Reports",
+          url: "#",
+        },
+        {
+          title: "History",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Collector",
+      url: "#",
+      icon: UserRound,
+      items: [
+        {
+          title: "Management",
+          url: "#",
+        },
+        {
+          title: "Access Requests",
+          url: "/dashboard/user/access-requests",
+        },
+        {
+          title: "Activity Logs",
+          url: "#",
+        },
+        {
+          title: "Roles & Permissions",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Collector",
+      url: "#",
+      icon: Trash,
+      items: [
+        {
+          title: "Introduction",
+          url: "#",
+        },
+        {
+          title: "Get Started",
+          url: "#",
+        },
+        {
+          title: "Tutorials",
+          url: "#",
+        },
+        {
+          title: "Changelog",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Collector",
+      url: "#",
+      icon: Settings2,
+      items: [
+        {
+          title: "General",
+          url: "#",
+        },
+        {
+          title: "Team",
+          url: "#",
+        },
+        {
+          title: "Billing",
+          url: "#",
+        },
+        {
+          title: "Limits",
+          url: "#",
+        },
+      ],
+    },
   ],
-  dateOperators: [
-    { label: "Is", value: "eq" as const },
-    { label: "Is not", value: "ne" as const },
-    { label: "Is before", value: "lt" as const },
-    { label: "Is after", value: "gt" as const },
-    { label: "Is on or before", value: "lte" as const },
-    { label: "Is on or after", value: "gte" as const },
-    { label: "Is between", value: "isBetween" as const },
-    { label: "Is relative to today", value: "isRelativeToToday" as const },
-    { label: "Is empty", value: "isEmpty" as const },
-    { label: "Is not empty", value: "isNotEmpty" as const },
+  projects: [
+    {
+      name: "Design Engineering",
+      url: "#",
+      icon: Frame,
+    },
+    {
+      name: "Sales & Marketing",
+      url: "#",
+      icon: PieChart,
+    },
+    {
+      name: "Travel",
+      url: "#",
+      icon: Map,
+    },
   ],
-  selectOperators: [
-    { label: "Is", value: "eq" as const },
-    { label: "Is not", value: "ne" as const },
-    { label: "Is empty", value: "isEmpty" as const },
-    { label: "Is not empty", value: "isNotEmpty" as const },
-  ],
-  multiSelectOperators: [
-    { label: "Has any of", value: "inArray" as const },
-    { label: "Has none of", value: "notInArray" as const },
-    { label: "Is empty", value: "isEmpty" as const },
-    { label: "Is not empty", value: "isNotEmpty" as const },
-  ],
-  booleanOperators: [
-    { label: "Is", value: "eq" as const },
-    { label: "Is not", value: "ne" as const },
-  ],
-  sortOrders: [
-    { label: "Asc", value: "asc" as const },
-    { label: "Desc", value: "desc" as const },
-  ],
-  filterVariants: [
-    "text",
-    "number",
-    "range",
-    "date",
-    "dateRange",
-    "boolean",
-    "select",
-    "multiSelect",
-  ] as const,
-  operators: [
-    "iLike",
-    "notILike",
-    "eq",
-    "ne",
-    "inArray",
-    "notInArray",
-    "isEmpty",
-    "isNotEmpty",
-    "lt",
-    "lte",
-    "gt",
-    "gte",
-    "isBetween",
-    "isRelativeToToday",
-  ] as const,
-  joinOperators: ["and", "or"] as const,
 };

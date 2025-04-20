@@ -13,6 +13,7 @@ const envSchema = z.object({
   GMAIL_USER: z.string(),
   GMAIL_PASS: z.string(),
   AUTH_SECRET: z.string(),
+  MAP_TILER_KEY: z.string(),
   API_URL: z.string(),
   PORT: z.coerce.number().default(8080),
 });

@@ -4,6 +4,7 @@ import { destroySession, getSession } from "@/lib/sessions.server";
 import db from "@/lib/db.server";
 import { usersTable } from "@/db";
 import { eq } from "drizzle-orm";
+import DashboardMap from "./map/map";
 
 export async function action({ request }: Route.ActionArgs) {
   const session = await getSession(request.headers.get("cookie"));
@@ -25,9 +26,5 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export default function DashboardPage() {
-  return (
-    <main>
-      <div>DashboardPage</div>
-    </main>
-  );
+  return <DashboardMap />;
 }

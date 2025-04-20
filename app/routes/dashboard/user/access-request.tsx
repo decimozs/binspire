@@ -2,7 +2,6 @@ import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -16,11 +15,9 @@ import { Button } from "@/components/ui/button";
 import {
   Calendar,
   ChevronLeft,
-  ChevronLeftIcon,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  ChevronsRightLeftIcon,
   CircleCheck,
   CircleX,
   Clock,
@@ -99,6 +96,8 @@ export async function action({ request }: Route.ActionArgs) {
   const session = await getSession(request.headers.get("cookie"));
   const orgId = session.get("orgId") as string;
 
+  console.log("intent: ", intent);
+
   if (intent === "delete") {
     await db
       .delete(requestAccessTable)
@@ -174,6 +173,7 @@ export async function action({ request }: Route.ActionArgs) {
     const emailHtml = await render(
       <EmailInvitation
         id={requestId}
+        orgId={orgId}
         email={email}
         intent={intent}
         token={verification?.value as string}
@@ -181,6 +181,7 @@ export async function action({ request }: Route.ActionArgs) {
         type={verification?.identifier as string}
         inviteFromIp="192.168.0.1"
         inviteFromLocation="Manila, Philippines"
+        permission={accessControl}
       />,
     );
 

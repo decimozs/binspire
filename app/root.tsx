@@ -9,6 +9,7 @@ import {
 import { Toaster } from "sonner";
 import type { Route } from "./+types/root";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
+import "maplibre-gl/dist/maplibre-gl.css";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -30,6 +31,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          href="https://unpkg.com/maplibre-gl@5.3.1/dist/maplibre-gl.css"
+          rel="stylesheet"
+        />
         <Meta />
         <Links />
       </head>

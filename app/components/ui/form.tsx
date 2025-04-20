@@ -141,7 +141,12 @@ const FormTextArea = ({
       <Textarea
         id={id}
         placeholder={placeholder}
-        className={`p-4 ${error ? "border-red-600" : ""}`}
+        className={`p-4 max-w-[475px] ${error ? "border-red-600" : ""}`}
+        onInput={(e) => {
+          const target = e.target as HTMLTextAreaElement;
+          target.style.height = "0px";
+          target.style.height = target.scrollHeight + "px";
+        }}
         {...rest}
       />
       {error && <p className="text-sm text-red-600">{error}</p>}
