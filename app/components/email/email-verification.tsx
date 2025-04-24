@@ -65,7 +65,7 @@ export const EmailVerification = ({
             <Section className="text-center mt-[32px] mb-[32px]">
               <Button
                 className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center px-5 py-3"
-                href={`${baseUrl}/verification?t=${token}&tp=${type}&e=${email}`}
+                href={`${baseUrl}/onboarding?token=${token}&type=${type}&email=${email}`}
               >
                 Verify Email
               </Button>
@@ -73,10 +73,10 @@ export const EmailVerification = ({
             <Text className="text-black text-[14px] leading-[24px]">
               or copy and paste this URL into your browser:{" "}
               <Link
-                href={`${baseUrl}/verification?t=${token}&tp=${type}&e=${email}`}
+                href={`${baseUrl}/onboarding?token=${token}&type=${type}&email=${email}`}
                 className="text-blue-600 no-underline"
               >
-                {`${baseUrl}/verification?t=${token}&tp=${type}&e=${email}`}
+                {`${baseUrl}/onboarding?token=${token}&type=${type}&email=${email}`}
               </Link>
             </Text>
             <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />

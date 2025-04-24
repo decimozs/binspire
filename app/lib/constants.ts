@@ -4,14 +4,20 @@ import { NavShortcuts } from "@/components/sidebar/nav-shortcuts";
 import { NavUser } from "@/components/sidebar/nav-user";
 import {
   AudioWaveform,
+  Calendar,
+  Clock,
   Frame,
   GalleryVerticalEnd,
   House,
+  KeyRound,
+  Lock,
+  Mail,
   Map,
   PieChart,
   Settings2,
   Trash,
   UserRound,
+  UsersRound,
 } from "lucide-react";
 
 export const icons = {
@@ -89,15 +95,11 @@ export const adminData = {
       isActive: true,
       items: [
         {
-          title: "Home",
+          title: "Map",
           url: "/dashboard",
         },
         {
-          title: "Map",
-          url: "#",
-        },
-        {
-          title: "Reports",
+          title: "Audit",
           url: "#",
         },
         {
@@ -113,7 +115,7 @@ export const adminData = {
       items: [
         {
           title: "Management",
-          url: "#",
+          url: "/dashboard/user/management",
         },
         {
           title: "Access Requests",
@@ -125,7 +127,7 @@ export const adminData = {
         },
         {
           title: "Roles & Permissions",
-          url: "#",
+          url: "/dashboard/user/roles-permissions",
         },
       ],
     },
@@ -319,5 +321,38 @@ export const collectorData = {
       url: "#",
       icon: Map,
     },
+  ],
+};
+
+export const tableRowColumns = {
+  accessRequestTable: [
+    { label: "Name", icon: UserRound },
+    { label: "Email", icon: Mail },
+    { label: "Role", icon: UsersRound },
+    { label: "Status", icon: Clock },
+    { label: "Requested At", icon: Calendar },
+    { label: "", alignRight: true },
+  ],
+  userManagementTable: [
+    { label: "Name", icon: UserRound },
+    { label: "Email", icon: Mail },
+    { label: "Role", icon: UsersRound },
+    { label: "Joined on", icon: Clock },
+    { label: "", alignRight: true },
+  ],
+  userActivityTable: [
+    { label: "Type", icon: UserRound },
+    { label: "Name", icon: Mail },
+    { label: "Reason", icon: UsersRound },
+    { label: "Status", icon: Clock },
+    { label: "Created At", icon: Clock },
+    { label: "", alignRight: true },
+  ],
+  rolesAndPermissionsTable: [
+    { label: "Name", icon: UserRound },
+    { label: "Email", icon: Mail },
+    { label: "Role", icon: UsersRound },
+    { label: "Permission", icon: KeyRound },
+    { label: "", alignRight: true },
   ],
 };

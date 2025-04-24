@@ -165,9 +165,19 @@ export async function verification(request: Request) {
 
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
-  const type = searchParams.get("tp") as VerificationType;
-
+  const type = searchParams.get("type") as VerificationType;
   const email = validatedData.data.email;
+
+  const user = await db.query.usersTable.findFirst({
+    where: (table, { eq }) => eq(table.email, email),
+  });
+
+  if (!user) {
+    return {
+      errors: "Email not found. Please request access first!",
+    };
+  }
+
   const verificationToken = nanoid();
   const hashToken = hashUrlToken(verificationToken, env?.AUTH_SECRET!);
   const [verification] = await db
@@ -321,8 +331,6 @@ export async function signUp(request: Request) {
   }
 
   if (intent === "google") {
-    console.log("go with google hit");
-
     if (!googleValidatedData.success) {
       return {
         errors: googleValidatedData.error.flatten().fieldErrors,
@@ -361,7 +369,7 @@ export async function signUp(request: Request) {
       };
     }
 
-    return redirect("/auth/google/signup");
+    return redirect("/callback");
   }
 }
 
@@ -518,7 +526,7 @@ export async function signUpWithGoogle(c: Context, payload: GooglePayload) {
   session.set("userAgent", userAgent);
   session.set("permission", permission);
 
-  return redirect("/dashboard?m=welcome", {
+  return redirect("/dashboard", {
     headers: {
       "Set-Cookie": await commitSession(session),
     },

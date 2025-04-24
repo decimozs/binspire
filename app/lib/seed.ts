@@ -4,6 +4,7 @@ import {
   accountsTable,
   organizationsTable,
   requestAccessTable,
+  userActivityTable,
   usersTable,
   verificationsTable,
 } from "@/db";
@@ -129,11 +130,42 @@ export const seedRequestAccess = async () => {
   console.log("✅ Seeded request access");
 };
 
+export const seedUserActivities = async () => {
+  const users = await db
+    .select({ id: usersTable.id, name: usersTable.name })
+    .from(usersTable);
+  const verificationIds = await getVerificationIds();
+
+  if (users.length === 0 || verificationIds.length === 0) {
+    console.error("❌ No users or verifications found.");
+    return;
+  }
+
+  const activities = Array.from({ length: 30 }).map(() => {
+    const user = faker.helpers.arrayElement(users);
+    return {
+      id: nanoid(),
+      userId: user.id,
+      name: user.name,
+      status: faker.helpers.arrayElement(["active", "pending", "blocked"]),
+      type: faker.helpers.arrayElement(["login", "update", "delete"]),
+      reason: faker.lorem.sentence(),
+      verificationId: faker.helpers.arrayElement(verificationIds),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  });
+
+  await db.insert(userActivityTable).values(activities);
+  console.log("✅ Seeded user activity");
+};
+
 const seed = async () => {
   await seedOrganizations();
   await seedUsersAndAccounts();
   await seedVerifications();
   await seedRequestAccess();
+  await seedUserActivities();
 };
 
 seed();

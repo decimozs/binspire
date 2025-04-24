@@ -16,12 +16,6 @@ export default function SignUpPage() {
   const actionData = useActionData<typeof action>();
   const { user, orgId, permission } = useLoaderData<typeof loader>();
 
-  console.log("sign up page: ", {
-    user,
-    orgId,
-    permission,
-  });
-
   return (
     <SignUpForm
       actionErrors={actionData?.errors}

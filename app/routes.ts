@@ -20,13 +20,18 @@ export default [
       "/dashboard/user/access-requests",
       "./routes/dashboard/user/access-request.tsx",
     ),
+    route(
+      "/dashboard/user/management",
+      "./routes/dashboard/user/management.tsx",
+    ),
+    route(
+      "/dashboard/user/management/profile/:userId",
+      "./routes/dashboard/user/profile/user-profile.tsx",
+    ),
+    route(
+      "/dashboard/user/roles-permissions",
+      "./routes/dashboard/user/roles-permissions.tsx",
+    ),
   ]),
-  route(
-    "verification-successful",
-    "./routes/auth/verification/success-verification.tsx",
-  ),
-  route(
-    "verification-failed",
-    "./routes/auth/verification/failed-verification.tsx",
-  ),
+  route("callback", "./routes/auth/sign-up/callback.tsx"),
 ] satisfies RouteConfig;

@@ -7,39 +7,10 @@ import { redirect } from "react-router";
 export async function verificationLoader(request: Request) {
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
-  const token = searchParams.get("t");
-  const email = searchParams.get("e");
-  const type = searchParams.get("tp") as VerificationType;
+  const type = searchParams.get("type") as VerificationType;
 
   if (!type || !["email-verification", "forgot-password"].includes(type)) {
     return redirect("/login");
-  }
-
-  if (token) {
-    const validateToken = await db.query.verificationsTable.findFirst({
-      where: (table, { eq }) => eq(table.value, token),
-    });
-
-    if (!validateToken) {
-      return redirect(
-        `/verification-failed?e=${email}&t=${token}&tp=${type}&err=INVALID_TOKEN`,
-      );
-    }
-
-    if (new Date(validateToken.expiresAt) < new Date()) {
-      const verificationId = validateToken.id;
-      await db
-        .delete(verificationsTable)
-        .where(eq(verificationsTable.id, verificationId));
-
-      return redirect(
-        `/verification-failed?e=${email}&t=${token}&tp=${type}&err=LINK_EXPIRED`,
-      );
-    }
-
-    return redirect(
-      `/verification-successful?e=${email}&t=${token}&tp=${type}`,
-    );
   }
 
   return type;

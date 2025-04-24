@@ -122,6 +122,7 @@ const FormTextArea = ({
   type = "text",
   placeholder,
   error,
+  className,
   ...rest
 }: {
   id: string;
@@ -130,6 +131,7 @@ const FormTextArea = ({
   placeholder?: string;
   error?: string;
   name: string;
+  className?: string;
 }) => {
   return (
     <div className="grid gap-2">
@@ -141,7 +143,7 @@ const FormTextArea = ({
       <Textarea
         id={id}
         placeholder={placeholder}
-        className={`p-4 max-w-[475px] ${error ? "border-red-600" : ""}`}
+        className={`p-4 max-w-[475px] ${className} ${error ? "border-red-600" : ""}`}
         onInput={(e) => {
           const target = e.target as HTMLTextAreaElement;
           target.style.height = "0px";
@@ -156,6 +158,7 @@ const FormTextArea = ({
 
 const FormRoleToggle = ({ error }: { error?: string }) => {
   const [role, setRole] = useState("");
+
   return (
     <>
       <Label htmlFor="role" className={error ? "text-red-500" : ""}>

@@ -43,7 +43,7 @@ export default function LoginForm({
     ) {
       toast.warning(actionErrors);
       hasSubmitted.current = false;
-      navigate("/verification?tp=email-verification");
+      navigate("/verification?type=email-verification");
     }
 
     if (
@@ -84,7 +84,7 @@ export default function LoginForm({
             placeholder="Enter your password here"
             option="field-with-sub-link"
             optionLabel="Forgot your password?"
-            optionHref={`/verification?tp=forgot-password`}
+            optionHref={`/verification?type=forgot-password`}
             error={getFieldError(actionErrors, "password")}
           />
           <Button

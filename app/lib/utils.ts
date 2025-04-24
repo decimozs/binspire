@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import CryptoJS from "crypto-js";
+import { formatDistanceToNow } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -35,4 +36,30 @@ export function verifyUrlToken(
 ) {
   const hashedToken = hashUrlToken(token, salt);
   return hashedToken === digestToken;
+}
+
+export function formatDate(date: Date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+export function fallbackInitials(name: string) {
+  return name
+    .split(" ")
+    .map((point) => point[0])
+    .join("");
+}
+
+export function formatPermission(role: string): string {
+  return role
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+export function formatRelativeTime(date: Date): string {
+  return formatDistanceToNow(date, { addSuffix: true });
 }

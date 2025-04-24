@@ -9,9 +9,10 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { FormFooter } from "../ui/form";
 import type { VerificationStatus, VerificationType } from "@/lib/types";
+import useWebsocket from "react-use-websocket";
 
 const PendingVerification = ({
   identifier,
@@ -23,36 +24,29 @@ const PendingVerification = ({
     useState<VerificationStatus>(null);
   const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
+  const [reason, setReason] = useState("");
+  const [status, setStatus] = useState(false);
+  const { lastMessage } = useWebsocket("ws://localhost:5173/ws");
 
   useEffect(() => {
-    const channel = new BroadcastChannel("email-verification");
+    if (lastMessage !== null) {
+      try {
+        const parsed = JSON.parse(lastMessage.data);
 
-    channel.onmessage = (event) => {
-      const { type, email, verificationType, token } = event.data;
-
-      console.log(event.data);
-
-      if (type === "success" && verificationType === "email-verification") {
-        setToken(token);
-        setEmail(email);
-        setVerificationStatus("success");
+        if (parsed.status === true) {
+          setEmail(parsed.email);
+          setToken(parsed.token);
+          setVerificationStatus("success");
+          setStatus(true);
+        } else if (parsed.status === false) {
+          setVerificationStatus("failed");
+          setReason(parsed.reason);
+        }
+      } catch (err) {
+        throw err;
       }
-
-      if (type === "success" && verificationType === "forgot-password") {
-        setToken(token);
-        setEmail(email);
-        setVerificationStatus("success");
-      }
-
-      if (type === "failed") {
-        setVerificationStatus("failed");
-      }
-    };
-
-    return () => {
-      channel.close();
-    };
-  }, []);
+    }
+  }, [lastMessage]);
 
   return (
     <div className="flex min-h-[70vh] items-center justify-center p-4 max-w-md">
@@ -91,9 +85,7 @@ const PendingVerification = ({
                 <h1 className="font-bold text-destructive">
                   Verification Failed
                 </h1>
-                <p className="text-sm">
-                  The verification link is invalid or expired.
-                </p>
+                <p className="text-sm">{reason}</p>
               </div>
             </div>
           </div>
@@ -129,9 +121,7 @@ const PendingVerification = ({
               );
             }}
             className="h-12 p-4 w-full"
-            disabled={
-              identifier !== "request-access" ? !verificationStatus : false
-            }
+            disabled={identifier === "forgot-password" && !status}
           >
             {identifier === "forgot-password" && (
               <>

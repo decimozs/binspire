@@ -5,8 +5,19 @@ import { loginWithGoogle, signUpWithGoogle } from "./action/auth.server";
 import type { GooglePayload } from "./lib/types";
 import type { WSContext } from "hono/ws";
 import { googleLoginAuth, googleSignupAuth } from "./lib/auth.server";
+import db from "./lib/db.server";
+import { usersTable, verificationsTable } from "./db";
+
+import { and, eq } from "drizzle-orm";
 
 const clients = new Set<WSContext>();
+
+const broadcast = (message: object) => {
+  const data = JSON.stringify(message);
+  clients.forEach((client) => {
+    if (client.readyState === 1) client.send(data);
+  });
+};
 
 export default await createHonoServer({
   useWebSocket: true,
@@ -53,10 +64,75 @@ export default await createHonoServer({
       return await loginWithGoogle(c, payload);
     });
 
+    server.get("/onboarding", async (c) => {
+      const { email, token, type } = c.req.query();
+
+      if (!token) return redirect(`/verification?type=${type}`);
+
+      const validatedToken = await db.query.verificationsTable.findFirst({
+        where: (table, { and, eq }) =>
+          and(eq(table.value, token), eq(table.identifier, type)),
+      });
+
+      if (!validatedToken) {
+        broadcast({
+          transaction: "verification-status",
+          type,
+          status: false,
+          reason: "Invalid token",
+        });
+
+        return c.html(closeWindow);
+      }
+
+      const verificationId = validatedToken?.id as string;
+      const tokenExpiresTime = new Date(validatedToken?.expiresAt as Date);
+
+      if (tokenExpiresTime < new Date()) {
+        await db
+          .delete(verificationsTable)
+          .where(eq(verificationsTable.id, verificationId));
+
+        broadcast({
+          transaction: "verification-status",
+          type,
+          status: true,
+          reason: "Expired token",
+        });
+
+        return c.html(closeWindow);
+      }
+
+      if (type === "email-verification") {
+        await db
+          .delete(verificationsTable)
+          .where(
+            and(
+              eq(verificationsTable.value, token),
+              eq(verificationsTable.identifier, type),
+            ),
+          );
+
+        await db
+          .update(usersTable)
+          .set({ emailVerified: true })
+          .where(eq(usersTable.email, email));
+      }
+
+      broadcast({
+        transaction: "verification",
+        status: true,
+        type,
+        email,
+        token,
+      });
+
+      return c.html(closeWindow);
+    });
+
     server.get(
       "/ws",
       upgradeWebSocket((c) => ({
-        // https://hono.dev/helpers/websocket
         onOpen(_, ws) {
           console.log("New connection ⬆️");
           clients.add(ws);
@@ -65,7 +141,6 @@ export default await createHonoServer({
           console.log("Context", c.req.header("Cookie"));
           console.log("Event", event);
           console.log(`Message from client: ${event.data}`);
-          // Broadcast to all clients except sender
           clients.forEach((client) => {
             if (client.readyState === 1) {
               client.send(`${event.data}`);

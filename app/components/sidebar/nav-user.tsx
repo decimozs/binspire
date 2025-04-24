@@ -3,8 +3,10 @@ import {
   Bell,
   ChevronsUpDown,
   CreditCard,
+  History,
   LogOut,
   Sparkles,
+  UsersRound,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -25,6 +27,7 @@ import {
 import { Form } from "react-router";
 import { Button } from "../ui/button";
 import type { User } from "@/lib/types";
+import { Badge } from "../ui/badge";
 
 export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar();
@@ -77,9 +80,21 @@ export function NavUser({ user }: { user: User }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
+              <DropdownMenuItem className="capitalize flex flex-row items-center justify-between">
+                <div className="flex flex-row items-center gap-2">
+                  <UsersRound />
+                  {user.role}
+                </div>
+                <div>
+                  <Badge>
+                    {user.permission
+                      .split("-")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1),
+                      )
+                      .join(" ")}
+                  </Badge>
+                </div>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
@@ -89,8 +104,8 @@ export function NavUser({ user }: { user: User }) {
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <CreditCard />
-                Billing
+                <History />
+                History
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />

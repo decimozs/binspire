@@ -1,33 +1,22 @@
-import { Input } from "@/components/ui/input";
 import {
-  Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { email as nodemailer } from "@/lib/email";
 import type { Route } from "./+types/access-request";
 import db from "@/lib/db.server";
-import { Form, useActionData, useFetcher, useLoaderData } from "react-router";
+import { useFetcher, useLoaderData } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
   CircleCheck,
   CircleX,
-  Clock,
   Ellipsis,
   Loader2,
   Mail,
   Phone,
   Timer,
-  UserRound,
-  UsersRound,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -56,19 +45,6 @@ import {
 } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { requestAccessTable } from "@/db";
@@ -76,8 +52,14 @@ import { eq } from "drizzle-orm";
 import { render } from "@react-email/components";
 import EmailInvitation from "@/components/email/email-invitation";
 import { toast } from "sonner";
-import { useQueryState } from "nuqs";
 import { getSession } from "@/lib/sessions.server";
+import RequestStatus from "@/components/shared/dynamic-table-cell";
+import { fallbackInitials, formatDate } from "@/lib/utils";
+import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row";
+import { tableRowColumns } from "@/lib/constants";
+import SelectAccessControl from "./_components/select-access-control";
+import { DynamicRoleBadge } from "@/components/shared/dynamic-badge";
+import { TableContainer } from "@/components/shared/table-container";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const data = await db.query.requestAccessTable.findMany();
@@ -95,8 +77,6 @@ export async function action({ request }: Route.ActionArgs) {
   const accessControl = formData.get("access-control") as string;
   const session = await getSession(request.headers.get("cookie"));
   const orgId = session.get("orgId") as string;
-
-  console.log("intent: ", intent);
 
   if (intent === "delete") {
     await db
@@ -213,19 +193,11 @@ export async function action({ request }: Route.ActionArgs) {
 export default function UserAccessRequestPage() {
   const { data } = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
+  const { accessRequestTable } = tableRowColumns;
   const [approvedDialog, setApprovedDialog] = useState(false);
   const [rejectedDialog, setRejectedDialog] = useState(false);
   const [selectedAccess, setSelectedAccess] = useState("viewer");
   const [deletedDialog, setDeletedDialog] = useState(false);
-  const [search, setSearch] = useQueryState("search");
-  const [page, setPage] = useQueryState("page", {
-    history: "push",
-    defaultValue: "1",
-  });
-  const [limit, setLimit] = useQueryState("limit", {
-    history: "push",
-    defaultValue: "10",
-  });
 
   useEffect(() => {
     if (fetcher.data?.success && fetcher.data?.intent === "approved") {
@@ -244,107 +216,45 @@ export default function UserAccessRequestPage() {
     }
   }, [fetcher.data]);
 
-  const pageNumber = parseInt(page || "1", 10);
-  const pageSize = parseInt(limit || "10", 10);
-
-  const filteredData = data.filter((user) => {
-    const query = (search || "").toLowerCase();
-    return (
-      user.name.toLowerCase().includes(query) ||
-      user.email.toLowerCase().includes(query) ||
-      user.role.toLowerCase().includes(query) ||
-      user.status.toLowerCase().includes(query)
-    );
-  });
-
-  const totalItems = filteredData.length;
-  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
-  const safePage = Math.min(Math.max(pageNumber, 1), totalPages);
-  const startIndex = (safePage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const paginatedData = filteredData.slice(startIndex, endIndex);
-
   return (
-    <div>
-      <div className="mb-2 flex flex-row items-center justify-between">
-        <Input
-          className="w-[300px]"
-          placeholder="What are you looking for?"
-          type="search"
-          value={search || ""}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage("1");
-          }}
-        />
-      </div>
-      <div className="w-full overflow-auto">
-        <Table className="table-auto">
-          <TableHeader className="sticky top-0 bg-background">
-            <TableRow>
-              <TableHead>
-                <span className="flex flex-row gap-1 items-center">
-                  <UserRound size={15} className="mt-[0.1rem]" />
-                  Name
-                </span>
-              </TableHead>
-              <TableHead>
-                <span className="flex flex-row gap-1 items-center">
-                  <Mail size={15} className="mt-[0.1rem]" />
-                  Email
-                </span>
-              </TableHead>
-              <TableHead>
-                <span className="flex flex-row gap-1 items-center">
-                  <UsersRound size={15} className="mt-[0.1rem]" />
-                  Role
-                </span>
-              </TableHead>
-              <TableHead>
-                <span className="flex flex-row gap-1 items-center">
-                  <Clock size={15} className="mt-[0.1rem]" />
-                  Status
-                </span>
-              </TableHead>
-              <TableHead>
-                <span className="flex flex-row gap-1 items-center">
-                  <Calendar size={15} className="mt-[0.1rem]" />
-                  Requested At
-                </span>
-              </TableHead>
-              <TableHead className="text-right"></TableHead>
-            </TableRow>
+    <TableContainer
+      data={data || []}
+      sorter={(a, b) => a.name.localeCompare(b.name)}
+      defaultSortDirection="asc"
+      searchFilter={(user, query) => {
+        const q = query.toLowerCase();
+        return (
+          user.name.toLowerCase().includes(q) ||
+          user.email.toLowerCase().includes(q) ||
+          user.role.toLowerCase().includes(q) ||
+          user.status.toLowerCase().includes(q)
+        );
+      }}
+      dateFilter={(user, from, to) => {
+        const createdAt = new Date(user.createdAt);
+        return (!from || createdAt >= from) && (!to || createdAt <= to);
+      }}
+    >
+      {({ paginatedData }) => (
+        <>
+          <TableHeader>
+            <DynamicTableHeaderRow columns={accessRequestTable} />
           </TableHeader>
           <TableBody>
             {paginatedData.map((item) => (
-              <TableRow key={item.id}>
+              <TableRow key={item.id} className="h-[50px]">
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.email}</TableCell>
-                <TableCell className="capitalize">{item.role}</TableCell>
                 <TableCell>
-                  <span className="border-input border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem] capitalize flex flex-row gap-1 items-center w-fit">
-                    {item.status === "pending" && (
-                      <Timer size={15} className="mb-0.5" />
-                    )}
-                    {item.status === "rejected" && (
-                      <CircleX size={15} className="mb-0.5" />
-                    )}
-                    {item.status === "approved" && (
-                      <CircleCheck size={15} className="mb-0.5" />
-                    )}
-                    {item.status}
-                  </span>
+                  <DynamicRoleBadge role={item.role} />
                 </TableCell>
                 <TableCell>
-                  {new Date(item.createdAt).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  <RequestStatus status={item.status} />
                 </TableCell>
+                <TableCell>{formatDate(item.createdAt)}</TableCell>
                 <TableCell className="text-right">
                   <Sheet>
-                    <DropdownMenu modal={false}>
+                    <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost">
                           <Ellipsis />
@@ -380,10 +290,7 @@ export default function UserAccessRequestPage() {
                                   <Avatar className="w-[50px] h-[50px]">
                                     <AvatarImage alt="@shadcn" />
                                     <AvatarFallback>
-                                      {item.name
-                                        .split(" ")
-                                        .map((point) => point[0])
-                                        .join("")}
+                                      {fallbackInitials(item.name)}
                                     </AvatarFallback>
                                   </Avatar>
                                   <div className="flex flex-col">
@@ -551,10 +458,7 @@ export default function UserAccessRequestPage() {
                                 <Avatar className="w-[50px] h-[50px]">
                                   <AvatarImage alt="@shadcn" />
                                   <AvatarFallback>
-                                    {item.name
-                                      .split(" ")
-                                      .map((point) => point[0])
-                                      .join("")}
+                                    {fallbackInitials(item.name)}
                                   </AvatarFallback>
                                 </Avatar>
                                 <div className="flex flex-col">
@@ -572,70 +476,13 @@ export default function UserAccessRequestPage() {
                               </DialogDescription>
                             </DialogHeader>
                             <div className="flex flex-row justify-between">
-                              <div className="flex flex-col gap-2">
-                                <p className="text-sm font-medium">
-                                  Access Control
-                                </p>
-                                <Select
-                                  value={selectedAccess}
-                                  onValueChange={(value) => {
-                                    setSelectedAccess(value);
-                                    console.log("Selected access:", value);
-                                  }}
-                                >
-                                  <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Viewer (Default)" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <TooltipProvider>
-                                      <Tooltip>
-                                        <TooltipTrigger asChild>
-                                          <SelectItem value="viewer">
-                                            Viewer
-                                          </SelectItem>
-                                        </TooltipTrigger>
-                                        <TooltipContent side="left">
-                                          <p>
-                                            Can only view content and data.
-                                            Cannot make any changes.
-                                          </p>
-                                        </TooltipContent>
-                                      </Tooltip>
-                                    </TooltipProvider>
-                                    <TooltipProvider>
-                                      <Tooltip>
-                                        <TooltipTrigger asChild>
-                                          <SelectItem value="editor">
-                                            Editor
-                                          </SelectItem>
-                                        </TooltipTrigger>
-                                        <TooltipContent side="left">
-                                          <p>
-                                            Can view and edit content, but
-                                            cannot manage users or permissions.
-                                          </p>
-                                        </TooltipContent>
-                                      </Tooltip>
-                                    </TooltipProvider>
-                                    <TooltipProvider>
-                                      <Tooltip>
-                                        <TooltipTrigger asChild>
-                                          <SelectItem value="full-access">
-                                            Full Access
-                                          </SelectItem>
-                                        </TooltipTrigger>
-                                        <TooltipContent side="left">
-                                          <p>
-                                            Has complete access to manage
-                                            content, users, and settings.
-                                          </p>
-                                        </TooltipContent>
-                                      </Tooltip>
-                                    </TooltipProvider>
-                                  </SelectContent>
-                                </Select>
-                              </div>
-                              <DialogFooter className="mt-auto">
+                              <SelectAccessControl
+                                selectedAccess={selectedAccess}
+                                setSelectedAccess={setSelectedAccess}
+                              />
+                              <DialogFooter
+                                className={`mt-auto ${item.role === "collector" ? "ml-auto" : ""}`}
+                              >
                                 <fetcher.Form method="post">
                                   <input
                                     type="hidden"
@@ -761,52 +608,8 @@ export default function UserAccessRequestPage() {
               </TableRow>
             ))}
           </TableBody>
-        </Table>
-      </div>
-      <div className="flex flex-row items-center justify-between w-full">
-        <p className="text-sm text-muted-foreground">
-          {paginatedData.length} Results
-        </p>
-        <div className="flex flex-row items-center gap-2">
-          <p className="mr-4 text-sm font-medium">
-            Page {safePage} of {totalPages}
-          </p>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setPage("1")}
-            disabled={parseInt(page || "1") === 1}
-          >
-            <ChevronsLeft />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() =>
-              setPage((prev) => String(Math.max(1, parseInt(prev || "1") - 1)))
-            }
-            disabled={parseInt(page || "1") === 1}
-          >
-            <ChevronLeft />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setPage((prev) => String(parseInt(prev || "1") + 1))}
-            disabled={parseInt(page || "1") >= totalPages}
-          >
-            <ChevronRight />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setPage(String(totalPages))}
-            disabled={parseInt(page || "1") >= totalPages}
-          >
-            <ChevronsRight />
-          </Button>
-        </div>
-      </div>
-    </div>
+        </>
+      )}
+    </TableContainer>
   );
 }

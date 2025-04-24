@@ -4,12 +4,10 @@ import { destroySession, getSession } from "@/lib/sessions.server";
 import db from "@/lib/db.server";
 import { usersTable } from "@/db";
 import { eq } from "drizzle-orm";
-import DashboardMap from "./map/map";
+import DashboardMap from "@/components/map/dashboard-map";
 
 export async function action({ request }: Route.ActionArgs) {
   const session = await getSession(request.headers.get("cookie"));
-
-  console.log("session: ", session.data);
 
   await db
     .update(usersTable)
