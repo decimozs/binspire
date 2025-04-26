@@ -5,6 +5,7 @@ import type {
   userCommentTable,
   usersTable,
 } from "@/db";
+import type { getActivityLogs } from "@/query/users.server";
 import type { LucideIcon } from "lucide-react";
 import type { z, ZodTypeAny } from "zod";
 
@@ -28,6 +29,8 @@ export interface Teams {
 }
 
 export type RequestAccess = typeof requestAccessTable.$inferSelect;
+
+export type ActivityLog = typeof userActivityTable.$inferSelect;
 
 type FormErrors<T extends ZodTypeAny> =
   z.inferFlattenedErrors<T>["fieldErrors"];
@@ -71,6 +74,7 @@ export type UserActivity = {
     };
     replies: {
       id: string;
+      commentUserId: string;
       userId: string;
       commentId: string;
       message: string;
@@ -80,8 +84,16 @@ export type UserActivity = {
         name: string;
         image: string;
       };
+      comment: {
+        user: {
+          name: string;
+          image: string;
+        };
+      };
     }[];
   }[];
 };
 
 export type UserComment = typeof userCommentTable.$inferSelect;
+
+export type UserActivities = Awaited<ReturnType<typeof getActivityLogs>>;

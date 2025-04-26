@@ -1,6 +1,6 @@
 import { userActivityTable, userCommentTable, userReplyTable } from "@/db";
 import db from "@/lib/db.server";
-import { eq, isNotNull } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 export async function getUsers() {
   return await db.query.usersTable.findMany();
@@ -38,6 +38,16 @@ export async function getUserActivities(userId: string) {
                   image: true,
                 },
               },
+              comment: {
+                with: {
+                  user: {
+                    columns: {
+                      name: true,
+                      image: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
@@ -45,6 +55,7 @@ export async function getUserActivities(userId: string) {
     },
     orderBy: (activities, { desc }) => [desc(activities.createdAt)],
   });
+
   return result;
 }
 
@@ -53,4 +64,58 @@ export async function getUserComments(activityId: string) {
     .select()
     .from(userCommentTable)
     .where(eq(userCommentTable.activityId, activityId));
+}
+
+export async function getActivityLogs() {
+  const result = await db.query.userActivityTable.findMany({
+    with: {
+      user: {
+        columns: {
+          id: true,
+          name: true,
+          image: true,
+          role: true,
+          permission: true,
+          createdAt: true,
+          email: true,
+          isOnline: true,
+        },
+      },
+      comments: {
+        orderBy: (comments, { desc }) => [desc(comments.createdAt)],
+        with: {
+          user: {
+            columns: {
+              name: true,
+              image: true,
+            },
+          },
+          replies: {
+            orderBy: (replies, { desc }) => [desc(replies.createdAt)],
+            with: {
+              user: {
+                columns: {
+                  name: true,
+                  image: true,
+                },
+              },
+              comment: {
+                with: {
+                  user: {
+                    columns: {
+                      name: true,
+                      image: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    orderBy: (activities, { desc }) => [desc(activities.createdAt)],
+  });
+
+  return result;
 }

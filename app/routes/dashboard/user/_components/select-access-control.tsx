@@ -1,34 +1,43 @@
 import {
   Select,
-  SelectContent,
-  SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectContent,
+  SelectItem,
 } from "@/components/ui/select";
 import {
-  Tooltip,
-  TooltipContent,
   TooltipProvider,
+  Tooltip,
   TooltipTrigger,
+  TooltipContent,
 } from "@/components/ui/tooltip";
 
 interface AccessControlSelectProps {
   selectedAccess: string;
-  setSelectedAccess: (value: string) => void;
+  setSelectedAccess?: (value: string) => void;
+  title?: string;
+  disabled?: boolean;
 }
 
 export default function SelectAccessControl({
   selectedAccess,
   setSelectedAccess,
+  title = "Access Control",
+  disabled,
 }: AccessControlSelectProps) {
+  const handleValueChange = (value: string) => {
+    if (setSelectedAccess) {
+      setSelectedAccess(value);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2">
-      <p className="text-sm font-medium">Access Control</p>
+      <p className="text-sm font-medium">{title}</p>
       <Select
         value={selectedAccess}
-        onValueChange={(value) => {
-          setSelectedAccess(value);
-        }}
+        onValueChange={handleValueChange}
+        disabled={disabled}
       >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Viewer (Default)" />

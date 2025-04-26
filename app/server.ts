@@ -9,6 +9,7 @@ import db from "./lib/db.server";
 import { usersTable, verificationsTable } from "./db";
 
 import { and, eq } from "drizzle-orm";
+import { closeWindow } from "./lib/utils";
 
 const clients = new Set<WSContext>();
 

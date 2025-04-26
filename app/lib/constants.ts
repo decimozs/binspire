@@ -123,7 +123,7 @@ export const adminData = {
         },
         {
           title: "Activity Logs",
-          url: "#",
+          url: "/dashboard/user/activity-logs",
         },
         {
           title: "Roles & Permissions",
@@ -353,6 +353,14 @@ export const tableRowColumns = {
     { label: "Email", icon: Mail },
     { label: "Role", icon: UsersRound },
     { label: "Permission", icon: KeyRound },
+    { label: "", alignRight: true },
+  ],
+  activityLogsTable: [
+    { label: "Title", icon: UserRound },
+    { label: "Description", icon: Mail },
+    { label: "Status", icon: UsersRound },
+    { label: "User", icon: KeyRound },
+    { label: "Created At", icon: Clock },
     { label: "", alignRight: true },
   ],
 };

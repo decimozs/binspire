@@ -63,3 +63,14 @@ export function formatPermission(role: string): string {
 export function formatRelativeTime(date: Date): string {
   return formatDistanceToNow(date, { addSuffix: true });
 }
+
+export const closeWindow = `
+<html>
+      <body>
+        <script>
+          window.close();
+        </script>
+        <p>Window is closing...</p>
+      </body>
+    </html>
+`;

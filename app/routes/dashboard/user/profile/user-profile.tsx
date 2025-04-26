@@ -12,7 +12,12 @@ import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/sessions.server";
 import type { UserActivity } from "@/lib/types";
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params, request }: Route.LoaderArgs) {
+  const session = await getSession(request.headers.get("cookie"));
+  const currentUser = session.get("userId");
+  const username = await db.query.usersTable.findFirst({
+    where: (table, { eq }) => eq(table.id, currentUser as string),
+  });
   const userId = params.userId;
   const queryClient = new QueryClient();
   const { getUserById, getUserActivities } = await import(
@@ -33,6 +38,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     dehydratedState: dehydrate(queryClient),
     getUserById: await getUserById(userId),
     getUserActivities: await getUserActivities(userId as string),
+    username: username?.name as string,
   };
 }
 
@@ -70,10 +76,15 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   if (intent === "reply" || intent === "new-reply") {
+    const comentUserId = await db.query.userCommentTable.findFirst({
+      where: (table, { eq }) => eq(table.id, commentId as string),
+    });
+
     await db.insert(userReplyTable).values({
       commentId: commentId as string,
       userId: userId as string,
       message: reply as string,
+      commentUserId: comentUserId?.userId as string,
     });
 
     return {
@@ -116,13 +127,14 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export default function UserProfileRoute() {
-  const { dehydratedState, getUserById, getUserActivities } =
+  const { dehydratedState, getUserById, getUserActivities, username } =
     useLoaderData<typeof loader>();
   return (
     <HydrationBoundary state={dehydratedState}>
       <UserInfo
         user={getUserById}
         activity={getUserActivities as UserActivity[]}
+        username={username as string}
       />
     </HydrationBoundary>
   );

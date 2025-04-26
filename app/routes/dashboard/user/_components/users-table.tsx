@@ -18,16 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Link, useFetcher } from "react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -37,6 +28,7 @@ import {
   DynamicRoleBadge,
 } from "@/components/shared/dynamic-badge";
 import { TableContainer } from "@/components/shared/table-container";
+import { DeleteUserContent } from "@/components/shared/dialog-content";
 
 export default function UsersTable({ users }: { users?: User[] }) {
   const { data } = useQuery({
@@ -125,38 +117,7 @@ export default function UsersTable({ users }: { users?: User[] }) {
                             Delete
                           </Button>
                         </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Delete user?</DialogTitle>
-                            <DialogDescription>
-                              This action cannot be undone. This will
-                              permanently delete the user account.
-                            </DialogDescription>
-                          </DialogHeader>
-                          <DialogFooter>
-                            <fetcher.Form
-                              method="POST"
-                              action="/dashboard/user/management"
-                            >
-                              <input
-                                type="hidden"
-                                name="userId"
-                                value={item.id}
-                              />
-                              <Button
-                                type="submit"
-                                disabled={fetcher.state === "submitting"}
-                              >
-                                {fetcher.state === "submitting"
-                                  ? "Deleting..."
-                                  : "Confirm"}
-                              </Button>
-                            </fetcher.Form>
-                            <DialogClose asChild>
-                              <Button variant="outline">Cancel</Button>
-                            </DialogClose>
-                          </DialogFooter>
-                        </DialogContent>
+                        <DeleteUserContent data={item} fetcher={fetcher} />
                       </Dialog>
                     </DropdownMenuContent>
                   </DropdownMenu>

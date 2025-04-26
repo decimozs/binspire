@@ -18,7 +18,6 @@ import {
   KeyRound,
   Loader2,
   Mail,
-  Phone,
   Reply,
   Send,
   Trash,
@@ -30,7 +29,6 @@ import {
   formatPermission,
   formatRelativeTime,
 } from "@/lib/utils";
-import { tableRowColumns } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -58,17 +56,17 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { useFetcher } from "react-router";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { FormField, FormTextArea } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
 export default function UserInfo({
   user,
   activity,
+  username,
 }: {
   user?: User;
   activity?: UserActivity[];
+  username?: string;
 }) {
   const { data } = useQuery({
     queryKey: ["user", user?.id],
@@ -410,7 +408,7 @@ export default function UserInfo({
                                             id="reply"
                                             name="reply"
                                             value={newReplyMessage}
-                                            placeholder={`Reply as ${item.user.name}`}
+                                            placeholder={`Reply as ${username}`}
                                             onChange={(e) =>
                                               setNewReplyMessage(e.target.value)
                                             }
@@ -465,9 +463,6 @@ export default function UserInfo({
                                             <div className="w-full">
                                               <div className="flex flex-row gap-2 items-center">
                                                 <div className="text-sm">
-                                                  <p className="text-sm text-muted-foreground">
-                                                    Replies to {item.user.name}
-                                                  </p>
                                                   <p>{item.user.name}</p>
                                                 </div>
                                               </div>
@@ -509,7 +504,7 @@ export default function UserInfo({
                                                       id="reply"
                                                       name="reply"
                                                       value={replyMessage}
-                                                      placeholder={`Reply as ${item.user.name}`}
+                                                      placeholder={`Reply as ${username}`}
                                                       onChange={(e) =>
                                                         setReplyMessage(
                                                           e.target.value,
@@ -564,7 +559,7 @@ export default function UserInfo({
                                     onChange={(e) =>
                                       setCommentMessage(e.target.value)
                                     }
-                                    placeholder={`Comment as ${item.comments.find((comment) => comment.user.name)?.user?.name}`}
+                                    placeholder={`Comment as ${username}`}
                                     className="w-full"
                                   />
                                   <input

@@ -50,4 +50,30 @@ const DynamicRoleBadge = ({ role }: { role: string }) => {
   );
 };
 
-export { DynamicActiveBadge, DynamicPermissionBadge, DynamicRoleBadge };
+const DynamicActionBadge = ({ action }: { action: string }) => {
+  return (
+    <div className="border-input border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem] w-fit capitalize flex flex-row gap-1 items-center">
+      {action === "admin" && <ShieldUser size={15} className="mb-0.5" />}
+      {action === "collector" && <HardHat size={15} className="mb-0.5" />}
+      <p>{action}</p>
+    </div>
+  );
+};
+
+const DynamicActionStatusBadge = ({ status }: { status: string }) => {
+  return (
+    <div className="border-input border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem] w-fit capitalize flex flex-row gap-1 items-center">
+      {status === "admin" && <ShieldUser size={15} className="mb-0.5" />}
+      {status === "collector" && <HardHat size={15} className="mb-0.5" />}
+      <p>{status}</p>
+    </div>
+  );
+};
+
+export {
+  DynamicActiveBadge,
+  DynamicPermissionBadge,
+  DynamicActionBadge,
+  DynamicRoleBadge,
+  DynamicActionStatusBadge,
+};

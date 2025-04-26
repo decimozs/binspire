@@ -35,7 +35,7 @@ export function TableContainer<T>({
   });
   const [limit] = useQueryState("limit", {
     history: "push",
-    defaultValue: "15",
+    defaultValue: "14",
   });
 
   const [from, setFrom] = useQueryState("from", {

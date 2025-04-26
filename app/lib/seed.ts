@@ -146,11 +146,16 @@ export const seedUserActivities = async () => {
     return {
       id: nanoid(),
       userId: user.id,
-      name: user.name,
+      title: faker.helpers.arrayElement([
+        "Authentication",
+        "User Management",
+        "Roles & Permissions",
+        "Activity Logs",
+        "Access Request",
+      ]),
       status: faker.helpers.arrayElement(["active", "pending", "blocked"]),
-      type: faker.helpers.arrayElement(["login", "update", "delete"]),
-      reason: faker.lorem.sentence(),
-      verificationId: faker.helpers.arrayElement(verificationIds),
+      action: faker.helpers.arrayElement(["login", "update", "delete"]),
+      description: faker.lorem.sentence(),
       createdAt: new Date(),
       updatedAt: new Date(),
     };

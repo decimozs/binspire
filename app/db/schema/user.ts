@@ -61,10 +61,10 @@ export const userActivityTable = pgTable("user_activity", {
   userId: text("user_id")
     .references(() => usersTable.id, { onDelete: "cascade" })
     .notNull(),
-  name: text("name").notNull(),
+  title: text("title").notNull(),
+  action: text("action").notNull(),
   status: text("status").notNull(),
-  type: text("type").notNull(),
-  reason: text("reason").notNull(),
+  description: text("description").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()
@@ -98,6 +98,7 @@ export const userReplyTable = pgTable("user_reply", {
   commentId: text("comment_id")
     .references(() => userCommentTable.id, { onDelete: "cascade" })
     .notNull(),
+  commentUserId: text("comment_user_id").notNull(),
   message: text("message").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")

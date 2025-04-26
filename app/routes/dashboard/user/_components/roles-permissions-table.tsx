@@ -2,6 +2,13 @@ import {
   DynamicPermissionBadge,
   DynamicRoleBadge,
 } from "@/components/shared/dynamic-badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row";
 import { TableContainer } from "@/components/shared/table-container";
 import { Button } from "@/components/ui/button";
@@ -15,6 +22,14 @@ import { tableRowColumns } from "@/lib/constants";
 import type { User } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { Ellipsis } from "lucide-react";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import {
+  DeleteUserContent,
+  UpdateUserPermissionContent,
+} from "@/components/shared/dialog-content";
+import { useFetcher } from "react-router";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function RolesAndPermissionsTable({
   users,
@@ -26,6 +41,25 @@ export default function RolesAndPermissionsTable({
     queryFn: () => users,
   });
   const { rolesAndPermissionsTable } = tableRowColumns;
+  const [updatePermission, setUpdatePermission] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [selectedPermission, setSelectedPermission] = useState("viewer");
+  const fetcher = useFetcher();
+
+  useEffect(() => {
+    if (
+      fetcher.data?.success &&
+      fetcher.data?.intent === "update-user-permission"
+    ) {
+      toast.success("User Permission Updated");
+      setUpdatePermission(false);
+    }
+
+    if (fetcher.data?.success && fetcher.data?.intent === "delete") {
+      toast.success("User Deleted");
+      setDeleteDialog(false);
+    }
+  }, [fetcher.data]);
 
   return (
     <TableContainer
@@ -64,9 +98,54 @@ export default function RolesAndPermissionsTable({
                     <DynamicPermissionBadge permission={item.permission} />
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button variant="ghost">
-                      <Ellipsis />
-                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost">
+                          <Ellipsis />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="mr-8 mt-[-0.7rem]">
+                        <DropdownMenuLabel>
+                          Permission Actions
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <div className="flex flex-col items-start">
+                          <Dialog
+                            open={updatePermission}
+                            onOpenChange={setUpdatePermission}
+                          >
+                            <DialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                className="p-2 text-sm w-fit font-normal"
+                              >
+                                Update
+                              </Button>
+                            </DialogTrigger>
+                            <UpdateUserPermissionContent
+                              data={item}
+                              fetcher={fetcher}
+                              updatedPermission={selectedPermission}
+                              setUpdatedPermission={setSelectedPermission}
+                            />
+                          </Dialog>
+                          <Dialog
+                            open={deleteDialog}
+                            onOpenChange={setDeleteDialog}
+                          >
+                            <DialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                className="p-2 text-sm w-fit font-normal"
+                              >
+                                Delete
+                              </Button>
+                            </DialogTrigger>
+                            <DeleteUserContent data={item} fetcher={fetcher} />
+                          </Dialog>
+                        </div>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>
               ))

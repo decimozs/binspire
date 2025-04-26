@@ -29,21 +29,47 @@ export async function action({ request }: Route.ActionArgs) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const formData = await request.formData();
   const userId = formData.get("userId") as string;
+  const intent = formData.get("intent");
 
-  const [deleteUser] = await db
-    .delete(usersTable)
-    .where(eq(usersTable.id, userId))
-    .returning();
+  if (intent === "update-user-permission") {
+    const updatedPermission = formData.get("updated-permission");
+    const [updateUser] = await db
+      .update(usersTable)
+      .set({
+        permission: updatedPermission as string,
+      })
+      .where(eq(usersTable.id, userId))
+      .returning();
 
-  if (!deleteUser) {
+    if (!updateUser) {
+      return {
+        errors: "Failed to update user permission",
+      };
+    }
+
     return {
-      errors: "Failed to delete user.",
+      success: true,
+      intent: intent,
     };
   }
 
-  return {
-    success: true,
-  };
+  if (intent === "delete") {
+    const [deleteUser] = await db
+      .delete(usersTable)
+      .where(eq(usersTable.id, userId))
+      .returning();
+
+    if (!deleteUser) {
+      return {
+        errors: "Failed to delete user.",
+      };
+    }
+
+    return {
+      success: true,
+      intent: intent,
+    };
+  }
 }
 
 export default function UsersManagementRoute() {

@@ -13,7 +13,6 @@ import {
   CircleCheck,
   CircleX,
   Ellipsis,
-  Loader2,
   Mail,
   Phone,
   Timer,
@@ -34,18 +33,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { requestAccessTable } from "@/db";
 import { eq } from "drizzle-orm";
@@ -57,11 +47,15 @@ import RequestStatus from "@/components/shared/dynamic-table-cell";
 import { fallbackInitials, formatDate } from "@/lib/utils";
 import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row";
 import { tableRowColumns } from "@/lib/constants";
-import SelectAccessControl from "./_components/select-access-control";
 import { DynamicRoleBadge } from "@/components/shared/dynamic-badge";
 import { TableContainer } from "@/components/shared/table-container";
+import {
+  ApproveUserAccessRequestContent,
+  DeleteUserAccessRequestContent,
+  RejectUserAccessRequestContent,
+} from "@/components/shared/dialog-content";
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader() {
   const data = await db.query.requestAccessTable.findMany();
 
   return {
@@ -278,64 +272,10 @@ export default function UserAccessRequestPage() {
                                 Delete
                               </Button>
                             </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>
-                                  Delete access request?
-                                </DialogTitle>
-                                <p className="text-sm text-muted-foreground mb-[-0.5rem]">
-                                  Deleting request for:
-                                </p>
-                                <div className="text-sm border-[1px] border-input p-4 rounded-md my-2 grid grid-cols-[70px_1fr]">
-                                  <Avatar className="w-[50px] h-[50px]">
-                                    <AvatarImage alt="@shadcn" />
-                                    <AvatarFallback>
-                                      {fallbackInitials(item.name)}
-                                    </AvatarFallback>
-                                  </Avatar>
-                                  <div className="flex flex-col">
-                                    <p className="text-lg">{item.name}</p>
-                                    <p className="text-sm text-muted-foreground capitalize flex flex-row gap-2 items-center">
-                                      <Mail size={15} className="mt-[0.1rem]" />
-                                      {item.email}
-                                    </p>
-                                  </div>
-                                </div>
-                                <DialogDescription>
-                                  This action cannot be undone. This will
-                                  permanently remove this user's access request
-                                  from the system.
-                                </DialogDescription>
-                              </DialogHeader>
-                              <DialogFooter>
-                                <fetcher.Form method="POST">
-                                  <input
-                                    type="hidden"
-                                    name="intent"
-                                    value="delete"
-                                  />
-                                  <input
-                                    type="hidden"
-                                    name="requestId"
-                                    value={item.id}
-                                  />
-                                  <Button
-                                    type="submit"
-                                    disabled={fetcher.state !== "idle"}
-                                  >
-                                    {fetcher.state === "submitting" && (
-                                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    )}
-                                    {fetcher.state === "submitting"
-                                      ? "Deleting..."
-                                      : "Delete"}
-                                  </Button>
-                                </fetcher.Form>
-                                <DialogClose asChild>
-                                  <Button variant="outline">Cancel</Button>
-                                </DialogClose>
-                              </DialogFooter>
-                            </DialogContent>
+                            <DeleteUserAccessRequestContent
+                              data={item}
+                              fetcher={fetcher}
+                            />
                           </Dialog>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -378,10 +318,7 @@ export default function UserAccessRequestPage() {
                             <Avatar className="w-[60px] h-[60px]">
                               <AvatarImage alt="@shadcn" />
                               <AvatarFallback>
-                                {item.name
-                                  .split(" ")
-                                  .map((point) => point[0])
-                                  .join("")}
+                                {fallbackInitials(item.name)}
                               </AvatarFallback>
                             </Avatar>
                             <div>
@@ -448,82 +385,12 @@ export default function UserAccessRequestPage() {
                               Approve
                             </Button>
                           </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Approve Access Request</DialogTitle>
-                              <p className="text-sm text-muted-foreground mb-[-0.5rem]">
-                                Approving access for:
-                              </p>
-                              <div className="text-sm border-[1px] border-input p-4 rounded-md my-2 grid grid-cols-[70px_1fr]">
-                                <Avatar className="w-[50px] h-[50px]">
-                                  <AvatarImage alt="@shadcn" />
-                                  <AvatarFallback>
-                                    {fallbackInitials(item.name)}
-                                  </AvatarFallback>
-                                </Avatar>
-                                <div className="flex flex-col">
-                                  <p className="text-lg">{item.name}</p>
-                                  <p className="text-sm text-muted-foreground capitalize flex flex-row gap-2 items-center">
-                                    <Mail size={15} className="mt-[0.1rem]" />
-                                    {item.email}
-                                  </p>
-                                </div>
-                              </div>
-                              <DialogDescription>
-                                This user will be granted access to the
-                                platform. You can’t undo this action after
-                                confirming.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <div className="flex flex-row justify-between">
-                              <SelectAccessControl
-                                selectedAccess={selectedAccess}
-                                setSelectedAccess={setSelectedAccess}
-                              />
-                              <DialogFooter
-                                className={`mt-auto ${item.role === "collector" ? "ml-auto" : ""}`}
-                              >
-                                <fetcher.Form method="post">
-                                  <input
-                                    type="hidden"
-                                    name="intent"
-                                    value="approved"
-                                  />
-                                  <input
-                                    type="hidden"
-                                    name="requestId"
-                                    value={item.id}
-                                  />
-                                  <input
-                                    type="hidden"
-                                    name="email"
-                                    value={item.email}
-                                  />
-                                  <input
-                                    type="hidden"
-                                    name="access-control"
-                                    value={selectedAccess}
-                                  />
-                                  <Button
-                                    type="submit"
-                                    disabled={fetcher.state !== "idle"}
-                                  >
-                                    {fetcher.state === "submitting" && (
-                                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    )}
-                                    {fetcher.state === "submitting"
-                                      ? "Approving..."
-                                      : "Approve"}
-                                  </Button>
-                                </fetcher.Form>
-                                <DialogClose>
-                                  <Button type="submit" variant="outline">
-                                    Cancel
-                                  </Button>
-                                </DialogClose>
-                              </DialogFooter>
-                            </div>
-                          </DialogContent>
+                          <ApproveUserAccessRequestContent
+                            data={item}
+                            fetcher={fetcher}
+                            selectedAccess={selectedAccess}
+                            setSelectedAccess={setSelectedAccess}
+                          />
                         </Dialog>
                         <Dialog
                           open={rejectedDialog}
@@ -535,71 +402,10 @@ export default function UserAccessRequestPage() {
                               Reject
                             </Button>
                           </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Reject Access Request</DialogTitle>
-                              <p className="text-sm text-muted-foreground mb-[-0.5rem]">
-                                Rejecting access for:
-                              </p>
-                              <div className="text-sm border-[1px] border-input p-4 rounded-md my-2 grid grid-cols-[70px_1fr]">
-                                <Avatar className="w-[50px] h-[50px]">
-                                  <AvatarImage alt="@shadcn" />
-                                  <AvatarFallback>
-                                    {item.name
-                                      .split(" ")
-                                      .map((point) => point[0])
-                                      .join("")}
-                                  </AvatarFallback>
-                                </Avatar>
-                                <div className="flex flex-col">
-                                  <p className="text-lg">{item.name}</p>
-                                  <p className="text-sm text-muted-foreground capitalize flex flex-row gap-2 items-center">
-                                    <Mail size={15} className="mt-[0.1rem]" />
-                                    {item.email}
-                                  </p>
-                                </div>
-                              </div>
-                              <DialogDescription>
-                                This user’s request will be denied. You can’t
-                                undo this action after confirming.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <DialogFooter>
-                              <fetcher.Form method="post">
-                                <input
-                                  type="hidden"
-                                  name="intent"
-                                  value="rejected"
-                                />
-                                <input
-                                  type="hidden"
-                                  name="requestId"
-                                  value={item.id}
-                                />
-                                <input
-                                  type="hidden"
-                                  name="email"
-                                  value={item.email}
-                                />
-                                <Button
-                                  type="submit"
-                                  disabled={fetcher.state !== "idle"}
-                                >
-                                  {fetcher.state === "submitting" && (
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                  )}
-                                  {fetcher.state === "submitting"
-                                    ? "Rejecting..."
-                                    : "Reject"}
-                                </Button>
-                              </fetcher.Form>
-                              <DialogClose>
-                                <Button type="submit" variant="outline">
-                                  Cancel
-                                </Button>
-                              </DialogClose>
-                            </DialogFooter>
-                          </DialogContent>
+                          <RejectUserAccessRequestContent
+                            data={item}
+                            fetcher={fetcher}
+                          />
                         </Dialog>
                       </SheetFooter>
                     </SheetContent>

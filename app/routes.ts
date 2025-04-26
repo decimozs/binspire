@@ -32,6 +32,10 @@ export default [
       "/dashboard/user/roles-permissions",
       "./routes/dashboard/user/roles-permissions.tsx",
     ),
+    route(
+      "/dashboard/user/activity-logs",
+      "./routes/dashboard/user/activity_logs.tsx",
+    ),
   ]),
   route("callback", "./routes/auth/sign-up/callback.tsx"),
 ] satisfies RouteConfig;
