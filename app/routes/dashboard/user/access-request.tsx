@@ -14,6 +14,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -235,10 +236,12 @@ export default function UserAccessRequestPage() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="mr-8 mt-[-0.7rem]">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+
                         <DropdownMenuItem>
                           <SheetTrigger>Review</SheetTrigger>
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
                           <Dialog
                             open={deletedDialog}
