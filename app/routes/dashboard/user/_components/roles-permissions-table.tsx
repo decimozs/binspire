@@ -30,6 +30,7 @@ import {
 import { useFetcher } from "react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { UserHoverCard } from "@/components/shared/hover";
 
 export default function RolesAndPermissionsTable({
   users,
@@ -89,7 +90,9 @@ export default function RolesAndPermissionsTable({
             {paginatedData && paginatedData.length > 0 ? (
               paginatedData.map((item) => (
                 <TableRow key={item.id} className="h-[50px]">
-                  <TableCell>{item.name}</TableCell>
+                  <TableCell>
+                    <UserHoverCard data={item} />
+                  </TableCell>
                   <TableCell>{item.email}</TableCell>
                   <TableCell>
                     <DynamicRoleBadge role={item.role} />
@@ -105,9 +108,7 @@ export default function RolesAndPermissionsTable({
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="mr-8 mt-[-0.7rem]">
-                        <DropdownMenuLabel>
-                          Permission Actions
-                        </DropdownMenuLabel>
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <div className="flex flex-col items-start">
                           <Dialog

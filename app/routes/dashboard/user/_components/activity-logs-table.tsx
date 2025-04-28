@@ -1,8 +1,7 @@
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import {
   DynamicActionBadge,
   DynamicActionStatusBadge,
-  DynamicActiveBadge,
-  DynamicPermissionBadge,
 } from "@/components/shared/dynamic-badge";
 import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row";
 import { TableContainer } from "@/components/shared/table-container";
@@ -14,44 +13,71 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { tableRowColumns } from "@/lib/constants";
-import type { UserActivities } from "@/lib/types";
-import { fallbackInitials, formatDate } from "@/lib/utils";
+import type { User, UserActivities } from "@/lib/types";
+import { formatDate } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import {
-  ArrowUpRight,
-  Calendar,
-  Ellipsis,
-  Mail,
-  UsersRound,
-} from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Ellipsis } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useFetcher } from "react-router";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { UserHoverCard } from "@/components/shared/hover";
+import { DeleteUserActivityContent } from "@/components/shared/dialog-content";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Link } from "react-router";
+  ReviewActivityLogContent,
+  ReviewUserActivityContent,
+} from "@/components/shared/sheet-content";
 
 export default function ActivityLogsTable({
   activities,
+  username,
 }: {
   activities?: UserActivities;
+  username: string;
 }) {
   const { data } = useQuery({
     queryKey: ["users-activities"],
     queryFn: () => activities,
   });
   const { activityLogsTable } = tableRowColumns;
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [replyCommentId, setReplyCommentId] = useState<string | null>(null);
+  const [replyMessage, setReplyMessage] = useState("");
+  const [newReplyMessage, setNewReplyMessage] = useState("");
+  const [commentMessage, setCommentMessage] = useState("");
+  const [viewReplies, setViewReplies] = useState<string | null>(null);
+
+  const fetcher = useFetcher();
+
+  useEffect(() => {
+    if (fetcher.data?.success && fetcher.data?.intent === "delete") {
+      toast.success("Activity Deleted");
+      setDeleteDialog(false);
+    }
+
+    if (fetcher.data?.success && fetcher.data?.intent === "reply") {
+      setReplyMessage("");
+      setReplyCommentId(null);
+    }
+
+    if (fetcher.data?.success && fetcher.data?.intent === "new-reply") {
+      setViewReplies(fetcher.data?.commentId);
+      setNewReplyMessage("");
+      setReplyCommentId(null);
+    }
+
+    if (fetcher.data?.success && fetcher.data?.intent === "comment") {
+      setCommentMessage("");
+    }
+  }, [fetcher.data]);
+
   return (
     <TableContainer
       data={data as UserActivities}
@@ -92,58 +118,7 @@ export default function ActivityLogsTable({
                     <DynamicActionStatusBadge status={item.status} />
                   </TableCell>
                   <TableCell>
-                    <HoverCard>
-                      <HoverCardTrigger>
-                        <span className="flex flex-row items-center gap-2">
-                          <Avatar>
-                            <AvatarImage
-                              src={item.user.image as string}
-                              alt={item.user.name}
-                            />
-                            <AvatarFallback>
-                              {fallbackInitials(item.user.name)}
-                            </AvatarFallback>
-                          </Avatar>
-                          {item.user.name}
-                        </span>
-                      </HoverCardTrigger>
-                      <HoverCardContent>
-                        <div className="flex flex-col gap-2">
-                          <DynamicActiveBadge isOnline={item.user.isOnline} />
-                          <div className="flex flex-row items-center justify-between">
-                            <p>{item.user.name}</p>
-                            <Badge className="capitalize">
-                              {item.user.permission}
-                            </Badge>
-                          </div>
-                          <Separator />
-                          <div>
-                            <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground capitalize">
-                              <UsersRound size={15} className="mt-[0.1rem]" />
-                              {item.user.role}
-                            </p>
-                            <p className="text-sm flex flex-row gap-2 text-muted-foreground w-fit wrap-anywhere">
-                              <Mail size={15} className="mt-[0.2rem]" />
-                              {item.user.email}
-                            </p>
-                            <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
-                              <Calendar size={15} className="mt-[0.1rem]" />
-                              Joined on{" "}
-                              {formatDate(item.user.createdAt as Date)}
-                            </p>
-                          </div>
-                          <Link
-                            to={`/dashboard/user/management/profile/${item.user.id}`}
-                            prefetch="intent"
-                          >
-                            <Button variant="secondary" className="w-full">
-                              <ArrowUpRight size={15} className="mt-[0.1rem]" />
-                              Profile
-                            </Button>
-                          </Link>
-                        </div>
-                      </HoverCardContent>
-                    </HoverCard>
+                    <UserHoverCard data={item.user as User} />
                   </TableCell>
                   <TableCell>{formatDate(item.createdAt)}</TableCell>
                   <TableCell className="text-right">
@@ -156,8 +131,55 @@ export default function ActivityLogsTable({
                       <DropdownMenuContent className="mr-8 mt-[-0.7rem]">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Review</DropdownMenuItem>
-                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                        <div className="flex flex-col items-start">
+                          <Sheet>
+                            <SheetTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                className="p-2 text-sm w-fit font-normal"
+                              >
+                                Review
+                              </Button>
+                            </SheetTrigger>
+                            <ReviewActivityLogContent
+                              data={item}
+                              fetcher={fetcher}
+                              username={username as string}
+                              replyMessage={replyMessage}
+                              setReplyMessage={setReplyMessage}
+                              replyCommentId={replyCommentId}
+                              setReplyCommentId={setReplyCommentId}
+                              setCommentMessage={setCommentMessage}
+                              commentMessage={commentMessage}
+                              setNewReplyMessage={setNewReplyMessage}
+                              newReplyMessage={newReplyMessage}
+                              viewReplies={viewReplies}
+                              setViewReplies={setViewReplies}
+                            />
+                          </Sheet>
+                          <Dialog
+                            open={deleteDialog}
+                            onOpenChange={setDeleteDialog}
+                          >
+                            <DialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                className="p-2 text-sm w-fit font-normal"
+                              >
+                                Delete
+                              </Button>
+                            </DialogTrigger>
+                            <DeleteUserActivityContent
+                              activityId={item.id}
+                              name={item.user.name}
+                              role={item.user.role}
+                              action={item.action}
+                              title={item.title}
+                              description={item.description}
+                              fetcher={fetcher}
+                            />
+                          </Dialog>
+                        </div>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

@@ -5,7 +5,7 @@ import type {
   userCommentTable,
   usersTable,
 } from "@/db";
-import type { getActivityLogs } from "@/query/users.server";
+import type { getActivityLogs, getUserActivities } from "@/query/users.server";
 import type { LucideIcon } from "lucide-react";
 import type { z, ZodTypeAny } from "zod";
 
@@ -52,48 +52,7 @@ export interface GooglePayload {
   expiresIn: number;
 }
 
-export type UserActivity = {
-  id: string;
-  userId: string;
-  name: string;
-  status: string;
-  type: string;
-  reason: string;
-  createdAt: Date;
-  updatedAt: Date;
-  comments: {
-    id: string;
-    userId: string;
-    activityId: string;
-    message: string;
-    createdAt: Date;
-    updatedAt: Date;
-    user: {
-      name: string;
-      image: string;
-    };
-    replies: {
-      id: string;
-      commentUserId: string;
-      userId: string;
-      commentId: string;
-      message: string;
-      createdAt: Date;
-      updatedAt: Date;
-      user: {
-        name: string;
-        image: string;
-      };
-      comment: {
-        user: {
-          name: string;
-          image: string;
-        };
-      };
-    }[];
-  }[];
-};
-
 export type UserComment = typeof userCommentTable.$inferSelect;
 
 export type UserActivities = Awaited<ReturnType<typeof getActivityLogs>>;
+export type UserActivity = Awaited<ReturnType<typeof getUserActivities>>;

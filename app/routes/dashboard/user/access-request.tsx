@@ -9,14 +9,7 @@ import type { Route } from "./+types/access-request";
 import db from "@/lib/db.server";
 import { useFetcher, useLoaderData } from "react-router";
 import { Button } from "@/components/ui/button";
-import {
-  CircleCheck,
-  CircleX,
-  Ellipsis,
-  Mail,
-  Phone,
-  Timer,
-} from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,18 +17,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { requestAccessTable } from "@/db";
 import { eq } from "drizzle-orm";
@@ -49,11 +32,8 @@ import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row"
 import { tableRowColumns } from "@/lib/constants";
 import { DynamicRoleBadge } from "@/components/shared/dynamic-badge";
 import { TableContainer } from "@/components/shared/table-container";
-import {
-  ApproveUserAccessRequestContent,
-  DeleteUserAccessRequestContent,
-  RejectUserAccessRequestContent,
-} from "@/components/shared/dialog-content";
+import { DeleteUserAccessRequestContent } from "@/components/shared/dialog-content";
+import { ReviewUserAccessRequestContent } from "@/components/shared/sheet-content";
 
 export async function loader() {
   const data = await db.query.requestAccessTable.findMany();
@@ -212,7 +192,7 @@ export default function UserAccessRequestPage() {
 
   return (
     <TableContainer
-      data={data || []}
+      data={data}
       sorter={(a, b) => a.name.localeCompare(b.name)}
       defaultSortDirection="asc"
       searchFilter={(user, query) => {
@@ -280,135 +260,16 @@ export default function UserAccessRequestPage() {
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
-                    <SheetContent
-                      className="sm:max-w-md md:max-w-lg overflow-y-auto"
-                      showOverlay={false}
-                      onOpenAutoFocus={(event) => {
-                        event.preventDefault();
-                      }}
-                    >
-                      <SheetHeader>
-                        <SheetTitle>Review</SheetTitle>
-                        <SheetDescription>
-                          This section displays the user's submitted
-                          information, including their email and request status.
-                          Carefully review the details before approving or
-                          rejecting the request, as your decision cannot be
-                          undone.
-                        </SheetDescription>
-                      </SheetHeader>
-                      <div className="mx-4 border-[1px] border-input rounded-sm p-4">
-                        <div className="flex flex-col gap-4">
-                          <div className="flex flex-row items-center justify-between">
-                            <SheetTitle>User Information</SheetTitle>
-                            <Badge className="capitalize">
-                              {item.status === "pending" && (
-                                <Timer size={15} className="mb-0.5" />
-                              )}
-                              {item.status === "rejected" && (
-                                <CircleX size={15} className="mb-0.5" />
-                              )}
-                              {item.status === "approved" && (
-                                <CircleCheck size={15} className="mb-0.5" />
-                              )}
-                              {item.status}
-                            </Badge>
-                          </div>
-                          <div className="grid grid-cols-[70px_1fr] gap-4">
-                            <Avatar className="w-[60px] h-[60px]">
-                              <AvatarImage alt="@shadcn" />
-                              <AvatarFallback>
-                                {fallbackInitials(item.name)}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <h1 className="text-lg font-medium">
-                                {item.name}
-                              </h1>
-                              <p className="text-muted-foreground text-sm capitalize">
-                                {item.role}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex flex-row gap-4">
-                            <div className="flex flex-col gap-2">
-                              <h1 className="text-sm text-muted-foreground">
-                                Email
-                              </h1>
-                              <p className="text-sm flex flex-row gap-2 items-center">
-                                <Mail size={15} className="mt-[0.2rem]" />
-                                {item.email}
-                              </p>
-                            </div>
-                            <div className="flex flex-col gap-2">
-                              <h1 className="text-sm text-muted-foreground">
-                                Phone Number
-                              </h1>
-                              <p className="text-sm flex flex-row gap-2 items-center">
-                                <Phone size={15} className="mt-[0.2rem]" />
-                                {!item.phoneNumber
-                                  ? "Not available"
-                                  : item.phoneNumber}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mx-4 border-[1px] border-input rounded-sm p-4">
-                        <div className="flex flex-col gap-4">
-                          <SheetTitle>Request Details</SheetTitle>
-                          <p className="text-muted-foreground text-sm mt-[-0.5rem]">
-                            Requested on{" "}
-                            {new Date(item.createdAt).toLocaleString("en-US", {
-                              month: "long",
-                              day: "numeric",
-                              year: "numeric",
-                              hour: "numeric",
-                              minute: "2-digit",
-                              hour12: true,
-                            })}
-                          </p>
-                          <p className="text-sm">Reason for Access</p>
-                          <div className="text-sm border-[1px] border-input p-4 rounded-md bg-muted/50">
-                            <p>{item.reason}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <SheetFooter className="grid grid-cols-2">
-                        <Dialog
-                          open={approvedDialog}
-                          onOpenChange={setApprovedDialog}
-                        >
-                          <DialogTrigger asChild>
-                            <Button className="h-12 p-4">
-                              <CircleCheck className="mt-[0.1rem]" />
-                              Approve
-                            </Button>
-                          </DialogTrigger>
-                          <ApproveUserAccessRequestContent
-                            data={item}
-                            fetcher={fetcher}
-                            selectedAccess={selectedAccess}
-                            setSelectedAccess={setSelectedAccess}
-                          />
-                        </Dialog>
-                        <Dialog
-                          open={rejectedDialog}
-                          onOpenChange={setRejectedDialog}
-                        >
-                          <DialogTrigger asChild>
-                            <Button className="h-12 p-4" variant="outline">
-                              <CircleX className="mt-[0.1rem]" />
-                              Reject
-                            </Button>
-                          </DialogTrigger>
-                          <RejectUserAccessRequestContent
-                            data={item}
-                            fetcher={fetcher}
-                          />
-                        </Dialog>
-                      </SheetFooter>
-                    </SheetContent>
+                    <ReviewUserAccessRequestContent
+                      data={item}
+                      fetcher={fetcher}
+                      openApprovedDialog={approvedDialog}
+                      onOpenChangeApprovedDialog={setApprovedDialog}
+                      openRejectedDialog={rejectedDialog}
+                      onOpenChangeRejectedDialog={setRejectedDialog}
+                      onSelectedAccess={selectedAccess}
+                      onSetSelectedAccess={setSelectedAccess}
+                    />
                   </Sheet>
                 </TableCell>
               </TableRow>

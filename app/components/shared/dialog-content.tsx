@@ -1,4 +1,4 @@
-import type { RequestAccess, User } from "@/lib/types";
+import type { RequestAccess, User, UserActivities } from "@/lib/types";
 import { Button } from "../ui/button";
 import {
   DialogClose,
@@ -9,12 +9,15 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import type { FetcherWithComponents } from "react-router";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowDown, ArrowRight, Loader2 } from "lucide-react";
 import {
   UserConfirmation,
   UserAccessRequestConfirmation,
 } from "./user-confirmation";
 import SelectAccessControl from "@/routes/dashboard/user/_components/select-access-control";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { fallbackInitials } from "@/lib/utils";
+import { Badge } from "../ui/badge";
 
 interface UserDialogProps {
   data: User;
@@ -276,10 +279,98 @@ const RejectUserAccessRequestContent = ({
   );
 };
 
+interface UserActivityProps extends Omit<UserDialogProps, "data"> {
+  activityId: string;
+  name: string;
+  role: string;
+  title: string;
+  action: string;
+  description: string;
+}
+
+const DeleteUserActivityContent = ({
+  activityId,
+  fetcher,
+  name,
+  role,
+  title,
+  action,
+  description,
+}: UserActivityProps) => {
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Delete activity?</DialogTitle>
+        <DialogDescription>
+          You're about to delete this user activity from the system.
+        </DialogDescription>
+      </DialogHeader>
+      <div className="flex flex-col gap-3 items-center w-full">
+        <div className="bg-muted/50 border-input border-dashed border-[1px] rounded-md p-4 w-full">
+          <div className="flex flex-row gap-2">
+            <Avatar className="h-[50px] w-[50px]">
+              <AvatarImage alt={name} />
+              <AvatarFallback>{fallbackInitials(name)}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p>{name}</p>
+              <p className="capitalize text-sm text-muted-foreground">{role}</p>
+            </div>
+          </div>
+        </div>
+        <ArrowDown size={17} className="text-muted-foreground" />
+        <div className="bg-muted/50 border-input border-dashed border-[1px] rounded-md p-4 w-full">
+          <div className="flex flex-row gap-2">
+            <Avatar className="h-[50px] w-[50px]">
+              <AvatarImage alt={name} />
+              <AvatarFallback>{fallbackInitials(name)}</AvatarFallback>
+            </Avatar>
+            <div className="w-full">
+              <div className="flex flex-row items-center justify-between w-full">
+                <p>{title}</p>
+                <Badge variant="default" className="capitalize">
+                  {action}
+                </Badge>
+              </div>
+              <p className="capitalize text-sm text-muted-foreground w-72">
+                {description}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <DialogDescription>
+        This activity will be deleted. You can’t undo this action after
+        confirming.
+      </DialogDescription>
+      <DialogFooter>
+        <fetcher.Form method="POST" action="/dashboard/user/activity-logs">
+          <input type="hidden" name="activityId" value={activityId} />
+          <input type="hidden" name="intent" value="delete" />
+          <Button type="submit" disabled={fetcher.state === "submitting"}>
+            {fetcher.state === "submitting" ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              "Confirm"
+            )}
+          </Button>
+        </fetcher.Form>
+        <DialogClose asChild>
+          <Button variant="outline">Cancel</Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  );
+};
+
 export {
   DeleteUserContent,
   UpdateUserPermissionContent,
   DeleteUserAccessRequestContent,
   ApproveUserAccessRequestContent,
   RejectUserAccessRequestContent,
+  DeleteUserActivityContent,
 };

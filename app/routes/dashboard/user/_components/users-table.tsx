@@ -15,6 +15,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -29,6 +30,7 @@ import {
 } from "@/components/shared/dynamic-badge";
 import { TableContainer } from "@/components/shared/table-container";
 import { DeleteUserContent } from "@/components/shared/dialog-content";
+import { UserHoverCard } from "@/components/shared/hover";
 
 export default function UsersTable({ users }: { users?: User[] }) {
   const { data } = useQuery({
@@ -50,7 +52,9 @@ export default function UsersTable({ users }: { users?: User[] }) {
   return (
     <TableContainer
       data={data || []}
-      sorter={(a, b) => a.name.localeCompare(b.name)}
+      sorter={(a, b) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      }
       defaultSortDirection="asc"
       searchFilter={(user, query) => {
         const q = query.toLowerCase();
@@ -76,10 +80,7 @@ export default function UsersTable({ users }: { users?: User[] }) {
             {paginatedData?.map((item) => (
               <TableRow key={item.id} className="h-[50px]">
                 <TableCell>
-                  <span className="flex flex-row gap-2 items-center">
-                    {item.name}
-                    <DynamicActiveBadge isOnline={item.isOnline} />
-                  </span>
+                  <UserHoverCard data={item} />
                 </TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell>
@@ -96,6 +97,8 @@ export default function UsersTable({ users }: { users?: User[] }) {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="mr-8 mt-[-0.7rem]">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
                       <DropdownMenuItem>
                         <Link
                           to={`/dashboard/user/management/profile/${item.id}`}
@@ -104,7 +107,6 @@ export default function UsersTable({ users }: { users?: User[] }) {
                           View
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuSeparator />
                       <Dialog
                         open={deleteDialog}
                         onOpenChange={setDeleteDialog}

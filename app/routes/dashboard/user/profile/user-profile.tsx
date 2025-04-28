@@ -133,7 +133,7 @@ export default function UserProfileRoute() {
     <HydrationBoundary state={dehydratedState}>
       <UserInfo
         user={getUserById}
-        activity={getUserActivities as UserActivity[]}
+        activity={getUserActivities}
         username={username as string}
       />
     </HydrationBoundary>
