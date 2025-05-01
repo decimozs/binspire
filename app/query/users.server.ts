@@ -1,3 +1,4 @@
+import { getCurrentUser } from "@/action/user.server";
 import { userActivityTable, userCommentTable, userReplyTable } from "@/db";
 import db from "@/lib/db.server";
 import { eq } from "drizzle-orm";
@@ -118,4 +119,37 @@ export async function getActivityLogs() {
   });
 
   return result;
+}
+
+export async function getOnlineAdmins() {
+  const activeUsers = await db.query.usersTable.findMany({
+    where: (table, { eq, and }) =>
+      and(eq(table.isOnline, true), eq(table.role, "admin")),
+  });
+
+  return activeUsers.length;
+}
+
+export async function getOnlineCollectors() {
+  const activeUsers = await db.query.usersTable.findMany({
+    where: (table, { eq, and }) =>
+      and(eq(table.isOnline, true), eq(table.role, "collector")),
+  });
+
+  return activeUsers.length;
+}
+
+export async function getNotifications(request: Request) {
+  const currentUser = await getCurrentUser(request);
+
+  if (!currentUser?.data?.id) {
+    throw new Error("User not authenticated");
+  }
+
+  const notifications = await db.query.userNotificationsTable.findMany({
+    where: (table, { not, eq }) =>
+      not(eq(table.userId, currentUser.data.id as string)),
+  });
+
+  return notifications;
 }

@@ -8,9 +8,10 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { UserRound } from "lucide-react";
+import { SeparatorVertical, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { Separator } from "../ui/separator";
 
 export default function CommandCentralMenu() {
   const [open, setOpen] = useState(false);
@@ -39,6 +40,15 @@ export default function CommandCentralMenu() {
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Suggestions">
+          <CommandItem onSelect={() => handleSelect("/dashboard/")}>
+            <div className="flex items-center gap-2 cursor-pointer">
+              <UserRound />
+              <span>Map</span>
+            </div>
+          </CommandItem>
+        </CommandGroup>
+        <Separator />
         <CommandGroup heading="Manage Users">
           <CommandItem
             onSelect={() => handleSelect("/dashboard/user/management")}

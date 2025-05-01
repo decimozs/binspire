@@ -150,11 +150,29 @@ export default function UserInfo({
         <div className="flex flex-col gap-2">
           <p className="text-xl mt-3">User Activity</p>
           {paginatedData.length === 0 ? (
-            <div className="flexb border-input border-dashed border-[1px] p-4 rounded-md justify-center items-center">
-              <p className="text-sm text-muted-foreground text-center">
-                This user does not have any activity right now.
-              </p>
-            </div>
+            <>
+              <div>
+                <SearchBar
+                  value={searchActivity || ""}
+                  onChange={(val) => {
+                    setSearchActivity(val);
+                    setPage("1");
+                  }}
+                  placeholder="What are you looking for?"
+                />
+                <PaginationControls
+                  currentPage={safePage}
+                  totalPages={totalPages}
+                  totalResults={totalItems}
+                  onPageChange={(newPage) => setPage(String(newPage))}
+                />
+              </div>
+              <div className="flexb border-input border-dashed border-[1px] p-4 rounded-md justify-center items-center">
+                <p className="text-sm text-muted-foreground text-center">
+                  This user does not have any activity right now.
+                </p>
+              </div>
+            </>
           ) : (
             <div>
               <SearchBar

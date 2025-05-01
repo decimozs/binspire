@@ -1,10 +1,11 @@
-import { userActivityTable, usersTable } from "@/db";
+import { userActivityTable, userNotificationsTable, usersTable } from "@/db";
 import db from "@/lib/db.server";
 import { getSession } from "@/lib/sessions.server";
 import type {
   Action,
   ActivityLog,
   CreateActivityLog,
+  CreateNotification,
   Status,
   Title,
   User,
@@ -71,7 +72,6 @@ export async function createUserActivityLog(
     .returning();
 
   if (!activityLog) {
-    console.log("failed to create activity log");
     return {
       errors: "Failed to create user activity log",
     };
@@ -155,9 +155,34 @@ export async function deleteUser(
     },
   });
 
+  await createUserNotification({
+    userId: currentUser.data?.id as string,
+    title: title,
+    status: "unread",
+    message: "A user has been deleted.",
+    activityId: activity.data?.id as string,
+  });
+
   return {
     success: true,
     activityId: activity.data?.id as string,
     intent: intent,
+  };
+}
+
+export async function createUserNotification(data: CreateNotification) {
+  const [notification] = await db
+    .insert(userNotificationsTable)
+    .values(data)
+    .returning();
+
+  if (!notification) {
+    return {
+      errors: "Failed to create notification",
+    };
+  }
+
+  return {
+    data: notification,
   };
 }

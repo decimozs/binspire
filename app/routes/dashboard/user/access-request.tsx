@@ -252,7 +252,7 @@ export default function UserAccessRequestPage() {
       sorter={(a, b) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       }
-      defaultSortDirection="asc"
+      defaultSortDirection="desc"
       searchFilter={(user, query) => {
         const q = query.toLowerCase();
         return (
@@ -295,7 +295,6 @@ export default function UserAccessRequestPage() {
                       <DropdownMenuContent className="mr-8 mt-[-0.7rem]">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-
                         <DropdownMenuItem>
                           <SheetTrigger className="cursor-pointer">
                             Review

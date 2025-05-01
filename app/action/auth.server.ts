@@ -23,6 +23,7 @@ import env from "@config/env.server";
 import type { GooglePayload, VerificationType } from "@/lib/types";
 import { and, eq } from "drizzle-orm";
 import type { Context } from "hono";
+import { broadcast } from "@/server";
 
 export async function login(request: Request) {
   const formData = await request.formData();
@@ -94,6 +95,11 @@ export async function login(request: Request) {
   session.set("ipAddress", ipAddress);
   session.set("userAgent", userAgent);
   session.set("permission", user.permission);
+
+  broadcast({
+    transaction: "user-login",
+    role: user.permission,
+  });
 
   return redirect("/dashboard", {
     headers: {
@@ -456,7 +462,12 @@ export async function loginWithGoogle(c: Context, payload: GooglePayload) {
   session.set("userAgent", userAgent);
   session.set("permission", permission);
 
-  return redirect("/dashboard?m=welcome", {
+  broadcast({
+    transaction: "user-login",
+    role: user.permission,
+  });
+
+  return redirect("/dashboard", {
     headers: {
       "Set-Cookie": await commitSession(session),
     },

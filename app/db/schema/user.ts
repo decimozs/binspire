@@ -149,3 +149,22 @@ export const userReplyRelations = relations(userReplyTable, ({ one }) => ({
     references: [userCommentTable.id],
   }),
 }));
+
+export const userNotificationsTable = pgTable("user_notifications", {
+  id: text("id")
+    .$defaultFn(() => nanoid())
+    .primaryKey(),
+  userId: text("user_id")
+    .references(() => usersTable.id, { onDelete: "cascade" })
+    .notNull(),
+  title: text("title").notNull(),
+  activityId: text("activity_id").references(() => userActivityTable.id, {
+    onDelete: "cascade",
+  }),
+  status: text("status").notNull(),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .$onUpdate(() => new Date()),
+});

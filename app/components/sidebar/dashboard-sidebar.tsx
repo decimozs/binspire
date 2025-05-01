@@ -10,49 +10,109 @@ import {
   SidebarRail,
 } from "../ui/sidebar";
 import { adminData, collectorData } from "@/lib/constants";
-import type { User } from "@/lib/types";
+import type { Notification, User } from "@/lib/types";
 
-const AdminSidebar = ({ user }: { user: User }) => {
+const AdminSidebar = ({
+  user,
+  userId,
+  onlineAdmins,
+  onlineCollectors,
+  notifications,
+}: {
+  user: User;
+  userId: string;
+  onlineAdmins: number;
+  onlineCollectors: number;
+  notifications: Notification[];
+}) => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <NavActiveTeams teams={adminData.teams} />
+        <NavActiveTeams
+          teams={collectorData.teams}
+          onlineCollectors={onlineCollectors}
+          onlineAdmins={onlineAdmins}
+        />
       </SidebarHeader>
       <SidebarContent>
         <NavOperations items={adminData.navMain} />
         <NavShortcuts projects={adminData.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser userId={userId} user={user} notifications={notifications} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
 };
 
-const CollectorSidebar = ({ user }: { user: User }) => {
+const CollectorSidebar = ({
+  user,
+  userId,
+  onlineAdmins,
+  onlineCollectors,
+  notifications,
+}: {
+  user: User;
+  userId: string;
+  onlineAdmins: number;
+  onlineCollectors: number;
+  notifications: Notification[];
+}) => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <NavActiveTeams teams={collectorData.teams} />
+        <NavActiveTeams
+          teams={collectorData.teams}
+          onlineCollectors={onlineCollectors}
+          onlineAdmins={onlineAdmins}
+        />
       </SidebarHeader>
       <SidebarContent>
         <NavOperations items={collectorData.navMain} />
         <NavShortcuts projects={collectorData.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser userId={userId} user={user} notifications={notifications} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
 };
 
-export function DashboardSidebar({ user }: { user?: User }) {
+export function DashboardSidebar({
+  user,
+  userId,
+  onlineAdmins,
+  onlineCollectors,
+  notifications,
+}: {
+  user: User;
+  userId: string;
+  onlineAdmins: number;
+  onlineCollectors: number;
+  notifications: Notification[];
+}) {
   return (
     <>
-      {user?.role === "admin" && <AdminSidebar user={user} />}
-      {user?.role === "collector" && <CollectorSidebar user={user} />}
+      {user?.role === "admin" && (
+        <AdminSidebar
+          userId={userId}
+          user={user}
+          onlineCollectors={onlineCollectors}
+          onlineAdmins={onlineAdmins}
+          notifications={notifications}
+        />
+      )}
+      {user?.role === "collector" && (
+        <CollectorSidebar
+          userId={userId}
+          user={user}
+          onlineAdmins={onlineAdmins}
+          onlineCollectors={onlineCollectors}
+          notifications={notifications}
+        />
+      )}
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown, GalleryVerticalEnd } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +15,15 @@ import {
 } from "../ui/sidebar";
 import type { Teams } from "@/lib/types";
 
-export default function NavActiveTeams({ teams }: { teams: Teams[] }) {
+export default function NavActiveTeams({
+  teams,
+  onlineAdmins,
+  onlineCollectors,
+}: {
+  teams: Teams[];
+  onlineAdmins: number;
+  onlineCollectors: number;
+}) {
   const { isMobile } = useSidebar();
 
   return (
@@ -50,15 +58,20 @@ export default function NavActiveTeams({ teams }: { teams: Teams[] }) {
               </span>
               Active
             </DropdownMenuLabel>
-            {teams?.map((team) => (
-              <DropdownMenuItem key={team.name} className="gap-2 p-2">
-                <div className="flex size-6 items-center justify-center rounded-sm border">
-                  <team.icon className="size-4 shrink-0" />
-                </div>
-                {team.name}
-                <DropdownMenuShortcut>{team.onlines}</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            ))}
+            <DropdownMenuItem className="gap-2 p-2">
+              <div className="flex size-6 items-center justify-center rounded-sm border">
+                <GalleryVerticalEnd className="size-4 shrink-0" />
+              </div>
+              Admin
+              <DropdownMenuShortcut>{onlineAdmins}</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="gap-2 p-2">
+              <div className="flex size-6 items-center justify-center rounded-sm border">
+                <GalleryVerticalEnd className="size-4 shrink-0" />
+              </div>
+              Collector
+              <DropdownMenuShortcut>{onlineCollectors}</DropdownMenuShortcut>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

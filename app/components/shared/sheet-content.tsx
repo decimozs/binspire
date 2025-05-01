@@ -3,6 +3,7 @@ import {
   CircleCheck,
   CircleX,
   CornerDownRight,
+  Eraser,
   Loader2,
   Mail,
   Phone,
@@ -39,15 +40,17 @@ import {
 } from "./dialog-content";
 import type {
   Action,
+  Notification,
   Permission,
   RequestAccess,
+  Title,
   UserActivities,
 } from "@/lib/types";
 import type { FetcherWithComponents } from "react-router";
 import type { ReactNode } from "react";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import { actionIcons, permissionIcons } from "@/lib/constants";
+import { actionIcons, fromTitle, permissionIcons } from "@/lib/constants";
 import { DynamicActionStatusBadge } from "./dynamic-badge";
 
 const SheetContainer = ({ children }: { children: ReactNode }) => {
@@ -891,8 +894,36 @@ const ReviewActivityLogContent = ({
   );
 };
 
+const NotificationContent = ({ data }: { data: Notification[] }) => {
+  return (
+    <SheetContainer>
+      <SheetHeader>
+        <SheetTitle>Notifications</SheetTitle>
+      </SheetHeader>
+      <div className="mx-4 mt-[-1rem]">
+        {data.map((item) => (
+          <div className="bg-muted p-4 rounded-md flex flex-row justify-between">
+            <div>
+              <p>{fromTitle[item.title as Title]}</p>
+              <p>{item.message}</p>
+            </div>
+            <Button variant="outline">Clear</Button>
+          </div>
+        ))}
+      </div>
+      <SheetFooter>
+        <Button className="h-12 p-4">
+          <Eraser className="mt-[0.1rem]" />
+          Clear notifications
+        </Button>
+      </SheetFooter>
+    </SheetContainer>
+  );
+};
+
 export {
   ReviewUserAccessRequestContent,
   ReviewUserActivityContent,
   ReviewActivityLogContent,
+  NotificationContent,
 };

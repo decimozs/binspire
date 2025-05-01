@@ -1,5 +1,6 @@
 import {
   userActivityTable,
+  userNotificationsTable,
   type requestAccessTable,
   type sessionsTable,
   type userCommentTable,
@@ -8,6 +9,9 @@ import {
 import type { getActivityLogs, getUserActivities } from "@/query/users.server";
 import type { LucideIcon } from "lucide-react";
 import type { z, ZodTypeAny } from "zod";
+
+export type Notification = typeof userNotificationsTable.$inferSelect;
+export type CreateNotification = typeof userNotificationsTable.$inferInsert;
 
 export type Session = typeof sessionsTable.$inferInsert;
 
@@ -85,3 +89,12 @@ export type Title =
   | "history"
   | "audit"
   | "settings";
+
+export interface Broadcast {
+  transaction: string;
+  type?: string;
+  status?: boolean;
+  reason?: string;
+  email?: string;
+  token?: string;
+}

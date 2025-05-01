@@ -24,13 +24,26 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "../ui/sidebar";
-import { Form } from "react-router";
+import { Form, useNavigate } from "react-router";
 import { Button } from "../ui/button";
-import type { User } from "@/lib/types";
+import type { User, Notification } from "@/lib/types";
 import { Badge } from "../ui/badge";
+import { Sheet } from "@/components/ui/sheet";
+import { useState } from "react";
+import { NotificationContent } from "../shared/sheet-content";
 
-export function NavUser({ user }: { user: User }) {
+export function NavUser({
+  user,
+  userId,
+  notifications,
+}: {
+  user: User;
+  userId: string;
+  notifications?: Notification[];
+}) {
   const { isMobile } = useSidebar();
+  const navigate = useNavigate();
+  const [notificationSheet, setNotificationSheet] = useState(false);
   const fallbackInitials = user.name
     .split(" ")
     .map((point) => point[0])
@@ -99,7 +112,11 @@ export function NavUser({ user }: { user: User }) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigate(`/dashboard/user/management/profile/${userId}`)
+                }
+              >
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
@@ -107,7 +124,7 @@ export function NavUser({ user }: { user: User }) {
                 <History />
                 History
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setNotificationSheet(true)}>
                 <Bell />
                 Notifications
               </DropdownMenuItem>
@@ -124,6 +141,9 @@ export function NavUser({ user }: { user: User }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
+      <Sheet open={notificationSheet} onOpenChange={setNotificationSheet}>
+        <NotificationContent data={notifications as Notification[]} />
+      </Sheet>
     </SidebarMenu>
   );
 }
