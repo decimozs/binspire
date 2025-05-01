@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { tableRowColumns } from "@/lib/constants";
-import type { User } from "@/lib/types";
+import type { Permission, Role, User } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { Ellipsis } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -27,7 +27,7 @@ import {
   DeleteUserContent,
   UpdateUserPermissionContent,
 } from "@/components/shared/dialog-content";
-import { useFetcher } from "react-router";
+import { useFetcher, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { UserHoverCard } from "@/components/shared/hover";
@@ -46,18 +46,35 @@ export default function RolesAndPermissionsTable({
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [selectedPermission, setSelectedPermission] = useState("viewer");
   const fetcher = useFetcher();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (
       fetcher.data?.success &&
       fetcher.data?.intent === "update-user-permission"
     ) {
-      toast.success("User Permission Updated");
+      toast.success("User Permission Updated", {
+        action: {
+          label: "Review",
+          onClick: () =>
+            navigate(
+              `/dashboard/user/activity-logs?activity=${fetcher.data.activityId}`,
+            ),
+        },
+      });
       setUpdatePermission(false);
     }
 
     if (fetcher.data?.success && fetcher.data?.intent === "delete") {
-      toast.success("User Deleted");
+      toast.success("User Deleted", {
+        action: {
+          label: "Review",
+          onClick: () =>
+            navigate(
+              `/dashboard/user/activity-logs?activity=${fetcher.data.activityId}`,
+            ),
+        },
+      });
       setDeleteDialog(false);
     }
   }, [fetcher.data]);
@@ -95,10 +112,12 @@ export default function RolesAndPermissionsTable({
                   </TableCell>
                   <TableCell>{item.email}</TableCell>
                   <TableCell>
-                    <DynamicRoleBadge role={item.role} />
+                    <DynamicRoleBadge role={item.role as Role} />
                   </TableCell>
                   <TableCell>
-                    <DynamicPermissionBadge permission={item.permission} />
+                    <DynamicPermissionBadge
+                      permission={item.permission as Permission}
+                    />
                   </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>

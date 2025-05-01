@@ -1,4 +1,4 @@
-import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, json, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { verificationsTable } from "./auth";
 import { relations } from "drizzle-orm";
@@ -54,6 +54,12 @@ export const requestAccessTable = pgTable("request_access", {
     .$onUpdate(() => new Date()),
 });
 
+export interface Content {
+  modifiedUserImage: string;
+  currentPermission?: string;
+  updatedPermisson?: string;
+}
+
 export const userActivityTable = pgTable("user_activity", {
   id: text("id")
     .$defaultFn(() => nanoid())
@@ -64,6 +70,7 @@ export const userActivityTable = pgTable("user_activity", {
   title: text("title").notNull(),
   action: text("action").notNull(),
   status: text("status").notNull(),
+  content: json("content").$type<Content>(),
   description: text("description").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")

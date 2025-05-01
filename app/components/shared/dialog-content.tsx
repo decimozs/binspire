@@ -66,8 +66,13 @@ const UpdateUserPermissionContent = ({
         can view or do.
       </DialogDescription>
       <DialogFooter>
-        <fetcher.Form method="POST" action="/dashboard/user/management">
+        <fetcher.Form method="POST" action="/dashboard/user/roles-permissions">
           <input type="hidden" name="userId" value={data.id} />
+          <input
+            type="hidden"
+            name="currentPermission"
+            value={data.permission}
+          />
           <input type="hidden" name="intent" value="update-user-permission" />
           <input
             type="hidden"
@@ -366,6 +371,41 @@ const DeleteUserActivityContent = ({
   );
 };
 
+const DeleteUserActivity = ({
+  activityId,
+  fetcher,
+}: {
+  activityId: string;
+  fetcher: FetcherWithComponents<any>;
+}) => {
+  return (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Delete Activity History</DialogTitle>
+        <DialogDescription>
+          This action cannot be undone. It will permanently delete your activity
+          history and remove all associated data from our servers.
+        </DialogDescription>
+      </DialogHeader>
+      <DialogFooter>
+        <fetcher.Form
+          method="post"
+          action={`/dashboard/user/management/profile/${activityId}`}
+        >
+          <input type="hidden" name="intent" value="delete" />
+          <input type="hidden" name="activityId" value={activityId} />
+          <Button type="submit" disabled={fetcher.state === "submitting"}>
+            {fetcher.state !== "submitting" ? "Confirm" : "Deleting..."}
+          </Button>
+        </fetcher.Form>
+        <DialogClose asChild>
+          <Button variant="outline">Cancel</Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  );
+};
+
 export {
   DeleteUserContent,
   UpdateUserPermissionContent,
@@ -373,4 +413,5 @@ export {
   ApproveUserAccessRequestContent,
   RejectUserAccessRequestContent,
   DeleteUserActivityContent,
+  DeleteUserActivity,
 };

@@ -1,41 +1,20 @@
 import { requestAccessTable } from "@/db";
 import db from "@/lib/db.server";
 import { getSession } from "@/lib/sessions.server";
+import type { Title } from "@/lib/types";
 import { eq } from "drizzle-orm";
+import { createUserActivityLog, getCurrentUser } from "./user.server";
+import { fallbackInitials } from "@/lib/utils";
 
-export async function accessRequest(request: Request) {
-  const formData = await request.formData();
-  const intent = formData.get("intent");
-  const requestId = formData.get("requestId") as string;
-  const email = formData.get("email") as string;
-  const accessControl = formData.get("access-control") as string;
-  const session = await getSession(request.headers.get("cookie"));
-  const orgId = session.get("orgId") as string;
-  let token;
-  let type;
-  let role;
-
+export async function accessRequestAction(
+  request: Request,
+  requestId: string,
+  intent: string,
+  title: Title,
+) {
   if (intent === "delete") {
-    return await deleteRequest(intent, requestId);
+    return await deleteRequest(request, requestId, intent, title);
   }
-
-  if (intent === "approved" || intent === "rejected") {
-    const result = await updateRequest(intent, requestId);
-    token = result.token;
-    type = result.type;
-    role = result.role;
-  }
-
-  return {
-    token,
-    type,
-    role,
-    intent,
-    requestId,
-    email,
-    accessControl,
-    orgId,
-  };
 }
 
 export async function updateRequest(intent: string, requestId: string) {
@@ -76,17 +55,34 @@ export async function updateRequest(intent: string, requestId: string) {
   };
 }
 
-export async function deleteRequest(intent: string, requestId: string) {
-  const [action] = await db
+export async function deleteRequest(
+  request: Request,
+  requestId: string,
+  intent: string,
+  title: Title,
+) {
+  const [deletedRequest] = await db
     .delete(requestAccessTable)
     .where(eq(requestAccessTable.id, requestId))
     .returning();
 
-  if (!action) {
+  if (!deletedRequest) {
     return {
-      errors: "Failed to delete. Request not found.",
+      errors: "Failed to delete request",
     };
   }
+
+  const currentUser = await getCurrentUser(request);
+  await createUserActivityLog(request, {
+    userId: currentUser.data?.id as string,
+    title: title,
+    action: "delete",
+    status: "success",
+    description: `Access request of ${deletedRequest.name} has been deleted.`,
+    content: {
+      modifiedUserImage: `${fallbackInitials(deletedRequest.name) as string}`,
+    },
+  });
 
   return {
     success: true,

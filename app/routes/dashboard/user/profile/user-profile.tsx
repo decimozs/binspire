@@ -10,7 +10,7 @@ import { userActivityTable, userCommentTable, userReplyTable } from "@/db";
 import db from "@/lib/db.server";
 import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/sessions.server";
-import type { UserActivity } from "@/lib/types";
+import type { UserActivities } from "@/lib/types";
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("cookie"));
@@ -133,7 +133,7 @@ export default function UserProfileRoute() {
     <HydrationBoundary state={dehydratedState}>
       <UserInfo
         user={getUserById}
-        activity={getUserActivities}
+        activity={getUserActivities as UserActivities}
         username={username as string}
       />
     </HydrationBoundary>

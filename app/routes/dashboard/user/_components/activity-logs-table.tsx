@@ -1,7 +1,7 @@
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import {
   DynamicActionBadge,
-  DynamicActionStatusBadge,
+  DynamicStatusBadge,
 } from "@/components/shared/dynamic-badge";
 import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row";
 import { TableContainer } from "@/components/shared/table-container";
@@ -12,8 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { tableRowColumns } from "@/lib/constants";
-import type { User, UserActivities } from "@/lib/types";
+import { fromTitle, tableRowColumns } from "@/lib/constants";
+import type { Status, Title, User, UserActivities } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Ellipsis } from "lucide-react";
@@ -26,14 +26,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useFetcher } from "react-router";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { UserHoverCard } from "@/components/shared/hover";
+import {
+  ActionDescriptionHoverCard,
+  UserHoverCard,
+} from "@/components/shared/hover";
 import { DeleteUserActivityContent } from "@/components/shared/dialog-content";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import {
-  ReviewActivityLogContent,
-  ReviewUserActivityContent,
-} from "@/components/shared/sheet-content";
+import { ReviewActivityLogContent } from "@/components/shared/sheet-content";
+import { useQueryState } from "nuqs";
 
 export default function ActivityLogsTable({
   activities,
@@ -53,6 +54,9 @@ export default function ActivityLogsTable({
   const [newReplyMessage, setNewReplyMessage] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
   const [viewReplies, setViewReplies] = useState<string | null>(null);
+  const [openSheetId, setOpenSheetId] = useQueryState("activity", {
+    history: "replace",
+  });
 
   const fetcher = useFetcher();
 
@@ -81,7 +85,10 @@ export default function ActivityLogsTable({
   return (
     <TableContainer
       data={data as UserActivities}
-      sorter={(a, b) => a.title.localeCompare(b.title)}
+      defaultSortDirection="desc"
+      sorter={(a, b) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      }
       searchFilter={(data, query) => {
         const q = query.toLowerCase();
         return (
@@ -105,93 +112,102 @@ export default function ActivityLogsTable({
           </TableHeader>
           <TableBody>
             {paginatedData && paginatedData.length > 0 ? (
-              paginatedData.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{item.title}</TableCell>
-                  <TableCell>
-                    <span className="flex flex-row items-center gap-2">
-                      <DynamicActionBadge action={item.action} />
-                      {item.description}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <DynamicActionStatusBadge status={item.status} />
-                  </TableCell>
-                  <TableCell>
-                    <UserHoverCard data={item.user as User} />
-                  </TableCell>
-                  <TableCell>{formatDate(item.createdAt)}</TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost">
-                          <Ellipsis />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="mr-8 mt-[-0.7rem]">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <div className="flex flex-col items-start">
-                          <Sheet>
-                            <SheetTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                className="p-2 text-sm w-fit font-normal"
+              paginatedData.map((item) => {
+                const isSheetOpen = openSheetId === item.id;
+                return (
+                  <Sheet
+                    key={item.id}
+                    open={isSheetOpen}
+                    onOpenChange={(open) =>
+                      setOpenSheetId(open ? item.id : null)
+                    }
+                  >
+                    <TableRow>
+                      <TableCell>{fromTitle[item.title as Title]}</TableCell>
+                      <TableCell>
+                        <SheetTrigger asChild>
+                          <ActionDescriptionHoverCard
+                            data={item}
+                            onReviewClick={() => setOpenSheetId(item.id)}
+                          />
+                        </SheetTrigger>
+                      </TableCell>
+                      <TableCell>
+                        <DynamicStatusBadge status={item.status as Status} />
+                      </TableCell>
+                      <TableCell>
+                        <UserHoverCard data={item.user as User} />
+                      </TableCell>
+                      <TableCell>{formatDate(item.createdAt)}</TableCell>
+                      <TableCell className="text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost">
+                              <Ellipsis />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="mr-8 mt-[-0.7rem]">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <div className="flex flex-col items-start">
+                              <SheetTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  className="p-2 text-sm w-fit font-normal"
+                                >
+                                  Review
+                                </Button>
+                              </SheetTrigger>
+                              <Dialog
+                                open={deleteDialog}
+                                onOpenChange={setDeleteDialog}
                               >
-                                Review
-                              </Button>
-                            </SheetTrigger>
-                            <ReviewActivityLogContent
-                              data={item}
-                              fetcher={fetcher}
-                              username={username as string}
-                              replyMessage={replyMessage}
-                              setReplyMessage={setReplyMessage}
-                              replyCommentId={replyCommentId}
-                              setReplyCommentId={setReplyCommentId}
-                              setCommentMessage={setCommentMessage}
-                              commentMessage={commentMessage}
-                              setNewReplyMessage={setNewReplyMessage}
-                              newReplyMessage={newReplyMessage}
-                              viewReplies={viewReplies}
-                              setViewReplies={setViewReplies}
-                            />
-                          </Sheet>
-                          <Dialog
-                            open={deleteDialog}
-                            onOpenChange={setDeleteDialog}
-                          >
-                            <DialogTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                className="p-2 text-sm w-fit font-normal"
-                              >
-                                Delete
-                              </Button>
-                            </DialogTrigger>
-                            <DeleteUserActivityContent
-                              activityId={item.id}
-                              name={item.user.name}
-                              role={item.user.role}
-                              action={item.action}
-                              title={item.title}
-                              description={item.description}
-                              fetcher={fetcher}
-                            />
-                          </Dialog>
-                        </div>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    className="p-2 text-sm w-fit font-normal"
+                                  >
+                                    Delete
+                                  </Button>
+                                </DialogTrigger>
+                                <DeleteUserActivityContent
+                                  activityId={item.id}
+                                  name={item.user.name}
+                                  role={item.user.role}
+                                  action={item.action}
+                                  title={item.title}
+                                  description={item.description}
+                                  fetcher={fetcher}
+                                />
+                              </Dialog>
+                            </div>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                    <ReviewActivityLogContent
+                      data={item}
+                      fetcher={fetcher}
+                      username={username}
+                      replyMessage={replyMessage}
+                      setReplyMessage={setReplyMessage}
+                      replyCommentId={replyCommentId}
+                      setReplyCommentId={setReplyCommentId}
+                      setCommentMessage={setCommentMessage}
+                      commentMessage={commentMessage}
+                      setNewReplyMessage={setNewReplyMessage}
+                      newReplyMessage={newReplyMessage}
+                      viewReplies={viewReplies}
+                      setViewReplies={setViewReplies}
+                    />
+                  </Sheet>
+                );
+              })
             ) : (
               <TableRow>
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-6 ">
-                    No activities found
-                  </TableCell>
-                </TableRow>
+                <TableCell colSpan={6} className="text-center py-6">
+                  No activities found
+                </TableCell>
               </TableRow>
             )}
           </TableBody>

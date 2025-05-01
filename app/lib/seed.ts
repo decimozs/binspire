@@ -11,6 +11,8 @@ import {
 import env from "@config/env.server";
 import { nanoid } from "nanoid";
 import { hashUrlToken } from "./utils";
+import type { Action, Status, Title } from "./types";
+import { fromTitle } from "./constants";
 
 export const seedOrganizations = async () => {
   const organizations = Array.from({ length: 10 }).map(() => {
@@ -69,7 +71,7 @@ export const seedUsersAndAccounts = async () => {
       ]),
       image: faker.image.avatar(),
       orgId,
-      role: faker.helpers.arrayElement(["user", "admin", "collector"]),
+      role: faker.helpers.arrayElement(["admin", "collector"]),
       isOnline: faker.datatype.boolean(),
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -143,18 +145,34 @@ export const seedUserActivities = async () => {
 
   const activities = Array.from({ length: 30 }).map(() => {
     const user = faker.helpers.arrayElement(users);
+    const title: Title = faker.helpers.arrayElement(
+      Object.keys(fromTitle) as Title[],
+    );
+    const status: Status = faker.helpers.arrayElement([
+      "active",
+      "pending",
+      "blocked",
+      "failed",
+      "success",
+      "approved",
+      "rejected",
+    ]);
+    const action: Action = faker.helpers.arrayElement([
+      "create",
+      "delete",
+      "update",
+      "archive",
+      "login",
+      "sign-up",
+      "logout",
+    ]);
+
     return {
       id: nanoid(),
       userId: user.id,
-      title: faker.helpers.arrayElement([
-        "Authentication",
-        "User Management",
-        "Roles & Permissions",
-        "Activity Logs",
-        "Access Request",
-      ]),
-      status: faker.helpers.arrayElement(["active", "pending", "blocked"]),
-      action: faker.helpers.arrayElement(["login", "update", "delete"]),
+      title,
+      status,
+      action,
       description: faker.lorem.sentence(),
       createdAt: new Date(),
       updatedAt: new Date(),

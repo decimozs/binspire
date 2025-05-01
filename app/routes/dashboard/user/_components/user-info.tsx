@@ -1,4 +1,4 @@
-import type { User, UserActivities } from "@/lib/types";
+import type { Title, User, UserActivities } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +10,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -32,6 +33,8 @@ import { useFetcher } from "react-router";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { ReviewUserActivityContent } from "@/components/shared/sheet-content";
+import { fromTitle } from "@/lib/constants";
+import { DeleteUserActivity } from "@/components/shared/dialog-content";
 
 export default function UserInfo({
   user,
@@ -182,7 +185,7 @@ export default function UserInfo({
                       {item.action}
                     </Badge>
                     <Badge className="capitalize mb-2">{item.status}</Badge>
-                    <p>{item.title}</p>
+                    <p> {fromTitle[item.title as Title]}</p>
                     <p className="text-muted-foreground text-sm">
                       {formatDate(item.createdAt as Date)}
                     </p>
@@ -195,87 +198,56 @@ export default function UserInfo({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="mr-[7rem] mt-[-1rem]">
-                    <DropdownMenuItem asChild>
-                      <Sheet>
-                        <SheetTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            className="p-2 text-sm w-fit font-normal"
-                          >
-                            Review
-                          </Button>
-                        </SheetTrigger>
-                        <ReviewUserActivityContent
-                          data={paginatedData}
-                          fetcher={fetcher}
-                          username={username as string}
-                          replyMessage={replyMessage}
-                          setReplyMessage={setReplyMessage}
-                          replyCommentId={replyCommentId}
-                          setReplyCommentId={setReplyCommentId}
-                          setCommentMessage={setCommentMessage}
-                          commentMessage={commentMessage}
-                          setNewReplyMessage={setNewReplyMessage}
-                          newReplyMessage={newReplyMessage}
-                          viewReplies={viewReplies}
-                          setViewReplies={setViewReplies}
-                        />
-                      </Sheet>
-                    </DropdownMenuItem>
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Dialog
-                        open={deleteDialog}
-                        onOpenChange={setDeleteDialog}
-                      >
-                        <DialogTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            className="p-2 text-sm w-fit font-normal"
-                          >
-                            Delete
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Delete Activity History</DialogTitle>
-                            <DialogDescription>
-                              This action cannot be undone. It will permanently
-                              delete your activity history and remove all
-                              associated data from our servers.
-                            </DialogDescription>
-                          </DialogHeader>
-                          <DialogFooter>
-                            <fetcher.Form
-                              method="post"
-                              action={`/dashboard/user/management/profile/${item.id}`}
+                    <div className="flex flex-col items-start">
+                      <DropdownMenuItem asChild>
+                        <Sheet>
+                          <SheetTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              className="p-2 text-sm w-fit font-normal"
                             >
-                              <input
-                                type="hidden"
-                                name="intent"
-                                value="delete"
-                              />
-                              <input
-                                type="hidden"
-                                name="activityId"
-                                value={item.id}
-                              />
-                              <Button
-                                type="submit"
-                                disabled={fetcher.state === "submitting"}
-                              >
-                                {fetcher.state !== "submitting"
-                                  ? "Confirm"
-                                  : "Deleting..."}
-                              </Button>
-                            </fetcher.Form>
-                            <DialogClose asChild>
-                              <Button variant="outline">Cancel</Button>
-                            </DialogClose>
-                          </DialogFooter>
-                        </DialogContent>
-                      </Dialog>
-                    </DropdownMenuItem>
+                              Review
+                            </Button>
+                          </SheetTrigger>
+                          <ReviewUserActivityContent
+                            data={item}
+                            fetcher={fetcher}
+                            username={username as string}
+                            replyMessage={replyMessage}
+                            setReplyMessage={setReplyMessage}
+                            replyCommentId={replyCommentId}
+                            setReplyCommentId={setReplyCommentId}
+                            setCommentMessage={setCommentMessage}
+                            commentMessage={commentMessage}
+                            setNewReplyMessage={setNewReplyMessage}
+                            newReplyMessage={newReplyMessage}
+                            viewReplies={viewReplies}
+                            setViewReplies={setViewReplies}
+                          />
+                        </Sheet>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Dialog
+                          open={deleteDialog}
+                          onOpenChange={setDeleteDialog}
+                        >
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              className="p-2 text-sm w-fit font-normal"
+                            >
+                              Delete
+                            </Button>
+                          </DialogTrigger>
+                          <DeleteUserActivity
+                            activityId={item.id}
+                            fetcher={fetcher}
+                          />
+                        </Dialog>
+                      </DropdownMenuItem>
+                    </div>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>

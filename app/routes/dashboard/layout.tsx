@@ -47,16 +47,6 @@ export default function DashboardLayoutPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (location.search || location.hash) {
-      navigate(location.pathname, { replace: true });
-    }
-
-    if (message === "welcome") {
-      toast.success(`Welcome back ${user?.name}!`);
-    }
-  }, [location, message, navigate, user?.name]);
-
   return (
     <SidebarProvider>
       <CommandCentralMenu />

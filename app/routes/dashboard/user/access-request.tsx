@@ -7,7 +7,7 @@ import {
 import { email as nodemailer } from "@/lib/email";
 import type { Route } from "./+types/access-request";
 import db from "@/lib/db.server";
-import { useFetcher, useLoaderData } from "react-router";
+import { useFetcher, useLoaderData, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
 import {
@@ -31,10 +31,16 @@ import RequestStatus from "@/components/shared/dynamic-table-cell";
 import { fallbackInitials, formatDate } from "@/lib/utils";
 import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row";
 import { tableRowColumns } from "@/lib/constants";
-import { DynamicRoleBadge } from "@/components/shared/dynamic-badge";
+import {
+  DynamicRoleBadge,
+  DynamicStatusBadge,
+} from "@/components/shared/dynamic-badge";
 import { TableContainer } from "@/components/shared/table-container";
 import { DeleteUserAccessRequestContent } from "@/components/shared/dialog-content";
 import { ReviewUserAccessRequestContent } from "@/components/shared/sheet-content";
+import type { Role, Status } from "@/lib/types";
+import { accessRequestAction } from "@/action/access-request.server";
+import { createUserActivityLog, getCurrentUser } from "@/action/user.server";
 
 export async function loader() {
   const data = await db.query.requestAccessTable.findMany();
@@ -45,6 +51,7 @@ export async function loader() {
 }
 
 export async function action({ request }: Route.ActionArgs) {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const formData = await request.formData();
   const intent = formData.get("intent");
   const requestId = formData.get("requestId") as string;
@@ -54,14 +61,12 @@ export async function action({ request }: Route.ActionArgs) {
   const orgId = session.get("orgId") as string;
 
   if (intent === "delete") {
-    await db
-      .delete(requestAccessTable)
-      .where(eq(requestAccessTable.id, requestId));
-
-    return {
-      success: true,
-      intent: intent,
-    };
+    return await accessRequestAction(
+      request,
+      requestId,
+      intent,
+      "access-request",
+    );
   }
 
   if (intent === "approved") {
@@ -101,8 +106,21 @@ export async function action({ request }: Route.ActionArgs) {
 
     try {
       await nodemailer.sendMail(options);
+      const currentUser = await getCurrentUser(request);
+      const activity = await createUserActivityLog(request, {
+        userId: currentUser.data?.id as string,
+        title: "access-request",
+        action: "sign-up",
+        status: "approved",
+        description: `Access request of ${data.name} has been approved.`,
+        content: {
+          modifiedUserImage: `${fallbackInitials(data.name) as string}`,
+        },
+      });
+
       return {
         success: true,
+        activityId: activity.data?.id as string,
         intent: intent,
       };
     } catch (error) {
@@ -149,8 +167,20 @@ export async function action({ request }: Route.ActionArgs) {
 
     try {
       await nodemailer.sendMail(options);
+      const currentUser = await getCurrentUser(request);
+      const activity = await createUserActivityLog(request, {
+        userId: currentUser.data?.id as string,
+        title: "access-request",
+        action: "sign-up",
+        status: "rejected",
+        description: `Access request of ${data.name} has been rejected.`,
+        content: {
+          modifiedUserImage: `${fallbackInitials(data.name) as string}`,
+        },
+      });
       return {
         success: true,
+        activityId: activity.data?.id as string,
         intent: intent,
       };
     } catch (error) {
@@ -173,20 +203,45 @@ export default function UserAccessRequestPage() {
   const [rejectedDialog, setRejectedDialog] = useState(false);
   const [selectedAccess, setSelectedAccess] = useState("viewer");
   const [deletedDialog, setDeletedDialog] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (fetcher.data?.success && fetcher.data?.intent === "approved") {
-      toast.success("Request Approved");
+      toast.success("Request Approved", {
+        action: {
+          label: "Review",
+          onClick: () =>
+            navigate(
+              `/dashboard/user/activity-logs?activity=${fetcher.data.activityId}`,
+            ),
+        },
+      });
       setApprovedDialog(false);
     }
 
     if (fetcher.data?.success && fetcher.data?.intent === "rejected") {
-      toast.success("Request Rejected");
+      toast.success("Request Rejected", {
+        action: {
+          label: "Review",
+          onClick: () =>
+            navigate(
+              `/dashboard/user/activity-logs?activity=${fetcher.data.activityId}`,
+            ),
+        },
+      });
       setRejectedDialog(false);
     }
 
     if (fetcher.data?.success && fetcher.data?.intent === "delete") {
-      toast.success("Request Deleted");
+      toast.success("Request Deleted", {
+        action: {
+          label: "Review",
+          onClick: () =>
+            navigate(
+              `/dashboard/user/activity-logs?activity=${fetcher.data.activityId}`,
+            ),
+        },
+      });
       setDeletedDialog(false);
     }
   }, [fetcher.data]);
@@ -194,7 +249,9 @@ export default function UserAccessRequestPage() {
   return (
     <TableContainer
       data={data}
-      sorter={(a, b) => a.name.localeCompare(b.name)}
+      sorter={(a, b) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      }
       defaultSortDirection="asc"
       searchFilter={(user, query) => {
         const q = query.toLowerCase();
@@ -221,10 +278,10 @@ export default function UserAccessRequestPage() {
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell>
-                  <DynamicRoleBadge role={item.role} />
+                  <DynamicRoleBadge role={item.role as Role} />
                 </TableCell>
                 <TableCell>
-                  <RequestStatus status={item.status} />
+                  <DynamicStatusBadge status={item.status as Status} />
                 </TableCell>
                 <TableCell>{formatDate(item.createdAt)}</TableCell>
                 <TableCell className="text-right">
@@ -240,7 +297,9 @@ export default function UserAccessRequestPage() {
                         <DropdownMenuSeparator />
 
                         <DropdownMenuItem>
-                          <SheetTrigger>Review</SheetTrigger>
+                          <SheetTrigger className="cursor-pointer">
+                            Review
+                          </SheetTrigger>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                           <Dialog

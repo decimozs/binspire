@@ -1,6 +1,7 @@
 import {
   accountsTable,
   requestAccessTable,
+  userActivityTable,
   usersTable,
   verificationsTable,
 } from "@/db";

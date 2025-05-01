@@ -1,13 +1,13 @@
-import {
-  Book,
-  FilePenIcon,
-  HardHat,
-  Settings,
-  Shield,
-  ShieldUser,
-} from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { formatPermission } from "@/lib/utils";
+import {
+  actionIcons,
+  permissionIcons,
+  roleIcons,
+  statusIcons,
+} from "@/lib/constants";
+import type { Action, Permission, Role, Status } from "@/lib/types";
 
 const DynamicActiveBadge = ({ isOnline }: { isOnline: Boolean }) => {
   return (
@@ -27,47 +27,49 @@ const DynamicActiveBadge = ({ isOnline }: { isOnline: Boolean }) => {
   );
 };
 
-const DynamicPermissionBadge = ({ permission }: { permission: string }) => {
+const DynamicPermissionBadge = ({ permission }: { permission: Permission }) => {
+  const PermissionIcons = permissionIcons[permission];
   return (
     <div className="border-input border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem] w-fit capitalize flex flex-row gap-1 items-center">
-      {permission === "editor" && <FilePenIcon size={15} className="mb-0.5" />}
-      {permission === "viewer" && <Book size={15} className="mb-0.5" />}
-      {permission === "full-access" && (
-        <Settings size={15} className="mb-0.5" />
-      )}
+      {PermissionIcons && <PermissionIcons size={15} className="mb-0.5" />}
       <p>{formatPermission(permission)}</p>
     </div>
   );
 };
 
-const DynamicRoleBadge = ({ role }: { role: string }) => {
+const DynamicRoleBadge = ({ role }: { role: Role }) => {
+  const RoleIcons: LucideIcon | undefined = roleIcons[role];
   return (
     <div className="border-input border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem] w-fit capitalize flex flex-row gap-1 items-center">
-      {role === "admin" && <ShieldUser size={15} className="mb-0.5" />}
-      {role === "collector" && <HardHat size={15} className="mb-0.5" />}
+      {RoleIcons && <RoleIcons size={15} className="mb-0.5" />}
       <p>{role}</p>
     </div>
   );
 };
 
-const DynamicActionBadge = ({ action }: { action: string }) => {
+const DynamicActionBadge = ({ action }: { action: Action }) => {
   return (
     <div className="border-input border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem] w-fit capitalize flex flex-row gap-1 items-center">
-      {action === "admin" && <ShieldUser size={15} className="mb-0.5" />}
-      {action === "collector" && <HardHat size={15} className="mb-0.5" />}
-      <p>{action}</p>
+      <p>{action === "sign-up" ? "Sign up" : action}</p>
     </div>
   );
 };
 
-const DynamicActionStatusBadge = ({ status }: { status: string }) => {
+const DynamicStatusBadge = ({ status }: { status: Status }) => {
+  const StatusIcons: LucideIcon | undefined = statusIcons[status];
+
   return (
     <div className="border-input border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem] w-fit capitalize flex flex-row gap-1 items-center">
-      {status === "admin" && <ShieldUser size={15} className="mb-0.5" />}
-      {status === "collector" && <HardHat size={15} className="mb-0.5" />}
+      {StatusIcons && <StatusIcons size={15} className="mb-0.5" />}
       <p>{status}</p>
     </div>
   );
+};
+
+const DynamicActionStatusBadge = ({ action }: { action: Action }) => {
+  const ActionIcons: LucideIcon | undefined = actionIcons[action as Action];
+
+  return <>{ActionIcons && <ActionIcons className="h-6 w-6" />}</>;
 };
 
 export {
@@ -75,5 +77,6 @@ export {
   DynamicPermissionBadge,
   DynamicActionBadge,
   DynamicRoleBadge,
+  DynamicStatusBadge,
   DynamicActionStatusBadge,
 };

@@ -1,9 +1,9 @@
-import type {
-  requestAccessTable,
-  sessionsTable,
+import {
   userActivityTable,
-  userCommentTable,
-  usersTable,
+  type requestAccessTable,
+  type sessionsTable,
+  type userCommentTable,
+  type usersTable,
 } from "@/db";
 import type { getActivityLogs, getUserActivities } from "@/query/users.server";
 import type { LucideIcon } from "lucide-react";
@@ -31,6 +31,7 @@ export interface Teams {
 export type RequestAccess = typeof requestAccessTable.$inferSelect;
 
 export type ActivityLog = typeof userActivityTable.$inferSelect;
+export type CreateActivityLog = typeof userActivityTable.$inferInsert;
 
 type FormErrors<T extends ZodTypeAny> =
   z.inferFlattenedErrors<T>["fieldErrors"];
@@ -56,3 +57,31 @@ export type UserComment = typeof userCommentTable.$inferSelect;
 
 export type UserActivities = Awaited<ReturnType<typeof getActivityLogs>>;
 export type UserActivity = Awaited<ReturnType<typeof getUserActivities>>;
+
+export type Role = "admin" | "collector";
+export type Permission = "editor" | "viewer" | "full-access";
+export type Action =
+  | "create"
+  | "delete"
+  | "update"
+  | "archive"
+  | "login"
+  | "sign-up"
+  | "logout";
+export type Status =
+  | "active"
+  | "success"
+  | "failed"
+  | "pending"
+  | "blocked"
+  | "approved"
+  | "rejected";
+export type Title =
+  | "access-request"
+  | "user-management"
+  | "roles-permissions"
+  | "authentication"
+  | "activity-logs"
+  | "history"
+  | "audit"
+  | "settings";

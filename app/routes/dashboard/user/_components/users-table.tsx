@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { tableRowColumns } from "@/lib/constants";
-import type { User } from "@/lib/types";
+import type { Role, User } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { Ellipsis } from "lucide-react";
 import {
@@ -20,14 +20,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { Link, useFetcher } from "react-router";
+import { Link, useFetcher, useNavigate, useNavigation } from "react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { formatDate } from "@/lib/utils";
-import {
-  DynamicActiveBadge,
-  DynamicRoleBadge,
-} from "@/components/shared/dynamic-badge";
+import { DynamicRoleBadge } from "@/components/shared/dynamic-badge";
 import { TableContainer } from "@/components/shared/table-container";
 import { DeleteUserContent } from "@/components/shared/dialog-content";
 import { UserHoverCard } from "@/components/shared/hover";
@@ -40,11 +37,20 @@ export default function UsersTable({ users }: { users?: User[] }) {
 
   const fetcher = useFetcher();
   const [deleteDialog, setDeleteDialog] = useState(false);
+  const navigate = useNavigate();
   const { userManagementTable } = tableRowColumns;
 
   useEffect(() => {
     if (fetcher.data?.success) {
-      toast.success("Request Deleted");
+      toast.success("User Deleted", {
+        action: {
+          label: "Review",
+          onClick: () =>
+            navigate(
+              `/dashboard/user/activity-logs?activity=${fetcher.data.activityId}`,
+            ),
+        },
+      });
       setDeleteDialog(false);
     }
   }, [fetcher.data]);
@@ -52,9 +58,7 @@ export default function UsersTable({ users }: { users?: User[] }) {
   return (
     <TableContainer
       data={data || []}
-      sorter={(a, b) =>
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      }
+      sorter={(a, b) => a.name.localeCompare(b.name)}
       defaultSortDirection="asc"
       searchFilter={(user, query) => {
         const q = query.toLowerCase();
@@ -84,7 +88,7 @@ export default function UsersTable({ users }: { users?: User[] }) {
                 </TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell>
-                  <DynamicRoleBadge role={item.role} />
+                  <DynamicRoleBadge role={item.role as Role} />
                 </TableCell>
                 <TableCell className="capitalize">
                   {formatDate(item.createdAt)}

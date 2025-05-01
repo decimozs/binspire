@@ -5,3 +5,5 @@ const hash = async (text: string) => {
 };
 
 const test = await hash("admin12345");
+
+console.log(test);

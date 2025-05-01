@@ -3,22 +3,43 @@ import { NavOperations } from "@/components/sidebar/nav-operations";
 import { NavShortcuts } from "@/components/sidebar/nav-shortcuts";
 import { NavUser } from "@/components/sidebar/nav-user";
 import {
+  Archive,
   AudioWaveform,
+  Book,
   Calendar,
+  CircleArrowUp,
+  CircleCheck,
+  CircleDashed,
+  CircleMinus,
+  CircleOff,
+  CircleX,
   Clock,
+  Diff,
+  FilePenIcon,
+  Folder,
   Frame,
   GalleryVerticalEnd,
+  HardHat,
   House,
   KeyRound,
   Lock,
+  LogIn,
+  LogOut,
   Mail,
   Map,
   PieChart,
+  Plus,
+  Settings,
   Settings2,
+  ShieldUser,
   Trash,
   UserRound,
+  UserRoundPen,
+  UserRoundPlus,
   UsersRound,
+  X,
 } from "lucide-react";
+import type { Action, Permission, Role, Status, Title } from "./types";
 
 export const icons = {
   github: `
@@ -356,11 +377,53 @@ export const tableRowColumns = {
     { label: "", alignRight: true },
   ],
   activityLogsTable: [
-    { label: "Title", icon: UserRound },
+    { label: "From", icon: Folder },
     { label: "Description", icon: Mail },
     { label: "Status", icon: UsersRound },
-    { label: "User", icon: KeyRound },
+    { label: "Changed By", icon: UserRoundPen },
     { label: "Created At", icon: Clock },
     { label: "", alignRight: true },
   ],
+};
+
+export const statusIcons: Record<Status, LucideIcon> = {
+  success: CircleCheck,
+  failed: CircleX,
+  active: CircleArrowUp,
+  pending: Clock,
+  blocked: CircleMinus,
+  approved: CircleCheck,
+  rejected: CircleX,
+};
+
+export const roleIcons: Record<Role, LucideIcon> = {
+  admin: ShieldUser,
+  collector: HardHat,
+};
+
+export const permissionIcons: Record<Permission, LucideIcon> = {
+  editor: FilePenIcon,
+  viewer: Book,
+  "full-access": Settings,
+};
+
+export const fromTitle: Record<Title, string> = {
+  audit: "Audit",
+  history: "History",
+  authentication: "Authentication",
+  settings: "Settings",
+  "user-management": "User Management",
+  "access-request": "Access Request",
+  "roles-permissions": "Roles & Permissions",
+  "activity-logs": "Activity Logs",
+};
+
+export const actionIcons: Record<Action, LucideIcon> = {
+  create: Plus,
+  delete: X,
+  update: Diff,
+  archive: Archive,
+  login: LogIn,
+  logout: LogOut,
+  "sign-up": UserRoundPlus,
 };

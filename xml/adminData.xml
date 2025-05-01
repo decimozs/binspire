@@ -1,0 +1,79 @@
+<data>
+  <adminData>
+    <teams>
+      <team>
+        <name>Admin</name>
+        <icon>GalleryVerticalEnd</icon>
+        <onlines>123</onlines>
+      </team>
+      <team>
+        <name>Collector</name>
+        <icon>AudioWaveform</icon>
+        <onlines>42</onlines>
+      </team>
+    </teams>
+    <navMain>
+      <nav>
+        <title>Dashboard</title>
+        <url>#</url>
+        <icon>House</icon>
+        <isActive>true</isActive>
+        <items>
+          <item>
+            <title>Map</title>
+            <url>/dashboard</url>
+          </item>
+          <item>
+            <title>Audit</title>
+            <url>#</url>
+          </item>
+          <item>
+            <title>History</title>
+            <url>#</url>
+          </item>
+        </items>
+      </nav>
+      <nav>
+        <title>User</title>
+        <url>#</url>
+        <icon>UserRound</icon>
+        <items>
+          <item>
+            <title>Management</title>
+            <url>/dashboard/user/management</url>
+          </item>
+          <item>
+            <title>Access Requests</title>
+            <url>/dashboard/user/access-requests</url>
+          </item>
+          <item>
+            <title>Activity Logs</title>
+            <url>/dashboard/user/activity-logs</url>
+          </item>
+          <item>
+            <title>Roles &amp; Permissions</title>
+            <url>/dashboard/user/roles-permissions</url>
+          </item>
+        </items>
+      </nav>
+      <!-- Add Trashbin and Settings similarly -->
+    </navMain>
+    <projects>
+      <project>
+        <name>Design Engineering</name>
+        <url>#</url>
+        <icon>Frame</icon>
+      </project>
+      <project>
+        <name>Sales &amp; Marketing</name>
+        <url>#</url>
+        <icon>PieChart</icon>
+      </project>
+      <project>
+        <name>Travel</name>
+        <url>#</url>
+        <icon>Map</icon>
+      </project>
+    </projects>
+  </adminData>
+</data>

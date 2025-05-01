@@ -1,0 +1,18 @@
+<!ELEMENT dashboard (adminData)>
+<!ELEMENT adminData (teams, navMain, projects)>
+<!ELEMENT teams (team+)>
+<!ELEMENT team (name, icon, onlines)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT icon (#PCDATA)>
+<!ELEMENT onlines (#PCDATA)>
+
+<!ELEMENT navMain (nav+)>
+<!ELEMENT nav (title, url, icon, isActive?, items)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT url (#PCDATA)>
+<!ELEMENT isActive (#PCDATA)>
+<!ELEMENT items (item+)>
+<!ELEMENT item (title, url)>
+
+<!ELEMENT projects (project+)>
+<!ELEMENT project (name, url, icon)>
