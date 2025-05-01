@@ -37,12 +37,17 @@ import {
   ApproveUserAccessRequestContent,
   RejectUserAccessRequestContent,
 } from "./dialog-content";
-import type { Action, RequestAccess, UserActivities } from "@/lib/types";
+import type {
+  Action,
+  Permission,
+  RequestAccess,
+  UserActivities,
+} from "@/lib/types";
 import type { FetcherWithComponents } from "react-router";
 import type { ReactNode } from "react";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import { actionIcons } from "@/lib/constants";
+import { actionIcons, permissionIcons } from "@/lib/constants";
 import { DynamicActionStatusBadge } from "./dynamic-badge";
 
 const SheetContainer = ({ children }: { children: ReactNode }) => {
@@ -221,6 +226,8 @@ const ReviewUserActivityContent = ({
 }) => {
   const ActionIcons: LucideIcon | undefined =
     actionIcons[data.action as Action];
+  const PermissionIcon =
+    permissionIcons[data.content?.updatedPermisson as Permission];
   return (
     <SheetContainer>
       <SheetHeader>
@@ -245,13 +252,16 @@ const ReviewUserActivityContent = ({
                 src={data.content?.modifiedUserImage}
                 alt={data.action}
               />
-              <AvatarFallback>{fallbackInitials(data.action)}</AvatarFallback>
+              <AvatarFallback>
+                {data.content?.modifiedUserImage as string}
+              </AvatarFallback>
             </Avatar>
             <ArrowRight size={17} className="mx-4 text-muted-foreground" />
             <Avatar className="w-[50px] h-[50px]">
               <AvatarImage src={data.action as string} alt={data.action} />
               <AvatarFallback>
                 {ActionIcons && <ActionIcons className="h-6 w-6" />}
+                {PermissionIcon && <PermissionIcon className="h-6 w-6" />}
               </AvatarFallback>
             </Avatar>
           </div>
@@ -561,6 +571,8 @@ const ReviewActivityLogContent = ({
   viewReplies: string | null;
   setViewReplies: (id: string | null) => void;
 }) => {
+  const PermissionIcon =
+    permissionIcons[data.content?.updatedPermisson as Permission];
   const ActionIcons: LucideIcon | undefined =
     actionIcons[data.action as Action];
   return (
@@ -576,7 +588,9 @@ const ReviewActivityLogContent = ({
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center gap-2">
             <p className="font-bold">Activity</p>
-            <Badge className="capitalize">{data.action}</Badge>
+            <Badge className="capitalize">
+              {data.action === "sign-up" ? "Sign up" : data.action}
+            </Badge>
             <Badge className="capitalize">{data.status}</Badge>
           </div>
         </div>
@@ -596,6 +610,7 @@ const ReviewActivityLogContent = ({
               <AvatarImage src={data.action as string} alt={data.action} />
               <AvatarFallback>
                 {ActionIcons && <ActionIcons className="h-6 w-6" />}
+                {PermissionIcon && <PermissionIcon className="h-6 w-6" />}
               </AvatarFallback>
             </Avatar>
           </div>
