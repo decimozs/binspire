@@ -31,6 +31,7 @@ import { Badge } from "../ui/badge";
 import { Sheet } from "@/components/ui/sheet";
 import { useState } from "react";
 import { NotificationContent } from "../shared/sheet-content";
+import { useQueryState } from "nuqs";
 
 export function NavUser({
   user,
@@ -43,11 +44,21 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar();
   const navigate = useNavigate();
-  const [notificationSheet, setNotificationSheet] = useState(false);
+  const [notificationSheet, setNotificationSheet] = useQueryState(
+    "notification",
+    {
+      history: "replace",
+      parse: (val) => val === "open",
+    },
+  );
   const fallbackInitials = user.name
     .split(" ")
     .map((point) => point[0])
     .join("");
+
+  const currentNotifications = notifications?.filter(
+    (item) => item.userId !== userId,
+  );
 
   return (
     <SidebarMenu>
@@ -141,8 +152,11 @@ export function NavUser({
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
-      <Sheet open={notificationSheet} onOpenChange={setNotificationSheet}>
-        <NotificationContent data={notifications as Notification[]} />
+      <Sheet
+        open={notificationSheet as boolean}
+        onOpenChange={(open) => setNotificationSheet(open)}
+      >
+        <NotificationContent data={currentNotifications as Notification[]} />
       </Sheet>
     </SidebarMenu>
   );

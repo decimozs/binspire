@@ -900,7 +900,7 @@ const NotificationContent = ({ data }: { data: Notification[] }) => {
       <SheetHeader>
         <SheetTitle>Notifications</SheetTitle>
       </SheetHeader>
-      <div className="mx-4 mt-[-1rem]">
+      <div className="mx-4 mt-[-1rem] flex flex-col gap-2 overflow-y-auto">
         {data.map((item) => (
           <div className="bg-muted p-4 rounded-md flex flex-row justify-between">
             <div>

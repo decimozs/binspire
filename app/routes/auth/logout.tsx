@@ -6,7 +6,6 @@ export default function LogoutRedirect() {
 
   useEffect(() => {
     sessionStorage.clear();
-
     navigate("/login");
   }, [navigate]);
 

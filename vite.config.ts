@@ -6,11 +6,11 @@ import { reactRouterHonoServer } from "react-router-hono-server/dev";
 
 export default defineConfig({
   plugins: [
-    tailwindcss(),
-    reactRouter(),
-    tsconfigPaths(),
     reactRouterHonoServer({
       runtime: "node",
     }),
+    tailwindcss(),
+    reactRouter(),
+    tsconfigPaths(),
   ],
 });

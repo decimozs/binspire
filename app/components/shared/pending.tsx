@@ -12,7 +12,7 @@ import { useNavigate } from "react-router";
 import { useEffect, useState, useCallback } from "react";
 import { FormFooter } from "../ui/form";
 import type { VerificationStatus, VerificationType } from "@/lib/types";
-import useWebsocket from "react-use-websocket";
+import useWebSocket, { ReadyState } from "react-use-websocket";
 
 const PendingVerification = ({
   identifier,
@@ -26,7 +26,7 @@ const PendingVerification = ({
   const [token, setToken] = useState("");
   const [reason, setReason] = useState("");
   const [status, setStatus] = useState(false);
-  const { lastMessage } = useWebsocket("ws://localhost:5173/ws");
+  const { lastMessage } = useWebSocket("ws://localhost:5173/ws");
 
   useEffect(() => {
     if (lastMessage !== null) {

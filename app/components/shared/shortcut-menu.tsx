@@ -8,14 +8,19 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { SeparatorVertical, UserRound } from "lucide-react";
+import { Bell, SeparatorVertical, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Separator } from "../ui/separator";
+import { useQueryState } from "nuqs";
 
 export default function CommandCentralMenu() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const [, setNotificationSheet] = useQueryState("notification", {
+    history: "replace",
+    parse: (val) => val === "open",
+  });
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -35,6 +40,11 @@ export default function CommandCentralMenu() {
     }, 500);
   };
 
+  const handleSheet = () => {
+    setOpen(false);
+    setNotificationSheet(true);
+  };
+
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
       <CommandInput placeholder="Type a command or search..." />
@@ -45,6 +55,12 @@ export default function CommandCentralMenu() {
             <div className="flex items-center gap-2 cursor-pointer">
               <UserRound />
               <span>Map</span>
+            </div>
+          </CommandItem>
+          <CommandItem onSelect={handleSheet}>
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Bell />
+              <span>Notifications</span>
             </div>
           </CommandItem>
         </CommandGroup>

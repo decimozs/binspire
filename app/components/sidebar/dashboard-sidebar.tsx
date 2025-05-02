@@ -29,7 +29,6 @@ const AdminSidebar = ({
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <NavActiveTeams
-          teams={collectorData.teams}
           onlineCollectors={onlineCollectors}
           onlineAdmins={onlineAdmins}
         />
@@ -63,7 +62,6 @@ const CollectorSidebar = ({
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <NavActiveTeams
-          teams={collectorData.teams}
           onlineCollectors={onlineCollectors}
           onlineAdmins={onlineAdmins}
         />

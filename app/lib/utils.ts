@@ -71,6 +71,7 @@ export const closeWindow = `
           window.close();
         </script>
         <p>Window is closing...</p>
+        <p>If not close, please close it manually</p>
       </body>
     </html>
 `;

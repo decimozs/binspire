@@ -24,6 +24,7 @@ import type { GooglePayload, VerificationType } from "@/lib/types";
 import { and, eq } from "drizzle-orm";
 import type { Context } from "hono";
 import { broadcast } from "@/server";
+import { getOnlineAdmins, getOnlineCollectors } from "@/query/users.server";
 
 export async function login(request: Request) {
   const formData = await request.formData();
@@ -87,6 +88,13 @@ export async function login(request: Request) {
     };
   }
 
+  await db
+    .update(usersTable)
+    .set({
+      isOnline: true,
+    })
+    .where(eq(usersTable.id, userId));
+
   const ipAddress = request.headers.get("x-forwarded-for");
   const userAgent = request.headers.get("user-agent");
   const session = await getSession(request.headers.get("cookie"));
@@ -96,9 +104,13 @@ export async function login(request: Request) {
   session.set("userAgent", userAgent);
   session.set("permission", user.permission);
 
+  const activeAdmins = await getOnlineAdmins();
+  const activeCollectors = await getOnlineCollectors();
+
   broadcast({
-    transaction: "user-login",
-    role: user.permission,
+    transaction: "active-users",
+    activeAdmins,
+    activeCollectors,
   });
 
   return redirect("/dashboard", {
@@ -321,6 +333,13 @@ export async function signUp(request: Request) {
       };
     }
 
+    await db
+      .update(usersTable)
+      .set({
+        isOnline: true,
+      })
+      .where(eq(usersTable.id, userId));
+
     const ipAddress = request.headers.get("x-forwarded-for");
     const userAgent = request.headers.get("user-agent");
     const session = await getSession(request.headers.get("cookie"));
@@ -330,7 +349,7 @@ export async function signUp(request: Request) {
     session.set("userAgent", userAgent);
     session.set("permission", user.permission);
 
-    return redirect("/dashboard?m=welcome", {
+    return redirect("/dashboard", {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
@@ -462,9 +481,13 @@ export async function loginWithGoogle(c: Context, payload: GooglePayload) {
   session.set("userAgent", userAgent);
   session.set("permission", permission);
 
+  const activeAdmins = await getOnlineAdmins();
+  const activeCollectors = await getOnlineCollectors();
+
   broadcast({
-    transaction: "user-login",
-    role: user.permission,
+    transaction: "active-users",
+    activeAdmins,
+    activeCollectors,
   });
 
   return redirect("/dashboard", {

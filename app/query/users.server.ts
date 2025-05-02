@@ -139,16 +139,9 @@ export async function getOnlineCollectors() {
   return activeUsers.length;
 }
 
-export async function getNotifications(request: Request) {
-  const currentUser = await getCurrentUser(request);
-
-  if (!currentUser?.data?.id) {
-    throw new Error("User not authenticated");
-  }
-
+export async function getNotifications() {
   const notifications = await db.query.userNotificationsTable.findMany({
-    where: (table, { not, eq }) =>
-      not(eq(table.userId, currentUser.data.id as string)),
+    where: (table, { eq }) => eq(table.status, "unread"),
   });
 
   return notifications;

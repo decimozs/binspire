@@ -7,6 +7,8 @@ import { eq } from "drizzle-orm";
 import DashboardMap from "@/components/map/dashboard-map";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { broadcast } from "@/server";
+import { getOnlineAdmins, getOnlineCollectors } from "@/query/users.server";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await getSession(request.headers.get("cookie"));
@@ -31,6 +33,15 @@ export async function action({ request }: Route.ActionArgs) {
       isOnline: false,
     })
     .where(eq(usersTable.id, userId));
+
+  const activeAdmins = await getOnlineAdmins();
+  const activeCollectors = await getOnlineCollectors();
+
+  broadcast({
+    transaction: "active-users",
+    activeAdmins,
+    activeCollectors,
+  });
 
   return redirect("/logout", {
     headers: {

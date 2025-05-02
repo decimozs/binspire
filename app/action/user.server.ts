@@ -10,6 +10,8 @@ import type {
   Title,
   User,
 } from "@/lib/types";
+import { getNotifications } from "@/query/users.server";
+import { broadcast } from "@/server";
 import { eq } from "drizzle-orm";
 
 export async function userAction(
@@ -161,6 +163,14 @@ export async function deleteUser(
     status: "unread",
     message: "A user has been deleted.",
     activityId: activity.data?.id as string,
+  });
+
+  const notifications = await getNotifications();
+
+  broadcast({
+    transaction: "notifications",
+    userId: currentUser.data?.id as string,
+    notificationsLength: notifications.length,
   });
 
   return {

@@ -13,7 +13,7 @@ import { closeWindow } from "./lib/utils";
 
 const clients = new Set<WSContext>();
 
-export const broadcast = (message: Broadcast) => {
+export const broadcast = (message: object) => {
   const data = JSON.stringify(message);
   clients.forEach((client) => {
     if (client.readyState === 1) client.send(data);
@@ -24,9 +24,7 @@ export default await createHonoServer({
   useWebSocket: true,
   configure: (server, { upgradeWebSocket }) => {
     server.use("/auth/google/login", googleLoginAuth);
-
     server.use("/auth/google/signup", googleSignupAuth);
-
     server.get("/auth/google/signup", async (c) => {
       const token = c.get("token");
       const grantedScopes = c.get("granted-scopes");

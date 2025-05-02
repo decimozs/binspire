@@ -5,7 +5,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/sidebar/dashboard-sidebar";
-import { Outlet, useLoaderData, useLocation, useNavigate } from "react-router";
+import { Outlet, useLoaderData } from "react-router";
 import type { Route } from "./+types/layout";
 import { getSession } from "@/lib/sessions.server";
 import db from "@/lib/db.server";
@@ -17,6 +17,13 @@ import {
   getOnlineCollectors,
 } from "@/query/users.server";
 import type { User } from "@/lib/types";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Bell } from "lucide-react";
+import { useQueryState } from "nuqs";
+import NotificationButton from "@/components/shared/notification-button";
+
+let isHydrating = true;
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
@@ -43,7 +50,10 @@ export async function loader({ request }: Route.LoaderArgs) {
 
   const onlineAdmins = await getOnlineAdmins();
   const onlineCollectors = await getOnlineCollectors();
-  const notifications = await getNotifications(request);
+  const baseNotifications = await getNotifications();
+  const notifications = baseNotifications.filter(
+    (item) => item.userId !== userId,
+  );
 
   return {
     user,
@@ -64,6 +74,16 @@ export default function DashboardLayoutPage() {
     onlineCollectors,
     notifications,
   } = useLoaderData<typeof loader>();
+  const [isHydrated, setIsHydrated] = useState(!isHydrating);
+
+  useEffect(() => {
+    isHydrating = false;
+    setIsHydrated(true);
+  }, []);
+
+  if (!isHydrated) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <SidebarProvider>
@@ -81,6 +101,7 @@ export default function DashboardLayoutPage() {
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <DynamicBreadcrumbs userName={userName} />
+            <NotificationButton />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
