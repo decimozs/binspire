@@ -16,9 +16,9 @@ function formatSegment(segment: string) {
 }
 
 export default function DynamicBreadcrumbs({
-  userName,
+  username,
 }: {
-  userName?: string;
+  username?: string;
 }) {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter(Boolean);
@@ -27,13 +27,15 @@ export default function DynamicBreadcrumbs({
 
   if (location.pathname.includes("/profile")) {
     return (
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem className="text-secondary-foreground">
-            {userName}
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <div className="flex flex-row items-center justify-between w-full">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem className="text-secondary-foreground">
+              {username}
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
     );
   }
 
@@ -72,16 +74,6 @@ export default function DynamicBreadcrumbs({
           })}
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="flex flex-row items-center text-muted-foreground gap-3">
-        <div className="flex flex-row items-center gap-1 text-muted-foreground border-input border-dashed border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem]">
-          <p>CTRL</p>
-          <p>+</p>
-          <p>K</p>
-        </div>
-        <div>
-          <Command size={15} />
-        </div>
-      </div>
     </div>
   );
 }

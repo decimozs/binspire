@@ -1,4 +1,3 @@
-import { verificationsTable } from "@/db";
 import db from "@/lib/db.server";
 import type { VerificationType } from "@/lib/types";
 import { eq } from "drizzle-orm";

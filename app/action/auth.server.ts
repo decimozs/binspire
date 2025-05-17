@@ -1,12 +1,15 @@
 import {
   accountsTable,
   requestAccessTable,
-  userActivityTable,
   usersTable,
   verificationsTable,
 } from "@/db";
 import db from "@/lib/db.server";
-import { commitSession, getSession } from "@/lib/sessions.server";
+import {
+  commitSession,
+  destroySession,
+  getSession,
+} from "@/lib/sessions.server";
 import {
   googleSignupSchema,
   loginSchema,
@@ -23,8 +26,7 @@ import env from "@config/env.server";
 import type { GooglePayload, VerificationType } from "@/lib/types";
 import { and, eq } from "drizzle-orm";
 import type { Context } from "hono";
-import { broadcast } from "@/server";
-import { getOnlineAdmins, getOnlineCollectors } from "@/query/users.server";
+import { broadcast } from "@/lib/ws.server";
 
 export async function login(request: Request) {
   const formData = await request.formData();
@@ -104,13 +106,16 @@ export async function login(request: Request) {
   session.set("userAgent", userAgent);
   session.set("permission", user.permission);
 
-  const activeAdmins = await getOnlineAdmins();
-  const activeCollectors = await getOnlineCollectors();
+  let transaction;
+
+  if (user.role === "admin") {
+    transaction = "admin-login";
+  } else {
+    transaction = "collector-login";
+  }
 
   broadcast({
-    transaction: "active-users",
-    activeAdmins,
-    activeCollectors,
+    transaction,
   });
 
   return redirect("/dashboard", {
@@ -349,6 +354,18 @@ export async function signUp(request: Request) {
     session.set("userAgent", userAgent);
     session.set("permission", user.permission);
 
+    let transaction;
+
+    if (user.role === "admin") {
+      transaction = "admin-login";
+    } else {
+      transaction = "collector-login";
+    }
+
+    broadcast({
+      transaction,
+    });
+
     return redirect("/dashboard", {
       headers: {
         "Set-Cookie": await commitSession(session),
@@ -481,13 +498,16 @@ export async function loginWithGoogle(c: Context, payload: GooglePayload) {
   session.set("userAgent", userAgent);
   session.set("permission", permission);
 
-  const activeAdmins = await getOnlineAdmins();
-  const activeCollectors = await getOnlineCollectors();
+  let transaction;
+
+  if (user.role === "admin") {
+    transaction = "admin-login";
+  } else {
+    transaction = "collector-login";
+  }
 
   broadcast({
-    transaction: "active-users",
-    activeAdmins,
-    activeCollectors,
+    transaction,
   });
 
   return redirect("/dashboard", {
@@ -561,9 +581,64 @@ export async function signUpWithGoogle(c: Context, payload: GooglePayload) {
   session.set("userAgent", userAgent);
   session.set("permission", permission);
 
+  let transaction;
+
+  if (user.role === "admin") {
+    transaction = "admin-login";
+  } else {
+    transaction = "collector-login";
+  }
+
+  broadcast({
+    transaction,
+  });
+
   return redirect("/dashboard", {
     headers: {
       "Set-Cookie": await commitSession(session),
+    },
+  });
+}
+
+export async function logout(request: Request) {
+  const session = await getSession(request.headers.get("cookie"));
+  const userId = session.get("userId");
+
+  if (!userId) {
+    return {
+      errors: "Failed to get current session",
+    };
+  }
+
+  const [response] = await db
+    .update(usersTable)
+    .set({
+      isOnline: false,
+    })
+    .where(eq(usersTable.id, userId))
+    .returning();
+
+  if (!response) {
+    return {
+      errors: "Failed to update user",
+    };
+  }
+
+  let transaction;
+
+  if (response.role === "admin") {
+    transaction = "admin-logout";
+  } else {
+    transaction = "collector-logout";
+  }
+
+  broadcast({
+    transaction,
+  });
+
+  return redirect("/logout", {
+    headers: {
+      "Set-Cookie": await destroySession(session),
     },
   });
 }

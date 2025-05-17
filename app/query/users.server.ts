@@ -1,9 +1,10 @@
-import { getCurrentUser } from "@/action/user.server";
 import { userActivityTable, userCommentTable, userReplyTable } from "@/db";
 import db from "@/lib/db.server";
+import { getSession } from "@/lib/sessions.server";
 import { eq } from "drizzle-orm";
+import { redirect } from "react-router";
 
-export async function getUsers() {
+export async function getAllUsers() {
   return await db.query.usersTable.findMany();
 }
 
@@ -121,6 +122,61 @@ export async function getActivityLogs() {
   return result;
 }
 
+export async function getActivityLogsByActivityId(activityId: string) {
+  const result = await db.query.userActivityTable.findMany({
+    where: (table, { eq }) => eq(table.id, activityId),
+    with: {
+      user: {
+        columns: {
+          id: true,
+          name: true,
+          image: true,
+          role: true,
+          permission: true,
+          createdAt: true,
+          email: true,
+          isOnline: true,
+        },
+      },
+      comments: {
+        orderBy: (comments, { desc }) => [desc(comments.createdAt)],
+        with: {
+          user: {
+            columns: {
+              name: true,
+              image: true,
+            },
+          },
+          replies: {
+            orderBy: (replies, { desc }) => [desc(replies.createdAt)],
+            with: {
+              user: {
+                columns: {
+                  name: true,
+                  image: true,
+                },
+              },
+              comment: {
+                with: {
+                  user: {
+                    columns: {
+                      name: true,
+                      image: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    orderBy: (activities, { desc }) => [desc(activities.createdAt)],
+  });
+
+  return result;
+}
+
 export async function getOnlineAdmins() {
   const activeUsers = await db.query.usersTable.findMany({
     where: (table, { eq, and }) =>
@@ -145,4 +201,26 @@ export async function getNotifications() {
   });
 
   return notifications;
+}
+
+export async function getCurrentUser(request: Request) {
+  const session = await getSession(request.headers.get("cookie"));
+  const userId = session.get("userId") as string;
+  const user = await getUserById(userId);
+
+  return {
+    data: user,
+  };
+}
+
+export async function getCurrentSession(request: Request) {
+  const session = await getSession(request.headers.get("cookie"));
+
+  if (!session.data) {
+    return {
+      errors: "Failed to get current session",
+    };
+  }
+
+  return session;
 }

@@ -22,7 +22,7 @@ import type {
   ActivityLog,
   Permission,
   User,
-  UserActivities,
+  ActivityLogs,
 } from "@/lib/types";
 import { actionIcons, permissionIcons } from "@/lib/constants";
 
@@ -79,7 +79,7 @@ const ActionDescriptionHoverCard = ({
   data,
   onReviewClick,
 }: {
-  data: UserActivities[number];
+  data: ActivityLogs[number];
   onReviewClick: () => void;
 }) => {
   const PermissionIcon =

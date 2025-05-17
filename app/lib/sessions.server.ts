@@ -4,7 +4,8 @@ import { nanoid } from "nanoid";
 import { sessionsTable } from "@/db";
 import db from "./db.server";
 import { eq } from "drizzle-orm";
-import type { SessionData } from "@/lib/types";
+import type { SessionData, User } from "@/lib/types";
+import type { Context } from "hono";
 
 type SessionErrorData = {
   error: string;
@@ -32,6 +33,7 @@ const sessionStorage = createSessionStorage<SessionData, SessionErrorData>({
       expiresAt: expires!,
       ipAddress: data.ipAddress,
       userAgent: data.userAgent,
+      role: data.role,
     });
     return sessionId;
   },
@@ -62,5 +64,20 @@ const sessionStorage = createSessionStorage<SessionData, SessionErrorData>({
     await db.delete(sessionsTable).where(eq(sessionsTable.id, id));
   },
 });
+
+export async function setUserSession(c: Context, data: User) {
+  const ipAddress = c.req.header("x-forwarded-for");
+  const userAgent = c.req.header("user-agent");
+  const session = await getSession(c.req.header("cookie"));
+
+  session.set("userId", data.id);
+  session.set("orgId", data.orgId);
+  session.set("ipAddress", ipAddress);
+  session.set("userAgent", userAgent);
+  session.set("permission", data.permission);
+  session.set("role", data.role);
+
+  return session;
+}
 
 export const { getSession, commitSession, destroySession } = sessionStorage;

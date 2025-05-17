@@ -4,7 +4,7 @@ import { ArrowRight, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return <SheetPrimitive.Root data-slot="sheet" {...props} />;
+  return <SheetPrimitive.Root data-slot="sheet" {...props} modal={false} />;
 }
 
 function SheetTrigger({
@@ -69,6 +69,9 @@ function SheetContent({
           className,
         )}
         {...props}
+        onInteractOutside={(e) => {
+          e.preventDefault();
+        }}
       >
         {children}
         <SheetPrimitive.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 disabled:pointer-events-none">

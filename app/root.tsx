@@ -11,8 +11,9 @@ import type { Route } from "./+types/root";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./app.css";
-import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { WebSocketProvider } from "./components/provider/websocket-provider";
+import Loading from "./components/shared/loading";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -50,25 +51,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 1000 * 60 * 60,
-            refetchOnWindowFocus: false,
-          },
-        },
-      }),
-  );
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  if (!isHydrated) {
+    return <Loading message="Loading..." />;
+  }
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <WebSocketProvider>
       <Toaster position="top-center" />
       <NuqsAdapter>
         <Outlet />
       </NuqsAdapter>
-    </QueryClientProvider>
+    </WebSocketProvider>
   );
 }
 

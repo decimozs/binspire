@@ -16,6 +16,7 @@ const envSchema = z.object({
   MAP_TILER_KEY: z.string(),
   API_URL: z.string(),
   PORT: z.coerce.number().default(8080),
+  ORS_API_KEY: z.string(),
 });
 
 /* eslint-disable node/no-process-env */

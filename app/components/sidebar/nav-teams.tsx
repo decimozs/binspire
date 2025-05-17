@@ -15,13 +15,7 @@ import {
 } from "../ui/sidebar";
 import useActiveTeams from "@/hooks/use-active-teams";
 
-export default function NavActiveTeams({
-  onlineAdmins,
-  onlineCollectors,
-}: {
-  onlineAdmins: number;
-  onlineCollectors: number;
-}) {
+export default function NavActiveTeams() {
   const { isMobile } = useSidebar();
   const { activeAdmins, activeCollectors } = useActiveTeams();
 

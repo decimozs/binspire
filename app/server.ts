@@ -1,35 +1,38 @@
-import { redirect } from "react-router";
+import { broadcast, clients } from "./lib/ws.server";
 import { createHonoServer } from "react-router-hono-server/node";
-import { getSession } from "./lib/sessions.server";
-import { loginWithGoogle, signUpWithGoogle } from "./action/auth.server";
-import type { Broadcast, GooglePayload } from "./lib/types";
-import type { WSContext } from "hono/ws";
-import { googleLoginAuth, googleSignupAuth } from "./lib/auth.server";
+import { isUserSessionExist } from "./api/middleware.server";
+import notificationRoutes from "@/api/route/notifications.server";
+import trashbinRoutes from "@/api/route/trashbins.server";
+import userRoutes from "@/api/route/users.server";
+import accountRoutes from "@/api/route/accounts.route.server";
+import authRoutes from "@/api/route/auth.routes.server";
+import orsRoutes from "@/api/route/ors.route.server";
+import { googleSignupAuth } from "./lib/auth.server";
+import type { GooglePayload } from "./lib/types";
+import { signUpWithGoogle } from "./action/auth.server";
+import { redirect } from "react-router";
 import db from "./lib/db.server";
-import { usersTable, verificationsTable } from "./db";
-
-import { and, eq } from "drizzle-orm";
 import { closeWindow } from "./lib/utils";
+import { usersTable, verificationsTable } from "./db";
+import { and, eq } from "drizzle-orm";
 
-const clients = new Set<WSContext>();
-
-export const broadcast = (message: object) => {
-  const data = JSON.stringify(message);
-  clients.forEach((client) => {
-    if (client.readyState === 1) client.send(data);
-  });
-};
+const routes = [
+  userRoutes,
+  accountRoutes,
+  trashbinRoutes,
+  notificationRoutes,
+  orsRoutes,
+  authRoutes,
+] as const;
 
 export default await createHonoServer({
   useWebSocket: true,
-  configure: (server, { upgradeWebSocket }) => {
-    server.use("/auth/google/login", googleLoginAuth);
-    server.use("/auth/google/signup", googleSignupAuth);
-    server.get("/auth/google/signup", async (c) => {
+  configure(app, { upgradeWebSocket }) {
+    app.use("/api/auth/google/signup", googleSignupAuth);
+    app.get("/api/auth/google/signup", async (c) => {
       const token = c.get("token");
       const grantedScopes = c.get("granted-scopes");
       const userGoogle = c.get("user-google");
-
       const payload = {
         email: userGoogle?.email,
         name: userGoogle?.name,
@@ -43,27 +46,7 @@ export default await createHonoServer({
 
       return await signUpWithGoogle(c, payload);
     });
-
-    server.get("/auth/google/login", async (c) => {
-      const token = c.get("token");
-      const grantedScopes = c.get("granted-scopes");
-      const userGoogle = c.get("user-google");
-
-      const payload = {
-        email: userGoogle?.email,
-        name: userGoogle?.name,
-        image: userGoogle?.picture,
-        emailStatus: userGoogle?.verified_email,
-        accountId: userGoogle?.id,
-        token: token?.token,
-        scopes: grantedScopes?.join(", "),
-        expiresIn: token?.expires_in,
-      } as GooglePayload;
-
-      return await loginWithGoogle(c, payload);
-    });
-
-    server.get("/onboarding", async (c) => {
+    app.get("/onboarding", async (c) => {
       const { email, token, type } = c.req.query();
 
       if (!token) return redirect(`/verification?type=${type}`);
@@ -128,10 +111,9 @@ export default await createHonoServer({
 
       return c.html(closeWindow);
     });
-
-    server.get(
+    app.get(
       "/ws",
-      upgradeWebSocket((c) => ({
+      upgradeWebSocket(() => ({
         onOpen(_, ws) {
           console.log("New connection ⬆️");
           clients.add(ws);
@@ -148,18 +130,15 @@ export default await createHonoServer({
         },
       })),
     );
-  },
 
-  beforeAll: (app) => {
-    app.use(async (c, next) => {
-      const session = await getSession(c.req.header("cookie"));
-      if (c.req.path.includes("/dashboard")) {
-        if (!session.has("userId")) {
-          return redirect("/login");
-        }
-      }
-
-      return next();
+    routes.forEach((r) => {
+      app.route("/api", r);
     });
   },
+
+  beforeAll(app) {
+    app.use(isUserSessionExist);
+  },
 });
+
+export type AppRouter = (typeof routes)[number];

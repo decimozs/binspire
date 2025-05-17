@@ -1,6 +1,8 @@
 import { pgTable, text, timestamp, index } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { organizationsTable, usersTable } from "./user";
+import { createInsertSchema } from "drizzle-zod";
+import type { z } from "zod";
 
 export const sessionsTable = pgTable(
   "sessions",
@@ -10,6 +12,7 @@ export const sessionsTable = pgTable(
     token: text("token").notNull().unique(),
     ipAddress: text("ip_address"),
     userAgent: text("user_agent"),
+    role: text("role").default("default"),
     userId: text("user_id")
       .references(() => usersTable.id, { onDelete: "cascade" })
       .notNull(),
@@ -79,3 +82,16 @@ export const verificationsTable = pgTable(
     identifierIdx: index("idx_verifications_identifier").on(table.identifier),
   }),
 );
+
+export const createAccountSchema = createInsertSchema(accountsTable)
+  .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .strict();
+
+export const updateAccountSchema = createAccountSchema.partial();
+
+export type CreateAccount = z.infer<typeof createAccountSchema>;
+export type UpdateAccount = z.infer<typeof updateAccountSchema>;

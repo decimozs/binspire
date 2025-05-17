@@ -1,32 +1,35 @@
-import type { loader } from "@/routes/dashboard/layout";
-import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router";
-import useWebSocket from "react-use-websocket";
+import { useEffect } from "react";
+import { useDashboardLayoutLoader } from "@/routes/dashboard/layout";
+import { useNotificationStore } from "@/store/notifications";
+import { useWebsocketStore } from "@/store/websocket";
 
 export default function useNotifications() {
-  const { notifications, userId } = useLoaderData<typeof loader>();
-  const [notificationsCount, setNotifications] = useState(notifications.length);
-  const { lastMessage } = useWebSocket("ws://localhost:5173/ws");
+  const loaderData = useDashboardLayoutLoader();
+  const lastMessage = useWebsocketStore((s) => s.lastMessage);
+  const { notifications, addNotification, setNotifications } =
+    useNotificationStore();
+
+  useEffect(() => {
+    setNotifications(loaderData?.initialNotifications ?? []);
+  }, []);
 
   useEffect(() => {
     if (lastMessage !== null) {
       try {
         const parsed = JSON.parse(lastMessage.data);
-        console.log(parsed);
         if (
-          parsed.transaction === "notifications" &&
-          parsed.userId !== userId
+          parsed.transaction === "new-notification" &&
+          parsed.userId !== loaderData?.userId
         ) {
-          setNotifications(parsed.notificationsLength);
-          console.log("notifications length: ", notificationsCount);
+          addNotification(parsed.data);
         }
       } catch (err) {
-        console.error("WebSocket message parsing error:", err);
+        throw err;
       }
     }
   }, [lastMessage]);
 
   return {
-    notificationsCount,
+    notifications,
   };
 }

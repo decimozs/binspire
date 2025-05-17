@@ -5,7 +5,12 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/sidebar/dashboard-sidebar";
-import { Outlet, useLoaderData } from "react-router";
+import {
+  Outlet,
+  useLoaderData,
+  useRevalidator,
+  useRouteLoaderData,
+} from "react-router";
 import type { Route } from "./+types/layout";
 import { getSession } from "@/lib/sessions.server";
 import db from "@/lib/db.server";
@@ -17,13 +22,14 @@ import {
   getOnlineCollectors,
 } from "@/query/users.server";
 import type { User } from "@/lib/types";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Bell } from "lucide-react";
-import { useQueryState } from "nuqs";
 import NotificationButton from "@/components/shared/notification-button";
-
-let isHydrating = true;
+import useAction from "@/hooks/use-action";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import { Command } from "lucide-react";
+import { UserLoader } from "@/loader/users.server";
+import ReviewTrashbin from "@/components/map/review-trashbin";
+import Filtering from "@/components/shared/filtering";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
@@ -42,71 +48,86 @@ export async function loader({ request }: Route.LoaderArgs) {
     where: (table, { eq }) => eq(table.id, profileId as string),
   });
 
-  const userName = profile?.name;
+  const username = profile?.name;
 
   const user = await db.query.usersTable.findFirst({
     where: (table, { eq }) => eq(table.id, userId),
   });
 
+  const currentUser = user?.name;
   const onlineAdmins = await getOnlineAdmins();
   const onlineCollectors = await getOnlineCollectors();
   const baseNotifications = await getNotifications();
-  const notifications = baseNotifications.filter(
+  const initialNotifications = baseNotifications.filter(
     (item) => item.userId !== userId,
   );
 
+  const initalComments = await UserLoader.comments();
+
   return {
     user,
-    userName,
+    username,
+    currentUser,
     userId,
     onlineAdmins,
     onlineCollectors,
-    notifications,
+    initialNotifications,
+    initalComments,
   };
 }
 
-export default function DashboardLayoutPage() {
-  const {
-    user,
-    userName,
-    userId,
-    onlineAdmins,
-    onlineCollectors,
-    notifications,
-  } = useLoaderData<typeof loader>();
-  const [isHydrated, setIsHydrated] = useState(!isHydrating);
+export function useDashboardLayoutLoader() {
+  return useRouteLoaderData<typeof loader>("routes/dashboard/layout");
+}
+
+export default function DashboardLayoutRoute() {
+  const { user, username, userId } = useLoaderData<typeof loader>();
+  const { actionMade, resetActionMade } = useAction();
+  const revalidator = useRevalidator();
 
   useEffect(() => {
-    isHydrating = false;
-    setIsHydrated(true);
-  }, []);
-
-  if (!isHydrated) {
-    return <div>Loading...</div>;
-  }
+    if (actionMade >= 3) {
+      toast("Table updated", {
+        position: "bottom-center",
+        action: {
+          label: "Refresh",
+          onClick: () => {
+            resetActionMade();
+            revalidator.revalidate();
+          },
+        },
+      });
+    }
+  }, [actionMade]);
 
   return (
     <SidebarProvider>
-      <CommandCentralMenu />
-      <DashboardSidebar
-        userId={userId}
-        onlineCollectors={onlineCollectors}
-        onlineAdmins={onlineAdmins}
-        user={user as User}
-        notifications={notifications}
-      />
+      <DashboardSidebar userId={userId} user={user as User} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4 w-full">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <DynamicBreadcrumbs userName={userName} />
+            <DynamicBreadcrumbs username={username} />
+            <CommandCentralMenu />
+            <div className="flex flex-row items-center text-muted-foreground gap-3">
+              <div className="flex flex-row items-center gap-1 text-muted-foreground border-input border-dashed border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem]">
+                <p>CTRL</p>
+                <p>+</p>
+                <p>K</p>
+              </div>
+              <div>
+                <Command size={15} />
+              </div>
+            </div>
             <NotificationButton />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <Outlet />
         </div>
+        <ReviewTrashbin />
+        <Filtering />
       </SidebarInset>
     </SidebarProvider>
   );

@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/table";
 import { tableRowColumns } from "@/lib/constants";
 import type { Role, User } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
 import { Ellipsis } from "lucide-react";
 import {
   DropdownMenu,
@@ -29,12 +28,7 @@ import { TableContainer } from "@/components/shared/table-container";
 import { DeleteUserContent } from "@/components/shared/dialog-content";
 import { UserHoverCard } from "@/components/shared/hover";
 
-export default function UsersTable({ users }: { users?: User[] }) {
-  const { data } = useQuery({
-    queryKey: ["users"],
-    queryFn: () => users,
-  });
-
+export default function UsersTable({ data }: { data: User[] }) {
   const fetcher = useFetcher();
   const [deleteDialog, setDeleteDialog] = useState(false);
   const navigate = useNavigate();

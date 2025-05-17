@@ -2,6 +2,8 @@ import { boolean, json, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { verificationsTable } from "./auth";
 import { relations } from "drizzle-orm";
+import { createInsertSchema } from "drizzle-zod";
+import type { z } from "zod";
 
 export const organizationsTable = pgTable("organizations", {
   id: text("id")
@@ -168,3 +170,16 @@ export const userNotificationsTable = pgTable("user_notifications", {
     .notNull()
     .$onUpdate(() => new Date()),
 });
+
+export const createUserSchema = createInsertSchema(usersTable)
+  .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .strict();
+
+export const updateUserSchema = createUserSchema.partial();
+
+export type CreateUser = z.infer<typeof createUserSchema>;
+export type UpdateUser = z.infer<typeof updateUserSchema>;

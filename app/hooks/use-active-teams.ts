@@ -1,26 +1,39 @@
-import type { loader } from "@/routes/dashboard/layout";
-import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router";
-import useWebSocket from "react-use-websocket";
+import { useDashboardLayoutLoader } from "@/routes/dashboard/layout";
+import { useActiveUsersStore } from "@/store/active-users";
+import { useWebsocketStore } from "@/store/websocket";
+import { useEffect } from "react";
 
 export default function useActiveTeams() {
-  const { onlineAdmins, onlineCollectors } = useLoaderData<typeof loader>();
-  const [activeAdmins, setActiveAdmins] = useState(onlineAdmins);
-  const [activeCollectors, setActiveCollectors] = useState(onlineCollectors);
-  const { lastMessage } = useWebSocket("ws://localhost:5173/ws");
+  const loaderData = useDashboardLayoutLoader();
+  const {
+    activeAdmins,
+    activeCollectors,
+    setActiveCollectors,
+    setActiveAdmins,
+    incrementActiveCollectors,
+    incrementActiveAdmins,
+    decrementActiveAdmins,
+    decrementActiveCollectors,
+  } = useActiveUsersStore();
+  const lastMessage = useWebsocketStore((s) => s.lastMessage);
+
+  useEffect(() => {
+    setActiveAdmins(loaderData?.onlineAdmins || 0);
+    setActiveCollectors(loaderData?.onlineCollectors || 0);
+  }, []);
 
   useEffect(() => {
     if (lastMessage !== null) {
       try {
         const parsed = JSON.parse(lastMessage.data);
-        console.log(parsed);
-        if (parsed.transaction === "active-users") {
-          setActiveAdmins(parsed.activeAdmins);
-          setActiveCollectors(parsed.activeCollectors);
-          console.log(parsed);
-        }
+        if (parsed.transaction === "admin-login") incrementActiveAdmins();
+        if (parsed.transaction === "admin-logout") decrementActiveAdmins();
+        if (parsed.transaction === "collector-login")
+          incrementActiveCollectors();
+        if (parsed.transaction === "collector-logout")
+          decrementActiveCollectors();
       } catch (err) {
-        console.error("WebSocket message parsing error:", err);
+        throw err;
       }
     }
   }, [lastMessage]);

@@ -1,6 +1,7 @@
-import type { RequestAccess, User, UserActivities } from "@/lib/types";
+import type { AccessRequests, User } from "@/lib/types";
 import { Button } from "../ui/button";
 import {
+  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -8,8 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import type { FetcherWithComponents } from "react-router";
-import { ArrowDown, ArrowRight, Loader2 } from "lucide-react";
+import { type FetcherWithComponents } from "react-router";
+import { ArrowDown, ArrowRight, Loader2, Trash } from "lucide-react";
 import {
   UserConfirmation,
   UserAccessRequestConfirmation,
@@ -140,7 +141,7 @@ const DeleteUserContent = ({ data, fetcher }: UserDialogProps) => {
 };
 
 interface UserAccessRequestProps extends Omit<UserDialogProps, "data"> {
-  data: RequestAccess;
+  data: AccessRequests;
 }
 
 const DeleteUserAccessRequestContent = ({

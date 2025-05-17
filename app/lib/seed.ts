@@ -4,6 +4,7 @@ import {
   accountsTable,
   organizationsTable,
   requestAccessTable,
+  trashbinsTable,
   userActivityTable,
   usersTable,
   verificationsTable,
@@ -183,12 +184,66 @@ export const seedUserActivities = async () => {
   console.log("✅ Seeded user activity");
 };
 
+export const seedTrashbins = async () => {
+  const latLngs = [
+    [14.578342384001559, 121.07463193405027],
+    [14.577886702006609, 121.07578212263957],
+    [14.578656811854344, 121.07458067915695],
+    [14.579800722724215, 121.07757877798196],
+    [14.579748249763696, 121.07765407870465],
+    [14.579461020204079, 121.07629044892656],
+    [14.577254332143326, 121.07655351515689],
+    [14.577095410235756, 121.07518614779536],
+    [14.576657940971273, 121.07622208365427],
+    [14.578375640697189, 121.07673515228237],
+  ];
+
+  const wasteLevels = [
+    "empty",
+    "moderate",
+    "almost-full",
+    "full",
+    "overflowing",
+  ];
+  const weightLevels = ["light", "heavy", "overweight", "hazardous"];
+  const batteryLevels = ["high", "medium", "low", "critical"];
+
+  const trashbins = latLngs.map(([lat, lng], i) => {
+    const id = nanoid();
+    const wasteLevel = faker.helpers.arrayElement(wasteLevels);
+    const weightLevel = faker.helpers.arrayElement(weightLevels);
+    const batteryLevel = faker.helpers.arrayElement(batteryLevels);
+    const randomLevel = () => Math.floor(Math.random() * 105) + 1;
+
+    return {
+      id,
+      name: `Trash Bin ${i + 1}`,
+      isActive: true,
+      isCollected: false,
+      latitude: lat.toString(),
+      longitude: lng.toString(),
+      wasteStatus: wasteLevel,
+      weightStatus: weightLevel,
+      batteryStatus: batteryLevel,
+      wasteLevel: randomLevel().toString(),
+      weightLevel: randomLevel().toString(),
+      batteryLevel: randomLevel().toString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  });
+
+  await db.insert(trashbinsTable).values(trashbins);
+  console.log("✅ Seeded trashbins");
+};
+
 const seed = async () => {
   await seedOrganizations();
   await seedUsersAndAccounts();
   await seedVerifications();
   await seedRequestAccess();
   await seedUserActivities();
+  await seedTrashbins();
 };
 
 seed();

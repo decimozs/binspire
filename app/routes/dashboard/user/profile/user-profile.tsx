@@ -1,45 +1,16 @@
 import type { Route } from "./+types/user-profile";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
 import { useLoaderData } from "react-router";
 import UserInfo from "../_components/user-info";
 import { userActivityTable, userCommentTable, userReplyTable } from "@/db";
 import db from "@/lib/db.server";
 import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/sessions.server";
-import type { UserActivities } from "@/lib/types";
+import { UserLoader } from "@/loader/users.server";
+import { broadcast } from "@/lib/ws.server";
 
-export async function loader({ params, request }: Route.LoaderArgs) {
-  const session = await getSession(request.headers.get("cookie"));
-  const currentUser = session.get("userId");
-  const username = await db.query.usersTable.findFirst({
-    where: (table, { eq }) => eq(table.id, currentUser as string),
-  });
+export async function loader({ params }: Route.LoaderArgs) {
   const userId = params.userId;
-  const queryClient = new QueryClient();
-  const { getUserById, getUserActivities } = await import(
-    "@/query/users.server"
-  );
-
-  await queryClient.prefetchQuery({
-    queryKey: ["user", userId],
-    queryFn: () => getUserById(userId),
-  });
-
-  await queryClient.prefetchQuery({
-    queryKey: ["user-activities", userId],
-    queryFn: () => getUserActivities(userId),
-  });
-
-  return {
-    dehydratedState: dehydrate(queryClient),
-    getUserById: await getUserById(userId),
-    getUserActivities: await getUserActivities(userId as string),
-    username: username?.name as string,
-  };
+  return await UserLoader.profile(userId);
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -58,6 +29,10 @@ export async function action({ request }: Route.ActionArgs) {
       .delete(userCommentTable)
       .where(eq(userCommentTable.id, commentId as string));
 
+    broadcast({
+      transaction: "delete-comment",
+    });
+
     return {
       success: true,
       intent: intent,
@@ -68,6 +43,10 @@ export async function action({ request }: Route.ActionArgs) {
     await db
       .delete(userReplyTable)
       .where(eq(userReplyTable.id, replyId as string));
+
+    broadcast({
+      transaction: "delete-reply",
+    });
 
     return {
       success: true,
@@ -87,6 +66,10 @@ export async function action({ request }: Route.ActionArgs) {
       commentUserId: comentUserId?.userId as string,
     });
 
+    broadcast({
+      transaction: "new-reply",
+    });
+
     return {
       success: true,
       intent: intent,
@@ -95,10 +78,18 @@ export async function action({ request }: Route.ActionArgs) {
   }
 
   if (intent === "comment") {
-    await db.insert(userCommentTable).values({
-      activityId: activityId as string,
-      userId: userId as string,
-      message: comment as string,
+    const [newComment] = await db
+      .insert(userCommentTable)
+      .values({
+        activityId: activityId as string,
+        userId: userId as string,
+        message: comment as string,
+      })
+      .returning();
+
+    broadcast({
+      transaction: "new-comment",
+      data: newComment,
     });
 
     return {
@@ -127,15 +118,6 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export default function UserProfileRoute() {
-  const { dehydratedState, getUserById, getUserActivities, username } =
-    useLoaderData<typeof loader>();
-  return (
-    <HydrationBoundary state={dehydratedState}>
-      <UserInfo
-        user={getUserById}
-        activity={getUserActivities as UserActivities}
-        username={username as string}
-      />
-    </HydrationBoundary>
-  );
+  const { user, activityLogs } = useLoaderData<typeof loader>();
+  return <UserInfo data={activityLogs} user={user} />;
 }

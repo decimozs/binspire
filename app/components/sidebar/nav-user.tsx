@@ -24,7 +24,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "../ui/sidebar";
-import { Form, useNavigate } from "react-router";
+import { Form, useFetcher, useNavigate } from "react-router";
 import { Button } from "../ui/button";
 import type { User, Notification } from "@/lib/types";
 import { Badge } from "../ui/badge";
@@ -32,16 +32,9 @@ import { Sheet } from "@/components/ui/sheet";
 import { useState } from "react";
 import { NotificationContent } from "../shared/sheet-content";
 import { useQueryState } from "nuqs";
+import { useNotificationStore } from "@/store/notifications";
 
-export function NavUser({
-  user,
-  userId,
-  notifications,
-}: {
-  user: User;
-  userId: string;
-  notifications?: Notification[];
-}) {
+export function NavUser({ user, userId }: { user: User; userId: string }) {
   const { isMobile } = useSidebar();
   const navigate = useNavigate();
   const [notificationSheet, setNotificationSheet] = useQueryState(
@@ -55,10 +48,6 @@ export function NavUser({
     .split(" ")
     .map((point) => point[0])
     .join("");
-
-  const currentNotifications = notifications?.filter(
-    (item) => item.userId !== userId,
-  );
 
   return (
     <SidebarMenu>
@@ -156,7 +145,7 @@ export function NavUser({
         open={notificationSheet as boolean}
         onOpenChange={(open) => setNotificationSheet(open)}
       >
-        <NotificationContent data={currentNotifications as Notification[]} />
+        <NotificationContent />
       </Sheet>
     </SidebarMenu>
   );

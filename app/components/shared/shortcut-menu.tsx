@@ -1,16 +1,14 @@
 import {
-  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "@/components/ui/command";
-import { Bell, SeparatorVertical, UserRound } from "lucide-react";
+import { Bell, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { Separator } from "../ui/separator";
 import { useQueryState } from "nuqs";
 

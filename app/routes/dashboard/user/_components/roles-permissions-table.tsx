@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/table";
 import { tableRowColumns } from "@/lib/constants";
 import type { Permission, Role, User } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
 import { Ellipsis } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -32,21 +31,13 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { UserHoverCard } from "@/components/shared/hover";
 
-export default function RolesAndPermissionsTable({
-  users,
-}: {
-  users?: User[];
-}) {
-  const { data } = useQuery({
-    queryKey: ["users"],
-    queryFn: () => users,
-  });
+export default function RolesAndPermissionsTable({ data }: { data: User[] }) {
+  const fetcher = useFetcher();
+  const navigate = useNavigate();
   const { rolesAndPermissionsTable } = tableRowColumns;
   const [updatePermission, setUpdatePermission] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [selectedPermission, setSelectedPermission] = useState("viewer");
-  const fetcher = useFetcher();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (

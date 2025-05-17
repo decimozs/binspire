@@ -7,7 +7,7 @@ export const googleLoginAuth = googleAuth({
   scope: ["openid", "email", "profile"],
   prompt: "select_account",
   access_type: "offline",
-  redirect_uri: "http://localhost:5173/auth/google/login",
+  redirect_uri: "http://localhost:5173/api/auth/google/login",
 });
 
 export const googleSignupAuth = googleAuth({
@@ -16,5 +16,5 @@ export const googleSignupAuth = googleAuth({
   scope: ["openid", "email", "profile"],
   prompt: "select_account",
   access_type: "offline",
-  redirect_uri: "http://localhost:5173/auth/google/signup",
+  redirect_uri: "http://localhost:5173/api/auth/google/signup",
 });

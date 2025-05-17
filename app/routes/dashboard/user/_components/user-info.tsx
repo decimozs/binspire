@@ -1,8 +1,6 @@
-import type { Title, User, UserActivities } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
+import type { Title, User, ActivityLogs } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { Calendar, Ellipsis, KeyRound, Mail, UsersRound } from "lucide-react";
 import { fallbackInitials, formatDate, formatPermission } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -19,41 +17,20 @@ import { useQueryState } from "nuqs";
 import { usePagination } from "@/hooks/use-pagination";
 import { PaginationControls } from "@/components/shared/pagination";
 import { DynamicActiveBadge } from "@/components/shared/dynamic-badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { DialogClose } from "@radix-ui/react-dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useFetcher } from "react-router";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import { ReviewUserActivityContent } from "@/components/shared/sheet-content";
 import { fromTitle } from "@/lib/constants";
 import { DeleteUserActivity } from "@/components/shared/dialog-content";
 
 export default function UserInfo({
+  data,
   user,
-  activity,
-  username,
 }: {
-  user?: User;
-  activity?: UserActivities;
-  username?: string;
+  data: ActivityLogs;
+  user: User;
 }) {
-  const { data } = useQuery({
-    queryKey: ["user", user?.id],
-    queryFn: () => user,
-  });
-  const { data: activityData } = useQuery({
-    queryKey: ["user-activities", user?.id],
-    queryFn: () => activity,
-  });
-  console.log(activityData);
   const fetcher = useFetcher();
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [replyCommentId, setReplyCommentId] = useState<string | null>(null);
@@ -61,7 +38,10 @@ export default function UserInfo({
   const [newReplyMessage, setNewReplyMessage] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
   const [viewReplies, setViewReplies] = useState<string | null>(null);
-  const [searchActivity, setSearchActivity] = useQueryState("activity");
+  const [searchActivity, setSearchActivity] = useQueryState("search");
+  const [, setReviewActivityLog] = useQueryState("activity", {
+    history: "replace",
+  });
   const [page, setPage] = useQueryState("page", {
     history: "push",
     defaultValue: "1",
@@ -73,43 +53,21 @@ export default function UserInfo({
   const pageNumber = parseInt(page || "1", 10);
   const pageSize = parseInt(limit || "10", 10);
 
-  const filteredData = activityData?.filter((data) => {
+  const filteredData = data.filter((item) => {
     const query = (searchActivity || "").toLowerCase();
     return (
-      data.title?.toLowerCase().includes(query) ||
-      data.action?.toLowerCase().includes(query) ||
-      data.description?.toLowerCase().includes(query) ||
-      data.status?.toLowerCase().includes(query)
+      item.title?.toLowerCase().includes(query) ||
+      item.action?.toLowerCase().includes(query) ||
+      item.description?.toLowerCase().includes(query) ||
+      item.status?.toLowerCase().includes(query)
     );
   });
 
   const { paginatedData, safePage, totalPages, totalItems } = usePagination(
-    filteredData as UserActivities,
+    filteredData,
     pageNumber,
     pageSize,
   );
-
-  useEffect(() => {
-    if (fetcher.data?.success && fetcher.data?.intent === "delete") {
-      toast.success("Activity Deleted");
-      setDeleteDialog(false);
-    }
-
-    if (fetcher.data?.success && fetcher.data?.intent === "reply") {
-      setReplyMessage("");
-      setReplyCommentId(null);
-    }
-
-    if (fetcher.data?.success && fetcher.data?.intent === "new-reply") {
-      setViewReplies(fetcher.data?.commentId);
-      setNewReplyMessage("");
-      setReplyCommentId(null);
-    }
-
-    if (fetcher.data?.success && fetcher.data?.intent === "comment") {
-      setCommentMessage("");
-    }
-  }, [fetcher.data]);
 
   return (
     <div className="w-full h-full lg:flex lg:items-center lg:flex-col">
@@ -117,34 +75,34 @@ export default function UserInfo({
         <div className="bg-muted-foreground w-full h-[150px] rounded-md"></div>
         <div className="relative">
           <Avatar className="ml-5 h-[120px] w-[120px] absolute top-[-4rem]">
-            <AvatarImage src={data?.image as string} alt="@shadcn" />
+            <AvatarImage src={user.image as string} alt="@shadcn" />
             <AvatarFallback>
-              {fallbackInitials(data?.name as string)}
+              {fallbackInitials(user.name as string)}
             </AvatarFallback>
           </Avatar>
         </div>
       </div>
       <div className="w-full max-w-3xl mt-18 flex flex-col gap-3">
         <div className="flex flex-row items-center gap-4">
-          <p className="text-2xl">{data?.name}</p>
-          <DynamicActiveBadge isOnline={data?.isOnline as boolean} />
+          <p className="text-2xl">{user.name}</p>
+          <DynamicActiveBadge isOnline={user.isOnline as boolean} />
         </div>
         <div className="flex flex-col gap-1">
           <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
             <Mail size={15} className="mt-[0.1rem]" />
-            {data?.email}
+            {user.email}
           </p>
           <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground capitalize">
             <UsersRound size={15} className="mt-[0.1rem]" />
-            {data?.role}
+            {user.role}
           </p>
           <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
             <KeyRound size={15} className="mt-[0.1rem]" />
-            {formatPermission(data?.permission as string)}
+            {formatPermission(user.permission as string)}
           </p>
           <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
             <Calendar size={15} className="mt-[0.1rem]" />
-            Joined on {formatDate(data?.createdAt as Date)}
+            Joined on {formatDate(user.createdAt as Date)}
           </p>
         </div>
         <div className="flex flex-col gap-2">
@@ -193,7 +151,10 @@ export default function UserInfo({
           )}
           <div className="flex flex-col gap-2 overflow-auto">
             {paginatedData.map((item) => (
-              <div className="p-4 border-input border-[1px] rounded-md flex flex-row items-center justify-between">
+              <div
+                className="p-4 border-input border-[1px] rounded-md flex flex-row items-center justify-between"
+                key={item.id}
+              >
                 <div
                   className="grid overflow-auto items-center lg:grid-cols-[300px_200px]"
                   key={item.id}
@@ -219,33 +180,13 @@ export default function UserInfo({
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <div className="flex flex-col items-start">
-                      <DropdownMenuItem asChild>
-                        <Sheet>
-                          <SheetTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              className="p-2 text-sm w-fit font-normal"
-                            >
-                              Review
-                            </Button>
-                          </SheetTrigger>
-                          <ReviewUserActivityContent
-                            data={item}
-                            fetcher={fetcher}
-                            username={username as string}
-                            replyMessage={replyMessage}
-                            setReplyMessage={setReplyMessage}
-                            replyCommentId={replyCommentId}
-                            setReplyCommentId={setReplyCommentId}
-                            setCommentMessage={setCommentMessage}
-                            commentMessage={commentMessage}
-                            setNewReplyMessage={setNewReplyMessage}
-                            newReplyMessage={newReplyMessage}
-                            viewReplies={viewReplies}
-                            setViewReplies={setViewReplies}
-                          />
-                        </Sheet>
-                      </DropdownMenuItem>
+                      <Button
+                        variant="ghost"
+                        className="p-2 text-sm w-fit font-normal"
+                        onClick={() => setReviewActivityLog(item.id)}
+                      >
+                        Review
+                      </Button>
                       <DropdownMenuItem asChild>
                         <Dialog
                           open={deleteDialog}

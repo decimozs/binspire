@@ -1,66 +1,42 @@
-import { redirect, useLoaderData } from "react-router";
+import { useLoaderData, useRouteLoaderData } from "react-router";
 import type { Route } from "./+types/dashboard";
-import { destroySession, getSession } from "@/lib/sessions.server";
-import db from "@/lib/db.server";
-import { usersTable } from "@/db";
-import { eq } from "drizzle-orm";
 import DashboardMap from "@/components/map/dashboard-map";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { broadcast } from "@/server";
-import { getOnlineAdmins, getOnlineCollectors } from "@/query/users.server";
+import { getCurrentUser } from "@/query/users.server";
+import { logout } from "@/action/auth.server";
+import { TrashbinQuery } from "@/query/trashbins.server";
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const session = await getSession(request.headers.get("cookie"));
-  const userId = session.get("userId") as string;
+  const user = await getCurrentUser(request);
 
-  const user = await db.query.usersTable.findFirst({
-    where: (table, { eq }) => eq(table.id, userId),
-  });
+  const trashbins = await TrashbinQuery.getAllTrashbins();
 
   return {
-    name: user?.name as string,
+    user,
+    trashbins,
   };
 }
 
+export function useDashboardLoader() {
+  return useRouteLoaderData<typeof loader>("routes/dashboard/dashboard");
+}
+
 export async function action({ request }: Route.ActionArgs) {
-  const session = await getSession(request.headers.get("cookie"));
-  const userId = session.get("userId") as string;
-
-  await db
-    .update(usersTable)
-    .set({
-      isOnline: false,
-    })
-    .where(eq(usersTable.id, userId));
-
-  const activeAdmins = await getOnlineAdmins();
-  const activeCollectors = await getOnlineCollectors();
-
-  broadcast({
-    transaction: "active-users",
-    activeAdmins,
-    activeCollectors,
-  });
-
-  return redirect("/logout", {
-    headers: {
-      "Set-Cookie": await destroySession(session),
-    },
-  });
+  return await logout(request);
 }
 
 export default function DashboardPage() {
-  const { name } = useLoaderData();
+  const { user, trashbins } = useLoaderData<typeof loader>();
 
   useEffect(() => {
     const hasWelcomed = sessionStorage.getItem("hasWelcomed");
 
     if (!hasWelcomed) {
-      toast.success(`Welcome back, ${name}!`);
+      toast.success(`Welcome back, ${user.data?.name}!`);
       sessionStorage.setItem("hasWelcomed", "true");
     }
   }, []);
 
-  return <DashboardMap />;
+  return <DashboardMap data={trashbins.data} />;
 }

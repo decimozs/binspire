@@ -1,36 +1,13 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import { useLoaderData } from "react-router";
+import { data, useLoaderData } from "react-router";
 import ActivityLogsTable from "./_components/activity-logs-table";
 import type { Route } from "./+types/activity_logs";
 import db from "@/lib/db.server";
 import { userActivityTable } from "@/db";
 import { eq } from "drizzle-orm";
-import { getSession } from "@/lib/sessions.server";
+import { UserLoader } from "@/loader/users.server";
 
-export async function loader({ request }: Route.LoaderArgs) {
-  const session = await getSession(request.headers.get("cookie"));
-  const currentUser = session.get("userId");
-  const username = await db.query.usersTable.findFirst({
-    where: (table, { eq }) => eq(table.id, currentUser as string),
-  });
-
-  const queryClient = new QueryClient();
-  const { getActivityLogs } = await import("@/query/users.server");
-
-  await queryClient.prefetchQuery({
-    queryKey: ["users-activities"],
-    queryFn: getActivityLogs,
-  });
-
-  return {
-    dehydratedState: dehydrate(queryClient),
-    getActivityLogs: await getActivityLogs(),
-    username: username?.name,
-  };
+export async function loader() {
+  return await UserLoader.activityLogs();
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -59,15 +36,6 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export default function UserActivityLogsRoute() {
-  const { username, getActivityLogs, dehydratedState } =
-    useLoaderData<typeof loader>();
-
-  return (
-    <HydrationBoundary state={dehydratedState}>
-      <ActivityLogsTable
-        activities={getActivityLogs}
-        username={username as string}
-      />
-    </HydrationBoundary>
-  );
+  const activityLogs = useLoaderData<typeof loader>();
+  return <ActivityLogsTable data={activityLogs} />;
 }

@@ -1,8 +1,5 @@
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import {
-  DynamicActionBadge,
-  DynamicStatusBadge,
-} from "@/components/shared/dynamic-badge";
+import { DynamicStatusBadge } from "@/components/shared/dynamic-badge";
 import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row";
 import { TableContainer } from "@/components/shared/table-container";
 import { Button } from "@/components/ui/button";
@@ -13,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { fromTitle, tableRowColumns } from "@/lib/constants";
-import type { Status, Title, User, UserActivities } from "@/lib/types";
+import type { ActivityLogs, Status, Title, User } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Ellipsis } from "lucide-react";
@@ -35,18 +32,11 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ReviewActivityLogContent } from "@/components/shared/sheet-content";
 import { useQueryState } from "nuqs";
+import { useDashboardLayoutLoader } from "../../layout";
 
-export default function ActivityLogsTable({
-  activities,
-  username,
-}: {
-  activities?: UserActivities;
-  username: string;
-}) {
-  const { data } = useQuery({
-    queryKey: ["users-activities"],
-    queryFn: () => activities,
-  });
+export default function ActivityLogsTable({ data }: { data: ActivityLogs }) {
+  const loaderData = useDashboardLayoutLoader();
+  const username = loaderData?.currentUser as string;
   const { activityLogsTable } = tableRowColumns;
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [replyCommentId, setReplyCommentId] = useState<string | null>(null);
@@ -84,7 +74,7 @@ export default function ActivityLogsTable({
 
   return (
     <TableContainer
-      data={data as UserActivities}
+      data={data}
       defaultSortDirection="desc"
       sorter={(a, b) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()

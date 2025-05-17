@@ -1,10 +1,13 @@
 import { requestAccessTable } from "@/db";
 import db from "@/lib/db.server";
-import { getSession } from "@/lib/sessions.server";
 import type { Title } from "@/lib/types";
 import { eq } from "drizzle-orm";
 import { createUserActivityLog, getCurrentUser } from "./user.server";
 import { fallbackInitials } from "@/lib/utils";
+
+export async function getAllRequestAccess() {
+  return await db.query.requestAccessTable.findMany();
+}
 
 export async function accessRequestAction(
   request: Request,

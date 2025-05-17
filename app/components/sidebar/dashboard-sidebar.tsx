@@ -10,68 +10,31 @@ import {
   SidebarRail,
 } from "../ui/sidebar";
 import { adminData, collectorData } from "@/lib/constants";
-import type { Notification, User } from "@/lib/types";
+import type { User } from "@/lib/types";
 
-const AdminSidebar = ({
-  user,
-  userId,
-  onlineAdmins,
-  onlineCollectors,
-  notifications,
-}: {
+type SidebarProps = {
   user: User;
   userId: string;
-  onlineAdmins: number;
-  onlineCollectors: number;
-  notifications: Notification[];
-}) => {
-  return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader>
-        <NavActiveTeams
-          onlineCollectors={onlineCollectors}
-          onlineAdmins={onlineAdmins}
-        />
-      </SidebarHeader>
-      <SidebarContent>
-        <NavOperations items={adminData.navMain} />
-        <NavShortcuts projects={adminData.projects} />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser userId={userId} user={user} notifications={notifications} />
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
-  );
 };
 
-const CollectorSidebar = ({
+const RoleBasedSidebar = ({
   user,
   userId,
-  onlineAdmins,
-  onlineCollectors,
-  notifications,
-}: {
-  user: User;
-  userId: string;
-  onlineAdmins: number;
-  onlineCollectors: number;
-  notifications: Notification[];
-}) => {
+  role,
+}: SidebarProps & { role: User["role"] }) => {
+  const data = role === "admin" ? adminData : collectorData;
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <NavActiveTeams
-          onlineCollectors={onlineCollectors}
-          onlineAdmins={onlineAdmins}
-        />
+        <NavActiveTeams />
       </SidebarHeader>
       <SidebarContent>
-        <NavOperations items={collectorData.navMain} />
-        <NavShortcuts projects={collectorData.projects} />
+        <NavOperations items={data.navMain} />
+        <NavShortcuts projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser userId={userId} user={user} notifications={notifications} />
+        <NavUser userId={userId} user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
@@ -81,36 +44,9 @@ const CollectorSidebar = ({
 export function DashboardSidebar({
   user,
   userId,
-  onlineAdmins,
-  onlineCollectors,
-  notifications,
 }: {
   user: User;
   userId: string;
-  onlineAdmins: number;
-  onlineCollectors: number;
-  notifications: Notification[];
 }) {
-  return (
-    <>
-      {user?.role === "admin" && (
-        <AdminSidebar
-          userId={userId}
-          user={user}
-          onlineCollectors={onlineCollectors}
-          onlineAdmins={onlineAdmins}
-          notifications={notifications}
-        />
-      )}
-      {user?.role === "collector" && (
-        <CollectorSidebar
-          userId={userId}
-          user={user}
-          onlineAdmins={onlineAdmins}
-          onlineCollectors={onlineCollectors}
-          notifications={notifications}
-        />
-      )}
-    </>
-  );
+  return <RoleBasedSidebar userId={userId} user={user} role={user.role} />;
 }

@@ -1,18 +1,14 @@
-import { userActivityTable, userNotificationsTable, usersTable } from "@/db";
+import {
+  userActivityTable,
+  userCommentTable,
+  userNotificationsTable,
+  usersTable,
+} from "@/db";
 import db from "@/lib/db.server";
 import { getSession } from "@/lib/sessions.server";
-import type {
-  Action,
-  ActivityLog,
-  CreateActivityLog,
-  CreateNotification,
-  Status,
-  Title,
-  User,
-} from "@/lib/types";
-import { getNotifications } from "@/query/users.server";
-import { broadcast } from "@/server";
+import type { CreateActivityLog, CreateNotification, Title } from "@/lib/types";
 import { eq } from "drizzle-orm";
+import { broadcast } from "@/lib/ws.server";
 
 export async function userAction(
   request: Request,
@@ -78,6 +74,25 @@ export async function createUserActivityLog(
       errors: "Failed to create user activity log",
     };
   }
+
+  const latestNotification = await createUserNotification({
+    userId: currentUser.data?.id as string,
+    title: data.title,
+    status: "unread",
+    message: data.description,
+    activityId: activityLog.id,
+  });
+
+  broadcast({
+    transaction: "new-notification",
+    userId: currentUser.data?.id as string,
+    data: latestNotification.data,
+  });
+
+  broadcast({
+    transaction: "action-made",
+    userId: currentUser.data?.id as string,
+  });
 
   return {
     data: activityLog,
@@ -157,22 +172,6 @@ export async function deleteUser(
     },
   });
 
-  await createUserNotification({
-    userId: currentUser.data?.id as string,
-    title: title,
-    status: "unread",
-    message: "A user has been deleted.",
-    activityId: activity.data?.id as string,
-  });
-
-  const notifications = await getNotifications();
-
-  broadcast({
-    transaction: "notifications",
-    userId: currentUser.data?.id as string,
-    notificationsLength: notifications.length,
-  });
-
   return {
     success: true,
     activityId: activity.data?.id as string,
@@ -194,5 +193,119 @@ export async function createUserNotification(data: CreateNotification) {
 
   return {
     data: notification,
+  };
+}
+
+export async function deleteComment(commentId: string) {
+  const [deletedComment] = await db
+    .delete(userCommentTable)
+    .where(eq(userCommentTable.id, commentId))
+    .returning();
+
+  if (!deletedComment) {
+    return {
+      errors: "Failed to delete comment",
+    };
+  }
+
+  return deletedComment;
+}
+
+export async function clearNotificationById(notificationId: string) {
+  const [response] = await db
+    .delete(userNotificationsTable)
+    .where(eq(userNotificationsTable.id, notificationId))
+    .returning();
+
+  if (!response) {
+    return {
+      errors: "Failed to clear notification",
+    };
+  }
+
+  return {
+    success: true,
+  };
+}
+
+export async function clearAllNotifications(userId: string) {
+  const [response] = await db
+    .delete(userNotificationsTable)
+    .where(eq(userNotificationsTable.userId, userId))
+    .returning();
+
+  if (!response) {
+    return {
+      errors: "Failed to clear all notifications",
+    };
+  }
+
+  return {
+    success: true,
+  };
+}
+
+export async function markAllNotificationsAsRead(userId: string) {
+  const [response] = await db
+    .update(userNotificationsTable)
+    .set({
+      status: "read",
+    })
+    .where(eq(userNotificationsTable.userId, userId))
+    .returning();
+
+  console.log(response);
+
+  if (!response) {
+    return {
+      errors: "Failed to mark all notifications as read",
+    };
+  }
+
+  return {
+    success: true,
+  };
+}
+
+export async function markNotificationAsReadById(notificationId: string) {
+  const [response] = await db
+    .update(userNotificationsTable)
+    .set({
+      status: "read",
+    })
+    .where(eq(userNotificationsTable.id, notificationId))
+    .returning();
+
+  console.log(response);
+
+  if (!response) {
+    return {
+      errors: "Failed to mark notification as read",
+    };
+  }
+
+  return {
+    success: true,
+  };
+}
+
+export async function updateUser(
+  userId: string,
+  data: Partial<typeof usersTable.$inferInsert>,
+) {
+  const [response] = await db
+    .update(usersTable)
+    .set(data)
+    .where(eq(usersTable.id, userId))
+    .returning();
+
+  if (!response) {
+    return {
+      errors: "Failed to update user",
+    };
+  }
+
+  return {
+    success: true,
   };
 }

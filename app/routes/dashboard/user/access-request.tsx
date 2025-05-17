@@ -27,7 +27,6 @@ import { render } from "@react-email/components";
 import EmailInvitation from "@/components/email/email-invitation";
 import { toast } from "sonner";
 import { getSession } from "@/lib/sessions.server";
-import RequestStatus from "@/components/shared/dynamic-table-cell";
 import { fallbackInitials, formatDate } from "@/lib/utils";
 import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row";
 import { tableRowColumns } from "@/lib/constants";
@@ -41,13 +40,10 @@ import { ReviewUserAccessRequestContent } from "@/components/shared/sheet-conten
 import type { Role, Status } from "@/lib/types";
 import { accessRequestAction } from "@/action/access-request.server";
 import { createUserActivityLog, getCurrentUser } from "@/action/user.server";
+import { UserLoader } from "@/loader/users.server";
 
 export async function loader() {
-  const data = await db.query.requestAccessTable.findMany();
-
-  return {
-    data,
-  };
+  return await UserLoader.accessRequests();
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -195,8 +191,8 @@ export async function action({ request }: Route.ActionArgs) {
   };
 }
 
-export default function UserAccessRequestPage() {
-  const { data } = useLoaderData<typeof loader>();
+export default function UserAccessRequestRoute() {
+  const usersAccessRequests = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
   const { accessRequestTable } = tableRowColumns;
   const [approvedDialog, setApprovedDialog] = useState(false);
@@ -248,7 +244,7 @@ export default function UserAccessRequestPage() {
 
   return (
     <TableContainer
-      data={data}
+      data={usersAccessRequests}
       sorter={(a, b) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       }

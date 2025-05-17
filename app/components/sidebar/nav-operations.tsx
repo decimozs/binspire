@@ -34,9 +34,9 @@ export function NavOperations({
     <SidebarGroup>
       <SidebarGroupLabel>Operations</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
+        {items.map((item, index: number) => (
           <Collapsible
-            key={item.title}
+            key={index + 1}
             asChild
             defaultOpen={item.isActive}
             className="group/collapsible"

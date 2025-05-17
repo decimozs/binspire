@@ -2,6 +2,11 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import CryptoJS from "crypto-js";
 import { formatDistanceToNow } from "date-fns";
+import type { Context } from "hono";
+import { StatusCodes } from "http-status-codes";
+import superjson from "superjson";
+import { createFactory, createMiddleware } from "hono/factory";
+import type { APIBindings } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -75,3 +80,46 @@ export const closeWindow = `
       </body>
     </html>
 `;
+
+export function successResponse<T>(c: Context, data: T) {
+  return c.json(
+    {
+      success: true,
+      data,
+    },
+    StatusCodes.OK,
+  );
+}
+
+export function errorResponse(c: Context, error: unknown) {
+  return c.json(
+    {
+      success: false,
+      message: error instanceof Error ? error.message : "Internal Server Error",
+    },
+    StatusCodes.INTERNAL_SERVER_ERROR,
+  );
+}
+
+export function parsedJSON<T>(data: unknown): T {
+  return superjson.parse<T>(superjson.stringify(data));
+}
+
+export function hexToRgba(hex: string, opacity: number) {
+  const bigint = parseInt(hex.replace("#", ""), 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+export const factory = createFactory<APIBindings>();
+
+export function actionResponse<T>(success: boolean, intent?: string, data?: T) {
+  return {
+    success,
+    intent,
+    data,
+  };
+}

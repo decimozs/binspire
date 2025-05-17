@@ -102,7 +102,7 @@ export default function LoginForm({
           <FormDivider label="Or continue with" />
         </div>
       </Form>
-      <a href="/auth/google/login">
+      <a href="http://localhost:5173/api/auth/google/login">
         <Button
           variant="outline"
           className="w-full h-12 p-4 mt-6"

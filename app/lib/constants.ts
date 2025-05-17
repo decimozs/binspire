@@ -5,6 +5,7 @@ import { NavUser } from "@/components/sidebar/nav-user";
 import {
   Archive,
   AudioWaveform,
+  Battery,
   Book,
   Calendar,
   CircleArrowUp,
@@ -37,9 +38,20 @@ import {
   UserRoundPen,
   UserRoundPlus,
   UsersRound,
+  Weight,
   X,
 } from "lucide-react";
-import type { Action, Permission, Role, Status, Title } from "./types";
+import type {
+  Action,
+  FilterTrashbinGroup,
+  MapLayer,
+  Permission,
+  Role,
+  Status,
+  Title,
+} from "./types";
+import type { TrashbinLevelProps } from "@/components/charts/trashbin-levels";
+import type { ViewState } from "react-map-gl/maplibre";
 
 export const icons = {
   github: `
@@ -233,7 +245,7 @@ export const collectorData = {
   ],
   navMain: [
     {
-      title: "Collector",
+      title: "Dashbooard",
       url: "#",
       icon: House,
       isActive: true,
@@ -242,68 +254,33 @@ export const collectorData = {
           title: "Home",
           url: "/dashboard",
         },
-        {
-          title: "Map",
-          url: "#",
-        },
-        {
-          title: "Reports",
-          url: "#",
-        },
-        {
-          title: "History",
-          url: "#",
-        },
       ],
     },
     {
-      title: "Collector",
-      url: "#",
-      icon: UserRound,
-      items: [
-        {
-          title: "Management",
-          url: "#",
-        },
-        {
-          title: "Access Requests",
-          url: "/dashboard/user/access-requests",
-        },
-        {
-          title: "Activity Logs",
-          url: "#",
-        },
-        {
-          title: "Roles & Permissions",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Collector",
+      title: "Trashbins",
       url: "#",
       icon: Trash,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Management",
+          url: "/dashboard/trashbin/management",
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: "Issues",
+          url: "/dashboard/trashbin/issues",
         },
         {
-          title: "Tutorials",
-          url: "#",
+          title: "Collection",
+          url: "/dashboard/trashbin/collections",
         },
         {
-          title: "Changelog",
-          url: "#",
+          title: "Tasks",
+          url: "/dashboard/trashbin/tasks",
         },
       ],
     },
     {
-      title: "Collector",
+      title: "Settings",
       url: "#",
       icon: Settings2,
       items: [
@@ -384,6 +361,14 @@ export const tableRowColumns = {
     { label: "Created At", icon: Clock },
     { label: "", alignRight: true },
   ],
+  trashbinsManagementTable: [
+    { label: "Name", icon: Trash },
+    { label: "Waste", icon: CircleDashed },
+    { label: "Weight", icon: Weight },
+    { label: "Battery", icon: Battery },
+    { label: "Created At", icon: Clock },
+    { label: "", alignRight: true },
+  ],
 };
 
 export const statusIcons: Record<Status, LucideIcon> = {
@@ -427,3 +412,97 @@ export const actionIcons: Record<Action, LucideIcon> = {
   logout: LogOut,
   "sign-up": UserRoundPlus,
 };
+
+export const TRASHBIN_STATUSES = [
+  "empty",
+  "moderate",
+  "almost-full",
+  "full",
+  "overflowing",
+  "light",
+  "moderate",
+  "heavy",
+  "overweight",
+  "hazardous",
+  "high",
+  "medium",
+  "low",
+  "critical",
+] as const;
+
+export const trashbinStatusColorMap: Record<
+  TrashbinLevelProps["status"],
+  string
+> = {
+  empty: "#22c55e",
+  moderate: "#facc15",
+  "almost-full": "#fb923c",
+  full: "#f87171",
+  overflowing: "#a78bfa",
+  light: "#22c55e",
+  heavy: "#f87171",
+  overweight: "#f87171",
+  hazardous: "#a78bfa",
+  high: "#22c55e",
+  medium: "#facc15",
+  low: "#f87171",
+  critical: "#ef4444",
+};
+
+export const INITIAL_VIEW_STATE: Partial<ViewState> = {
+  longitude: 121.07618705298137,
+  latitude: 14.577577090977371,
+  zoom: 18.3,
+  pitch: 100,
+  bearing: 10,
+};
+
+export const mapLayerItems: Array<MapLayer> = [
+  {
+    layer: "0196585a-8568-78da-9d4f-9e0a23f2efd9",
+    layerImage: "/map-layers/streets-layer.png",
+    name: "Streets",
+  },
+  {
+    layer: "795743a4-38e8-4e66-b7c1-6703814bb030",
+    layerImage: "/map-layers/default-layer.png",
+    name: "Binspire",
+  },
+];
+
+export const trashbinsFilterOptions: FilterTrashbinGroup[] = [
+  {
+    key: "wl",
+    label: "Waste Status",
+    setParamKey: "setWasteStatusParam",
+    options: [
+      { label: "Overflowing", value: "overflowing", color: "bg-violet-400" },
+      { label: "Full", value: "full", color: "bg-red-400" },
+      { label: "Almost Full", value: "almost_full", color: "bg-orange-400" },
+      { label: "Moderate", value: "moderate", color: "bg-yellow-400" },
+      { label: "Empty", value: "empty", color: "bg-green-400" },
+    ],
+  },
+  {
+    key: "ws",
+    label: "Weight Status",
+    setParamKey: "setWeightStatusParam",
+    options: [
+      { label: "Hazardous", value: "hazardous", color: "bg-violet-400" },
+      { label: "Overweight", value: "overweight", color: "bg-red-400" },
+      { label: "Heavy", value: "heavy", color: "bg-orange-400" },
+      { label: "Light", value: "light", color: "bg-green-400" },
+    ],
+  },
+  {
+    key: "bs",
+    label: "Battery Status",
+    setParamKey: "setBatteryStatusParam",
+    options: [
+      { label: "Full", value: "full", color: "bg-green-500" },
+      { label: "Medium", value: "medium", color: "bg-yellow-500" },
+      { label: "Low", value: "low", color: "bg-red-400" },
+      { label: "Critical", value: "critical", color: "bg-red-500" },
+    ],
+  },
+];

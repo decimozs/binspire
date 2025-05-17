@@ -1,4 +1,4 @@
-import { type LucideIcon } from "lucide-react";
+import { TrendingUp, type LucideIcon } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { formatPermission } from "@/lib/utils";
 import {
@@ -7,7 +7,13 @@ import {
   roleIcons,
   statusIcons,
 } from "@/lib/constants";
-import type { Action, Permission, Role, Status } from "@/lib/types";
+import type {
+  Action,
+  Permission,
+  Role,
+  Status,
+  TrashbinStatus,
+} from "@/lib/types";
 
 const DynamicActiveBadge = ({ isOnline }: { isOnline: Boolean }) => {
   return (
@@ -33,6 +39,24 @@ const DynamicPermissionBadge = ({ permission }: { permission: Permission }) => {
     <div className="border-input border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem] w-fit capitalize flex flex-row gap-1 items-center">
       {PermissionIcons && <PermissionIcons size={15} className="mb-0.5" />}
       <p>{formatPermission(permission)}</p>
+    </div>
+  );
+};
+
+const DynamicTrashbinStatusBadge = ({
+  status,
+  level,
+}: {
+  status: string;
+  level: string;
+}) => {
+  return (
+    <div className="flex flex-row items-center gap-2">
+      <p>{level}%</p>
+      <div className="border-input border-[1px] rounded-sm p-1 px-2 font-medium text-[0.8rem] w-fit capitalize flex flex-row gap-1 items-center">
+        <p>{status}</p>
+      </div>
+      <TrendingUp size={15} />
     </div>
   );
 };
@@ -72,6 +96,28 @@ const DynamicActionStatusBadge = ({ action }: { action: Action }) => {
   return <>{ActionIcons && <ActionIcons className="h-6 w-6" />}</>;
 };
 
+const DynamicTrashbinOperationalBadge = ({
+  isActive,
+}: {
+  isActive: boolean;
+}) => {
+  return (
+    <Badge
+      className={`flex flex-row items-center gap-2 text-secondary-foreground ${isActive ? "bg-green-200" : "bg-red-200"}`}
+    >
+      <span className="relative flex size-3">
+        <span
+          className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${isActive ? "bg-green-400 animate-ping" : "bg-red-400"}`}
+        ></span>
+        <span
+          className={`relative inline-flex size-3 rounded-full ${isActive ? "bg-green-500" : "bg-red-500"}`}
+        ></span>
+      </span>
+      {isActive ? "Operational" : "Not Operational"}
+    </Badge>
+  );
+};
+
 export {
   DynamicActiveBadge,
   DynamicPermissionBadge,
@@ -79,4 +125,6 @@ export {
   DynamicRoleBadge,
   DynamicStatusBadge,
   DynamicActionStatusBadge,
+  DynamicTrashbinOperationalBadge,
+  DynamicTrashbinStatusBadge,
 };

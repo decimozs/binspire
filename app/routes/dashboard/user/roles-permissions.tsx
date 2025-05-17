@@ -1,26 +1,11 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import { useLoaderData } from "react-router";
+import { data, useLoaderData } from "react-router";
 import RolesAndPermissionsTable from "./_components/roles-permissions-table";
 import type { Route } from "./+types/roles-permissions";
 import { userAction } from "@/action/user.server";
+import { UserLoader } from "@/loader/users.server";
 
 export async function loader() {
-  const queryClient = new QueryClient();
-  const { getUsers } = await import("@/query/users.server");
-
-  await queryClient.prefetchQuery({
-    queryKey: ["users"],
-    queryFn: getUsers,
-  });
-
-  return {
-    dehydratedState: dehydrate(queryClient),
-    getUsers: await getUsers(),
-  };
+  return await UserLoader.rolesAndPermissions();
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -45,11 +30,6 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export default function UsersRolesPermissionsRoute() {
-  const { dehydratedState, getUsers } = useLoaderData<typeof loader>();
-
-  return (
-    <HydrationBoundary state={dehydratedState}>
-      <RolesAndPermissionsTable users={getUsers} />
-    </HydrationBoundary>
-  );
+  const users = useLoaderData<typeof loader>();
+  return <RolesAndPermissionsTable data={users} />;
 }

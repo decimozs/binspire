@@ -36,7 +36,22 @@ export default [
       "/dashboard/user/activity-logs",
       "./routes/dashboard/user/activity_logs.tsx",
     ),
+    route(
+      "/dashboard/trashbin/management",
+      "./routes/dashboard/trashbin/management.tsx",
+    ),
+    route(
+      "/dashboard/trashbin/issues",
+      "./routes/dashboard/trashbin/issues.tsx",
+    ),
+    route("/dashboard/trashbin/tasks", "./routes/dashboard/trashbin/tasks.tsx"),
+    route(
+      "/dashboard/trashbin/collections",
+      "./routes/dashboard/trashbin/collection.tsx",
+    ),
   ]),
   route("callback", "./routes/auth/sign-up/callback.tsx"),
   route("logout", "./routes/auth/logout.tsx"),
+  route("resources/trashbins/:id", "./routes/resource/trashbins.resource.tsx"),
+  route("resources/directions", "./routes/resource/directions.resource.tsx"),
 ] satisfies RouteConfig;
