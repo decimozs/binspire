@@ -3,9 +3,9 @@ import type { Route } from "./+types/dashboard";
 import DashboardMap from "@/components/map/dashboard-map";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { getCurrentUser } from "@/query/users.server";
-import { logout } from "@/action/auth.server";
-import { TrashbinQuery } from "@/query/trashbins.server";
+import { getCurrentUser } from "@/query/users.query.server";
+import { logout } from "@/action/auth.action.server";
+import { TrashbinQuery } from "@/query/trashbins.query.server";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const user = await getCurrentUser(request);

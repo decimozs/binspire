@@ -1,4 +1,4 @@
-import { UserService } from "../service/users.server";
+import { UserService } from "../service/users.service.server";
 import { errorResponse, factory, successResponse } from "@/lib/utils";
 import { updateUserSchema } from "@/db";
 import { zValidator } from "@hono/zod-validator";

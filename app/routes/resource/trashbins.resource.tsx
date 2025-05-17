@@ -1,6 +1,6 @@
-import { TrashbinQuery } from "@/query/trashbins.server";
+import { TrashbinQuery } from "@/query/trashbins.query.server";
 import type { Route } from "./+types/trashbins.resource";
-import { TrashbinAction } from "@/action/trashbins.action";
+import { TrashbinAction } from "@/action/trashbins.action.server";
 import type { CreateTrashbinIssue, UpdateTrashbin } from "@/db";
 import { useFetcher, type ShouldRevalidateFunction } from "react-router";
 import { actionResponse } from "@/lib/utils";

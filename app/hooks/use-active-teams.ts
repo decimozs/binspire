@@ -1,6 +1,6 @@
 import { useDashboardLayoutLoader } from "@/routes/dashboard/layout";
-import { useActiveUsersStore } from "@/store/active-users";
-import { useWebsocketStore } from "@/store/websocket";
+import { useActiveUsersStore } from "@/store/active-users.store";
+import { useWebsocketStore } from "@/store/websocket.store";
 import { useEffect } from "react";
 
 export default function useActiveTeams() {

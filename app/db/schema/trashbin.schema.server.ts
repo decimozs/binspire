@@ -2,7 +2,7 @@ import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { createInsertSchema } from "drizzle-zod";
 import type { z } from "zod";
-import { usersTable } from "./user";
+import { usersTable } from "./user.schema.server";
 
 export const trashbinsTable = pgTable("trashbins", {
   id: text("id")

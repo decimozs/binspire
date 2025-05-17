@@ -2,7 +2,7 @@ import { requestAccessTable } from "@/db";
 import db from "@/lib/db.server";
 import type { Title } from "@/lib/types";
 import { eq } from "drizzle-orm";
-import { createUserActivityLog, getCurrentUser } from "./user.server";
+import { createUserActivityLog, getCurrentUser } from "./user.action.server";
 import { fallbackInitials } from "@/lib/utils";
 
 export async function getAllRequestAccess() {

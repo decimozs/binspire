@@ -1,3 +1,3 @@
-export * from "./schema/auth";
-export * from "./schema/user";
-export * from "./schema/trashbin";
+export * from "./schema/auth.schema.server";
+export * from "./schema/user.schema.server";
+export * from "./schema/trashbin.schema.server";

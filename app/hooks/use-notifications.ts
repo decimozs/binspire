@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDashboardLayoutLoader } from "@/routes/dashboard/layout";
-import { useNotificationStore } from "@/store/notifications";
-import { useWebsocketStore } from "@/store/websocket";
+import { useNotificationStore } from "@/store/notifications.store";
+import { useWebsocketStore } from "@/store/websocket.store";
 
 export default function useNotifications() {
   const loaderData = useDashboardLayoutLoader();

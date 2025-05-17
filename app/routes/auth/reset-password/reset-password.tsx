@@ -1,7 +1,7 @@
 import { useActionData } from "react-router";
 import type { Route } from "./+types/reset-password";
-import { resetPasswordLoader } from "@/loader/auth.server";
-import { resetPassword } from "@/action/auth.server";
+import { resetPasswordLoader } from "@/loader/auth.loader.server";
+import { resetPassword } from "@/action/auth.action.server";
 import ResetPasswordForm from "./_components/form";
 
 export async function loader({ request }: Route.ActionArgs) {

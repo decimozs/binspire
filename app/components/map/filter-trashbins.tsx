@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useQueryState } from "nuqs";
-import { useFilteringStore } from "@/store/filtering";
+import { useFilteringStore } from "@/store/filtering.store";
 import { trashbinsFilterOptions } from "@/lib/constants";
 
 export default function FilterTrashbins() {

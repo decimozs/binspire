@@ -38,9 +38,9 @@ import { TableContainer } from "@/components/shared/table-container";
 import { DeleteUserAccessRequestContent } from "@/components/shared/dialog-content";
 import { ReviewUserAccessRequestContent } from "@/components/shared/sheet-content";
 import type { Role, Status } from "@/lib/types";
-import { accessRequestAction } from "@/action/access-request.server";
-import { createUserActivityLog, getCurrentUser } from "@/action/user.server";
-import { UserLoader } from "@/loader/users.server";
+import { accessRequestAction } from "@/action/access-request.action.server";
+import { createUserActivityLog, getCurrentUser } from "@/action/user.action.server";
+import { UserLoader } from "@/loader/users.loader.server";
 
 export async function loader() {
   return await UserLoader.accessRequests();

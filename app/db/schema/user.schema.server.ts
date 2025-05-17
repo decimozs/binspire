@@ -1,6 +1,6 @@
 import { boolean, json, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
-import { verificationsTable } from "./auth";
+import { verificationsTable } from "./auth.schema.server";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import type { z } from "zod";

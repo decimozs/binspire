@@ -1,4 +1,4 @@
-import { UserController } from "../controller/users.server";
+import { UserController } from "../controller/users.controller.server";
 import { factory } from "@/lib/utils";
 
 const userRoutes = factory

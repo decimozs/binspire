@@ -1,4 +1,4 @@
-import { TrashbinController } from "../controller/trashbins.server";
+import { TrashbinController } from "../controller/trashbins.controller.server";
 import { factory } from "@/lib/utils";
 
 const trashbinRoutes = factory

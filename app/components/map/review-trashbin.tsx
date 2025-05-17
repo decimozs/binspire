@@ -45,7 +45,7 @@ import {
   useUpdateTrashbinFetcher,
 } from "@/routes/resource/trashbins.resource";
 import { Input } from "../ui/input";
-import { useNavigateStore } from "@/store/navigate";
+import { useNavigateStore } from "@/store/navigate.store";
 
 export const ReviewTrashbin = () => {
   const [trashbinIdParam] = useQueryState("trashbin_id");

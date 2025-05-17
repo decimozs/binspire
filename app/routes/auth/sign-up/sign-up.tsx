@@ -1,7 +1,7 @@
 import { useActionData, useLoaderData } from "react-router";
 import type { Route } from "./+types/sign-up";
-import { signUpLoader } from "@/loader/auth.server";
-import { signUp } from "@/action/auth.server";
+import { signUpLoader } from "@/loader/auth.loader.server";
+import { signUp } from "@/action/auth.action.server";
 import SignUpForm from "./_components/form";
 
 export async function loader({ request }: Route.LoaderArgs) {

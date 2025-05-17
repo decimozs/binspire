@@ -4,7 +4,7 @@ import type { Route } from "./+types/activity_logs";
 import db from "@/lib/db.server";
 import { userActivityTable } from "@/db";
 import { eq } from "drizzle-orm";
-import { UserLoader } from "@/loader/users.server";
+import { UserLoader } from "@/loader/users.loader.server";
 
 export async function loader() {
   return await UserLoader.activityLogs();

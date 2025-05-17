@@ -3,9 +3,9 @@ import { render } from "@react-email/components";
 import type { Route } from "./+types/verification";
 import EmailVerification from "@/components/email/email-verification";
 import VerificationForm from "./_components/form";
-import { verification } from "@/action/auth.server";
-import { sendEmail } from "@/action/email.server";
-import { verificationLoader } from "@/loader/auth.server";
+import { verification } from "@/action/auth.action.server";
+import { sendEmail } from "@/action/email.action.server";
+import { verificationLoader } from "@/loader/auth.loader.server";
 import type { MailOptions } from "nodemailer/lib/json-transport";
 
 export async function loader({ request }: Route.LoaderArgs) {

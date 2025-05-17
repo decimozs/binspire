@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
-import { useWebsocketStore } from "@/store/websocket";
+import { useWebsocketStore } from "@/store/websocket.store";
 
 export const WebSocketProvider = ({
   children,

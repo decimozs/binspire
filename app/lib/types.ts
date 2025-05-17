@@ -1,4 +1,4 @@
-import type { UserRepository } from "@/api/repository/users.server";
+import type { UserRepository } from "@/api/repository/users.repository.server";
 import {
   trashbinsTable,
   userActivityTable,
@@ -12,7 +12,7 @@ import type {
   getActivityLogs,
   getActivityLogsByActivityId,
   getUserActivities,
-} from "@/query/users.server";
+} from "@/query/users.query.server";
 import type { LucideIcon } from "lucide-react";
 import type { z, ZodTypeAny } from "zod";
 import type { TRASHBIN_STATUSES } from "./constants";

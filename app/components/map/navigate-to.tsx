@@ -1,7 +1,7 @@
 import { Navigation } from "lucide-react";
 import { Button } from "../ui/button";
 import { useQueryState } from "nuqs";
-import { useNavigateStore } from "@/store/navigate";
+import { useNavigateStore } from "@/store/navigate.store";
 
 export default function NavigateTo() {
   const { startLatLang, endLatLang, routeDirection, trashbinId } =

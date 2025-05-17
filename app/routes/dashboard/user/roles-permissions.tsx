@@ -1,8 +1,8 @@
 import { data, useLoaderData } from "react-router";
 import RolesAndPermissionsTable from "./_components/roles-permissions-table";
 import type { Route } from "./+types/roles-permissions";
-import { userAction } from "@/action/user.server";
-import { UserLoader } from "@/loader/users.server";
+import { userAction } from "@/action/user.action.server";
+import { UserLoader } from "@/loader/users.loader.server";
 
 export async function loader() {
   return await UserLoader.rolesAndPermissions();

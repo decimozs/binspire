@@ -32,7 +32,7 @@ import { Sheet } from "@/components/ui/sheet";
 import { useState } from "react";
 import { NotificationContent } from "../shared/sheet-content";
 import { useQueryState } from "nuqs";
-import { useNotificationStore } from "@/store/notifications";
+import { useNotificationStore } from "@/store/notifications.store";
 
 export function NavUser({ user, userId }: { user: User; userId: string }) {
   const { isMobile } = useSidebar();

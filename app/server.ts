@@ -9,7 +9,7 @@ import authRoutes from "@/api/route/auth.routes.server";
 import orsRoutes from "@/api/route/ors.route.server";
 import { googleSignupAuth } from "./lib/auth.server";
 import type { GooglePayload } from "./lib/types";
-import { signUpWithGoogle } from "./action/auth.server";
+import { signUpWithGoogle } from "./action/auth.action.server";
 import { redirect } from "react-router";
 import db from "./lib/db.server";
 import { closeWindow } from "./lib/utils";

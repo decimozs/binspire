@@ -1,6 +1,6 @@
 import { useActionData, useLoaderData } from "react-router";
 import type { Route } from "./+types/login";
-import { login } from "@/action/auth.server";
+import { login } from "@/action/auth.action.server";
 import LoginForm from "./_components/form";
 
 export async function loader({ request }: Route.LoaderArgs) {

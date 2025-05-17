@@ -1,7 +1,7 @@
 import { SlidersHorizontal, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { useEffect, useRef } from "react";
-import { useFilteringStore } from "@/store/filtering";
+import { useFilteringStore } from "@/store/filtering.store";
 import { toast } from "sonner";
 
 function ToastFilter() {

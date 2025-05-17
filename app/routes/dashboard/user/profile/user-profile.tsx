@@ -5,7 +5,7 @@ import { userActivityTable, userCommentTable, userReplyTable } from "@/db";
 import db from "@/lib/db.server";
 import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/sessions.server";
-import { UserLoader } from "@/loader/users.server";
+import { UserLoader } from "@/loader/users.loader.server";
 import { broadcast } from "@/lib/ws.server";
 
 export async function loader({ params }: Route.LoaderArgs) {

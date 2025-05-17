@@ -1,6 +1,6 @@
 import { pgTable, text, timestamp, index } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
-import { organizationsTable, usersTable } from "./user";
+import { organizationsTable, usersTable } from "./user.schema.server";
 import { createInsertSchema } from "drizzle-zod";
 import type { z } from "zod";
 

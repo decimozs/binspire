@@ -4,7 +4,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { mapLayerItems } from "@/lib/constants";
-import { useMapLayerStore } from "@/store/map-layers";
+import { useMapLayerStore } from "@/store/map-layers.store";
 import { Layers } from "lucide-react";
 
 export default function MapLayers() {

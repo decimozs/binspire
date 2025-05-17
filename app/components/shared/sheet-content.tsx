@@ -66,7 +66,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { actionIcons, permissionIcons } from "@/lib/constants";
-import { useNotificationStore } from "@/store/notifications";
+import { useNotificationStore } from "@/store/notifications.store";
 import { useDashboardLayoutLoader } from "@/routes/dashboard/layout";
 import { rpc } from "@/lib/rpc";
 import { useQueryState } from "nuqs";

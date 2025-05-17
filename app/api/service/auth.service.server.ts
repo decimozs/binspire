@@ -4,7 +4,7 @@ import type {
   GoogleToken,
   GoogleUser,
 } from "@/lib/types";
-import { UserService } from "./users.server";
+import { UserService } from "./users.service.server";
 import type { UpdateAccount, UpdateUser } from "@/db";
 import { AccountService } from "./accounts.service.server";
 import { broadcast } from "@/lib/ws.server";

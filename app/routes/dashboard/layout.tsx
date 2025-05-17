@@ -20,14 +20,14 @@ import {
   getNotifications,
   getOnlineAdmins,
   getOnlineCollectors,
-} from "@/query/users.server";
+} from "@/query/users.query.server";
 import type { User } from "@/lib/types";
 import NotificationButton from "@/components/shared/notification-button";
 import useAction from "@/hooks/use-action";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { Command } from "lucide-react";
-import { UserLoader } from "@/loader/users.server";
+import { UserLoader } from "@/loader/users.loader.server";
 import ReviewTrashbin from "@/components/map/review-trashbin";
 import Filtering from "@/components/shared/filtering";
 

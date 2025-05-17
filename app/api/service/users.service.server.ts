@@ -1,5 +1,5 @@
 import type { UpdateUser } from "@/db";
-import { UserRepository } from "../repository/users.server";
+import { UserRepository } from "../repository/users.repository.server";
 
 async function getAllUsers() {
   return await UserRepository.getAllUsers();

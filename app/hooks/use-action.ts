@@ -1,6 +1,6 @@
-import { useWebsocketStore } from "@/store/websocket";
+import { useWebsocketStore } from "@/store/websocket.store";
 import { useDashboardLayoutLoader } from "@/routes/dashboard/layout";
-import { useActionStore } from "@/store/action";
+import { useActionStore } from "@/store/action.store";
 import { useEffect } from "react";
 
 export default function useAction() {
