@@ -14,6 +14,9 @@ import "./app.css";
 import { useEffect, useState } from "react";
 import { WebSocketProvider } from "./components/provider/websocket-provider";
 import Loading from "./components/shared/loading";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "./components/provider/theme-provider";
+import { DndContext } from "@dnd-kit/core";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -52,6 +55,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const [isHydrated, setIsHydrated] = useState(false);
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60 * 1000,
+          },
+        },
+      }),
+  );
 
   useEffect(() => {
     setIsHydrated(true);
@@ -62,12 +75,18 @@ export default function App() {
   }
 
   return (
-    <WebSocketProvider>
-      <Toaster position="top-center" />
-      <NuqsAdapter>
-        <Outlet />
-      </NuqsAdapter>
-    </WebSocketProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <QueryClientProvider client={queryClient}>
+        <WebSocketProvider>
+          <Toaster position="top-center" />
+          <NuqsAdapter>
+            <DndContext>
+              <Outlet />
+            </DndContext>
+          </NuqsAdapter>
+        </WebSocketProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 

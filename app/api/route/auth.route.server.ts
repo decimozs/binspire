@@ -1,5 +1,5 @@
 import { factory } from "@/lib/utils";
-import { AuthController } from "../controller/auth.controllers.server";
+import { AuthController } from "../controller/auth.controller.server";
 import { googleLoginAuth } from "@/lib/auth.server";
 
 const authRoutes = factory

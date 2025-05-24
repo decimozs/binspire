@@ -1,9 +1,4 @@
-import type {
-  GoogleGrantedScopes,
-  GooglePayload,
-  GoogleToken,
-  GoogleUser,
-} from "@/lib/types";
+import type { GoogleGrantedScopes, GoogleToken, GoogleUser } from "@/lib/types";
 import { UserService } from "./users.service.server";
 import type { UpdateAccount, UpdateUser } from "@/db";
 import { AccountService } from "./accounts.service.server";

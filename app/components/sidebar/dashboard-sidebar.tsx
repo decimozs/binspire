@@ -1,5 +1,4 @@
 import { NavOperations } from "./nav-operations";
-import { NavShortcuts } from "./nav-shortcuts";
 import NavActiveTeams from "./nav-teams";
 import { NavUser } from "./nav-user";
 import {
@@ -31,7 +30,6 @@ const RoleBasedSidebar = ({
       </SidebarHeader>
       <SidebarContent>
         <NavOperations items={data.navMain} />
-        <NavShortcuts projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser userId={userId} user={user} />

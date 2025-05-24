@@ -1,5 +1,5 @@
 import { errorResponse, factory, successResponse } from "@/lib/utils";
-import { TrashbinService } from "../service/trashbins.server";
+import { TrashbinService } from "../service/trashbins.service.server";
 import {
   createTrashbinCollectionSchema,
   createTrashbinIssueSchema,
@@ -118,6 +118,76 @@ const updateTrashbinCollection = factory.createHandlers(
   },
 );
 
+const getAllTrashbinsIssue = factory.createHandlers(async (c) => {
+  try {
+    const data = await TrashbinService.getAllTrashbinsIssue();
+    return successResponse(c, data);
+  } catch (error) {
+    return errorResponse(c, error);
+  }
+});
+
+const getAllTrashbinsCollection = factory.createHandlers(async (c) => {
+  try {
+    const data = await TrashbinService.getAllTrashbinsCollection();
+    return successResponse(c, data);
+  } catch (error) {
+    return errorResponse(c, error);
+  }
+});
+
+const getTrashbinsIssueById = factory.createHandlers(
+  zValidator("param", idParamSchema),
+  async (c) => {
+    try {
+      const { id } = c.req.valid("param");
+      const data = await TrashbinService.getTrashbinIssueById(id);
+      return successResponse(c, data);
+    } catch (error) {
+      return errorResponse(c, error);
+    }
+  },
+);
+
+const getTrashbinCollectionById = factory.createHandlers(
+  zValidator("param", idParamSchema),
+  async (c) => {
+    try {
+      const { id } = c.req.valid("param");
+      const data = await TrashbinService.getTrashbinCollectionById(id);
+      return successResponse(c, data);
+    } catch (error) {
+      return errorResponse(c, error);
+    }
+  },
+);
+
+const deleteTrashbinIssue = factory.createHandlers(
+  zValidator("param", idParamSchema),
+  async (c) => {
+    try {
+      const { id } = c.req.valid("param");
+      const [data] = await TrashbinService.deleteTrashbinIssue(id);
+      return successResponse(c, data);
+    } catch (error) {
+      return errorResponse(c, error);
+    }
+  },
+);
+
+const deleteTrashbinCollection = factory.createHandlers(
+  zValidator("param", idParamSchema),
+  async (c) => {
+    try {
+      const { id } = c.req.valid("param");
+      const [data] = await TrashbinService.deleteTrashbinCollection(id);
+      return successResponse(c, data);
+    } catch (error) {
+      return errorResponse(c, error);
+    }
+  },
+);
+
 export const TrashbinController = {
   getAllTrashbins,
   getTrashbinById,
@@ -127,4 +197,10 @@ export const TrashbinController = {
   createTrashbinIssue,
   updateTrashbinIssue,
   updateTrashbinCollection,
+  getAllTrashbinsIssue,
+  getAllTrashbinsCollection,
+  getTrashbinCollectionById,
+  getTrashbinsIssueById,
+  deleteTrashbinCollection,
+  deleteTrashbinIssue,
 };

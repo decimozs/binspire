@@ -1,7 +1,7 @@
 import {
   DirectionAction,
   type DirectionQueryArgs,
-} from "@/action/directions.action";
+} from "@/action/directions.action.server";
 import type { Route } from "./+types/directions.resource";
 import { useFetcher } from "react-router";
 import env from "@config/env.server";

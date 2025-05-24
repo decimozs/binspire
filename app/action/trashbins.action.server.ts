@@ -7,6 +7,7 @@ import type {
 } from "@/db";
 import { rpc } from "@/lib/rpc";
 import { actionResponse } from "@/lib/utils";
+import { broadcast } from "@/lib/ws.server";
 
 async function createIssue(intent: string, data: CreateTrashbinIssue) {
   try {
@@ -88,7 +89,11 @@ async function update(
         await createTrashbinCollection(intent, {
           userId: userId,
           trashbinId: updatedTrashbin.data.id,
-          status: "Successfull",
+          status: "success",
+        });
+        broadcast({
+          transaction: intent,
+          trashbinId: updatedTrashbin.data.id,
         });
       }
     }

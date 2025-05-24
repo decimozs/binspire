@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE backupSettings SYSTEM "backup-settings.dtd"?>
+<backupSettings>
+  <backup>
+    <filename>backup.sql</filename>
+    <createdAt>2025-05-23T15:00:00Z</createdAt>
+    <size unit="KB">1024</size>
+    <description>System backup before updates</description>
+  </backup>
+  <restore>
+    <lastRestored>2025-05-01T10:30:00Z</lastRestored>
+    <restoredBy>admin</restoredBy>
+    <note>Restore from monthly checkpoint</note>
+  </restore>
+</backupSettings>

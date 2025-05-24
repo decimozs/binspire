@@ -11,11 +11,15 @@ import { Separator } from "../ui/separator";
 import {
   ArrowRight,
   ArrowUpRight,
+  Battery,
   Calendar,
+  CircleDashed,
+  Clock,
   Mail,
   UsersRound,
+  Weight,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Button } from "../ui/button";
 import type {
   Action,
@@ -23,8 +27,11 @@ import type {
   Permission,
   User,
   ActivityLogs,
+  Trashbin,
 } from "@/lib/types";
 import { actionIcons, permissionIcons } from "@/lib/constants";
+import { useQueryState } from "nuqs";
+import { useNavigateStore } from "@/store/navigate.store";
 
 const UserHoverCard = ({ data }: { data: User }) => {
   return (
@@ -153,4 +160,73 @@ const ActionDescriptionHoverCard = ({
   );
 };
 
-export { UserHoverCard, ActionDescriptionHoverCard };
+const TrashbinHoverCard = ({ data }: { data: Trashbin }) => {
+  const navigate = useNavigate();
+  const {
+    setStartLatLang,
+    setEndLatLang,
+    setRouteDirection,
+    setTrashbinId,
+    reset,
+  } = useNavigateStore();
+  const handleNavigateTrashbin = (
+    start: [number, number],
+    end: [number, number],
+  ) => {
+    reset();
+    setStartLatLang(start.toString());
+    setEndLatLang(end.toString());
+    setRouteDirection("true");
+    setTrashbinId(data.id);
+    navigate("/dashboard?navigate_to=true");
+  };
+
+  return (
+    <HoverCard>
+      <HoverCardTrigger>{data.name}</HoverCardTrigger>
+      <HoverCardContent align="start">
+        <div className="flex flex-col gap-2">
+          <DynamicActiveBadge isOnline={data.isActive} />
+          <div className="flex flex-row items-center justify-between">
+            <p>{data.name}</p>
+            <Badge className="capitalize">{data.isCollected}</Badge>
+          </div>
+          <Separator />
+          <div>
+            <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground capitalize">
+              <CircleDashed size={15} className="mt-[0.1rem]" />
+              {data.wasteLevel}%
+            </p>
+            <p className="text-sm flex flex-row gap-2 text-muted-foreground w-fit wrap-anywhere">
+              <Weight size={15} className="mt-[0.2rem]" />
+              {data.weightLevel}%
+            </p>
+            <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
+              <Battery size={15} className="mt-[0.1rem]" />
+              {data.batteryLevel}%
+            </p>
+            <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
+              <Clock size={15} className="mt-[0.1rem]" />
+              Last collected on {formatDate(data.createdAt as Date)}
+            </p>
+          </div>
+          <Button
+            variant="secondary"
+            className="w-full"
+            onClick={() =>
+              handleNavigateTrashbin(
+                [121.07544884155124, 14.577870676283723],
+                [Number(data.longitude), Number(data.latitude)],
+              )
+            }
+          >
+            <ArrowUpRight size={15} className="mt-[0.1rem]" />
+            Navigate
+          </Button>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  );
+};
+
+export { UserHoverCard, ActionDescriptionHoverCard, TrashbinHoverCard };

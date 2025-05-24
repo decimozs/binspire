@@ -7,7 +7,14 @@ import { PaginationControls } from "./pagination";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  CircleAlert,
+  RefreshCw,
+  X,
+} from "lucide-react";
+import { useRevalidator } from "react-router";
 
 type SortDirection = "asc" | "desc";
 
@@ -28,6 +35,7 @@ export function TableContainer<T>({
   defaultSortDirection = "asc",
   children,
 }: TableContainerProps<T>) {
+  const revalitor = useRevalidator();
   const [search, setSearch] = useQueryState("search");
   const [page, setPage] = useQueryState("page", {
     history: "push",
@@ -83,6 +91,31 @@ export function TableContainer<T>({
   );
 
   const hasFilters = !!search || from !== null || to !== null;
+
+  if (data.length === 0) {
+    return (
+      <div className="border-input border-[1px] border-dashed rounded-md w-full h-full flex items-center justify-center">
+        <div className="grow flex items-center justify-center">
+          <div className="border-input border-[1px] border-dashed rounded-md w-[400px] p-4 flex items-center justify-center flex-col">
+            <div className="flex flex-col items-center justify-center gap-2">
+              <CircleAlert />
+              <p>There are no available data here right now.</p>
+            </div>
+            <p className="text-sm text-muted-foreground my-1">
+              Click to refresh
+            </p>
+            <Button
+              size="icon"
+              className=""
+              onClick={() => revalitor.revalidate()}
+            >
+              <RefreshCw />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col w-full h-full">

@@ -39,7 +39,10 @@ import { DeleteUserAccessRequestContent } from "@/components/shared/dialog-conte
 import { ReviewUserAccessRequestContent } from "@/components/shared/sheet-content";
 import type { Role, Status } from "@/lib/types";
 import { accessRequestAction } from "@/action/access-request.action.server";
-import { createUserActivityLog, getCurrentUser } from "@/action/user.action.server";
+import {
+  createUserActivityLog,
+  getCurrentUser,
+} from "@/action/user.action.server";
 import { UserLoader } from "@/loader/users.loader.server";
 
 export async function loader() {
@@ -94,8 +97,8 @@ export async function action({ request }: Route.ActionArgs) {
     );
 
     const options = {
-      from: "marlonadiguemartin548@gmail.com",
-      to: "marlonadiguemartint548@gmail.com",
+      from: "Binspire",
+      to: "marlonadiguemartin548@gmail.com",
       subject: "Binspire Invitation Link",
       html: emailHtml,
     };
@@ -155,8 +158,8 @@ export async function action({ request }: Route.ActionArgs) {
     );
 
     const options = {
-      from: "marlonadiguemartin548@gmail.com",
-      to: "marlonadiguemartint548@gmail.com",
+      from: "Binspire",
+      to: "marlonadiguemartin548@gmail.com",
       subject: "Binspire Invitation Link",
       html: emailHtml,
     };

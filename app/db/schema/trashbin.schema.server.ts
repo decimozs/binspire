@@ -46,10 +46,9 @@ export const trashbinsIssueTable = pgTable("trashbins_issues", {
   trashbinId: text("trashbin_id")
     .references(() => trashbinsTable.id, { onDelete: "cascade" })
     .notNull(),
-
   name: text("name").notNull(),
   description: text("description").notNull(),
-  status: text("status").notNull().default("Ongoing"),
+  status: text("status").notNull().default("ongoing"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()

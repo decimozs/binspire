@@ -120,10 +120,6 @@ export function NavUser({ user, userId }: { user: User; userId: string }) {
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <History />
-                History
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setNotificationSheet(true)}>
                 <Bell />
                 Notifications

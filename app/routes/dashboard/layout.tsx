@@ -30,6 +30,7 @@ import { Command } from "lucide-react";
 import { UserLoader } from "@/loader/users.loader.server";
 import ReviewTrashbin from "@/components/map/review-trashbin";
 import Filtering from "@/components/shared/filtering";
+import ReviewTrashbinIssue from "./trashbin/_components/review-trashbin-issue";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
@@ -127,6 +128,7 @@ export default function DashboardLayoutRoute() {
           <Outlet />
         </div>
         <ReviewTrashbin />
+        <ReviewTrashbinIssue />
         <Filtering />
       </SidebarInset>
     </SidebarProvider>

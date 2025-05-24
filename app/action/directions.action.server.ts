@@ -1,5 +1,4 @@
 import { rpc } from "@/lib/rpc";
-import { actionResponse } from "@/lib/utils";
 
 export interface DirectionQueryArgs {
   api_key: string;

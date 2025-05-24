@@ -55,6 +55,58 @@ function updateTrashbinCollection(id: string, data: UpdateTrashbinCollection) {
     .where(eq(trashbinsIssueTable.id, id));
 }
 
+function getAllTrashbinsIssue() {
+  return db.query.trashbinsIssueTable.findMany({
+    with: {
+      trashbin: true,
+      user: true,
+    },
+  });
+}
+
+function getAllTrashbinsCollection() {
+  return db.query.trashbinsCollectionTable.findMany({
+    with: {
+      trashbin: true,
+      user: true,
+    },
+  });
+}
+
+function getTrashbinIssueById(id: string) {
+  return db.query.trashbinsIssueTable.findFirst({
+    where: (table, { eq }) => eq(table.id, id),
+    with: {
+      trashbin: true,
+      user: true,
+    },
+  });
+}
+
+function getTrashbinCollectionById(id: string) {
+  return db.query.trashbinsCollectionTable.findFirst({
+    where: (table, { eq }) => eq(table.id, id),
+    with: {
+      trashbin: true,
+      user: true,
+    },
+  });
+}
+
+function deleteTrashbinIssue(id: string) {
+  return db
+    .delete(trashbinsIssueTable)
+    .where(eq(trashbinsIssueTable.id, id))
+    .returning();
+}
+
+function deleteTrashbinCollection(id: string) {
+  return db
+    .delete(trashbinsCollectionTable)
+    .where(eq(trashbinsCollectionTable.id, id))
+    .returning();
+}
+
 export const TrashbinRepository = {
   getAllTrashbins,
   getTrasbinById,
@@ -64,4 +116,10 @@ export const TrashbinRepository = {
   createTrashbinCollection,
   updateTrashbinCollection,
   updateTrashbinIssue,
+  getAllTrashbinsIssue,
+  getAllTrashbinsCollection,
+  getTrashbinCollectionById,
+  getTrashbinIssueById,
+  deleteTrashbinCollection,
+  deleteTrashbinIssue,
 };

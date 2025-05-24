@@ -1,4 +1,4 @@
-import { NotificationController } from "../controller/notifications.server";
+import { NotificationController } from "../controller/notifications.controller.server";
 import { factory } from "@/lib/utils";
 
 const notificationRoutes = factory

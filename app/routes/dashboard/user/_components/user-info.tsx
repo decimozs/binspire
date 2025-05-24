@@ -1,7 +1,14 @@
 import type { Title, User, ActivityLogs } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Ellipsis, KeyRound, Mail, UsersRound } from "lucide-react";
+import {
+  Calendar,
+  Ellipsis,
+  KeyRound,
+  Mail,
+  Pencil,
+  UsersRound,
+} from "lucide-react";
 import { fallbackInitials, formatDate, formatPermission } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,20 +25,24 @@ import { usePagination } from "@/hooks/use-pagination";
 import { PaginationControls } from "@/components/shared/pagination";
 import { DynamicActiveBadge } from "@/components/shared/dynamic-badge";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { useFetcher } from "react-router";
-import { toast } from "sonner";
+import { Link, useFetcher } from "react-router";
 import { useEffect, useState } from "react";
 import { fromTitle } from "@/lib/constants";
 import { DeleteUserActivity } from "@/components/shared/dialog-content";
+import { useDashboardLayoutLoader } from "../../layout";
+import { UpdateUser } from "@/components/action/users";
 
 export default function UserInfo({
+  isCurrentUser,
   data,
   user,
 }: {
+  isCurrentUser: boolean;
   data: ActivityLogs;
   user: User;
 }) {
   const fetcher = useFetcher();
+  const loaderData = useDashboardLayoutLoader();
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [replyCommentId, setReplyCommentId] = useState<string | null>(null);
   const [replyMessage, setReplyMessage] = useState("");
@@ -70,43 +81,50 @@ export default function UserInfo({
   );
 
   return (
-    <div className="w-full h-full lg:flex lg:items-center lg:flex-col">
-      <div className="w-full max-w-3xl">
-        <div className="bg-muted-foreground w-full h-[150px] rounded-md"></div>
-        <div className="relative">
-          <Avatar className="ml-5 h-[120px] w-[120px] absolute top-[-4rem]">
-            <AvatarImage src={user.image as string} alt="@shadcn" />
-            <AvatarFallback>
-              {fallbackInitials(user.name as string)}
-            </AvatarFallback>
-          </Avatar>
+    <div className="grid grid-cols-[1fr_2fr] gap-12">
+      <div>
+        <div className="w-full">
+          <div className="bg-muted-foreground w-full h-[150px] rounded-md"></div>
+          <div className="relative">
+            <Avatar className="ml-5 h-[120px] w-[120px] absolute top-[-4rem]">
+              <AvatarImage src={user.image as string} alt="@shadcn" />
+              <AvatarFallback>
+                {fallbackInitials(user.name as string)}
+              </AvatarFallback>
+            </Avatar>
+          </div>
+        </div>
+        <div className="w-full mt-18 flex flex-col gap-3">
+          <div className="flex flex-row items-center justify-between gap-4">
+            <div className="flex flex-row items-center gap-4">
+              <p className="text-2xl">{user.name}</p>
+              <DynamicActiveBadge isOnline={user.isOnline as boolean} />
+            </div>
+            {isCurrentUser && <UpdateUser user={user} />}
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
+              <Mail size={15} className="mt-[0.1rem]" />
+              {user.email}
+            </p>
+            <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground capitalize">
+              <UsersRound size={15} className="mt-[0.1rem]" />
+              {user.role}
+            </p>
+            <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
+              <KeyRound size={15} className="mt-[0.1rem]" />
+              {formatPermission(user.permission as string)}
+            </p>
+            <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
+              <Calendar size={15} className="mt-[0.1rem]" />
+              Joined on {formatDate(user.createdAt as Date)}
+            </p>
+          </div>
         </div>
       </div>
-      <div className="w-full max-w-3xl mt-18 flex flex-col gap-3">
-        <div className="flex flex-row items-center gap-4">
-          <p className="text-2xl">{user.name}</p>
-          <DynamicActiveBadge isOnline={user.isOnline as boolean} />
-        </div>
-        <div className="flex flex-col gap-1">
-          <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
-            <Mail size={15} className="mt-[0.1rem]" />
-            {user.email}
-          </p>
-          <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground capitalize">
-            <UsersRound size={15} className="mt-[0.1rem]" />
-            {user.role}
-          </p>
-          <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
-            <KeyRound size={15} className="mt-[0.1rem]" />
-            {formatPermission(user.permission as string)}
-          </p>
-          <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
-            <Calendar size={15} className="mt-[0.1rem]" />
-            Joined on {formatDate(user.createdAt as Date)}
-          </p>
-        </div>
+      <div>
         <div className="flex flex-col gap-2">
-          <p className="text-xl mt-3">User Activity</p>
+          <p className="text-xl">User Activity</p>
           {paginatedData.length === 0 ? (
             <>
               <div>
@@ -132,7 +150,7 @@ export default function UserInfo({
               </div>
             </>
           ) : (
-            <div>
+            <div className="flex flex-col">
               <SearchBar
                 value={searchActivity || ""}
                 onChange={(val) => {
@@ -149,7 +167,7 @@ export default function UserInfo({
               />
             </div>
           )}
-          <div className="flex flex-col gap-2 overflow-auto">
+          <div className="flex flex-col gap-2 flex-1 overflow-y-auto h-[90vh]">
             {paginatedData.map((item) => (
               <div
                 className="p-4 border-input border-[1px] rounded-md flex flex-row items-center justify-between"
@@ -176,17 +194,17 @@ export default function UserInfo({
                       <Ellipsis />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="mr-[7rem] mt-[-1rem]">
+                  <DropdownMenuContent className="mr-[3rem] mt-[-1rem]">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <div className="flex flex-col items-start">
-                      <Button
-                        variant="ghost"
-                        className="p-2 text-sm w-fit font-normal"
-                        onClick={() => setReviewActivityLog(item.id)}
-                      >
-                        Review
-                      </Button>
+                      <DropdownMenuItem>
+                        <Link
+                          to={`/dashboard/user/activity-logs?activity=${item.id}`}
+                        >
+                          Review
+                        </Link>
+                      </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <Dialog
                           open={deleteDialog}

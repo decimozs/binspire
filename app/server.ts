@@ -1,11 +1,11 @@
 import { broadcast, clients } from "./lib/ws.server";
 import { createHonoServer } from "react-router-hono-server/node";
 import { isUserSessionExist } from "./api/middleware.server";
-import notificationRoutes from "@/api/route/notifications.server";
-import trashbinRoutes from "@/api/route/trashbins.server";
-import userRoutes from "@/api/route/users.server";
+import notificationRoutes from "@/api/route/notifications.route.server";
+import trashbinRoutes from "@/api/route/trashbins.route.server";
+import userRoutes from "@/api/route/users.route.server";
 import accountRoutes from "@/api/route/accounts.route.server";
-import authRoutes from "@/api/route/auth.routes.server";
+import authRoutes from "@/api/route/auth.route.server";
 import orsRoutes from "@/api/route/ors.route.server";
 import { googleSignupAuth } from "./lib/auth.server";
 import type { GooglePayload } from "./lib/types";

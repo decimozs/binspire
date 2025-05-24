@@ -5,7 +5,7 @@ import type {
   UpdateTrashbinCollection,
   UpdateTrashbinIssue,
 } from "@/db";
-import { TrashbinRepository } from "../repository/trashbins.server";
+import { TrashbinRepository } from "../repository/trashbins.repository.server";
 
 async function getAllTrashbins() {
   return await TrashbinRepository.getAllTrashbins();
@@ -45,6 +45,30 @@ async function updateTrashbinCollection(
   return await TrashbinRepository.updateTrashbinCollection(id, data);
 }
 
+async function getAllTrashbinsIssue() {
+  return await TrashbinRepository.getAllTrashbinsIssue();
+}
+
+async function getAllTrashbinsCollection() {
+  return await TrashbinRepository.getAllTrashbinsCollection();
+}
+
+async function getTrashbinIssueById(id: string) {
+  return await TrashbinRepository.getTrashbinIssueById(id);
+}
+
+async function getTrashbinCollectionById(id: string) {
+  return await TrashbinRepository.getTrashbinCollectionById(id);
+}
+
+async function deleteTrashbinIssue(id: string) {
+  return await TrashbinRepository.deleteTrashbinIssue(id);
+}
+
+async function deleteTrashbinCollection(id: string) {
+  return await TrashbinRepository.deleteTrashbinCollection(id);
+}
+
 export const TrashbinService = {
   getAllTrashbins,
   getTrashbinById,
@@ -54,4 +78,10 @@ export const TrashbinService = {
   updateTrashbinIssue,
   updateTrashbinCollection,
   createTrashbinCollection,
+  getAllTrashbinsIssue,
+  getAllTrashbinsCollection,
+  getTrashbinIssueById,
+  getTrashbinCollectionById,
+  deleteTrashbinIssue,
+  deleteTrashbinCollection,
 };

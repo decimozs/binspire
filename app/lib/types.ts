@@ -1,5 +1,7 @@
 import type { UserRepository } from "@/api/repository/users.repository.server";
 import {
+  trashbinsCollectionTable,
+  trashbinsIssueTable,
   trashbinsTable,
   userActivityTable,
   userNotificationsTable,
@@ -16,6 +18,7 @@ import type {
 import type { LucideIcon } from "lucide-react";
 import type { z, ZodTypeAny } from "zod";
 import type { TRASHBIN_STATUSES } from "./constants";
+import type { TrashbinRepository } from "@/api/repository/trashbins.repository.server";
 
 export type Notification = typeof userNotificationsTable.$inferSelect;
 export type CreateNotification = typeof userNotificationsTable.$inferInsert;
@@ -80,10 +83,12 @@ export type Action =
   | "sign-up"
   | "logout";
 export type Status =
+  | "fixed"
   | "active"
   | "success"
   | "failed"
   | "pending"
+  | "ongoing"
   | "blocked"
   | "approved"
   | "rejected";
@@ -112,6 +117,12 @@ export type ActivityLog = Awaited<
 >;
 
 export type Trashbin = typeof trashbinsTable.$inferSelect;
+export type TrashbinIssue = Awaited<
+  ReturnType<typeof TrashbinRepository.getAllTrashbinsIssue>
+>;
+export type TrashbinCollection = Awaited<
+  ReturnType<typeof TrashbinRepository.getAllTrashbinsCollection>
+>;
 
 export type TrashbinStatus = (typeof TRASHBIN_STATUSES)[number];
 

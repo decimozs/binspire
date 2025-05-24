@@ -4,6 +4,8 @@ import {
   accountsTable,
   organizationsTable,
   requestAccessTable,
+  trashbinsCollectionTable,
+  trashbinsIssueTable,
   trashbinsTable,
   userActivityTable,
   usersTable,
@@ -14,6 +16,12 @@ import { nanoid } from "nanoid";
 import { hashUrlToken } from "./utils";
 import type { Action, Status, Title } from "./types";
 import { fromTitle } from "./constants";
+
+function randomDate(start: Date, end: Date) {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime()),
+  );
+}
 
 export const seedOrganizations = async () => {
   const organizations = Array.from({ length: 10 }).map(() => {
@@ -58,7 +66,7 @@ export const seedUsersAndAccounts = async () => {
     return;
   }
 
-  const users = Array.from({ length: 10 }).map(() => {
+  const users = Array.from({ length: 200 }).map(() => {
     const id = nanoid();
     return {
       id,
@@ -184,41 +192,43 @@ export const seedUserActivities = async () => {
   console.log("✅ Seeded user activity");
 };
 
+const latLngs = [
+  [14.578342384001559, 121.07463193405027],
+  [14.577886702006609, 121.07578212263957],
+  [14.578656811854344, 121.07458067915695],
+  [14.579800722724215, 121.07757877798196],
+  [14.579748249763696, 121.07765407870465],
+  [14.579461020204079, 121.07629044892656],
+  [14.577254332143326, 121.07655351515689],
+  [14.577095410235756, 121.07518614779536],
+  [14.576657940971273, 121.07622208365427],
+  [14.578375640697189, 121.07673515228237],
+];
+
+const wasteLevels = ["empty", "moderate", "almost-full", "full", "overflowing"];
+const weightLevels = ["light", "heavy", "overweight", "hazardous"];
+const batteryLevels = ["high", "medium", "low", "critical"];
+
 export const seedTrashbins = async () => {
-  const latLngs = [
-    [14.578342384001559, 121.07463193405027],
-    [14.577886702006609, 121.07578212263957],
-    [14.578656811854344, 121.07458067915695],
-    [14.579800722724215, 121.07757877798196],
-    [14.579748249763696, 121.07765407870465],
-    [14.579461020204079, 121.07629044892656],
-    [14.577254332143326, 121.07655351515689],
-    [14.577095410235756, 121.07518614779536],
-    [14.576657940971273, 121.07622208365427],
-    [14.578375640697189, 121.07673515228237],
-  ];
-
-  const wasteLevels = [
-    "empty",
-    "moderate",
-    "almost-full",
-    "full",
-    "overflowing",
-  ];
-  const weightLevels = ["light", "heavy", "overweight", "hazardous"];
-  const batteryLevels = ["high", "medium", "low", "critical"];
-
-  const trashbins = latLngs.map(([lat, lng], i) => {
+  const trashbins = Array.from({ length: 10 }).map((_, i) => {
     const id = nanoid();
     const wasteLevel = faker.helpers.arrayElement(wasteLevels);
     const weightLevel = faker.helpers.arrayElement(weightLevels);
     const batteryLevel = faker.helpers.arrayElement(batteryLevels);
     const randomLevel = () => Math.floor(Math.random() * 105) + 1;
 
+    // cycle latLngs so all 100 trashbins have a lat/lng
+    const [lat, lng] = latLngs[i % latLngs.length];
+
+    // generate random dates between Jan 1, 2024 and now
+    const createdAt = randomDate(new Date("2024-01-01"), new Date());
+    // updatedAt should be >= createdAt, so random between createdAt and now
+    const updatedAt = randomDate(createdAt, new Date());
+
     return {
       id,
       name: `Trash Bin ${i + 1}`,
-      isActive: true,
+      isActive: faker.datatype.boolean(),
       isCollected: false,
       latitude: lat.toString(),
       longitude: lng.toString(),
@@ -228,22 +238,103 @@ export const seedTrashbins = async () => {
       wasteLevel: randomLevel().toString(),
       weightLevel: randomLevel().toString(),
       batteryLevel: randomLevel().toString(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt,
+      updatedAt,
     };
   });
 
   await db.insert(trashbinsTable).values(trashbins);
-  console.log("✅ Seeded trashbins");
+  console.log("✅ Seeded 100 trashbins with random dates");
 };
 
-const seed = async () => {
+export const seedTrashbinCollections = async () => {
+  const users = await db.select({ id: usersTable.id }).from(usersTable);
+  const trashbins = await db
+    .select({ id: trashbinsTable.id })
+    .from(trashbinsTable);
+
+  if (users.length === 0 || trashbins.length === 0) {
+    console.error("❌ No users or trashbins found to seed collections");
+    return;
+  }
+
+  const statusOptions = ["pending", "collected", "missed", "cancelled"];
+
+  const startDate = new Date("2024-01-01");
+  const endDate = new Date();
+
+  const collections = Array.from({ length: 500 }).map(() => {
+    const createdAt = randomDate(startDate, endDate);
+    const updatedAt = randomDate(createdAt, endDate); // updatedAt should be >= createdAt
+
+    return {
+      id: nanoid(),
+      userId: faker.helpers.arrayElement(users).id,
+      trashbinId: faker.helpers.arrayElement(trashbins).id,
+      status: faker.helpers.arrayElement(statusOptions),
+      createdAt,
+      updatedAt,
+    };
+  });
+
+  await db.insert(trashbinsCollectionTable).values(collections);
+  console.log(`✅ Seeded ${collections.length} trashbin collections`);
+};
+
+export const seedTrashbinIssues = async () => {
+  const users = await db.select({ id: usersTable.id }).from(usersTable);
+  const trashbins = await db
+    .select({ id: trashbinsTable.id })
+    .from(trashbinsTable);
+
+  if (users.length === 0 || trashbins.length === 0) {
+    console.error("❌ No users or trashbins found to seed issues");
+    return;
+  }
+
+  const issueTypes = [
+    "Damaged bin",
+    "Overflowing waste",
+    "Bad odor",
+    "Missing bin",
+    "Animal intrusion",
+    "Mechanical issue",
+    "Other",
+  ];
+
+  const startDate = new Date("2024-01-01");
+  const endDate = new Date();
+
+  const issues = Array.from({ length: 300 }).map(() => {
+    const createdAt = randomDate(startDate, endDate);
+    const updatedAt = randomDate(createdAt, endDate); // updatedAt should be >= createdAt
+
+    return {
+      id: nanoid(),
+      userId: faker.helpers.arrayElement(users).id,
+      trashbinId: faker.helpers.arrayElement(trashbins).id,
+      name: faker.helpers.arrayElement(issueTypes),
+      description: faker.lorem.paragraph(),
+      status: faker.helpers.arrayElement(["ongoing", "resolved", "reported"]),
+      createdAt,
+      updatedAt,
+    };
+  });
+
+  await db.insert(trashbinsIssueTable).values(issues);
+  console.log(`✅ Seeded ${issues.length} trashbin issues`);
+};
+
+export const seedAll = async () => {
   await seedOrganizations();
   await seedUsersAndAccounts();
   await seedVerifications();
   await seedRequestAccess();
   await seedUserActivities();
   await seedTrashbins();
+  await seedTrashbinCollections();
+  await seedTrashbinIssues();
 };
 
-seed();
+seedTrashbinCollections();
+seedTrashbinIssues();

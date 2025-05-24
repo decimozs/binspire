@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE systemDetails SYSTEM "system-details.dtd">
+<systemDetails>
+  <name>Binspire</name>
+  <community>Arcovia</community>
+  <status>Operational</status>
+  <version>1.0.0</version>
+  <environment>Production</environment>
+  <uptime>99.98%</uptime>
+  <lastUpdated>2025-05-18</lastUpdated>
+  <serverRegion>Philippines (Asia-Pacific)</serverRegion>
+  <developedBy>Binspire Inc</developedBy>
+  <contact>support@binspire.io</contact>
+  <about>Binspire is an intelligent trashbin monitoring platform designed to optimize waste collection through real-time data, smart detection, and analytics. It supports sustainable and efficient urban waste management for modern communities.</about>
+  <links>
+    <link type="terms">https://binspire.io/terms</link>
+    <link type="privacy">https://binspire.io/privacy</link>
+    <link type="github">https://github.com/binspire</link>
+  </links>
+</systemDetails>

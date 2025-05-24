@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { getCurrentUser } from "@/query/users.query.server";
 import { logout } from "@/action/auth.action.server";
-import { TrashbinQuery } from "@/query/trashbins.query.server";
+import { TrashbinQuery } from "@/query/trashbins.query";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const user = await getCurrentUser(request);

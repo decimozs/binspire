@@ -1,0 +1,12 @@
+<!ELEMENT backupSettings (backup, restore)>
+<!ELEMENT backup (filename, createdAt, size, description)>
+<!ELEMENT filename (#PCDATA)>
+<!ELEMENT createdAt (#PCDATA)>
+<!ELEMENT size (#PCDATA)>
+<!ATTLIST size unit CDATA #REQUIRED>
+<!ELEMENT description (#PCDATA)>
+
+<!ELEMENT restore (lastRestored, restoredBy, note)>
+<!ELEMENT lastRestored (#PCDATA)>
+<!ELEMENT restoredBy (#PCDATA)>
+<!ELEMENT note (#PCDATA)>

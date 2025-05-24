@@ -158,7 +158,9 @@ export const ReviewTrashbin = () => {
                 ) : (
                   <Button className="h-12 p-4" disabled>
                     <CircleArrowUp className="mt-[0.1rem]" />
-                    Collected
+                    {userRole === "admin"
+                      ? `Last collect at ${formatRelativeTime(trashbin.updatedAt)}`
+                      : "Collected"}
                   </Button>
                 )}
                 {userRole === "collector" && <ReportTrashbin data={trashbin} />}
@@ -435,9 +437,12 @@ const TrashinSettings = ({ data }: { data: Trashbin }) => {
   const trashbin = data;
   const componentKey = "update-trashbin-settings";
   const [, setTrashbinId] = useQueryState("t");
-  const [trashbinSettings, setTrashbinSettings] = useQueryState("ts", {
-    history: "replace",
-  });
+  const [trashbinSettings, setTrashbinSettings] = useQueryState(
+    "trashbin_settings",
+    {
+      history: "replace",
+    },
+  );
   const fetcher = useFetcher<TrashbinActionData>({ key: componentKey });
   const actionData = fetcher.data;
   const isSubmitting = fetcher.state === "submitting";

@@ -1,4 +1,4 @@
-import { NotificationRepository } from "../repository/notifications.server";
+import { NotificationRepository } from "../repository/notifications.repository.server";
 
 async function clearNotificationById(id: string) {
   const [data] = await NotificationRepository.clearNotificationById(id);

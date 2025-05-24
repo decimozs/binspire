@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="adminData.xsl"?><!DOCTYPE data SYSTEM "adminData.dtd">
 <data>
   <adminData>
     <teams>
@@ -56,7 +58,6 @@
           </item>
         </items>
       </nav>
-      <!-- Add Trashbin and Settings similarly -->
     </navMain>
     <projects>
       <project>

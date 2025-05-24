@@ -3,12 +3,15 @@ import {
   userCommentTable,
   userNotificationsTable,
   usersTable,
+  type UpdateUser,
 } from "@/db";
 import db from "@/lib/db.server";
 import { getSession } from "@/lib/sessions.server";
 import type { CreateActivityLog, CreateNotification, Title } from "@/lib/types";
 import { eq } from "drizzle-orm";
 import { broadcast } from "@/lib/ws.server";
+import { actionResponse } from "@/lib/utils";
+import { rpc } from "@/lib/rpc";
 
 export async function userAction(
   request: Request,
@@ -289,23 +292,18 @@ export async function markNotificationAsReadById(notificationId: string) {
   };
 }
 
-export async function updateUser(
-  userId: string,
-  data: Partial<typeof usersTable.$inferInsert>,
-) {
-  const [response] = await db
-    .update(usersTable)
-    .set(data)
-    .where(eq(usersTable.id, userId))
-    .returning();
-
-  if (!response) {
-    return {
-      errors: "Failed to update user",
-    };
+async function updateUser(intent: string, id: string, data: UpdateUser) {
+  try {
+    await rpc.users[":id"].update.$patch({
+      param: { id: id },
+      json: data,
+    });
+    return actionResponse(true, intent);
+  } catch (error) {
+    return actionResponse(false, intent);
   }
-
-  return {
-    success: true,
-  };
 }
+
+export const UserAction = {
+  updateUser,
+};

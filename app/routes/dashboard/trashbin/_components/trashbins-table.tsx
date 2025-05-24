@@ -1,17 +1,8 @@
+import { DeleteTrashbin } from "@/components/action/trashbins";
 import { DynamicTrashbinStatusBadge } from "@/components/shared/dynamic-badge";
 import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row";
 import { TableContainer } from "@/components/shared/table-container";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -28,111 +19,11 @@ import {
 import { tableRowColumns } from "@/lib/constants";
 import type { Trashbin } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
-import {
-  useDeleteTrashbinFetcher,
-  type TrashbinActionData,
-} from "@/routes/resource/trashbins.resource";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
-import { Ellipsis, Link, Loader2, Trash } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import { useQueryState } from "nuqs";
-import { useEffect } from "react";
-import { useFetcher } from "react-router";
-import { toast } from "sonner";
 
 type ActionType = "update" | "delete" | "view";
-type DialogEvent = "open" | "close";
-
-const DeleteTrashbin = ({ data }: { data: Trashbin }) => {
-  const trashbin = data;
-  const componentKey = "delete-trashbin";
-  const fetcher = useFetcher<TrashbinActionData>({ key: componentKey });
-  const actionData = fetcher.data;
-  const actionFetcher = useDeleteTrashbinFetcher(componentKey, trashbin.id);
-  const isSubmitting = fetcher.state === "submitting";
-  const [, setTrashbinIdParam] = useQueryState("trashbin_id");
-  const [deleteTrashbinParam, setDeleteTrashbinParam] =
-    useQueryState("delete_trashbin");
-  const handleDialogEvent = (event: DialogEvent) => {
-    switch (event) {
-      case "open": {
-        setTrashbinIdParam(trashbin.id);
-        setDeleteTrashbinParam("true");
-        break;
-      }
-      case "close": {
-        setTrashbinIdParam(null);
-        setDeleteTrashbinParam(null);
-        break;
-      }
-    }
-  };
-
-  const handleDeleteTrashbin = () => {
-    actionFetcher.submit();
-  };
-
-  useEffect(() => {
-    if (actionData?.success) {
-      toast.success("Successfully deleted trashbin", {
-        action: {
-          label: "Close",
-          onClick: () => console.log("close"),
-        },
-      });
-      window.history.replaceState({}, "", window.location.pathname);
-    }
-  }, [actionData]);
-
-  return (
-    <Dialog
-      open={!!deleteTrashbinParam}
-      onOpenChange={(open) => {
-        if (!open) {
-          handleDialogEvent("close");
-        }
-      }}
-    >
-      <DialogTrigger onClick={() => handleDialogEvent("open")} asChild>
-        <Button
-          variant="ghost"
-          className="p-2 font-normal w-full justify-start"
-        >
-          {" "}
-          Delete
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Delete this trashbin?</DialogTitle>
-          <DialogDescription>
-            You're about to delete this trashbin. You can’t undo this action
-            after confirming.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="border-input border-[1px] bg-muted p-4 text-sm rounded-md">
-          <div className="flex flex-row gap-4">
-            <div className="mt-1">
-              <Trash />
-            </div>
-            <div>
-              <p>Trashbin {trashbin.id}</p>
-              <p className="text-muted-foreground">{trashbin.name}</p>
-            </div>
-          </div>
-        </div>
-        <DialogFooter>
-          <Button onClick={handleDeleteTrashbin} disabled={isSubmitting}>
-            {isSubmitting && <Loader2 className="mr-auto animate-spin" />}
-            {!isSubmitting ? "Confirm" : "Collecting..."}
-          </Button>
-          <DialogClose asChild>
-            <Button variant="outline">Close</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-};
 
 export default function TrashbinsTable({ data }: { data: Trashbin[] }) {
   const { trashbinsManagementTable } = tableRowColumns;

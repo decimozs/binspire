@@ -26,8 +26,8 @@ export async function action({ request }: Route.ActionArgs) {
   );
 
   const options = {
-    from: "marlonadiguemartin548@gmail.com",
-    to: email,
+    from: "Binspire",
+    to: "marlonadiguemartin548@gmail.com",
     subject: "Email Verification",
     html: emailHtml,
   } as MailOptions;

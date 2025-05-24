@@ -12,7 +12,7 @@
       <body>
         <h1>Admin Teams</h1>
         <ul>
-          <xsl:for-each select="dashboard/adminData/teams/team">
+          <xsl:for-each select="data/adminData/teams/team">
             <li>
               <b>
                 <xsl:value-of select="name" />
@@ -23,7 +23,7 @@
         </ul>
 
         <h2>Navigation</h2>
-        <xsl:for-each select="dashboard/adminData/navMain/nav">
+        <xsl:for-each select="data/adminData/navMain/nav">
           <h3>
             <xsl:value-of select="title" />
           </h3>
@@ -38,7 +38,7 @@
 
         <h2>Projects</h2>
         <ul>
-          <xsl:for-each select="dashboard/adminData/projects/project">
+          <xsl:for-each select="data/adminData/projects/project">
             <li>
               <xsl:value-of select="name" /> - <xsl:value-of select="icon" />
             </li>

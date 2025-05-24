@@ -1,0 +1,15 @@
+<!ELEMENT systemDetails (name, community, status, version, environment, uptime, lastUpdated, serverRegion, developedBy, contact, about, links)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT community (#PCDATA)>
+<!ELEMENT status (#PCDATA)>
+<!ELEMENT version (#PCDATA)>
+<!ELEMENT environment (#PCDATA)>
+<!ELEMENT uptime (#PCDATA)>
+<!ELEMENT lastUpdated (#PCDATA)>
+<!ELEMENT serverRegion (#PCDATA)>
+<!ELEMENT developedBy (#PCDATA)>
+<!ELEMENT contact (#PCDATA)>
+<!ELEMENT about (#PCDATA)>
+<!ELEMENT links (link+)>
+<!ELEMENT link (#PCDATA)>
+<!ATTLIST link type (terms | privacy | github) #REQUIRED>

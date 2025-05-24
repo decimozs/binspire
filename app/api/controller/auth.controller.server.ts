@@ -1,17 +1,8 @@
-import { errorResponse, factory, successResponse } from "@/lib/utils";
-import { AuthService } from "../service/auth.services.server";
-import type {
-  GoogleGrantedScopes,
-  GooglePayload,
-  GoogleToken,
-  GoogleUser,
-} from "@/lib/types";
+import { errorResponse, factory } from "@/lib/utils";
+import { AuthService } from "../service/auth.service.server";
+import type { GoogleGrantedScopes, GoogleToken, GoogleUser } from "@/lib/types";
 import { redirect } from "react-router";
-import {
-  commitSession,
-  getSession,
-  setUserSession,
-} from "@/lib/sessions.server";
+import { commitSession, setUserSession } from "@/lib/sessions.server";
 import { zValidator } from "@hono/zod-validator";
 import { loginSchema } from "@/lib/validations.server";
 

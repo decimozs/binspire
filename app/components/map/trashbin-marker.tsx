@@ -11,12 +11,31 @@ import type { Trashbin, TrashbinStatus } from "@/lib/types";
 import { useQueryState } from "nuqs";
 import { trashbinStatusColorMap } from "@/lib/constants";
 import { hexToRgba } from "@/lib/utils";
+import { useWebsocketStore } from "@/store/websocket.store";
+import { useEffect } from "react";
+import { useRevalidator } from "react-router";
 
 export default function TrashbinMarker({ data }: { data: Trashbin[] }) {
+  const revalidator = useRevalidator();
   const { current: map } = useMap();
   const [routeDirectionParam] = useQueryState("route_direction");
   const [trashbinIdParam, setTrashbinIdParams] = useQueryState("trashbin_id");
   const [, setViewTrashbinParam] = useQueryState("view_trashbin");
+  const lastMessage = useWebsocketStore((s) => s.lastMessage);
+
+  // Revalidate when a trashbin is collected
+  useEffect(() => {
+    if (lastMessage !== null) {
+      try {
+        const parsed = JSON.parse(lastMessage.data);
+        if (parsed.transaction === "collect-trashbin" && parsed.trashbinId) {
+          revalidator.revalidate(); // Only revalidate, no state update
+        }
+      } catch (error) {
+        console.error("Error parsing WebSocket message:", error);
+      }
+    }
+  }, [lastMessage, revalidator]);
 
   const handleReviewTrashbin = (
     id: string,
@@ -34,6 +53,16 @@ export default function TrashbinMarker({ data }: { data: Trashbin[] }) {
     setViewTrashbinParam("true");
   };
 
+  const getTrashbinColor = (item: Trashbin) => {
+    if (item.wasteStatus === "empty") {
+      return hexToRgba("#4ade80", 0.7);
+    }
+    return hexToRgba(
+      trashbinStatusColorMap[item.wasteStatus as TrashbinStatus],
+      0.7,
+    );
+  };
+
   return (
     <>
       {data.map((item) => (
@@ -48,6 +77,9 @@ export default function TrashbinMarker({ data }: { data: Trashbin[] }) {
               onClick={() =>
                 handleReviewTrashbin(item.id, item.longitude, item.latitude)
               }
+              style={{
+                backgroundColor: getTrashbinColor(item),
+              }}
             >
               <Trash />
             </Button>
@@ -67,10 +99,7 @@ export default function TrashbinMarker({ data }: { data: Trashbin[] }) {
                   handleReviewTrashbin(item.id, item.longitude, item.latitude)
                 }
                 style={{
-                  backgroundColor: hexToRgba(
-                    trashbinStatusColorMap[item.wasteStatus as TrashbinStatus],
-                    0.7,
-                  ),
+                  backgroundColor: getTrashbinColor(item),
                 }}
               >
                 <Trash />

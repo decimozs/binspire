@@ -1,0 +1,8 @@
+<!ELEMENT settings (section+)>
+<!ELEMENT section (title, row+)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT row (icon, name, description, action)>
+<!ELEMENT icon (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT action (#PCDATA)>

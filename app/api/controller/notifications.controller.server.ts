@@ -1,5 +1,5 @@
 import { errorResponse, factory, successResponse } from "@/lib/utils";
-import { NotificationsService } from "../service/notifications.server";
+import { NotificationsService } from "../service/notifications.service.server";
 import { zValidator } from "@hono/zod-validator";
 import { idParamSchema } from "@/lib/validations.server";
 

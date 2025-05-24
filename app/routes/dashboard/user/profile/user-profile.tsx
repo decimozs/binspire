@@ -7,10 +7,15 @@ import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/sessions.server";
 import { UserLoader } from "@/loader/users.loader.server";
 import { broadcast } from "@/lib/ws.server";
+import { useDashboardLayoutLoader } from "../../layout";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const userId = params.userId;
-  return await UserLoader.profile(userId);
+  const user = await UserLoader.profile(userId);
+  return {
+    user,
+    userId: params.userId,
+  };
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -118,6 +123,15 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export default function UserProfileRoute() {
-  const { user, activityLogs } = useLoaderData<typeof loader>();
-  return <UserInfo data={activityLogs} user={user} />;
+  const { user, userId } = useLoaderData<typeof loader>();
+  const loaderData = useDashboardLayoutLoader();
+  const currentUser = loaderData?.userId;
+  const isCurrentUserProfile = currentUser === userId;
+  return (
+    <UserInfo
+      data={user.activityLogs}
+      user={user.user}
+      isCurrentUser={isCurrentUserProfile}
+    />
+  );
 }

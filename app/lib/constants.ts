@@ -13,6 +13,7 @@ import {
   CircleDashed,
   CircleMinus,
   CircleOff,
+  CirclePlus,
   CircleX,
   Clock,
   Diff,
@@ -22,6 +23,7 @@ import {
   GalleryVerticalEnd,
   HardHat,
   House,
+  Info,
   KeyRound,
   Lock,
   LogIn,
@@ -132,12 +134,8 @@ export const adminData = {
           url: "/dashboard",
         },
         {
-          title: "Audit",
-          url: "#",
-        },
-        {
-          title: "History",
-          url: "#",
+          title: "Analytics",
+          url: "/dashboard/analytics",
         },
       ],
     },
@@ -170,20 +168,16 @@ export const adminData = {
       icon: Trash,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Management",
+          url: "/dashboard/trashbin/management",
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: "Issues",
+          url: "/dashboard/trashbin/issues",
         },
         {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          title: "Collection",
+          url: "/dashboard/trashbin/collections",
         },
       ],
     },
@@ -194,36 +188,36 @@ export const adminData = {
       items: [
         {
           title: "General",
-          url: "#",
+          url: "/dashboard/settings/general",
         },
         {
-          title: "Team",
-          url: "#",
+          title: "Appearance",
+          url: "/dashboard/settings/appearance",
         },
         {
-          title: "Billing",
-          url: "#",
+          title: "Backup",
+          url: "/dashboard/settings/backup",
         },
         {
-          title: "Limits",
-          url: "#",
+          title: "About",
+          url: "/dashboard/settings/about",
         },
       ],
     },
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "User Management",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
+      name: "Trashbin Management",
       url: "#",
       icon: PieChart,
     },
     {
-      name: "Travel",
+      name: "Change Theme",
       url: "#",
       icon: Map,
     },
@@ -262,20 +256,12 @@ export const collectorData = {
       icon: Trash,
       items: [
         {
-          title: "Management",
-          url: "/dashboard/trashbin/management",
-        },
-        {
           title: "Issues",
           url: "/dashboard/trashbin/issues",
         },
         {
           title: "Collection",
           url: "/dashboard/trashbin/collections",
-        },
-        {
-          title: "Tasks",
-          url: "/dashboard/trashbin/tasks",
         },
       ],
     },
@@ -286,38 +272,21 @@ export const collectorData = {
       items: [
         {
           title: "General",
-          url: "#",
+          url: "/dashboard/settings/general",
         },
         {
-          title: "Team",
-          url: "#",
+          title: "Appearance",
+          url: "/dashboard/settings/appearance",
         },
         {
-          title: "Billing",
-          url: "#",
+          title: "Backup",
+          url: "/dashboard/settings/backup",
         },
         {
-          title: "Limits",
-          url: "#",
+          title: "About",
+          url: "/dashboard/settings/about",
         },
       ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
     },
   ],
 };
@@ -369,9 +338,27 @@ export const tableRowColumns = {
     { label: "Created At", icon: Clock },
     { label: "", alignRight: true },
   ],
+  trashbinsIssueTable: [
+    { label: "Issue", icon: Info },
+    { label: "Trashbin", icon: Trash },
+    { label: "Description", icon: Mail },
+    { label: "Status", icon: CircleDashed },
+    { label: "Issued by", icon: UserRound },
+    { label: "Created At", icon: Clock },
+    { label: "", alignRight: true },
+  ],
+  trashbinsCollectionTable: [
+    { label: "Trashbin", icon: Trash },
+    { label: "Collected by", icon: UserRound },
+    { label: "Status", icon: CircleDashed },
+    { label: "Collected At", icon: Clock },
+    { label: "", alignRight: true },
+  ],
 };
 
 export const statusIcons: Record<Status, LucideIcon> = {
+  fixed: CirclePlus,
+  ongoing: CircleArrowUp,
   success: CircleCheck,
   failed: CircleX,
   active: CircleArrowUp,

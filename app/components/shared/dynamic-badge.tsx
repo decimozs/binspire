@@ -118,6 +118,32 @@ const DynamicTrashbinOperationalBadge = ({
   );
 };
 
+const DynamicTrashbinIssueStatusBadge = ({ status }: { status: string }) => {
+  const isFixed = status === "fixed";
+
+  return (
+    <Badge
+      className={`flex flex-row items-center gap-2 text-secondary-foreground ${
+        isFixed ? "bg-green-200" : "bg-red-200"
+      }`}
+    >
+      <span className="relative flex size-3">
+        <span
+          className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${
+            isFixed ? "bg-green-400 animate-ping" : "bg-red-400"
+          }`}
+        ></span>
+        <span
+          className={`relative inline-flex size-3 rounded-full ${
+            isFixed ? "bg-green-500" : "bg-red-500"
+          }`}
+        ></span>
+      </span>
+      {isFixed ? "Fix" : "Ongoing"}
+    </Badge>
+  );
+};
+
 export {
   DynamicActiveBadge,
   DynamicPermissionBadge,
@@ -127,4 +153,5 @@ export {
   DynamicActionStatusBadge,
   DynamicTrashbinOperationalBadge,
   DynamicTrashbinStatusBadge,
+  DynamicTrashbinIssueStatusBadge,
 };

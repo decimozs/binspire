@@ -6,7 +6,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Bell, UserRound } from "lucide-react";
+import { Bell, Settings2, Trash, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Separator } from "../ui/separator";
@@ -55,6 +55,12 @@ export default function CommandCentralMenu() {
               <span>Map</span>
             </div>
           </CommandItem>
+          <CommandItem onSelect={() => handleSelect("/dashboard/analytics")}>
+            <div className="flex items-center gap-2 cursor-pointer">
+              <UserRound />
+              <span>Analytics</span>
+            </div>
+          </CommandItem>
           <CommandItem onSelect={handleSheet}>
             <div className="flex items-center gap-2 cursor-pointer">
               <Bell />
@@ -94,6 +100,68 @@ export default function CommandCentralMenu() {
             <div className="flex items-center gap-2 cursor-pointer">
               <UserRound />
               <span>Roles & Permissions</span>
+            </div>
+          </CommandItem>
+        </CommandGroup>
+
+        <CommandGroup heading="Manage Trashbins">
+          <CommandItem
+            onSelect={() => handleSelect("/dashboard/user/management")}
+          >
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Trash />
+              <span>Trashbin Management</span>
+            </div>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect("/dashboard/user/access-requests")}
+          >
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Trash />
+              <span>Trashbin Issues</span>
+            </div>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect("/dashboard/user/activity-logs")}
+          >
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Trash />
+              <span>Trashbin Collections</span>
+            </div>
+          </CommandItem>
+        </CommandGroup>
+
+        <CommandGroup heading="Settings">
+          <CommandItem
+            onSelect={() => handleSelect("/dashboard/user/management")}
+          >
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Settings2 />
+              <span>General</span>
+            </div>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect("/dashboard/user/access-requests")}
+          >
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Settings2 />
+              <span>Appearance</span>
+            </div>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect("/dashboard/user/activity-logs")}
+          >
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Settings2 />
+              <span>Backup</span>
+            </div>
+          </CommandItem>
+          <CommandItem
+            onSelect={() => handleSelect("/dashboard/user/roles-permissions")}
+          >
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Settings2 />
+              <span>About</span>
             </div>
           </CommandItem>
         </CommandGroup>

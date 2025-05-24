@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE settings SYSTEM "general-settings.dtd">
+<settings>
+  <section>
+    <title>Language</title>
+    <description>Choose the default language used across the system interface.</description>
+    <action>Change</action>
+  </section>
+  <section>
+    <title>Timezone</title>
+    <description>Set the timezone used for logging, timestamps, and scheduling.</description>
+    <action>Change</action>
+  </section>
+  <section>
+    <title>Notifications</title>
+    <description>Manage system alert preferences, email updates, and reminders.</description>
+    <action>Toggle</action>
+  </section>
+  <section>
+    <title>Security</title>
+    <description>Review security settings including session timeouts and password policies.</description>
+    <action>Change</action>
+  </section>
+  <section>
+    <title>Privacy</title>
+    <description>Control data visibility, telemetry, and user consent options.</description>
+    <action>Change</action>
+  </section>
+</settings>
