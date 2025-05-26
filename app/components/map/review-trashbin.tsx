@@ -151,17 +151,10 @@ export const ReviewTrashbin = () => {
               </div>
             </div>
             <SheetFooter>
-              <div className="grid [grid-template-columns:100px_1fr_1fr] gap-2">
+              <div className="flex flex-row gap-2 w-full items-center">
                 <NavigateTrashbin data={trashbin} />
-                {!trashbin.isCollected && userRole === "collector" ? (
+                {!trashbin.isCollected && userRole === "collector" && (
                   <CollectTrashbin data={trashbin} />
-                ) : (
-                  <Button className="h-12 p-4" disabled>
-                    <CircleArrowUp className="mt-[0.1rem]" />
-                    {userRole === "admin"
-                      ? `Last collect at ${formatRelativeTime(trashbin.updatedAt)}`
-                      : "Collected"}
-                  </Button>
                 )}
                 {userRole === "collector" && <ReportTrashbin data={trashbin} />}
                 {userRole === "admin" && <TrashinSettings data={trashbin} />}
@@ -209,7 +202,7 @@ const NavigateTrashbin = ({ data }: { data: Trashbin }) => {
 
   return (
     <Button
-      className="h-12 p-4"
+      className="h-12 p-4 w-[100px]"
       onClick={() =>
         handleNavigateTrashbin(
           [121.07544884155124, 14.577870676283723],
@@ -273,8 +266,7 @@ const CollectTrashbin = ({ data }: { data: Trashbin }) => {
     >
       <DialogTrigger asChild>
         <Button
-          className="h-12 p-4"
-          variant="secondary"
+          className="h-12 p-4 grow"
           onClick={() => setCollectTrashbin("true")}
         >
           <CircleArrowUp className="mt-[0.1rem]" />
@@ -374,8 +366,8 @@ const ReportTrashbin = ({ data }: { data: Trashbin }) => {
     >
       <DialogTrigger asChild>
         <Button
-          className="h-12 p-4"
-          variant="secondary"
+          className="h-12 p-4 grow"
+          variant="outline"
           onClick={() => setReportTrashbin("true")}
         >
           <CircleAlert className="mt-[0.1rem]" />
@@ -486,7 +478,7 @@ const TrashinSettings = ({ data }: { data: Trashbin }) => {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="h-12 p-4"
+          className="h-12 p-4 grow"
           onClick={() => setTrashbinSettings("true")}
         >
           <Settings className="mt-[0.1rem]" />

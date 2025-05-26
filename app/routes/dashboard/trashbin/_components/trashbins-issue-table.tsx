@@ -1,3 +1,4 @@
+import { DeleteTrashbinIssue } from "@/components/action/trashbins";
 import { DynamicStatusBadge } from "@/components/shared/dynamic-badge";
 import DynamicTableHeaderRow from "@/components/shared/dynamic-table-header-row";
 import { TrashbinHoverCard, UserHoverCard } from "@/components/shared/hover";
@@ -107,7 +108,7 @@ export default function TrashbinsIssueTable({ data }: { data: TrashbinIssue }) {
                         View
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
-                        <p>Delete</p>
+                        <DeleteTrashbinIssue data={issue} />
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

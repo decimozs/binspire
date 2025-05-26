@@ -20,6 +20,7 @@ import {
 import { Button } from "../ui/button";
 import {
   ArrowDown,
+  CircleAlert,
   CircleCheck,
   CircleX,
   Info,
@@ -27,6 +28,7 @@ import {
   Trash,
 } from "lucide-react";
 import {
+  deleteTrashbinIssueFetcher,
   useUpdateTrashbinIssueFetcher,
   type TrashbinIssueActionData,
 } from "@/routes/dashboard/trashbin/issues";
@@ -369,7 +371,132 @@ export const DeleteTrashbinCollection = ({
             disabled={isSubmitting}
           >
             {isSubmitting && <Loader2 className="mr-auto animate-spin" />}
-            {!isSubmitting ? "Confirm" : "Collecting..."}
+            {!isSubmitting ? "Confirm" : "Deleting..."}
+          </Button>
+          <DialogClose asChild>
+            <Button variant="outline">Close</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const DeleteTrashbinIssue = ({
+  data,
+}: {
+  data: TrashbinIssue[number];
+}) => {
+  const issue = data;
+  const componentKey = "delete-trashbin-issue";
+  const fetcher = useFetcher<TrashbinActionData>({ key: componentKey });
+  const actionData = fetcher.data;
+  const action = deleteTrashbinIssueFetcher(componentKey);
+  const isSubmitting = fetcher.state === "submitting";
+  const [trashbinIssueIdParam, setTrashbinIssueIdParam] =
+    useQueryState("issue");
+  const [deleteTrashbinIssueParam, setDeleteTrashbinIssueParam] = useQueryState(
+    "delete_trashbin_issue",
+  );
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (trashbinIssueIdParam && deleteTrashbinIssueParam) {
+      setOpen(true);
+    }
+  }, [trashbinIssueIdParam, deleteTrashbinIssueParam]);
+
+  const handleDialogEvent = (event: DialogEvent) => {
+    switch (event) {
+      case "open": {
+        setTrashbinIssueIdParam(issue.id);
+        setDeleteTrashbinIssueParam("true");
+        break;
+      }
+      case "close": {
+        setOpen(false);
+        setTimeout(() => {
+          setTrashbinIssueIdParam(null);
+          setDeleteTrashbinIssueParam(null);
+        }, 500);
+        break;
+      }
+    }
+  };
+
+  const handleDeleteTrashbinIssue = () => {
+    action.submit(issue.id);
+  };
+
+  useEffect(() => {
+    if (actionData?.success) {
+      toast.success("Successfully deleted trashbin issue", {
+        action: {
+          label: "Close",
+          onClick: () => console.log("close"),
+        },
+      });
+      setOpen(false);
+      setTimeout(() => {
+        setTrashbinIssueIdParam(null);
+        setDeleteTrashbinIssueParam(null);
+      }, 500);
+    }
+  }, [actionData]);
+
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={(open) => !open && handleDialogEvent("close")}
+    >
+      <DialogTrigger onClick={() => handleDialogEvent("open")} asChild>
+        <Button
+          variant="ghost"
+          className="p-2 font-normal w-full justify-start"
+        >
+          {" "}
+          Delete
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Delete this trashbin issue?</DialogTitle>
+          <DialogDescription>
+            You're about to delete this trashbin issue. You can’t undo this
+            action after confirming.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="border-input border-[1px] bg-muted p-4 text-sm rounded-md">
+          <div className="flex flex-row gap-4">
+            <div className="mt-1">
+              <CircleAlert />
+            </div>
+            <div>
+              <p>Issue {issue.name}</p>
+              <p className="text-muted-foreground">
+                Issue Status: {issue.status}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center w-full justify-center">
+          <ArrowDown />
+        </div>
+        <div className="border-red-500 border-[1px] p-4 text-sm rounded-md bg-red-400/50">
+          <div className="flex flex-row gap-4">
+            <div className="mt-1">
+              <CircleX />
+            </div>
+            <div>
+              <p>Issue {issue.name}</p>
+              <p>Issue Status: {issue.status}</p>
+            </div>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button onClick={handleDeleteTrashbinIssue} disabled={isSubmitting}>
+            {isSubmitting && <Loader2 className="mr-auto animate-spin" />}
+            {!isSubmitting ? "Confirm" : "Deleting..."}
           </Button>
           <DialogClose asChild>
             <Button variant="outline">Close</Button>

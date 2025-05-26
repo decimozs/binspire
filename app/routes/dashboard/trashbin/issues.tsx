@@ -27,6 +27,17 @@ export async function action({ request }: Route.ActionArgs) {
 
       return actionResponse(true, intent);
     }
+    case "DELETE": {
+      const response = await rpc.trashbins.issues[":id"].delete.$delete({
+        param: {
+          id: id,
+        },
+      });
+
+      if (!response.ok) return actionResponse(false, intent);
+
+      return actionResponse(true, intent);
+    }
     default:
       return actionResponse(false, "Invalid request method");
   }
@@ -45,6 +56,24 @@ export const useUpdateTrashbinIssueFetcher = (intent: string) => {
         {
           action: "/dashboard/trashbin/issues",
           method: "PATCH",
+          encType: "application/json",
+        },
+      );
+    },
+  };
+};
+
+export const deleteTrashbinIssueFetcher = (intent: string) => {
+  const fetcher = useFetcher<TrashbinIssueActionData>({ key: intent });
+
+  return {
+    ...fetcher,
+    submit: (id: string) => {
+      fetcher.submit(
+        { id },
+        {
+          action: "/dashboard/trashbin/issues",
+          method: "DELETE",
           encType: "application/json",
         },
       );

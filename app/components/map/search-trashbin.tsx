@@ -22,9 +22,8 @@ import { trashbinStatusColorMap } from "@/lib/constants";
 export function SearchTrashbin({ data }: { data: Trashbin[] }) {
   const [open, setOpen] = React.useState(false);
   const { current: map } = useMap();
-  const [, setTrashbinIdParams] = useQueryState("t", {
-    history: "replace",
-  });
+  const [, setTrashbinIdParams] = useQueryState("trashbin_id");
+  const [, setViewTrashbinParam] = useQueryState("view_trashbin");
 
   const handleNavigateTrashbin = (
     id: string,
@@ -39,6 +38,7 @@ export function SearchTrashbin({ data }: { data: Trashbin[] }) {
       duration: 2000,
     });
     setTrashbinIdParams(id);
+    setViewTrashbinParam("true");
     setOpen(false);
   };
 

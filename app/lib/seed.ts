@@ -315,7 +315,7 @@ export const seedTrashbinIssues = async () => {
       trashbinId: faker.helpers.arrayElement(trashbins).id,
       name: faker.helpers.arrayElement(issueTypes),
       description: faker.lorem.paragraph(),
-      status: faker.helpers.arrayElement(["ongoing", "resolved", "reported"]),
+      status: faker.helpers.arrayElement(["ongoing", "fixed"]),
       createdAt,
       updatedAt,
     };

@@ -18,10 +18,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { tableRowColumns } from "@/lib/constants";
-import type { Status, TrashbinCollection, TrashbinIssue } from "@/lib/types";
+import type { Status, TrashbinCollection } from "@/lib/types";
 import { formatDate, formatRelativeTime } from "@/lib/utils";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
-import { Ellipsis, User } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 
 export default function TrashbinsCollectionTable({
   data,

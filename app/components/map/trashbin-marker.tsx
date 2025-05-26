@@ -23,13 +23,12 @@ export default function TrashbinMarker({ data }: { data: Trashbin[] }) {
   const [, setViewTrashbinParam] = useQueryState("view_trashbin");
   const lastMessage = useWebsocketStore((s) => s.lastMessage);
 
-  // Revalidate when a trashbin is collected
   useEffect(() => {
     if (lastMessage !== null) {
       try {
         const parsed = JSON.parse(lastMessage.data);
         if (parsed.transaction === "collect-trashbin" && parsed.trashbinId) {
-          revalidator.revalidate(); // Only revalidate, no state update
+          revalidator.revalidate();
         }
       } catch (error) {
         console.error("Error parsing WebSocket message:", error);
@@ -77,9 +76,6 @@ export default function TrashbinMarker({ data }: { data: Trashbin[] }) {
               onClick={() =>
                 handleReviewTrashbin(item.id, item.longitude, item.latitude)
               }
-              style={{
-                backgroundColor: getTrashbinColor(item),
-              }}
             >
               <Trash />
             </Button>
@@ -91,7 +87,6 @@ export default function TrashbinMarker({ data }: { data: Trashbin[] }) {
               {item.batteryStatus === "critical" && (
                 <BatteryWarning size={20} className="fill-red-500" />
               )}
-
               <Button
                 variant="secondary"
                 size="icon"

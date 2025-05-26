@@ -22,9 +22,9 @@ export default function FilterTrashbins() {
   const { setFiltering } = useFilteringStore();
 
   const paramSetters: Record<string, (val: string) => void> = {
-    wl: useQueryState("wl", { history: "replace" })[1],
-    ws: useQueryState("ws", { history: "replace" })[1],
-    bs: useQueryState("bs", { history: "replace" })[1],
+    wl: useQueryState("waste_status", { history: "replace" })[1],
+    ws: useQueryState("weight_status", { history: "replace" })[1],
+    bs: useQueryState("battry_status", { history: "replace" })[1],
   };
 
   return (
