@@ -80,7 +80,7 @@ export default function FontFamilySettings() {
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 w-[250px]">
+        <PopoverContent className="p-0 w-[200px]">
           <Command>
             <CommandInput placeholder="Search font..." className="h-9" />
             <CommandList>

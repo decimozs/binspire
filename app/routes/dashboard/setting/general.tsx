@@ -18,6 +18,7 @@ import SecuritySettings from "@/components/settings/security-settings";
 import PrivacySettings from "@/components/settings/privacy-settings";
 import { useDashboardLayoutLoader } from "../layout";
 import type { Role } from "@/lib/types";
+import { useQueryState } from "nuqs";
 
 export default function GeneralSettingsRoute() {
   const loaderData = useDashboardLayoutLoader();
@@ -80,7 +81,15 @@ function SettingRow({
   description: string;
   actionLabel: string;
 }) {
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] =
+    title === "Notifications"
+      ? useQueryState("is_notifications_enabled", {
+          defaultValue: true,
+          parse: (val) => val === "false",
+          serialize: (val) => String(val),
+        })
+      : useState(false); // fallback for other settings
+
   if (title === "Notifications") {
     return (
       <div className="flex flex-row gap-4 items-center">
@@ -95,7 +104,7 @@ function SettingRow({
           <Switch
             checked={notificationsEnabled}
             onCheckedChange={setNotificationsEnabled}
-            aria-label="Toggle High Contrast Mode"
+            aria-label={`Toggle ${title}`}
           />
         </div>
       </div>

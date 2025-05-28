@@ -148,3 +148,36 @@ body {
 .maplibregl-ctrl {
   display: none;
 }
+
+/* Light mode high contrast: text color only */
+.high-contrast-mode {
+  background-color: #ffffff !important; /* keep light background */
+  color: #000000 !important; /* black text */
+  font-weight: 700; /* make text bold for better readability */
+}
+
+.high-contrast-mode a,
+.high-contrast-mode button {
+  color: #000000 !important; /* black text for links and buttons */
+  background-color: inherit !important; /* no change to background */
+  border-color: inherit !important; /* no border color change */
+}
+
+.high-contrast-mode button:hover,
+.high-contrast-mode a:hover {
+  color: #ffffff !important; /* white text on hover */
+  background-color: #000000 !important; /* black background on hover */
+}
+
+.high-contrast-mode input,
+.high-contrast-mode textarea,
+.high-contrast-mode select {
+  color: #000000 !important; /* black text in inputs */
+  background-color: inherit !important; /* keep original background */
+  border-color: inherit !important; /* keep original border */
+}
+
+.high-contrast-mode ::placeholder {
+  color: #444444 !important; /* dark gray placeholder */
+  opacity: 1 !important;
+}

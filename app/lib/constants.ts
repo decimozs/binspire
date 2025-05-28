@@ -239,7 +239,7 @@ export const collectorData = {
   ],
   navMain: [
     {
-      title: "Dashbooard",
+      title: "Dashboard",
       url: "#",
       icon: House,
       isActive: true,

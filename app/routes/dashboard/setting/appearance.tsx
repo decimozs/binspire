@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   CaseSensitive,
@@ -24,6 +24,7 @@ import {
 import FontFamilySettings from "@/components/settings/font-family-settings";
 import LayoutDensitySettings from "@/components/settings/layout-density-settings";
 import { ThemeSettings } from "@/components/settings/theme-settings";
+import { useQueryState } from "nuqs";
 
 export default function AppearanceSettingRoute() {
   return (
@@ -79,13 +80,35 @@ function SettingRow({
   description: string;
   actionLabel: string;
 }) {
-  const [highContrastEnabled, setHighContrastEnabled] = useState(false);
-  const [fontSize, setFontSize] = useState(16); // default font size
+  const [highContrastEnabled, setHighContrastEnabled] = useQueryState(
+    "high_contrast",
+    {
+      defaultValue: false,
+      parse: (val) => val === "true",
+      serialize: (val) => String(val),
+    },
+  );
 
-  // Clamp function to keep font size in bounds
+  const [fontSize, setFontSize] = useState(16); // default font size
   const clampFontSize = (size: number) => Math.min(30, Math.max(10, size));
 
-  // If it's High Contrast Mode, render Switch instead of Dialog + Button
+  // Effect: add/remove high-contrast CSS class on body
+  useEffect(() => {
+    const className = "high-contrast-mode";
+    if (highContrastEnabled) {
+      document.body.classList.add(className);
+    } else {
+      document.body.classList.remove(className);
+    }
+  }, [highContrastEnabled]);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--app-font-size",
+      `${fontSize}px`,
+    );
+  }, [fontSize]);
+
   if (title === "High Contrast Mode") {
     return (
       <div className="flex flex-row gap-4 items-center">
@@ -109,7 +132,10 @@ function SettingRow({
 
   if (title === "Font Size") {
     return (
-      <div className="flex flex-row gap-4 items-center">
+      <div
+        className="flex flex-row gap-4 items-center"
+        style={{ fontSize: "var(--app-font-size)" }}
+      >
         <div className="border-input border-[1px] border-dashed rounded-md p-4">
           {icon}
         </div>

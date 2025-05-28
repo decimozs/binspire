@@ -1,6 +1,7 @@
 import {
   BadgeCheck,
   Bell,
+  BellOff,
   ChevronsUpDown,
   CreditCard,
   History,
@@ -35,6 +36,11 @@ import { useQueryState } from "nuqs";
 import { useNotificationStore } from "@/store/notifications.store";
 
 export function NavUser({ user, userId }: { user: User; userId: string }) {
+  const [isNotificationsEnabled] = useQueryState("is_notifications_enabled", {
+    defaultValue: true,
+    parse: (val) => val === "true",
+    serialize: (val) => String(val),
+  });
   const { isMobile } = useSidebar();
   const navigate = useNavigate();
   const [notificationSheet, setNotificationSheet] = useQueryState(
@@ -121,7 +127,7 @@ export function NavUser({ user, userId }: { user: User; userId: string }) {
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setNotificationSheet(true)}>
-                <Bell />
+                {isNotificationsEnabled ? <Bell /> : <BellOff />}
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
