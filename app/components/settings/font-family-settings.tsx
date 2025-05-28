@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Command,
   CommandEmpty,
@@ -11,9 +12,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
-import { Button } from "../ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
+import { Button } from "../ui/button";
 
 const fontFamilies = [
   {
@@ -55,49 +55,67 @@ const fontFamilies = [
 
 export default function FontFamilySettings() {
   const [selected, setSelected] = useState<string | undefined>(undefined);
+  const [open, setOpen] = useState(false); // ✅ Control popover state
 
   const selectedFont = fontFamilies.find((f) => f.value === selected);
 
+  const handleSelect = (value: string) => {
+    setSelected(value);
+    setOpen(false); // ✅ Close the popover
+  };
+
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          className={`w-full justify-between ${
-            !selected ? "text-muted-foreground" : ""
-          }`}
-          style={selectedFont ? selectedFont.style : {}}
+    <div className="p-4 space-y-4">
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            className={`w-full justify-between ${
+              !selected ? "text-muted-foreground" : ""
+            }`}
+            style={selectedFont?.style}
+          >
+            {selectedFont ? selectedFont.label : "Select font family"}
+            <ChevronsUpDown className="opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="p-0 w-[250px]">
+          <Command>
+            <CommandInput placeholder="Search font..." className="h-9" />
+            <CommandList>
+              <CommandEmpty>No font found.</CommandEmpty>
+              <CommandGroup>
+                {fontFamilies.map((font) => (
+                  <CommandItem
+                    key={font.value}
+                    value={font.label}
+                    onSelect={() => handleSelect(font.value)}
+                    style={font.style}
+                  >
+                    {font.label}
+                    <Check
+                      className={`ml-auto ${
+                        font.value === selected ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+
+      {/* Optional preview */}
+      {selectedFont && (
+        <div
+          className="text-center p-4 border rounded-md"
+          style={{ fontFamily: selectedFont.value }}
         >
-          {selectedFont ? selectedFont.label : "Select font family"}
-          <ChevronsUpDown className="opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="p-0">
-        <Command>
-          <CommandInput placeholder="Search font..." className="h-9" />
-          <CommandList>
-            <CommandEmpty>No font found.</CommandEmpty>
-            <CommandGroup>
-              {fontFamilies.map((font) => (
-                <CommandItem
-                  key={font.value}
-                  value={font.label}
-                  onSelect={() => setSelected(font.value)}
-                  style={font.style}
-                >
-                  {font.label}
-                  <Check
-                    className={`ml-auto ${
-                      font.value === selected ? "opacity-100" : "opacity-0"
-                    }`}
-                  />
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+          The quick brown fox jumps over the lazy dog.
+        </div>
+      )}
+    </div>
   );
 }

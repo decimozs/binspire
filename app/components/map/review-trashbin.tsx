@@ -9,7 +9,12 @@ import {
 } from "../ui/sheet";
 import { useEffect, useRef, useState } from "react";
 import type { GeoJSONData, Role, Trashbin, TrashbinStatus } from "@/lib/types";
-import { useFetcher, useLocation, useNavigate } from "react-router";
+import {
+  useFetcher,
+  useLocation,
+  useNavigate,
+  useRevalidator,
+} from "react-router";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -46,6 +51,7 @@ import {
 } from "@/routes/resource/trashbins.resource";
 import { Input } from "../ui/input";
 import { useNavigateStore } from "@/store/navigate.store";
+import mqtt from "mqtt";
 
 export const ReviewTrashbin = () => {
   const [trashbinIdParam] = useQueryState("trashbin_id");
@@ -56,6 +62,60 @@ export const ReviewTrashbin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const trashbin = fetcher.data?.data as Trashbin | undefined;
   const userRole = loaderData?.user?.role as Role;
+  const [liveTrashbins, setLiveTrashbins] = useState<Trashbin>();
+  const revalidator = useRevalidator();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      revalidator.revalidate();
+    }, 5000); //
+
+    return () => clearInterval(interval);
+  }, [revalidator]);
+
+  useEffect(() => {
+    const mqttClient = mqtt.connect("ws://test.mosquitto.org:8080");
+    mqttClient.on("connect", () => {
+      console.log("Connected to MQTT broker");
+      mqttClient.subscribe("arcovia/trashbin/status");
+    });
+
+    mqttClient.on("message", (topic, message) => {
+      if (topic === "arcovia/trashbin/status") {
+        const payload = JSON.parse(message.toString());
+        const distance = payload.distance_cm;
+
+        let wasteStatus: TrashbinStatus = "empty";
+        if (distance < 20) wasteStatus = "overflowing";
+        else if (distance < 50) wasteStatus = "full";
+        else if (distance < 80) wasteStatus = "almost-full";
+        console.log(payload);
+
+        const newTrashbin: Trashbin = {
+          id: payload.id,
+          name: payload.name,
+          isActive: payload.isActive,
+          isCollected: payload.isCollected,
+          wasteStatus: payload.wasteStatus,
+          weightStatus: payload.weightStatus,
+          batteryStatus: payload.batteryStatus,
+          latitude: payload.latitude,
+          longitude: payload.longitude,
+          wasteLevel: payload.wasteLevel,
+          weightLevel: payload.weightLevel,
+          batteryLevel: payload.batteryLevel,
+          createdAt: new Date(payload.createdAt),
+          updatedAt: new Date(payload.updatedAt),
+        };
+
+        setLiveTrashbins(newTrashbin);
+      }
+    });
+
+    return () => {
+      mqttClient.end();
+    };
+  }, []);
 
   useEffect(() => {
     if (trashbinIdParam) {
@@ -73,6 +133,104 @@ export const ReviewTrashbin = () => {
 
     console.log(trashbin);
   }, [fetcher.state, fetcher.data]);
+
+  if (trashbinIdParam === "f0nNI_aFd29dEM4H-bpqS") {
+    return (
+      <Sheet
+        open={!!trashbinIdParam && !!viewTrashbinParam}
+        onOpenChange={(open) => {
+          if (!open)
+            window.history.replaceState({}, "", window.location.pathname);
+        }}
+      >
+        <SheetContainer>
+          {isLoading || !trashbin ? (
+            <Loading message="Loading trashbin data..." />
+          ) : (
+            <>
+              <SheetHeader>
+                <SheetTitle>Trashbin</SheetTitle>
+                <SheetDescription>
+                  This section displays the selected trashbin’s details,
+                  including its name, location, waste and weight levels, and
+                  current status. Carefully review the information before taking
+                  any action, as your decision may impact collection schedules
+                  and system data integrity.
+                </SheetDescription>
+              </SheetHeader>
+              <div className="mx-4 border-[1px] border-input rounded-sm p-4">
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-row items-center justify-between">
+                    <SheetTitle>Review</SheetTitle>
+                    <DynamicTrashbinOperationalBadge
+                      isActive={liveTrashbins?.isActive as boolean}
+                    />
+                  </div>
+                  <p>Id {trashbin?.id}</p>
+                  <div className="flex flex-row gap-8">
+                    <div className="flex flex-col gap-2">
+                      <h1 className="text-sm text-muted-foreground">
+                        Location
+                      </h1>
+                      <p className="text-sm flex flex-row gap-2 items-center wrap-anywhere">
+                        <MapPin size={15} className="mt-[0.2rem]" />
+                        {trashbin?.name}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <h1 className="text-sm text-muted-foreground">
+                        Last collected
+                      </h1>
+                      <p className="text-sm flex flex-row gap-2 items-center">
+                        <CircleArrowUp size={15} className="mt-[0.1rem]" />
+                        {formatRelativeTime(trashbin?.updatedAt as Date)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mx-4 border-[1px] border-input rounded-sm p-4">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center justify-center">
+                    <SheetTitle>Levels</SheetTitle>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    <TrashbinLevels
+                      chartName="Waste Level"
+                      level={Number(liveTrashbins?.wasteLevel)}
+                      status={liveTrashbins?.wasteStatus as TrashbinStatus}
+                    />
+                    <TrashbinLevels
+                      chartName="Weight Level"
+                      level={Number(liveTrashbins?.weightLevel)}
+                      status={liveTrashbins?.weightStatus as TrashbinStatus}
+                    />
+                    <TrashbinLevels
+                      chartName="Battery Level"
+                      level={Number(liveTrashbins?.batteryLevel)}
+                      status={liveTrashbins?.batteryStatus as TrashbinStatus}
+                    />
+                  </div>
+                </div>
+              </div>
+              <SheetFooter>
+                <div className="flex flex-row gap-2 w-full items-center">
+                  <NavigateTrashbin data={trashbin} />
+                  {!trashbin.isCollected && userRole === "collector" && (
+                    <CollectTrashbin data={trashbin} />
+                  )}
+                  {userRole === "collector" && (
+                    <ReportTrashbin data={trashbin} />
+                  )}
+                  {userRole === "admin" && <TrashinSettings data={trashbin} />}
+                </div>
+              </SheetFooter>
+            </>
+          )}
+        </SheetContainer>
+      </Sheet>
+    );
+  }
 
   return (
     <Sheet

@@ -31,9 +31,15 @@ const timezones = [
 
 export default function TimezoneSettings() {
   const [selected, setSelected] = useState<string | undefined>(undefined);
+  const [open, setOpen] = useState(false); // ✅ track popover open state
+
+  const handleSelect = (tz: string) => {
+    setSelected(tz);
+    setOpen(false); // ✅ close popover on select
+  };
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -59,7 +65,7 @@ export default function TimezoneSettings() {
                 <CommandItem
                   key={tz}
                   value={tz}
-                  onSelect={() => setSelected(tz)}
+                  onSelect={() => handleSelect(tz)}
                 >
                   {tz}
                   <Check

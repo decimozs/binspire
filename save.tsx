@@ -1,219 +1,170 @@
-import type { Title, User, ActivityLogs } from "@/lib/types";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Ellipsis, KeyRound, Mail, UsersRound } from "lucide-react";
-import { fallbackInitials, formatDate, formatPermission } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Marker, useMap } from "react-map-gl/maplibre";
+import { Button } from "../ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import SearchBar from "@/components/shared/search-bar";
+  BatteryFull,
+  BatteryLow,
+  BatteryMedium,
+  BatteryWarning,
+  Trash,
+} from "lucide-react";
+import type { Trashbin, TrashbinStatus } from "@/lib/types";
 import { useQueryState } from "nuqs";
-import { usePagination } from "@/hooks/use-pagination";
-import { PaginationControls } from "@/components/shared/pagination";
-import { DynamicActiveBadge } from "@/components/shared/dynamic-badge";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { useFetcher } from "react-router";
-import { toast } from "sonner";
+import { trashbinStatusColorMap } from "@/lib/constants";
+import { hexToRgba } from "@/lib/utils";
+import { useWebsocketStore } from "@/store/websocket.store";
 import { useEffect, useState } from "react";
-import { fromTitle } from "@/lib/constants";
-import { DeleteUserActivity } from "@/components/shared/dialog-content";
+import { useRevalidator } from "react-router";
+import mqtt from "mqtt";
 
-export default function UserInfo({
-  data,
-  user,
-}: {
-  data: ActivityLogs;
-  user: User;
-}) {
-  const fetcher = useFetcher();
-  const [deleteDialog, setDeleteDialog] = useState(false);
-  const [replyCommentId, setReplyCommentId] = useState<string | null>(null);
-  const [replyMessage, setReplyMessage] = useState("");
-  const [newReplyMessage, setNewReplyMessage] = useState("");
-  const [commentMessage, setCommentMessage] = useState("");
-  const [viewReplies, setViewReplies] = useState<string | null>(null);
-  const [searchActivity, setSearchActivity] = useQueryState("search");
-  const [, setReviewActivityLog] = useQueryState("activity", {
-    history: "replace",
-  });
-  const [page, setPage] = useQueryState("page", {
-    history: "push",
-    defaultValue: "1",
-  });
-  const [limit, setLimit] = useQueryState("limit", {
-    history: "push",
-    defaultValue: "10",
-  });
-  const pageNumber = parseInt(page || "1", 10);
-  const pageSize = parseInt(limit || "10", 10);
+export default function TrashbinMarker({ data }: { data: Trashbin[] }) {
+  const revalidator = useRevalidator();
+  const { current: map } = useMap();
+  const [routeDirectionParam] = useQueryState("route_direction");
+  const [trashbinIdParam, setTrashbinIdParams] = useQueryState("trashbin_id");
+  const [, setViewTrashbinParam] = useQueryState("view_trashbin");
+  const lastMessage = useWebsocketStore((s) => s.lastMessage);
+  const [liveTrashbins, setLiveTrashbins] = useState<Trashbin[]>([]);
 
-  const filteredData = data.filter((item) => {
-    const query = (searchActivity || "").toLowerCase();
-    return (
-      item.title?.toLowerCase().includes(query) ||
-      item.action?.toLowerCase().includes(query) ||
-      item.description?.toLowerCase().includes(query) ||
-      item.status?.toLowerCase().includes(query)
+  useEffect(() => {
+    const mqttClient = mqtt.connect("ws://test.mosquitto.org:8080");
+    mqttClient.on("connect", () => {
+      console.log("Connected to MQTT broker");
+      mqttClient.subscribe("arcovia/trashbin/status");
+    });
+
+    mqttClient.on("message", (topic, message) => {
+      if (topic === "arcovia/trashbin/status") {
+        const payload = JSON.parse(message.toString());
+        const distance = payload.distance_cm;
+
+        let wasteStatus: TrashbinStatus = "empty";
+        if (distance < 20) wasteStatus = "overflowing";
+        else if (distance < 50) wasteStatus = "full";
+        else if (distance < 80) wasteStatus = "almost-full";
+        console.log(payload);
+
+        const newTrashbin: Trashbin = {
+          id: payload.id,
+          name: payload.name,
+          isActive: payload.isActive,
+          isCollected: payload.isCollected,
+          wasteStatus: payload.wasteStatus,
+          weightStatus: payload.weightStatus,
+          batteryStatus: payload.batteryStatus,
+          latitude: payload.latitude,
+          longitude: payload.longitude,
+          wasteLevel: payload.wasteLevel,
+          weightLevel: payload.weightLevel,
+          batteryLevel: payload.batteryLevel,
+          createdAt: new Date(payload.createdAt),
+          updatedAt: new Date(payload.updatedAt),
+        };
+
+        // Replace existing entry with same id or add new one
+        setLiveTrashbins((prev) => {
+          const filtered = prev.filter((b) => b.id !== newTrashbin.id);
+          return [...filtered, newTrashbin];
+        });
+      }
+    });
+
+    return () => {
+      mqttClient.end();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      try {
+        const parsed = JSON.parse(lastMessage.data);
+        if (parsed.transaction === "collect-trashbin" && parsed.trashbinId) {
+          revalidator.revalidate();
+        }
+      } catch (error) {
+        console.error("Error parsing WebSocket message:", error);
+      }
+    }
+  }, [lastMessage, revalidator]);
+
+  const handleReviewTrashbin = (
+    id: string,
+    longitude: string,
+    latitude: string,
+  ) => {
+    const offsetLng = 0.0002;
+    map?.flyTo({
+      center: [Number(longitude) + offsetLng, Number(latitude)],
+      zoom: 20,
+      essential: true,
+      duration: 2000,
+    });
+    setTrashbinIdParams(id);
+    setViewTrashbinParam("true");
+  };
+
+  const getTrashbinColor = (item: Trashbin) => {
+    if (item.wasteStatus === "empty") {
+      return hexToRgba("#4ade80", 0.7);
+    }
+    return hexToRgba(
+      trashbinStatusColorMap[item.wasteStatus as TrashbinStatus],
+      0.7,
     );
-  });
-
-  const { paginatedData, safePage, totalPages, totalItems } = usePagination(
-    filteredData,
-    pageNumber,
-    pageSize,
-  );
+  };
 
   return (
-    <div className="w-full h-full lg:flex lg:items-center lg:flex-col">
-      <div className="w-full max-w-3xl">
-        <div className="bg-muted-foreground w-full h-[150px] rounded-md"></div>
-        <div className="relative">
-          <Avatar className="ml-5 h-[120px] w-[120px] absolute top-[-4rem]">
-            <AvatarImage src={user.image as string} alt="@shadcn" />
-            <AvatarFallback>
-              {fallbackInitials(user.name as string)}
-            </AvatarFallback>
-          </Avatar>
-        </div>
-      </div>
-      <div className="w-full max-w-3xl mt-18 flex flex-col gap-3">
-        <div className="flex flex-row items-center gap-4">
-          <p className="text-2xl">{user.name}</p>
-          <DynamicActiveBadge isOnline={user.isOnline as boolean} />
-        </div>
-        <div className="flex flex-col gap-1">
-          <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
-            <Mail size={15} className="mt-[0.1rem]" />
-            {user.email}
-          </p>
-          <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground capitalize">
-            <UsersRound size={15} className="mt-[0.1rem]" />
-            {user.role}
-          </p>
-          <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
-            <KeyRound size={15} className="mt-[0.1rem]" />
-            {formatPermission(user.permission as string)}
-          </p>
-          <p className="text-sm flex flex-row gap-2 items-center text-muted-foreground">
-            <Calendar size={15} className="mt-[0.1rem]" />
-            Joined on {formatDate(user.createdAt as Date)}
-          </p>
-        </div>
-        <div className="flex flex-col gap-2">
-          <p className="text-xl mt-3">User Activity</p>
-          {paginatedData.length === 0 ? (
-            <>
-              <div>
-                <SearchBar
-                  value={searchActivity || ""}
-                  onChange={(val) => {
-                    setSearchActivity(val);
-                    setPage("1");
-                  }}
-                  placeholder="What are you looking for?"
-                />
-                <PaginationControls
-                  currentPage={safePage}
-                  totalPages={totalPages}
-                  totalResults={totalItems}
-                  onPageChange={(newPage) => setPage(String(newPage))}
-                />
-              </div>
-              <div className="flexb border-input border-dashed border-[1px] p-4 rounded-md justify-center items-center">
-                <p className="text-sm text-muted-foreground text-center">
-                  This user does not have any activity right now.
-                </p>
-              </div>
-            </>
+    <>
+      {[...data, ...liveTrashbins].map((item) => (
+        <Marker
+          longitude={Number(item.longitude)}
+          latitude={Number(item.latitude)}
+          key={item.id}
+        >
+          {routeDirectionParam && trashbinIdParam === item.id ? (
+            <Button
+              size="icon"
+              onClick={() =>
+                handleReviewTrashbin(item.id, item.longitude, item.latitude)
+              }
+            >
+              <Trash />
+            </Button>
           ) : (
-            <div>
-              <SearchBar
-                value={searchActivity || ""}
-                onChange={(val) => {
-                  setSearchActivity(val);
-                  setPage("1");
+            <div className="flex flex-col items-center">
+              {item.batteryStatus === "low" && (
+                <BatteryLow size={20} className="fill-red-400" />
+              )}
+              {item.batteryStatus === "critical" && (
+                <BatteryWarning size={20} className="fill-red-500" />
+              )}
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={() =>
+                  handleReviewTrashbin(item.id, item.longitude, item.latitude)
+                }
+                style={{
+                  backgroundColor: getTrashbinColor(item),
                 }}
-                placeholder="What are you looking for?"
-              />
-              <PaginationControls
-                currentPage={safePage}
-                totalPages={totalPages}
-                totalResults={totalItems}
-                onPageChange={(newPage) => setPage(String(newPage))}
-              />
+              >
+                <Trash />
+                {(item.wasteStatus === "full" ||
+                  item.wasteStatus === "overflowing") && (
+                  <span className="absolute flex size-3 z-0 h-[50px] w-[50px]">
+                    <span
+                      className={`absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping ${
+                        item.wasteStatus === "full"
+                          ? "bg-red-500"
+                          : "bg-violet-500"
+                      }`}
+                    ></span>
+                  </span>
+                )}
+              </Button>
             </div>
           )}
-          <div className="flex flex-col gap-2 overflow-auto">
-            {paginatedData.map((item) => (
-              <div
-                className="p-4 border-input border-[1px] rounded-md flex flex-row items-center justify-between"
-                key={item.id}
-              >
-                <div
-                  className="grid overflow-auto items-center lg:grid-cols-[300px_200px]"
-                  key={item.id}
-                >
-                  <div>
-                    <Badge className="capitalize mr-2 mb-2">
-                      {item.action}
-                    </Badge>
-                    <Badge className="capitalize mb-2">{item.status}</Badge>
-                    <p> {fromTitle[item.title as Title]}</p>
-                    <p className="text-muted-foreground text-sm">
-                      {formatDate(item.createdAt as Date)}
-                    </p>
-                  </div>
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">
-                      <Ellipsis />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="mr-[7rem] mt-[-1rem]">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <div className="flex flex-col items-start">
-                      <Button
-                        variant="ghost"
-                        className="p-2 text-sm w-fit font-normal"
-                        onClick={() => setReviewActivityLog(item.id)}
-                      >
-                        Review
-                      </Button>
-                      <DropdownMenuItem asChild>
-                        <Dialog
-                          open={deleteDialog}
-                          onOpenChange={setDeleteDialog}
-                        >
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              className="p-2 text-sm w-fit font-normal"
-                            >
-                              Delete
-                            </Button>
-                          </DialogTrigger>
-                          <DeleteUserActivity
-                            activityId={item.id}
-                            fetcher={fetcher}
-                          />
-                        </Dialog>
-                      </DropdownMenuItem>
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+        </Marker>
+      ))}
+    </>
   );
 }
