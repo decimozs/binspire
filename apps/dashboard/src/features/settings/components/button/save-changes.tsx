@@ -41,7 +41,7 @@ export default function SaveChanges<T extends Props>({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <DialogClose>
+          <DialogClose asChild>
             <Button
               variant="outline"
               size="sm"

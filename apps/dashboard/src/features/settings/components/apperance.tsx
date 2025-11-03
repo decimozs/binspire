@@ -78,10 +78,9 @@ export default function AppearanceSettings() {
 
   useEffect(() => {
     const theme = currentSettings?.appearance.theme;
+
     if (theme) {
-      queueMicrotask(() => {
-        setSelectedTheme(theme as Theme);
-      });
+      setSelectedTheme(theme as Theme);
     }
   }, [currentSettings?.appearance.theme]);
 

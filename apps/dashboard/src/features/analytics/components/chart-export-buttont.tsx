@@ -22,7 +22,7 @@ export default function ChartExportButton<T>({
   data,
 }: ChartExportButtonProps<T>) {
   const [isExporting, setIsExporting] = useState(false);
-  const [filename, setFilename] = useState("chart-export");
+  const [filename, setFilename] = useState("data-export");
 
   async function handleExport() {
     setIsExporting(true);
@@ -40,7 +40,7 @@ export default function ChartExportButton<T>({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
+        <Button variant="default" size="sm" className="font-bold">
           <Download />
           Export
         </Button>
@@ -48,7 +48,7 @@ export default function ChartExportButton<T>({
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Export Chart Data</DialogTitle>
+          <DialogTitle>Export Data</DialogTitle>
           <DialogDescription>
             The chart’s data will be exported as a <b>CSV file</b>.
           </DialogDescription>
@@ -65,13 +65,13 @@ export default function ChartExportButton<T>({
           <p className="text-sm text-muted-foreground">.csv</p>
         </div>
 
-        <DialogFooter className="mt-4">
+        <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline" size="lg" disabled={isExporting}>
+            <Button variant="outline" size="sm" disabled={isExporting}>
               Cancel
             </Button>
           </DialogClose>
-          <Button size="lg" onClick={handleExport} disabled={isExporting}>
+          <Button size="sm" onClick={handleExport} disabled={isExporting}>
             {isExporting ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
