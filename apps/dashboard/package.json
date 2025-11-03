@@ -11,6 +11,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@azure-rest/ai-inference": "latest",
+    "@azure/core-auth": "latest",
+    "@azure/core-sse": "latest",
     "@binspire/db": "workspace:*",
     "@binspire/eslint": "workspace:*",
     "@binspire/query": "workspace:*",
@@ -41,7 +44,9 @@
     "react-archer": "^4.4.0",
     "react-dom": "^19.1.1",
     "react-map-gl": "^8.1.0",
+    "react-markdown": "^10.1.0",
     "react-top-loading-bar": "^3.0.2",
+    "remark-gfm": "^4.0.1",
     "tailwindcss": "^4.1.14",
     "zustand": "^5.0.8"
   },
