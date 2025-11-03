@@ -105,6 +105,7 @@ export function SidebarUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem
+                className="cursor-pointer"
                 onClick={() =>
                   navigate({
                     to: "/users/$userId",
@@ -114,7 +115,10 @@ export function SidebarUser() {
               >
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => navigate({ to: "/settings" })}>
+              <DropdownMenuItem
+                onClick={() => navigate({ to: "/settings" })}
+                className="cursor-pointer"
+              >
                 <span>Settings</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -123,6 +127,7 @@ export function SidebarUser() {
               variant="destructive"
               onClick={handleLogout}
               disabled={loading}
+              className="cursor-pointer"
             >
               {loading ? (
                 <Loader2 className="me-2 h-4 w-4 animate-spin text-muted-foreground" />
@@ -133,7 +138,7 @@ export function SidebarUser() {
                   aria-hidden="true"
                 />
               )}
-              <span>Logout</span>
+              <span className="-ml-2">Logout</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

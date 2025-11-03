@@ -26,7 +26,12 @@ export default function CreateIssueButton() {
   };
 
   return (
-    <Button variant="default" size="sm" onClick={handleCreateIssue}>
+    <Button
+      variant="default"
+      size="sm"
+      onClick={handleCreateIssue}
+      className="font-bold"
+    >
       <Info />
       New Issue
     </Button>

@@ -150,7 +150,7 @@ export default function CreateGreenHearts() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm">
+        <Button size="sm" className="font-bold">
           <HeartPlus />
           Donate
         </Button>

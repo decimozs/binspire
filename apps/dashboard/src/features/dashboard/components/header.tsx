@@ -33,7 +33,7 @@ export default function DashboardHeader() {
         maintenanceMode.data?.isInMaintenance
           ? "bg-yellow-500/30 text-yellow-100"
           : location.pathname === "/map"
-            ? "bg-green-500/30 text-green-700"
+            ? "bg-green-500/30 text-green-100"
             : "green-badge"
       }`}
             >

@@ -45,7 +45,6 @@ export default function InviteUser() {
   const [sentEmails, setSentEmails] = useState<string[]>([]);
   const { permission } = usePermissionStore();
 
-  // local field-level error for email input
   const [emailError, setEmailError] = useState<string>("");
 
   const hasPermission = permission.userManagement?.actions.create;
@@ -68,13 +67,11 @@ export default function InviteUser() {
   const handleAddEmail = (email: string) => {
     const trimmed = email.trim();
 
-    // empty
     if (!trimmed) {
       setEmailError("Please enter an email address.");
       return;
     }
 
-    // Validate email using Zod
     const result = inviteUserSchema.shape.email.safeParse(trimmed);
 
     if (!result.success) {
@@ -82,13 +79,11 @@ export default function InviteUser() {
       return;
     }
 
-    // Duplicate email → set local error
     if (emails.some((e) => e.email === trimmed)) {
       setEmailError("This email is already added.");
       return;
     }
 
-    // All good — add to list and clear input + error
     setEmails((prev) => [
       ...prev,
       {

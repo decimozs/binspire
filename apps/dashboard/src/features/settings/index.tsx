@@ -60,6 +60,7 @@ export default function Settings() {
               <Button
                 size="sm"
                 variant={location.pathname === url ? "secondary" : "outline"}
+                className={location.pathname === url ? "text-primary" : ""}
               >
                 <div className="flex items-center gap-2">
                   {Icon && <Icon className="size-4" />}

@@ -17,7 +17,11 @@ export default function InviteUserButton() {
   }
 
   return (
-    <Button onClick={() => setInvitingUserQuery((prev) => !prev)} size="sm">
+    <Button
+      onClick={() => setInvitingUserQuery((prev) => !prev)}
+      size="sm"
+      className="font-bold"
+    >
       <Mail />
       Invite
     </Button>

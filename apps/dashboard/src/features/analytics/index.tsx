@@ -45,7 +45,7 @@ export default function Analytics() {
           value={currentMenu.url}
           onValueChange={(value) => navigate({ to: value })}
         >
-          <SelectTrigger className="w-[200px] absolute top-[-4rem] right-0 flex items-center gap-2">
+          <SelectTrigger className="w-[200px] absolute top-[-4rem] right-0 flex items-center gap-2 font-bold">
             <SelectValue placeholder="Navigate" />
           </SelectTrigger>
           <SelectContent>
