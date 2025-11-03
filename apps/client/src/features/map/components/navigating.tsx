@@ -1,0 +1,62 @@
+import { useRouteStore } from "@/store/route-store";
+import { useGetTrashbinById } from "@binspire/query";
+import "@google/model-viewer";
+import CollectTrashbin from "@/features/trashbin/collect-trashbin";
+import { useQueryState } from "nuqs";
+import { Skeleton } from "@binspire/ui/components/skeleton";
+import NavigationInfo from "./navigation-info";
+import CancelNavigation from "./cancel-navigation";
+
+export default function Navigating() {
+  const { route } = useRouteStore();
+  const [markTrashbinQuery] = useQueryState("mark_trashbin_id");
+  const { data, isPending } = useGetTrashbinById(markTrashbinQuery || "");
+
+  if (!route) return null;
+
+  const feature = route?.features?.[0];
+  const distance = feature?.properties?.summary?.distance ?? 0;
+
+  return (
+    <>
+      <div className="absolute top-4 w-full z-50 flex flex-row items-center gap-2 px-4 font-manrope">
+        {isPending || !data ? (
+          <Skeleton className="w-full h-[92px]" />
+        ) : (
+          <>
+            <div className="bg-background/80 p-4 rounded-md w-full grid grid-cols-[1fr_50px]">
+              <div>
+                <p className="text-md font-bold text-primary">Navigating</p>
+                <p className="text-2xl font-bold">{data.name}</p>
+                <p className="text-xs font-bold text-muted-foreground ml-[2px]">
+                  {(distance / 1000).toFixed(2) + " km"}
+                </p>
+              </div>
+              <div className="flex items-end justify-end">
+                {/* @ts-ignore: model-viewer is a custom element */}
+                <model-viewer
+                  src="/models/bin.glb"
+                  alt="3D Trash Bin"
+                  auto-rotate
+                  interaction-prompt="none"
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    "--poster-color": "transparent",
+                  }}
+                />
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+      <div className="absolute bottom-4 w-full z-50 flex flex-row items-center gap-2 px-4">
+        <NavigationInfo />
+        <div className="grow">
+          <CollectTrashbin />
+        </div>
+        <CancelNavigation />
+      </div>
+    </>
+  );
+}

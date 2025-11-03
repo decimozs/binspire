@@ -1,0 +1,44 @@
+{
+  "name": "@binspire",
+  "type": "module",
+  "private": "true",
+  "version": "2.0.0",
+  "packageManager": "bun@1.2.23",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "prepare": "husky",
+    "act-check": "act push --pull=false --reuse --bind -P ubuntu-latest=catthehacker/ubuntu:act-22.04",
+    "prepush": "bun run typecheck && bun run lint && bun run build",
+    "dev:api": "bun --filter @binspire/api dev",
+    "dev:dashboard": "bun --filter @binspire/dashboard dev",
+    "dev:client": "bun --filter @binspire/client dev",
+    "dev:www": "bun --filter @binspire/www dev",
+    "db:generate": "bun --filter @binspire/db generate",
+    "db:migrate": "bun --filter @binspire/db migrate",
+    "db:push": "bun --filter @binspire/db push",
+    "db:studio": "bun --filter @binspire/db studio",
+    "db:seed": "bun --filter @binspire/db seed",
+    "ui:add": "bun --filter @binspire/ui ui:add"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "husky": "^9.1.7",
+    "turbo": "^2.5.8"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "dependencies": {
+    "zod": "^4.1.12"
+  }
+}

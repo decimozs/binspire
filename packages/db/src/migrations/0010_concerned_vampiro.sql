@@ -1,0 +1,1 @@
+ALTER TABLE "organization_settings" ALTER COLUMN "secret" DROP NOT NULL;

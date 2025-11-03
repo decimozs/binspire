@@ -1,0 +1,29 @@
+{
+  "name": "@binspire/query",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./api-client": "./src/lib/api-client.ts"
+  },
+  "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.91.0",
+    "@tanstack/react-query-devtools": "^5.90.2",
+    "@types/bun": "latest",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1"
+  },
+  "peerDependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.2",
+    "@binspire/eslint": "workspace:*",
+    "@binspire/tsconfig": "workspace:*",
+    "@binspire/api": "workspace:*",
+    "@binspire/db": "workspace:*",
+    "@binspire/shared": "workspace:*"
+  }
+}

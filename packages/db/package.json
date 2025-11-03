@@ -1,0 +1,36 @@
+{
+  "name": "@binspire/db",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts",
+    "./types": "./src/lib/types.ts",
+    "./constants": "./src/lib/constants.ts"
+  },
+  "scripts": {
+    "seed": "bun run ./src/lib/seed.ts",
+    "generate": "bun drizzle-kit generate",
+    "migrate": "bun drizzle-kit migrate",
+    "push": "bun drizzle-kit push",
+    "studio": "bun drizzle-kit studio",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.23",
+    "drizzle-kit": "^0.31.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@binspire/eslint": "workspace:*",
+    "@binspire/tsconfig": "workspace:*",
+    "@faker-js/faker": "^10.0.0",
+    "@neondatabase/serverless": "^1.0.2",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.44.6",
+    "drizzle-zod": "^0.8.3",
+    "nanoid": "^5.1.6"
+  }
+}

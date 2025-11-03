@@ -1,0 +1,28 @@
+{
+  "name": "@binspire/logging",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@binspire/eslint": "workspace:*",
+    "@binspire/config": "workspace:*",
+    "@binspire/tsconfig": "workspace:*",
+    "hono-pino": "^0.10.2",
+    "pino": "^10.0.0",
+    "pino-pretty": "^13.1.1"
+  }
+}

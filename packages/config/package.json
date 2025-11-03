@@ -1,0 +1,30 @@
+{
+  "name": "@binspire/config",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --outDir dist --declaration"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./load-env": {
+      "import": "./dist/env.js",
+      "types": "./dist/env.d.ts"
+    }
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "@binspire/tsconfig": "workspace:*",
+    "@binspire/eslint": "workspace:*"
+  }
+}

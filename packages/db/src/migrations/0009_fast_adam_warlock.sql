@@ -1,0 +1,1 @@
+ALTER TABLE "organization_settings" ADD COLUMN "secret" text NOT NULL;

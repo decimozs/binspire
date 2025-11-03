@@ -1,0 +1,7 @@
+{
+  "name": "@binspire/tsconfig",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1759922253003,
+      "tag": "0000_thin_thanos",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1760154940888,
+      "tag": "0001_brown_queen_noir",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1760260514173,
+      "tag": "0002_skinny_blur",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1760334396919,
+      "tag": "0003_misty_sentry",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1760365897539,
+      "tag": "0004_chief_zaran",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1760397624719,
+      "tag": "0005_absent_moira_mactaggert",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1760398075773,
+      "tag": "0006_brainy_bushwacker",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1760398571910,
+      "tag": "0007_red_terrax",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1760400136741,
+      "tag": "0008_lumpy_magdalene",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1760410314718,
+      "tag": "0009_fast_adam_warlock",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1760410351137,
+      "tag": "0010_concerned_vampiro",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1760417175203,
+      "tag": "0011_flaky_ulik",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1761961828106,
+      "tag": "0012_pale_flatman",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1761966303287,
+      "tag": "0013_nostalgic_triton",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1762042184515,
+      "tag": "0014_fast_clint_barton",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1762068066228,
+      "tag": "0015_exotic_caretaker",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1762069856587,
+      "tag": "0016_right_hellcat",
+      "breakpoints": true
+    }
+  ]
+}
