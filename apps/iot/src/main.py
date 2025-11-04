@@ -5,7 +5,7 @@ import asyncio
 import logging
 import coloredlogs
 from lib.db import Database
-from lib.helpers import simulate_trashbin
+from lib.simulation import simulate_trashbin
 from lib.mqtt_client import MQTTClient
 
 load_dotenv()
