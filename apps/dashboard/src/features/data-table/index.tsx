@@ -9,6 +9,7 @@ import {
   useReactTable,
   type RowSelectionState,
   type Table as ReactTable,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -89,6 +90,14 @@ export default function DataTable<
     actionsColumn<TData>(renderActions),
   ];
 
+  const tableKey = `tableColumns:${location.pathname}`;
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    () => {
+      const saved = localStorage.getItem(tableKey);
+      return saved ? JSON.parse(saved) : { trashbinId: false };
+    },
+  );
+
   const table = useReactTable({
     data,
     columns: tableColumns,
@@ -100,15 +109,14 @@ export default function DataTable<
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onRowSelectionChange: setRowSelection,
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting: sorting ?? [],
       columnFilters,
       globalFilter,
       pagination: { pageIndex, pageSize },
       rowSelection,
-      columnVisibility: {
-        trashbinId: false,
-      },
+      columnVisibility,
     },
   });
 
@@ -133,6 +141,10 @@ export default function DataTable<
       setSorting([{ id: "updatedAt", desc: true }]);
     }
   }, [recentChangesMode, setSorting]);
+
+  useEffect(() => {
+    localStorage.setItem(tableKey, JSON.stringify(columnVisibility));
+  }, [columnVisibility, tableKey]);
 
   const selectedData = table
     .getSelectedRowModel()
