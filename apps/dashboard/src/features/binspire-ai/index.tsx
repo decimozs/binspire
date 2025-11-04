@@ -58,7 +58,6 @@ import {
 } from "@binspire/query";
 import { useRef } from "react";
 import { authClient } from "@/lib/auth-client";
-import { ShowToast } from "@/components/core/toast-notification";
 
 const token = import.meta.env.VITE_GITHUB_TOKEN;
 const endpoint = "https://models.github.ai/inference";
@@ -90,6 +89,7 @@ export default function BinspireAI() {
   const client = ModelClient(endpoint, new AzureKeyCredential(token));
   const { data: current } = authClient.useSession();
   const userId = current?.user.id;
+  const [chatTitle, setChatTitle] = useState<string | null>(null);
   const [messages, setMessages] = useState<
     { role: "system" | "user" | "assistant"; content: string }[]
   >([]);
@@ -130,37 +130,68 @@ export default function BinspireAI() {
     });
   };
 
-  const handleSend = async () => {
-    if (!input.trim()) return;
+  const handleSend = async (customInput?: string, customAnalysis?: string) => {
+    const messageText = customInput ?? input;
+    const analysis = customAnalysis ?? selectedAnalysis;
+
+    if (!messageText.trim()) return;
 
     stopRef.current = false;
     setAbortRequested(false);
 
     const newMessages = [
       ...messages,
-      { role: "user" as const, content: input },
+      { role: "user" as const, content: messageText },
     ];
     setMessages(newMessages);
     setInput("");
     setLoading(true);
 
+    // Generate title
+    if (!chatTitle && newMessages.length === 1) {
+      try {
+        const titleResponse = await client.path("/chat/completions").post({
+          body: {
+            model: "gpt-4o-mini",
+            messages: [
+              {
+                role: "system",
+                content:
+                  "Generate a short, descriptive chat title (max 6 words) summarizing the topic of this message.",
+              },
+              { role: "user", content: messageText },
+            ],
+            temperature: 0.5,
+          },
+        });
+
+        if ("choices" in titleResponse.body) {
+          let aiTitle =
+            titleResponse.body.choices[0].message.content?.trim() || "New Chat";
+          aiTitle = aiTitle.replace(/^["']|["']$/g, "");
+          setChatTitle(aiTitle);
+        } else {
+          setChatTitle("New Chat");
+        }
+      } catch {
+        setChatTitle("New Chat");
+      }
+    }
+
     try {
       let analyzedDataSummary = "";
 
-      if (selectedAnalysis) {
+      if (analysis) {
         let data: any = [];
-        if (selectedAnalysis === "issues") data = await IssueApi.getAll();
-        else if (selectedAnalysis === "collections")
+        if (analysis === "issues") data = await IssueApi.getAll();
+        else if (analysis === "collections")
           data = await TrashbinCollectionsApi.getAll();
-        else if (selectedAnalysis === "users") data = await UserApi.getAll();
-        else if (selectedAnalysis === "trashbins")
-          data = await TrashbinApi.getAll();
-        else if (selectedAnalysis === "audits") data = await AuditApi.getAll();
-        else if (selectedAnalysis === "history")
-          data = await HistoryApi.getAll();
-        else if (selectedAnalysis === "requests")
-          data = await UserRequestApi.getAll();
-        else if (selectedAnalysis === "invitations")
+        else if (analysis === "users") data = await UserApi.getAll();
+        else if (analysis === "trashbins") data = await TrashbinApi.getAll();
+        else if (analysis === "audits") data = await AuditApi.getAll();
+        else if (analysis === "history") data = await HistoryApi.getAll();
+        else if (analysis === "requests") data = await UserRequestApi.getAll();
+        else if (analysis === "invitations")
           data = await UserInvitationsApi.getAll();
         analyzedDataSummary = JSON.stringify(data).slice(0, 3000);
       }
@@ -168,9 +199,9 @@ export default function BinspireAI() {
       const systemPrompt =
         "You are Binspire AI, a sustainability assistant that helps analyze data and answer questions.";
 
-      const userPrompt = selectedAnalysis
-        ? `${input}\n\nHere is the related ${selectedAnalysis} data for context:\n${analyzedDataSummary}`
-        : input;
+      const userPrompt = analysis
+        ? `${messageText}\n\nHere is the related ${analysis} data for context:\n${analyzedDataSummary}`
+        : messageText;
 
       const response = await client.path("/chat/completions").post({
         body: {
@@ -213,28 +244,17 @@ export default function BinspireAI() {
   const SelectedIcon = selectedModel.icon;
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || !chatTitle) return;
 
-    if (messages.length > 0) {
-      localStorage.setItem(
-        `binspire_ai_chat_${userId}`,
-        JSON.stringify(messages),
-      );
-    }
-  }, [messages, userId]);
+    localStorage.setItem(`binspire_ai_title_${userId}`, chatTitle);
+  }, [chatTitle, userId]);
 
   useEffect(() => {
     if (!userId) return;
 
-    const saved = localStorage.getItem(`binspire_ai_chat_${userId}`);
+    const savedTitle = localStorage.getItem(`binspire_ai_title_${userId}`);
 
-    if (saved) {
-      try {
-        setMessages(JSON.parse(saved));
-      } catch {
-        ShowToast("warning", "Failed to load chat history");
-      }
-    }
+    if (savedTitle) setChatTitle(savedTitle);
   }, [userId]);
 
   return (
@@ -248,9 +268,36 @@ export default function BinspireAI() {
       <SheetContent className="min-w-[800px] flex flex-col">
         <SheetHeader>
           <SheetTitle>Binspire AI</SheetTitle>
-          <SheetDescription>
-            Hello from Binspire AI! How can I assist you today?
-          </SheetDescription>
+          <div className="flex flex-row justify-between items-center w-full">
+            <SheetDescription
+              className={`${chatTitle ? "text-lg font-bold" : "text-sm"} text-muted-foreground`}
+            >
+              {chatTitle
+                ? `💬 ${chatTitle}`
+                : "Hello from Binspire AI! How can I assist you today?"}
+            </SheetDescription>
+            {messages.length > 0 && (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  stopRef.current = true;
+                  setAbortRequested(true);
+                  setLoading(false);
+                  setMessages([]);
+                  if (userId) {
+                    setChatTitle(null);
+                    if (userId) {
+                      localStorage.removeItem(`binspire_ai_chat_${userId}`);
+                      localStorage.removeItem(`binspire_ai_title_${userId}`);
+                    }
+                  }
+                }}
+              >
+                Clear Chat
+              </Button>
+            )}
+          </div>
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto space-y-2 px-4">
@@ -267,17 +314,23 @@ export default function BinspireAI() {
               </EmptyHeader>
               <div className="flex flex-wrap justify-center gap-2 text-xs mt-4">
                 {[
-                  "Summarize audit data",
-                  "Detect anomalies in waste collection",
-                  "List users with most requests",
-                ].map((p) => (
+                  { label: "Summarize audit data", analysis: "audits" },
+                  {
+                    label: "Detect anomalies in waste collection",
+                    analysis: "collections",
+                  },
+                  { label: "List users with most requests", analysis: "users" },
+                ].map((preset) => (
                   <Button
-                    key={p}
+                    key={preset.label}
                     size="sm"
                     variant="secondary"
-                    onClick={() => setInput(p)}
+                    onClick={() => {
+                      setSelectedAnalysis(preset.analysis);
+                      handleSend(preset.label, preset.analysis);
+                    }}
                   >
-                    {p}
+                    {preset.label}
                   </Button>
                 ))}
               </div>
@@ -369,23 +422,6 @@ export default function BinspireAI() {
                 <X />
               </Button>
             )}
-            {messages.length > 0 && (
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => {
-                  stopRef.current = true;
-                  setAbortRequested(true);
-                  setLoading(false);
-                  setMessages([]);
-                  if (userId) {
-                    localStorage.removeItem(`binspire_ai_chat_${userId}`);
-                  }
-                }}
-              >
-                Clear Chat
-              </Button>
-            )}
           </div>
           <div className="flex flex-row gap-2 w-full">
             <Textarea
@@ -403,7 +439,7 @@ export default function BinspireAI() {
 
             <div className="flex flex-col gap-2">
               {!loading ? (
-                <Button onClick={handleSend} disabled={loading}>
+                <Button onClick={() => handleSend()} disabled={loading}>
                   <Send className="size-4" />
                 </Button>
               ) : (
