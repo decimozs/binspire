@@ -347,7 +347,7 @@ export default function BinspireAI() {
               }}
             >
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Analyze Data" />
+                <SelectValue placeholder="Data Analysis" />
               </SelectTrigger>
               <SelectContent side="top">
                 <SelectItem value="issues">Analyze Issues</SelectItem>
