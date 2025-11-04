@@ -6,6 +6,7 @@ import { resetBins, setBinData } from "@/store/realtime-store";
 import { setConnected } from "@/store/telemetry-store";
 import { ShowToast } from "@/components/core/toast-notification";
 import { authClient } from "@/lib/auth-client";
+import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
 
 interface Props {
   children: ReactNode;
@@ -26,6 +27,7 @@ export function MqttProvider({ children }: Props) {
       mqttClient.subscribe("trashbin/collection");
       mqttClient.subscribe("server/status");
       mqttClient.subscribe("user/permissions/update");
+      mqttClient.subscribe("trashbin/detections");
     });
 
     mqttClient.on("message", (topic, payload) => {
@@ -41,6 +43,23 @@ export function MqttProvider({ children }: Props) {
             } else {
               setConnected(true);
             }
+            return;
+          }
+
+          if (topic === "trashbin/detections") {
+            const {
+              bin_id,
+              event,
+              class: className,
+              confidence,
+              timestamp,
+            } = message;
+            useTrashbinLogsStore.getState().addLog(bin_id, {
+              event,
+              class: className,
+              confidence,
+              timestamp,
+            });
             return;
           }
 

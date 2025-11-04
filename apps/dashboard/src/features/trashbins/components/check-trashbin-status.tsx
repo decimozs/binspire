@@ -34,8 +34,8 @@ export default function CheckTrashbinStatus({ id }: Props) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="lg" className="w-[50%]">
-          Check Status
+        <Button variant="outline" size="lg" className="grow">
+          Status
           <ArrowUpRight className="ml-1 mt-0.5" />
         </Button>
       </SheetTrigger>

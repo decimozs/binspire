@@ -5,11 +5,14 @@ import asyncio
 import coloredlogs
 from lib.mqtt_client import MQTTClient
 from lib.db import Database
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(
     level="DEBUG", logger=logger, fmt="%(asctime)s [%(levelname)s] %(message)s"
 )
+
+WASTE_CLASSES = ["Plastics", "Paper", "Electronic Device", "Glass", "Metal", "Organic"]
 
 
 async def simulate_trashbin(id, db: Database):
@@ -25,8 +28,11 @@ async def simulate_trashbin(id, db: Database):
 
     client = MQTTClient(client_id=f"trashbin_{id}")
     client.connect()
-    topic = f"trashbin/{id}/status"
-    logger.info(f"{id}: MQTT client connected and publishing to topic '{topic}'")
+    status_topic = f"trashbin/{id}/status"
+    detections_topic = "trashbin/detections"
+    logger.info(
+        f"{id}: MQTT client connected and publishing to topics '{status_topic}' and '{detections_topic}'"
+    )
 
     try:
         while True:
@@ -49,7 +55,7 @@ async def simulate_trashbin(id, db: Database):
                     await asyncio.sleep(5)
                     continue
 
-            message = {
+            status_message = {
                 "trashbin": {
                     "id": trashbin["id"],
                     "latitude": (
@@ -66,9 +72,23 @@ async def simulate_trashbin(id, db: Database):
                 },
             }
 
-            json_message = json.dumps(message, indent=2)
-            client.publish(topic, json_message)
-            logger.info(f"{id}: Published MQTT message to topic '{topic}'")
+            client.publish(status_topic, json.dumps(status_message, indent=2))
+            logger.info(f"{id}: Published status message to topic '{status_topic}'")
+
+            detected_class = random.choice(WASTE_CLASSES)
+            confidence = round(random.uniform(0.2, 0.99), 2)
+            detection_message = {
+                "bin_id": id,
+                "event": "object_detected",
+                "class": detected_class,
+                "confidence": confidence,
+                "timestamp": datetime.utcnow().isoformat(),
+            }
+
+            client.publish(detections_topic, json.dumps(detection_message))
+            logger.info(
+                f"{id}: Published detection message to topic '{detections_topic}': {detection_message}"
+            )
 
             await asyncio.sleep(5)
 

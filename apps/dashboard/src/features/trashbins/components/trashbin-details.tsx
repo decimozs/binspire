@@ -6,6 +6,7 @@ import CheckTrashbinStatus from "./check-trashbin-status";
 import { useTrashbinRealtime } from "@/store/realtime-store";
 import { useTelemetryStore } from "@/store/telemetry-store";
 import WarningSign from "@/components/sign/warnings";
+import TrashbinLogs from "./trashbin-logs";
 
 export default function TrashbinDetails({ data }: { data: Trashbin }) {
   const navigate = useNavigate();
@@ -50,13 +51,14 @@ export default function TrashbinDetails({ data }: { data: Trashbin }) {
           )}
           <div className="text-sm flex flex-row items-center gap-2 w-full">
             {hasValidConnection && <CheckTrashbinStatus id={data.id} />}
+            {hasValidConnection && <TrashbinLogs id={data.id} />}
             <Button
               variant="outline"
               size="lg"
               className="grow"
               onClick={handleViewCollectionHistory}
             >
-              Collection History
+              History
               <ArrowUpRight className="mt-0.3" />
             </Button>
           </div>
