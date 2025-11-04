@@ -50,10 +50,6 @@ function RouteComponent() {
     (trashbin) => trashbin.status.isCollected === false,
   ).length;
 
-  const scheduledTrashbinCounts = trashbins.filter(
-    (trashbin) => trashbin.status.isScheduled,
-  ).length;
-
   return (
     <AnalyticsOverview<Trashbin>
       data={trashbins}
@@ -124,18 +120,6 @@ function RouteComponent() {
             dataKey="count"
             nameKey="role"
             footerSubText="Trashbins classified by collection status"
-          />
-
-          <TotalPieChart
-            title="Scheduled Trashbins"
-            description="Trashbins scheduled for collection"
-            data={[{ role: "Scheduled", count: scheduledTrashbinCounts }]}
-            config={{
-              Scheduled: { label: "Scheduled", color: "var(--chart-1)" },
-            }}
-            dataKey="count"
-            nameKey="role"
-            footerSubText="Distribution of scheduled vs unscheduled trashbins"
           />
         </>
       )}
