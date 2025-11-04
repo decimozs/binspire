@@ -57,6 +57,8 @@ import {
   UserRequestApi,
 } from "@binspire/query";
 import { useRef } from "react";
+import { authClient } from "@/lib/auth-client";
+import { ShowToast } from "@/components/core/toast-notification";
 
 const token = import.meta.env.VITE_GITHUB_TOKEN;
 const endpoint = "https://models.github.ai/inference";
@@ -86,7 +88,8 @@ const models = [
 
 export default function BinspireAI() {
   const client = ModelClient(endpoint, new AzureKeyCredential(token));
-
+  const { data: current } = authClient.useSession();
+  const userId = current?.user.id;
   const [messages, setMessages] = useState<
     { role: "system" | "user" | "assistant"; content: string }[]
   >([]);
@@ -210,21 +213,29 @@ export default function BinspireAI() {
   const SelectedIcon = selectedModel.icon;
 
   useEffect(() => {
+    if (!userId) return;
+
     if (messages.length > 0) {
-      localStorage.setItem("binspire_ai_chat", JSON.stringify(messages));
+      localStorage.setItem(
+        `binspire_ai_chat_${userId}`,
+        JSON.stringify(messages),
+      );
     }
-  }, [messages]);
+  }, [messages, userId]);
 
   useEffect(() => {
-    const saved = localStorage.getItem("binspire_ai_chat");
+    if (!userId) return;
+
+    const saved = localStorage.getItem(`binspire_ai_chat_${userId}`);
+
     if (saved) {
       try {
         setMessages(JSON.parse(saved));
       } catch {
-        console.warn("Failed to load saved chat");
+        ShowToast("warning", "Failed to load chat history");
       }
     }
-  }, []);
+  }, [userId]);
 
   return (
     <Sheet>
@@ -362,13 +373,14 @@ export default function BinspireAI() {
               <Button
                 variant="destructive"
                 size="sm"
-                className="ml-auto mr-[4rem]"
                 onClick={() => {
                   stopRef.current = true;
                   setAbortRequested(true);
                   setLoading(false);
                   setMessages([]);
-                  localStorage.removeItem("binspire_ai_chat");
+                  if (userId) {
+                    localStorage.removeItem(`binspire_ai_chat_${userId}`);
+                  }
                 }}
               >
                 Clear Chat
