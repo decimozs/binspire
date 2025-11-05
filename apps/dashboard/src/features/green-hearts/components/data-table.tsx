@@ -33,39 +33,33 @@ export default function GreenHeartsDataTable({
       columns={greenHeartColumns}
       facetedFilterColumns={[""]}
       recentChangesMode={recentChangesMode}
-      renderActions={(item) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              disabled={
-                permission.greenHeartsManagement?.actions.delete === false
-              }
-            >
-              <Ellipsis />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <PermittedActions
-              itemId={item.id}
-              type="greenHeartsManagement"
-              isUser={true}
-              actions={permission.greenHeartsManagement?.actions}
-            />
-          </DropdownMenuContent>
-        </DropdownMenu>
+      renderActions={(item) =>
+        permission.greenHeartsManagement?.actions.delete && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Ellipsis />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <PermittedActions
+                itemId={item.id}
+                type="greenHeartsManagement"
+                isUser={true}
+                actions={permission.greenHeartsManagement?.actions}
+              />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      }
+      renderBatchActions={(selectedData, table) => (
+        <SelectedDataActions<UserGreenHeart>
+          selectedData={selectedData}
+          table={table}
+          useDeleteBatchHook={useBatchDeleteUserGreenHearts}
+          actions={permission.greenHeartsManagement?.actions}
+        />
       )}
-      renderBatchActions={(selectedData, table) => {
-        return (
-          <SelectedDataActions<UserGreenHeart>
-            selectedData={selectedData}
-            table={table}
-            useDeleteBatchHook={useBatchDeleteUserGreenHearts}
-            actions={permission.greenHeartsManagement?.actions}
-          />
-        );
-      }}
     />
   );
 }
