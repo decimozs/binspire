@@ -37,7 +37,7 @@ export default function PermittedActions({
 
   return (
     <PermissionGuard>
-      {actions?.read && type !== "greenHeartsManagement" && (
+      {actions?.read && (
         <DropdownMenuItem
           onClick={isUser ? () => handleViewUser(itemId) : handleView}
         >
