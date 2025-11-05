@@ -1,0 +1,204 @@
+:root {
+  /* Base Colors */
+  --vp-c-white: #ffffff;
+  --vp-c-black: #000000;
+  --vp-c-gray: #8e8e93;
+
+  --vp-c-text-light-1: #1f2328;
+  --vp-c-text-light-2: #454545;
+  --vp-c-text-light-3: #959595;
+
+  --vp-c-text-dark-1: rgba(255, 255, 245, 0.86);
+  --vp-c-text-dark-2: rgba(235, 235, 245, 0.6);
+  --vp-c-text-dark-3: rgba(235, 235, 245, 0.38);
+
+  --vp-c-text-code: #4a4a4a;
+
+  /* Primary Tone Variables */
+  --vp-c-primary: #7be1c9;
+  --vp-c-primary-soft: rgba(123, 225, 201, 0.1);
+  --vp-c-primary-light: #8de7d0;
+  --vp-c-primary-lighter: #a3eedd;
+  --vp-c-primary-dark: #5ac2a8;
+  --vp-c-primary-darker: #459885;
+
+  /* Brand / Accent */
+  --vp-c-brand-1: var(--vp-c-primary);
+  --vp-c-brand-2: var(--vp-c-primary-light);
+  --vp-c-brand-3: var(--vp-c-primary-lighter);
+  --vp-c-brand-soft: var(--vp-c-primary-soft);
+
+  /* Badge / Accent Colors */
+  --vp-c-badge-primary-light: #5ac2a8;
+  --vp-c-badge-primary-light-bg: #bff8f0;
+  --vp-c-badge-primary-dark: #3ba18b;
+  --vp-c-badge-primary-dark-bg: #5ac2a899;
+
+  /* Fonts */
+  --vp-font-family-base:
+    -apple-system, BlinkMacSystemFont, segoe ui, Helvetica, Arial, sans-serif,
+    apple color emoji, segoe ui emoji;
+  --vp-font-family-mono:
+    ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono,
+    monospace;
+}
+
+/* Theme Colors */
+:root {
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-elv-up: #ffffff;
+  --vp-c-bg-elv-down: #f6f6f7;
+  --vp-c-bg-elv-mute: #f6f6f7;
+
+  --vp-c-bg-soft: #f6f6f7;
+  --vp-c-bg-soft-up: #ffffff;
+  --vp-c-bg-soft-down: #e3e3e5;
+  --vp-c-bg-soft-mute: #e3e3e5;
+
+  --vp-c-bg-alt: #f6f6f7;
+
+  --vp-c-border: rgba(60, 60, 67, 0.29);
+  --vp-c-divider: rgba(60, 60, 67, 0.12);
+  --vp-c-gutter: rgba(60, 60, 67, 0.12);
+
+  --vp-c-neutral: var(--vp-c-black);
+  --vp-c-neutral-inverse: var(--vp-c-white);
+
+  --vp-c-text-1: var(--vp-c-text-light-1);
+  --vp-c-text-2: var(--vp-c-text-light-2);
+  --vp-c-text-3: var(--vp-c-text-light-3);
+
+  --vp-c-text-inverse-1: var(--vp-c-text-dark-1);
+  --vp-c-text-inverse-2: var(--vp-c-text-dark-2);
+  --vp-c-text-inverse-3: var(--vp-c-text-dark-3);
+
+  --vp-c-mute: #f6f6f7;
+  --vp-c-mute-light: #f9f9fc;
+  --vp-c-mute-lighter: #ffffff;
+  --vp-c-mute-dark: #e3e3e5;
+  --vp-c-mute-darker: #d7d7d9;
+
+  --vp-sidebar-bg-color: var(--vp-c-bg-alt);
+  --vp-code-copy-code-bg: var(--vp-code-block-bg);
+  --vp-code-copy-code-hover-bg: var(--vp-code-block-bg);
+
+  --vp-badge-info-text: var(--vp-c-badge-primary-light);
+  --vp-badge-info-bg: var(--vp-c-badge-primary-light-bg);
+}
+
+/* Code Component Colors */
+:root {
+  --vp-code-block-color: var(--vp-c-text-1);
+  --vp-code-block-bg: rgb(246, 248, 250);
+
+  --vp-code-tab-divider: var(--vp-c-text-light-3);
+  --vp-code-tab-text-color: var(--vp-c-text-light-2);
+  --vp-code-tab-bg: var(--vp-code-block-bg);
+  --vp-code-tab-hover-text-color: var(--vp-c-text-light-1);
+  --vp-code-tab-active-text-color: var(--vp-c-text-light-1);
+  --vp-code-tab-active-bar-color: var(--vp-c-brand-1);
+
+  --vp-code-line-highlight-color: rgba(0, 0, 0, 0.1);
+  --vp-code-color: var(--vp-c-text-light-2);
+}
+
+/* Dark Mode */
+.dark {
+  --vp-c-bg: #1e1e20;
+  --vp-c-bg-elv: #252529;
+  --vp-c-bg-elv-up: #313136;
+  --vp-c-bg-elv-down: #1e1e20;
+  --vp-c-bg-elv-mute: #313136;
+
+  --vp-c-bg-soft: #252529;
+  --vp-c-bg-soft-up: #313136;
+  --vp-c-bg-soft-down: #1e1e20;
+  --vp-c-bg-soft-mute: #313136;
+
+  --vp-c-bg-alt: #161618;
+
+  --vp-c-border: rgba(82, 82, 89, 0.68);
+  --vp-c-divider: rgba(82, 82, 89, 0.32);
+  --vp-c-gutter: #000000;
+
+  --vp-c-neutral: var(--vp-c-white);
+  --vp-c-neutral-inverse: var(--vp-c-black);
+
+  --vp-c-text-1: var(--vp-c-text-dark-1);
+  --vp-c-text-2: var(--vp-c-text-dark-2);
+  --vp-c-text-3: var(--vp-c-text-dark-3);
+
+  --vp-c-text-inverse-1: var(--vp-c-text-light-1);
+  --vp-c-text-inverse-2: var(--vp-c-text-light-2);
+  --vp-c-text-inverse-3: var(--vp-c-text-light-3);
+
+  --vp-c-mute: #313136;
+  --vp-c-mute-light: #3a3a3c;
+  --vp-c-mute-lighter: #505053;
+  --vp-c-mute-dark: #2c2c30;
+  --vp-c-mute-darker: #252529;
+
+  --vp-code-block-bg: #2a2a2a;
+  --vp-code-tab-hover-text-color: var(--vp-c-text-dark-2);
+  --vp-code-tab-active-text-color: var(--vp-c-text-dark-1);
+
+  --vp-c-text-code: #e8e8e8;
+  --vp-code-color: var(--vp-c-text-dark-1);
+  --vp-code-tab-text-color: var(--vp-c-text-dark-2);
+
+  --vp-badge-info-text: var(--vp-c-badge-primary-dark);
+  --vp-badge-info-bg: var(--vp-c-badge-primary-dark-bg);
+
+  --vp-c-brand-1: var(--vp-c-primary);
+  --vp-c-brand-2: var(--vp-c-primary-light);
+  --vp-c-brand-3: var(--vp-c-primary-lighter);
+  --vp-c-brand-soft: var(--vp-c-primary-soft);
+}
+
+/* Typography */
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6 {
+  font-weight: 700;
+}
+
+.title {
+  font-weight: 700 !important;
+}
+
+.tagline {
+  max-width: 500px !important;
+}
+
+/* Search Button */
+.DocSearch-Button {
+  background-color: var(--vp-c-bg-soft);
+  width: 40px;
+  height: 40px;
+}
+
+@media (min-width: 768px) {
+  .DocSearch-Button {
+    width: 100%;
+    height: 40px;
+  }
+}
+
+/* Misc Styles */
+body {
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.VPImage.image-src {
+  max-width: 640px;
+}
+
+@media screen and (max-width: 960px) {
+  .VPHero.has-image .image:not(:has(.kawaii)) {
+    display: none;
+  }
+}

@@ -31,7 +31,11 @@ coloredlogs.install(
     level_styles=level_styles,
 )
 
-TRASHBIN_IDS = ["EN7MIZC5jw_CJHPzffRRV", "B_Uc917V41aG-LCJEPL-b"]
+TRASHBIN_IDS = [
+    "EN7MIZC5jw_CJHPzffRRV",
+    "B_Uc917V41aG-LCJEPL-b",
+    "8b-Rz33FfRMHdJm7klYG1",
+]
 
 
 async def publish_server_status(status: str):

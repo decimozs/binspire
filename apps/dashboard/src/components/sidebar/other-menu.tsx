@@ -39,7 +39,7 @@ import {
 const otherMenus: MenuItem[] = [
   {
     title: "Settings",
-    url: "settings",
+    url: "/settings",
     icon: Settings,
     items: [
       {
@@ -72,8 +72,14 @@ const otherMenus: MenuItem[] = [
 export function OtherMenu() {
   const location = useLocation();
   const { state, setOpenMobile } = useSidebar();
-
   const isCollapsed = state === "collapsed";
+
+  const isSettingsActive = [
+    "/settings",
+    "/settings/appearance",
+    "/settings/backup",
+    "/settings/about",
+  ].includes(location.pathname);
 
   return (
     <SidebarGroup>
@@ -86,23 +92,26 @@ export function OtherMenu() {
                 <Collapsible asChild className="group/collapsible">
                   <SidebarMenuItem>
                     <CollapsibleTrigger asChild>
-                      <SidebarMenuButton tooltip={item.title}>
+                      <SidebarMenuButton
+                        tooltip={item.title}
+                        className={
+                          item.title === "Settings" && isSettingsActive
+                            ? "bg-muted rounded-md text-primary"
+                            : ""
+                        }
+                      >
                         {item.icon && <item.icon />}
                         <span>{item.title}</span>
                         <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
+
                     <CollapsibleContent>
                       <SidebarMenuSub>
                         {item.items.map((subItem) => (
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton
                               asChild
-                              className={
-                                location.pathname === subItem.url
-                                  ? "bg-muted rounded-md text-primary"
-                                  : ""
-                              }
                               onClick={() => setOpenMobile(false)}
                             >
                               <Link to={subItem.url}>
@@ -122,7 +131,11 @@ export function OtherMenu() {
                     <DropdownMenuTrigger asChild>
                       <SidebarMenuButton
                         tooltip={item.title}
-                        className="absolute inset-0 w-full h-full opacity-0"
+                        className={`absolute inset-0 w-full h-full opacity-0 ${
+                          item.title === "Settings" && isSettingsActive
+                            ? "bg-muted rounded-md text-primary"
+                            : ""
+                        }`}
                       />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
@@ -144,11 +157,17 @@ export function OtherMenu() {
                           >
                             <Link
                               to={subItem.url}
-                              className="flex flex-row gap-2"
+                              className="flex flex-row items-center gap-1"
                               onClick={() => setOpenMobile(false)}
                             >
                               {subItem.icon && (
-                                <subItem.icon className="mr-2" />
+                                <subItem.icon
+                                  className={`mr-2 ${
+                                    location.pathname === subItem.url
+                                      ? "text-primary"
+                                      : ""
+                                  }`}
+                                />
                               )}
                               {subItem.title}
                             </Link>
