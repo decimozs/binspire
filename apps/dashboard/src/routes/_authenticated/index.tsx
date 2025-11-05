@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Dashboard from "@/features/dashboard";
 import { createFileRoute } from "@tanstack/react-router";
 import {
@@ -13,6 +14,8 @@ import {
   useSuspenseQuery,
 } from "@binspire/query";
 import LoaderLayout from "@/components/layout/loader-layout";
+import { Bot, X } from "lucide-react";
+import Welcome from "@/components/core/welcome";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["dashboard"],
@@ -58,6 +61,42 @@ export const Route = createFileRoute("/_authenticated/")({
 
 function RouteComponent() {
   const { data } = useSuspenseQuery(routeQueryOpts);
+  const [showBanner, setShowBanner] = useState(false);
 
-  return <Dashboard data={data} />;
+  useEffect(() => {
+    const hasDismissed = localStorage.getItem("binspireAI_banner_dismissed");
+    if (!hasDismissed) {
+      setShowBanner(true);
+    }
+  }, []);
+
+  const handleClose = () => {
+    setShowBanner(false);
+    localStorage.setItem("binspireAI_banner_dismissed", "true");
+  };
+
+  return (
+    <>
+      <Welcome />
+      {showBanner && (
+        <div className="text-center rounded-md bg-primary/10 border-primary border-[1px] py-4 px-2 mb-4 relative transition-all animate-in fade-in">
+          <div className="flex flex-row items-center justify-center gap-2">
+            <Bot />
+            <p className="text-xl font-bold">Binspire AI is now available</p>
+          </div>
+          <p className="mt-2">
+            Say hello to your personal data companion! Instantly chat, discover
+            insights, and analyze waste management data like never before. Try
+            it now and experience smarter sustainability.
+          </p>
+          <X
+            onClick={handleClose}
+            className="absolute top-3 right-3 cursor-pointer hover:text-primary transition-colors"
+            size={16}
+          />
+        </div>
+      )}
+      <Dashboard data={data} />
+    </>
+  );
 }

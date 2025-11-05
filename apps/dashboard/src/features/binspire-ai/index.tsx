@@ -260,7 +260,7 @@ export default function BinspireAI() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="size-7">
+        <Button variant="ghost" size="icon" className="size-7 text-primary">
           <Sparkle />
         </Button>
       </SheetTrigger>
