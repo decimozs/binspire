@@ -16,6 +16,7 @@ import {
 import LoaderLayout from "@/components/layout/loader-layout";
 import { Bot, X } from "lucide-react";
 import Welcome from "@/components/core/welcome";
+import { cn } from "@binspire/ui/lib/utils";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["dashboard"],
@@ -79,19 +80,28 @@ function RouteComponent() {
     <>
       <Welcome />
       {showBanner && (
-        <div className="text-center rounded-md bg-primary/10 border-primary border-[1px] py-4 px-2 mb-4 relative transition-all animate-in fade-in">
+        <div
+          className={cn(
+            "text-center rounded-md border-[1px] py-4 px-2 mb-4 relative transition-all animate-in fade-in overflow-hidden text-white",
+            "bg-gradient-to-r from-blue-500 via-emerald-500 to-primary",
+            "bg-[length:200%_200%] animate-gradient-move",
+            "hover:opacity-95 border-secondary",
+          )}
+        >
           <div className="flex flex-row items-center justify-center gap-2">
-            <Bot />
+            <Bot className="text-white" />
             <p className="text-xl font-bold">Binspire AI is now available</p>
           </div>
           <p className="mt-2">
             Say hello to your personal data companion! Instantly chat, discover
-            insights, and analyze waste management data like never before. Try
-            it now and experience smarter sustainability.
+            insights, and analyze waste management data like never before.
+            <span className="font-semibold">
+              Try it now and experience smarter sustainability.
+            </span>
           </p>
           <X
             onClick={handleClose}
-            className="absolute top-3 right-3 cursor-pointer hover:text-primary transition-colors"
+            className="absolute top-3 right-3 cursor-pointer hover:text-white/80 transition-colors"
             size={16}
           />
         </div>

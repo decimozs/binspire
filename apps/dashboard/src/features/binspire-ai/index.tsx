@@ -58,6 +58,7 @@ import {
 } from "@binspire/query";
 import { useRef } from "react";
 import { authClient } from "@/lib/auth-client";
+import { cn } from "@binspire/ui/lib/utils";
 
 const token = import.meta.env.VITE_GITHUB_TOKEN;
 const endpoint = "https://models.github.ai/inference";
@@ -439,7 +440,16 @@ export default function BinspireAI() {
 
             <div className="flex flex-col gap-2">
               {!loading ? (
-                <Button onClick={() => handleSend()} disabled={loading}>
+                <Button
+                  onClick={() => handleSend()}
+                  disabled={loading}
+                  className={cn(
+                    "relative overflow-hidden text-white font-medium transition-all",
+                    "bg-gradient-to-r from-blue-500 via-green-500 to-primary",
+                    "bg-[length:200%_200%] animate-gradient-move",
+                    "hover:opacity-90 disabled:opacity-60",
+                  )}
+                >
                   <Send className="size-4" />
                 </Button>
               ) : (
