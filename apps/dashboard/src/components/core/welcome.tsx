@@ -36,7 +36,7 @@ export default function Welcome() {
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogTrigger hidden>Open</DialogTrigger>
-      <DialogContent overlayOpacity={90}>
+      <DialogContent>
         <DialogHeader>
           <div className="flex flex-row items-center gap-2">
             <img
