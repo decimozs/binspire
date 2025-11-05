@@ -67,6 +67,7 @@ export default function DeleteContentLayout({
                 placeholder="Type 'permanently delete'"
                 type="text"
                 field={field}
+                disabled={isPending}
               />
               <FormFieldError field={field} />
             </>

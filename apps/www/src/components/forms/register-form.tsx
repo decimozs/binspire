@@ -11,6 +11,7 @@ import { DEFAULT_PERMISSIONS } from "@binspire/shared";
 import {
   UserInvitationsApi,
   UserQuotaApi,
+  UserSettingsApi,
   UserStatusApi,
   type UserInvitation,
 } from "@binspire/query";
@@ -73,6 +74,11 @@ export default function RegisterForm({ id, email }: UserInvitation) {
 
         await UserQuotaApi.create({
           userId: newUser.user.id,
+        });
+
+        await UserSettingsApi.create({
+          userId: newUser.user.id,
+          settings: { appearance: { theme: "dark", font: "manrope" } },
         });
 
         await UserInvitationsApi.update(id, {

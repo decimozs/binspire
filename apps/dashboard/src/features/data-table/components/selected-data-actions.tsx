@@ -71,6 +71,8 @@ export default function SelectedDataActions<TData extends TDataWithId>({
 
   const hasPermission = actions?.delete;
 
+  if (selectedData.length === 1) return null;
+
   if (!hasPermission) {
     return (
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-background">
