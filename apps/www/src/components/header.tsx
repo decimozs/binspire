@@ -8,6 +8,7 @@ import { Logo } from "./logo";
 const menuItems = [
   { name: "Features", href: "#features1" },
   { name: "About", href: "#about" },
+  { name: "Docs", href: "https://docs.binspire.space/" },
 ];
 
 export default function Header() {
@@ -61,6 +62,7 @@ export default function Header() {
                     <Link
                       to={item.href}
                       className="text-muted-foreground hover:text-accent-foreground block duration-150"
+                      target={item.href.startsWith("http") ? "_blank" : "_self"}
                     >
                       <span>{item.name}</span>
                     </Link>

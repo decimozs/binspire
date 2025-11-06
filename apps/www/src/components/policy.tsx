@@ -1,17 +1,15 @@
-import { Link } from "@tanstack/react-router";
-
 export default function Policy() {
   return (
     <div className="flex items-center justify-center">
       <p className="text-xs text-center text-muted-foreground w-[250px]">
         By clicking continue, you agree to our{" "}
-        <Link to="/terms-of-service" className="underline">
+        <a href="/terms-of-services.pdf" className="underline" target="_blank">
           Terms of Service
-        </Link>{" "}
+        </a>{" "}
         and{" "}
-        <Link to="/privacy-policy" className="underline">
+        <a href="/privacy-policy.pdf" className="underline" target="_blank">
           Privacy Policy
-        </Link>
+        </a>
         .
       </p>
     </div>

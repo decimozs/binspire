@@ -10,9 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TermsOfServiceIndexRouteImport } from './routes/terms-of-service/index'
 import { Route as RequestDemoIndexRouteImport } from './routes/request-demo/index'
-import { Route as PrivacyPolicyIndexRouteImport } from './routes/privacy-policy/index'
 import { Route as NewsletterIndexRouteImport } from './routes/newsletter/index'
 import { Route as authResetPasswordIndexRouteImport } from './routes/(auth)/reset-password/index'
 import { Route as authRegisterIndexRouteImport } from './routes/(auth)/register/index'
@@ -25,19 +23,9 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TermsOfServiceIndexRoute = TermsOfServiceIndexRouteImport.update({
-  id: '/terms-of-service/',
-  path: '/terms-of-service/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const RequestDemoIndexRoute = RequestDemoIndexRouteImport.update({
   id: '/request-demo/',
   path: '/request-demo/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyPolicyIndexRoute = PrivacyPolicyIndexRouteImport.update({
-  id: '/privacy-policy/',
-  path: '/privacy-policy/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NewsletterIndexRoute = NewsletterIndexRouteImport.update({
@@ -74,9 +62,7 @@ const authForgotPasswordIndexRoute = authForgotPasswordIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/newsletter': typeof NewsletterIndexRoute
-  '/privacy-policy': typeof PrivacyPolicyIndexRoute
   '/request-demo': typeof RequestDemoIndexRoute
-  '/terms-of-service': typeof TermsOfServiceIndexRoute
   '/forgot-password': typeof authForgotPasswordIndexRoute
   '/invitation': typeof authInvitationIndexRoute
   '/login': typeof authLoginIndexRoute
@@ -86,9 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/newsletter': typeof NewsletterIndexRoute
-  '/privacy-policy': typeof PrivacyPolicyIndexRoute
   '/request-demo': typeof RequestDemoIndexRoute
-  '/terms-of-service': typeof TermsOfServiceIndexRoute
   '/forgot-password': typeof authForgotPasswordIndexRoute
   '/invitation': typeof authInvitationIndexRoute
   '/login': typeof authLoginIndexRoute
@@ -99,9 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/newsletter/': typeof NewsletterIndexRoute
-  '/privacy-policy/': typeof PrivacyPolicyIndexRoute
   '/request-demo/': typeof RequestDemoIndexRoute
-  '/terms-of-service/': typeof TermsOfServiceIndexRoute
   '/(auth)/forgot-password/': typeof authForgotPasswordIndexRoute
   '/(auth)/invitation/': typeof authInvitationIndexRoute
   '/(auth)/login/': typeof authLoginIndexRoute
@@ -113,9 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/newsletter'
-    | '/privacy-policy'
     | '/request-demo'
-    | '/terms-of-service'
     | '/forgot-password'
     | '/invitation'
     | '/login'
@@ -125,9 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/newsletter'
-    | '/privacy-policy'
     | '/request-demo'
-    | '/terms-of-service'
     | '/forgot-password'
     | '/invitation'
     | '/login'
@@ -137,9 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/newsletter/'
-    | '/privacy-policy/'
     | '/request-demo/'
-    | '/terms-of-service/'
     | '/(auth)/forgot-password/'
     | '/(auth)/invitation/'
     | '/(auth)/login/'
@@ -150,9 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   NewsletterIndexRoute: typeof NewsletterIndexRoute
-  PrivacyPolicyIndexRoute: typeof PrivacyPolicyIndexRoute
   RequestDemoIndexRoute: typeof RequestDemoIndexRoute
-  TermsOfServiceIndexRoute: typeof TermsOfServiceIndexRoute
   authForgotPasswordIndexRoute: typeof authForgotPasswordIndexRoute
   authInvitationIndexRoute: typeof authInvitationIndexRoute
   authLoginIndexRoute: typeof authLoginIndexRoute
@@ -169,25 +143,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/terms-of-service/': {
-      id: '/terms-of-service/'
-      path: '/terms-of-service'
-      fullPath: '/terms-of-service'
-      preLoaderRoute: typeof TermsOfServiceIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/request-demo/': {
       id: '/request-demo/'
       path: '/request-demo'
       fullPath: '/request-demo'
       preLoaderRoute: typeof RequestDemoIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy-policy/': {
-      id: '/privacy-policy/'
-      path: '/privacy-policy'
-      fullPath: '/privacy-policy'
-      preLoaderRoute: typeof PrivacyPolicyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/newsletter/': {
@@ -238,9 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   NewsletterIndexRoute: NewsletterIndexRoute,
-  PrivacyPolicyIndexRoute: PrivacyPolicyIndexRoute,
   RequestDemoIndexRoute: RequestDemoIndexRoute,
-  TermsOfServiceIndexRoute: TermsOfServiceIndexRoute,
   authForgotPasswordIndexRoute: authForgotPasswordIndexRoute,
   authInvitationIndexRoute: authInvitationIndexRoute,
   authLoginIndexRoute: authLoginIndexRoute,
