@@ -1,4 +1,5 @@
 import SettingsLayout from "@/components/layout/settings-layout";
+import lastUpdated from "@/last-updated.txt?raw";
 
 export default function AboutSettings() {
   return (
@@ -24,7 +25,7 @@ export default function AboutSettings() {
             </span>
             <p>Good</p>
           </div>
-          <p>September 9, 2025</p>
+          <p>{lastUpdated}</p>
           <p>Binspire</p>
           <a href="mailto:contact.binspire@gmail.com">
             contact.binspire@gmail.com
