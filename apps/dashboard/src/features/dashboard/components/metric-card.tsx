@@ -46,7 +46,7 @@ export default function MetricCard({
             <Button
               variant="outline"
               size="sm"
-              className="w-fit absolute right-6 top-6"
+              className="w-fit absolute right-6 top-6 hover:text-primary transition-transform duration-200 hover:scale-150"
               onClick={handleNavigate}
             >
               <ArrowUpRight />

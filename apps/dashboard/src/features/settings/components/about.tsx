@@ -26,7 +26,9 @@ export default function AboutSettings() {
           </div>
           <p>September 9, 2025</p>
           <p>Binspire</p>
-          <p>contact.binspire@gmail.com</p>
+          <a href="mailto:contact.binspire@gmail.com">
+            contact.binspire@gmail.com
+          </a>
           <p>MIT License</p>
         </div>
       </div>

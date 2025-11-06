@@ -248,7 +248,7 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
       {!isFullScreen ? (
         <Button
           size="sm"
-          className="w-fit absolute right-6 bottom-6"
+          className="w-fit absolute right-6 bottom-6 hover:transition-transform duration-200 hover:scale-150"
           onClick={() => navigate({ to: "/map" })}
         >
           <ArrowUpRight />

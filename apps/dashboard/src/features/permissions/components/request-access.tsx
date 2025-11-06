@@ -14,7 +14,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
-import { Info, Key, Loader2, Plus } from "lucide-react";
+import { Key, Loader2, Plus } from "lucide-react";
 import z from "zod";
 import { useForm } from "@tanstack/react-form";
 import { authClient } from "@/lib/auth-client";
@@ -175,8 +175,7 @@ export default function RequestAccess({ actions }: RequestAccessProps) {
                       <p>C</p>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent className="flex flex-row gap-2 items-center">
-                    <Info size={15} />
+                  <TooltipContent className="flex flex-row gap-2 items-center font-bold">
                     <p>
                       Allows the user to create new records or items in the
                       system.
@@ -191,8 +190,7 @@ export default function RequestAccess({ actions }: RequestAccessProps) {
                       <p>R</p>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent className="flex flex-row gap-2 items-center">
-                    <Info size={15} />
+                  <TooltipContent className="flex flex-row gap-2 items-center font-bold">
                     <p>
                       Allows the user to view or read and access existing
                       records or items.
@@ -207,8 +205,7 @@ export default function RequestAccess({ actions }: RequestAccessProps) {
                       <p>U</p>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent className="flex flex-row gap-2 items-center">
-                    <Info size={15} />
+                  <TooltipContent className="flex flex-row gap-2 items-center font-bold">
                     <p>
                       Allows the user to modify or update existing records or
                       items.
@@ -223,8 +220,7 @@ export default function RequestAccess({ actions }: RequestAccessProps) {
                       <p>D</p>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent className="flex flex-row gap-2 items-center">
-                    <Info size={15} />
+                  <TooltipContent className="flex flex-row gap-2 items-center font-bold">
                     <p>
                       Allows the user to remove or permanently delete records or
                       items.

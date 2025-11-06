@@ -171,12 +171,8 @@ export default function BackupSettings() {
 
         <div className="flex flex-col gap-2">
           <p>Cloud Integration</p>
-          <Button
-            size="lg"
-            variant="secondary"
-            type="button"
-            disabled={!hasPermission}
-          >
+          <WarningSign message="Cloud integration is not available for now." />
+          <Button size="lg" variant="secondary" type="button" disabled>
             Connect
           </Button>
           <p className="text-sm text-muted-foreground">

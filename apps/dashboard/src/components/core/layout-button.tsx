@@ -1,15 +1,12 @@
 import { Button } from "@binspire/ui/components/button";
-import { Check, Expand, LayoutPanelLeft, Shrink } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@binspire/ui/components/dropdown-menu";
+import { Expand, Shrink } from "lucide-react";
 import { useLayout } from "@/store/layout-store";
 import { useLocation } from "@tanstack/react-router";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@binspire/ui/components/tooltip";
 
 export default function LayoutButton() {
   const { layout, setLayout } = useLayout();
@@ -17,37 +14,29 @@ export default function LayoutButton() {
 
   if (location.pathname === "/map") return null;
 
+  const toggleLayout = () => {
+    setLayout(layout === "compact" ? "full" : "compact");
+  };
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-9">
-          <LayoutPanelLeft />
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-9"
+          onClick={toggleLayout}
+        >
+          {layout === "compact" ? <Expand /> : <Shrink />}
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Layout</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => setLayout("compact")}
-          className="flex flex-row justify-between items-center"
-        >
-          <div className="flex flex-row items-center gap-2">
-            <Shrink />
-            Compact
-          </div>
-          {layout === "compact" && <Check />}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => setLayout("full")}
-          className="flex flex-row justify-between items-center"
-        >
-          <div className="flex flex-row items-center gap-2">
-            <Expand />
-            Full
-          </div>
-          {layout === "full" && <Check />}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p className="font-bold">
+          {layout === "compact"
+            ? "Switch to Full Layout"
+            : "Switch to Compact Layout"}
+        </p>
+      </TooltipContent>
+    </Tooltip>
   );
 }

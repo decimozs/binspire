@@ -1,52 +1,53 @@
-import { MonitorIcon, Moon, MoonIcon, Sun, SunIcon } from "lucide-react";
 import { Button } from "@binspire/ui/components/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@binspire/ui/components/dropdown-menu";
+import { Sun, Moon } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import { useMapLayer } from "@/hooks/use-map-layer";
+import { useState, useEffect } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@binspire/ui/components/tooltip";
 
 export default function ThemeToggle() {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const { setLayer } = useMapLayer();
 
-  const handleSetTheme = (theme: "light" | "dark" | "system") => {
-    setTheme(theme);
+  const [currentTheme, setCurrentTheme] = useState(theme || "dark");
 
-    if (theme === "light") setLayer("light");
-    else if (theme === "dark") setLayer("dark");
+  useEffect(() => {
+    setCurrentTheme(theme || "dark");
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    const nextTheme = currentTheme === "light" ? "dark" : "light";
+
+    setTheme(nextTheme);
+    setCurrentTheme(nextTheme);
+
+    if (nextTheme === "light") setLayer("light");
+    else setLayer("dark");
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="size-7">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-9 relative"
+          onClick={handleToggleTheme}
+        >
+          {currentTheme === "light" ? <Sun /> : <Moon />}
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="mt-2">
-        <DropdownMenuLabel>Theme</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => handleSetTheme("light")}>
-          <SunIcon size={16} className="opacity-60" aria-hidden="true" />
-          <span>Light</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleSetTheme("dark")}>
-          <MoonIcon size={16} className="opacity-60" aria-hidden="true" />
-          <span>Dark</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleSetTheme("system")}>
-          <MonitorIcon size={16} className="opacity-60" aria-hidden="true" />
-          <span>System</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p className="font-bold">
+          {currentTheme === "light"
+            ? "Switch to Dark Theme"
+            : "Switch to Light Theme"}
+        </p>
+      </TooltipContent>
+    </Tooltip>
   );
 }

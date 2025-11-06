@@ -540,6 +540,7 @@ function SidebarMenuButton({
         side="right"
         align="center"
         hidden={state !== "collapsed" || isMobile}
+        className="font-bold"
         {...tooltip}
       />
     </Tooltip>
