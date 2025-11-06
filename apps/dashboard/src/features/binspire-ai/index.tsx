@@ -100,26 +100,33 @@ export default function BinspireAI() {
   const [selectedAnalysis, setSelectedAnalysis] = useState<string | null>(null);
   const stopRef = useRef(false);
   const [abortRequested, setAbortRequested] = useState(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const typeWriter = (text: string, delay = 20) => {
     return new Promise<string>((resolve) => {
       let i = 0;
       stopRef.current = false;
+
       const interval = setInterval(() => {
         if (stopRef.current) {
           clearInterval(interval);
           resolve(text.slice(0, i));
           return;
         }
+
         setMessages((prev) => {
           const last = prev[prev.length - 1];
+
           if (!last || last.role !== "assistant")
             return [...prev, { role: "assistant", content: text[0] }];
+
           const updated = [...prev];
+
           updated[updated.length - 1] = {
             ...last,
             content: last.content + text[i],
           };
+
           return updated;
         });
         i++;
@@ -140,6 +147,10 @@ export default function BinspireAI() {
     stopRef.current = false;
     setAbortRequested(false);
 
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
     const newMessages = [
       ...messages,
       { role: "user" as const, content: messageText },
@@ -148,7 +159,6 @@ export default function BinspireAI() {
     setInput("");
     setLoading(true);
 
-    // Generate title
     if (!chatTitle && newMessages.length === 1) {
       try {
         const titleResponse = await client.path("/chat/completions").post({
@@ -194,7 +204,9 @@ export default function BinspireAI() {
         else if (analysis === "requests") data = await UserRequestApi.getAll();
         else if (analysis === "invitations")
           data = await UserInvitationsApi.getAll();
-        analyzedDataSummary = JSON.stringify(data).slice(0, 3000);
+
+        analyzedDataSummary =
+          JSON.stringify(data, null, 2).substring(0, 3000) + "...";
       }
 
       const systemPrompt =
@@ -203,6 +215,8 @@ export default function BinspireAI() {
       const userPrompt = analysis
         ? `${messageText}\n\nHere is the related ${analysis} data for context:\n${analyzedDataSummary}`
         : messageText;
+
+      abortControllerRef.current = new AbortController();
 
       const response = await client.path("/chat/completions").post({
         body: {
@@ -214,6 +228,7 @@ export default function BinspireAI() {
           ],
           temperature: 0.8,
         },
+        abortSignal: abortControllerRef.current?.signal,
       });
 
       if (isUnexpected(response)) throw response.body.error;
@@ -222,7 +237,6 @@ export default function BinspireAI() {
       await typeWriter(reply!);
     } catch (err) {
       if (!abortRequested) {
-        console.error("Chat error:", err);
         setMessages((prev) => [
           ...prev,
           {
@@ -240,6 +254,11 @@ export default function BinspireAI() {
     stopRef.current = true;
     setAbortRequested(true);
     setLoading(false);
+
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
   };
 
   const SelectedIcon = selectedModel.icon;
