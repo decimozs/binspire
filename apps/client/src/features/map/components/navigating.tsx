@@ -6,13 +6,17 @@ import { useQueryState } from "nuqs";
 import { Skeleton } from "@binspire/ui/components/skeleton";
 import NavigationInfo from "./navigation-info";
 import CancelNavigation from "./cancel-navigation";
+import { useLocation } from "@tanstack/react-router";
 
 export default function Navigating() {
+  const { pathname } = useLocation();
   const { route } = useRouteStore();
   const [markTrashbinQuery] = useQueryState("mark_trashbin_id");
   const { data, isPending } = useGetTrashbinById(markTrashbinQuery || "");
 
   if (!route) return null;
+
+  if (pathname !== "/map") return null;
 
   const feature = route?.features?.[0];
   const distance = feature?.properties?.summary?.distance ?? 0;
