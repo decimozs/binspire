@@ -30,7 +30,7 @@ export default function Welcome() {
   };
 
   const handleDocs = () => {
-    window.open("https://binspire.com/docs", "_blank");
+    window.open("https://docs.binspire.space/", "_blank");
     handleClose();
   };
 

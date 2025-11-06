@@ -5,6 +5,7 @@ import { AnimatedGroup } from "@/components/ui/animated-group";
 import Header from "./header";
 import { Link } from "@tanstack/react-router";
 import { FlipWords } from "./ui/flip-words";
+import { cn } from "@/lib/utils";
 
 const transitionVariants = {
   item: {
@@ -89,7 +90,13 @@ export default function HeroSection() {
                 <AnimatedGroup variants={transitionVariants}>
                   <Link
                     to="/"
-                    className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors duration-300 dark:border-t-white/5 dark:shadow-zinc-950"
+                    className={cn(
+                      "hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors duration-300 dark:shadow-zinc-950",
+                      "relative overflow-hidden text-white font-medium transition-all",
+                      "bg-gradient-to-r from-blue-500 via-green-500 to-primary",
+                      "bg-[length:200%_200%] animate-gradient-move",
+                      "hover:opacity-90 disabled:opacity-60",
+                    )}
                   >
                     <span className="text-foreground text-sm">
                       Now Featuring Built-In AI Assistance
