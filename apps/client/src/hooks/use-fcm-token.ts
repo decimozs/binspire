@@ -32,6 +32,8 @@ export const useFCMToken = () => {
           return;
         }
 
+        await MessagingApi.register(data.user.id, currentToken);
+
         const lastToken = localStorage.getItem("fcm_token");
 
         if (currentToken === lastToken) {

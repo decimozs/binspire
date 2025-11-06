@@ -50,7 +50,6 @@ export default function LoginForm() {
         });
 
         if (!data || error) {
-          console.log(error);
           throw new Error(error.message);
         }
 

@@ -1,14 +1,6 @@
 import type { Audit, TrashbinCollections } from "@binspire/query";
 import ActivityCard from "./activity-card";
 import { parseAsString, useQueryState } from "nuqs";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@binspire/ui/components/empty";
-import { Activity } from "lucide-react";
 
 interface Props {
   collections: TrashbinCollections[];
@@ -81,20 +73,6 @@ export default function ActivityList({ collections, audits }: Props) {
     <div className="grid grid-cols-1 gap-3">
       {filteredData.length > 0 &&
         filteredData.map((item) => <ActivityCard key={item.id} data={item} />)}
-
-      {filteredData.length === 0 && (
-        <Empty className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <Activity />
-            </EmptyMedia>
-            <EmptyTitle>No Activity Found</EmptyTitle>
-            <EmptyDescription className="w-[300px]">
-              There is no activity matching your search criteria.
-            </EmptyDescription>
-          </EmptyHeader>
-        </Empty>
-      )}
     </div>
   );
 }

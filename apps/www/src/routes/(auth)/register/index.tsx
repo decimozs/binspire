@@ -14,12 +14,9 @@ export const Route = createFileRoute("/(auth)/register/")({
   component: RouteComponent,
   validateSearch: routeSchema,
   loaderDeps: ({ search: { id, token } }) => ({ id, token }),
-  loader: async ({ deps: { id, token } }) => {
+  loader: async ({ deps: { id } }) => {
     const decryptedId = await decryptId(id);
     const invitation = await UserInvitationsApi.getById(decryptedId);
-
-    console.log("id: ", id);
-    console.log("token: ", token);
 
     if (!invitation || invitation.status !== "confirmed")
       throw redirect({ to: "/" });

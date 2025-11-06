@@ -87,7 +87,13 @@ export default function RegisterForm({ id, email }: UserInvitation) {
 
         ShowToast("success", "Registration successful! Redirecting...");
 
-        window.location.href = "/login";
+        if (invitation.role === "admin") {
+          window.location.href = "/login";
+        }
+
+        if (invitation.role === "maintenance") {
+          window.location.href = "https://client.binspire.space/";
+        }
       } catch (err) {
         const error = err as Error;
         ShowToast(
