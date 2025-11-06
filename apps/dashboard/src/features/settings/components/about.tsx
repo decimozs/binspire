@@ -1,5 +1,6 @@
 import SettingsLayout from "@/components/layout/settings-layout";
 import lastUpdated from "@/last-updated.txt?raw";
+import { format } from "date-fns";
 
 export default function AboutSettings() {
   return (
@@ -25,7 +26,7 @@ export default function AboutSettings() {
             </span>
             <p>Good</p>
           </div>
-          <p>{lastUpdated}</p>
+          <p>{format(new Date(lastUpdated.trim()), "MMMM d, yyyy")}</p>
           <p>Binspire</p>
           <a href="mailto:contact.binspire@gmail.com">
             contact.binspire@gmail.com

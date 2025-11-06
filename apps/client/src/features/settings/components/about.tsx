@@ -1,5 +1,7 @@
 import { Info } from "lucide-react";
 import SettingsItem from "./settings-item";
+import lastUpdated from "@/last-updated.txt?raw";
+import { format } from "date-fns";
 import {
   Drawer,
   DrawerContent,
@@ -45,7 +47,7 @@ export default function About() {
               </span>
               <p>Good</p>
             </div>
-            <p>September 9, 2025</p>
+            <p>{format(new Date(lastUpdated.trim()), "MMMM d, yyyy")}</p>
             <p>Binspire</p>
             <p>contact.binspire@gmail.com</p>
             <p>MIT License</p>
