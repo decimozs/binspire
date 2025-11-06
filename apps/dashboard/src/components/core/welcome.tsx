@@ -6,6 +6,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
@@ -36,6 +37,9 @@ export default function Welcome() {
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogTrigger hidden>Open</DialogTrigger>
+      <DialogOverlay />
+      <DialogOverlay />
+      <DialogOverlay />
       <DialogContent>
         <DialogHeader>
           <div className="flex flex-row items-center gap-2">
