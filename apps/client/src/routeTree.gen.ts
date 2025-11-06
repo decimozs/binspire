@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as WelcomeIndexRouteImport } from './routes/welcome/index'
 import { Route as TermsOfServiceIndexRouteImport } from './routes/terms-of-service/index'
 import { Route as PrivacyPolicyIndexRouteImport } from './routes/privacy-policy/index'
 import { Route as MapIndexRouteImport } from './routes/map/index'
@@ -25,6 +26,11 @@ import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelcomeIndexRoute = WelcomeIndexRouteImport.update({
+  id: '/welcome/',
+  path: '/welcome/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsOfServiceIndexRoute = TermsOfServiceIndexRouteImport.update({
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/map': typeof MapIndexRoute
   '/privacy-policy': typeof PrivacyPolicyIndexRoute
   '/terms-of-service': typeof TermsOfServiceIndexRoute
+  '/welcome': typeof WelcomeIndexRoute
   '/login': typeof authLoginIndexRoute
   '/account': typeof AuthenticatedAccountIndexRoute
   '/activity': typeof AuthenticatedActivityIndexRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByTo {
   '/map': typeof MapIndexRoute
   '/privacy-policy': typeof PrivacyPolicyIndexRoute
   '/terms-of-service': typeof TermsOfServiceIndexRoute
+  '/welcome': typeof WelcomeIndexRoute
   '/login': typeof authLoginIndexRoute
   '/account': typeof AuthenticatedAccountIndexRoute
   '/activity': typeof AuthenticatedActivityIndexRoute
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   '/map/': typeof MapIndexRoute
   '/privacy-policy/': typeof PrivacyPolicyIndexRoute
   '/terms-of-service/': typeof TermsOfServiceIndexRoute
+  '/welcome/': typeof WelcomeIndexRoute
   '/(auth)/login/': typeof authLoginIndexRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_authenticated/activity/': typeof AuthenticatedActivityIndexRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/map'
     | '/privacy-policy'
     | '/terms-of-service'
+    | '/welcome'
     | '/login'
     | '/account'
     | '/activity'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/map'
     | '/privacy-policy'
     | '/terms-of-service'
+    | '/welcome'
     | '/login'
     | '/account'
     | '/activity'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/map/'
     | '/privacy-policy/'
     | '/terms-of-service/'
+    | '/welcome/'
     | '/(auth)/login/'
     | '/_authenticated/account/'
     | '/_authenticated/activity/'
@@ -190,6 +202,7 @@ export interface RootRouteChildren {
   MapIndexRoute: typeof MapIndexRoute
   PrivacyPolicyIndexRoute: typeof PrivacyPolicyIndexRoute
   TermsOfServiceIndexRoute: typeof TermsOfServiceIndexRoute
+  WelcomeIndexRoute: typeof WelcomeIndexRoute
   authLoginIndexRoute: typeof authLoginIndexRoute
 }
 
@@ -200,6 +213,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welcome/': {
+      id: '/welcome/'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms-of-service/': {
@@ -319,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   MapIndexRoute: MapIndexRoute,
   PrivacyPolicyIndexRoute: PrivacyPolicyIndexRoute,
   TermsOfServiceIndexRoute: TermsOfServiceIndexRoute,
+  WelcomeIndexRoute: WelcomeIndexRoute,
   authLoginIndexRoute: authLoginIndexRoute,
 }
 export const routeTree = rootRouteImport
