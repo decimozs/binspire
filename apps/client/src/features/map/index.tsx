@@ -294,7 +294,7 @@ export default function GlobalMap({
         )}
         <ViewTrashbin />
         <Navigating />
-        {isOnHome && !route && (
+        {isOnHome && (
           <Link to="/map" className="absolute bottom-4 right-4 z-50">
             <Button className="w-full" variant="default">
               <ArrowUpRight />
