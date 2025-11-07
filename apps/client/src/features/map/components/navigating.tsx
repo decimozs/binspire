@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useRouteStore } from "@/store/route-store";
 import { useGetTrashbinById } from "@binspire/query";
 import "@google/model-viewer";
@@ -12,11 +13,24 @@ export default function Navigating() {
   const { pathname } = useLocation();
   const { route } = useRouteStore();
   const [markTrashbinQuery] = useQueryState("mark_trashbin_id");
-  const { data, isPending } = useGetTrashbinById(markTrashbinQuery || "");
+  const [trashbinId, setTrashbinId] = useState<string | null>(null);
 
-  if (!route) return null;
+  useEffect(() => {
+    const localId = localStorage.getItem("mark_trashbin_id");
 
-  if (pathname !== "/map") return null;
+    if (markTrashbinQuery) {
+      localStorage.setItem("mark_trashbin_id", markTrashbinQuery);
+      setTrashbinId(markTrashbinQuery);
+    } else if (localId) {
+      setTrashbinId(localId);
+    } else {
+      setTrashbinId(null);
+    }
+  }, [markTrashbinQuery]);
+
+  const { data, isPending } = useGetTrashbinById(trashbinId || "");
+
+  if (!route || pathname !== "/map") return null;
 
   const feature = route?.features?.[0];
   const distance = feature?.properties?.summary?.distance ?? 0;
@@ -27,33 +41,32 @@ export default function Navigating() {
         {isPending || !data ? (
           <Skeleton className="w-full h-[92px]" />
         ) : (
-          <>
-            <div className="bg-background/80 p-4 rounded-md w-full grid grid-cols-[1fr_50px]">
-              <div>
-                <p className="text-md font-bold text-primary">Navigating</p>
-                <p className="text-2xl font-bold">{data.name}</p>
-                <p className="text-xs font-bold text-muted-foreground ml-[2px]">
-                  {(distance / 1000).toFixed(2) + " km"}
-                </p>
-              </div>
-              <div className="flex items-end justify-end">
-                {/* @ts-ignore: model-viewer is a custom element */}
-                <model-viewer
-                  src="/models/bin.glb"
-                  alt="3D Trash Bin"
-                  auto-rotate
-                  interaction-prompt="none"
-                  style={{
-                    width: "60px",
-                    height: "60px",
-                    "--poster-color": "transparent",
-                  }}
-                />
-              </div>
+          <div className="bg-background/80 p-4 rounded-md w-full grid grid-cols-[1fr_50px]">
+            <div>
+              <p className="text-md font-bold text-primary">Navigating</p>
+              <p className="text-2xl font-bold">{data.name}</p>
+              <p className="text-xs font-bold text-muted-foreground ml-[2px]">
+                {(distance / 1000).toFixed(2)} km
+              </p>
             </div>
-          </>
+            <div className="flex items-end justify-end">
+              {/* @ts-ignore: model-viewer is a custom element */}
+              <model-viewer
+                src="/models/bin.glb"
+                alt="3D Trash Bin"
+                auto-rotate
+                interaction-prompt="none"
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  "--poster-color": "transparent",
+                }}
+              />
+            </div>
+          </div>
         )}
       </div>
+
       <div className="absolute bottom-4 w-full z-50 flex flex-row items-center gap-2 px-4">
         <NavigationInfo />
         <div className="grow">

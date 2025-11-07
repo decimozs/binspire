@@ -4,8 +4,10 @@ import { point } from "@turf/helpers";
 import bearing from "@turf/bearing";
 import { useRouteStore } from "@/store/route-store";
 import { useMapStore } from "@/store/map-store";
+import { useLocation } from "@tanstack/react-router";
 
 export default function RouteLayer() {
+  const { pathname } = useLocation();
   const { route } = useRouteStore();
   const updateViewState = useMapStore((state) => state.updateViewState);
   const [userPosition, setUserPosition] = useState<[number, number] | null>(
@@ -85,6 +87,8 @@ export default function RouteLayer() {
   }, [route, map, updateViewState]);
 
   if (!route) return null;
+
+  if (pathname !== "/map") return null;
 
   return (
     <>
