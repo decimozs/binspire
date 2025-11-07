@@ -1,7 +1,6 @@
 import { Button } from "@binspire/ui/components/button";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import z from "zod";
-import { decryptId } from "@/features/encryption";
 import { UserInvitationsApi } from "@binspire/query";
 import AuthLayout from "@/components/layout/auth-layout";
 import { SubLogo } from "@/components/logo";
@@ -17,8 +16,7 @@ export const Route = createFileRoute("/download-client/")({
   loader: async ({ deps: { id } }) => {
     if (!id) throw redirect({ to: "/" });
 
-    const decryptedId = await decryptId(id);
-    const invitation = await UserInvitationsApi.getById(decryptedId);
+    const invitation = await UserInvitationsApi.getById(id);
 
     if (!invitation || invitation.status !== "confirmed")
       throw redirect({ to: "/" });

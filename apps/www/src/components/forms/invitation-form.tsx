@@ -102,7 +102,7 @@ export default function InvitationForm({
     >
       <div className="flex flex-col items-center gap-3 mb-4">
         <SubLogo />
-        <p className="text-4xl">Confirm your Invitation</p>
+        <p className="text-4xl text-center">Confirm your Invitation</p>
       </div>
 
       <div className="flex flex-col gap-4">
