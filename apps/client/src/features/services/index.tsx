@@ -16,7 +16,7 @@ export default function Services() {
 
   return (
     <MainLayout>
-      <p className="text-xl font-medium">What do you want to do today?</p>
+      <p className="text-xl font-bold">What do you want to do today?</p>
       <div className="grid grid-cols-1 gap-4">
         <ServiceCard
           label="Collect"

@@ -45,7 +45,9 @@ export default function Home() {
         <div className="flex flex-col">
           <div>
             <p className="font-bold text-xl">Daily Collectives</p>
-            <p className="text-muted-foreground">Trashbin Collection</p>
+            <p className="text-muted-foreground font-bold">
+              Trashbin Collection
+            </p>
           </div>
           <div className="flex flex-row items-center gap-2 mt-auto">
             <Database size={15} className="text-primary" />
@@ -72,7 +74,7 @@ export default function Home() {
           <HeartHandshake />
           <p className="text-xl font-bold">Green Hearts</p>
         </div>
-        <p>
+        <p className="font-bold mt-2">
           Change lives with your trash. Your waste donations fuel sustainability
           drives, local clean-ups, and community welfare programs.
         </p>
@@ -117,7 +119,7 @@ export default function Home() {
           />
         </div>
         <Link to="/services" className="mt-2 w-full">
-          <Button className="w-full" variant="outline">
+          <Button className="w-full font-bold text-lg" variant="outline">
             View More Services
           </Button>
         </Link>

@@ -1,7 +1,6 @@
 import Map, { useControl } from "react-map-gl/maplibre";
 import ZoomControls from "./components/zoom-controls";
 import ResetMapState from "./components/reset-map-state";
-import Locate from "./components/locate";
 import { useEffect, useMemo } from "react";
 import { useSession } from "../auth";
 import {
@@ -26,7 +25,7 @@ import RouteLayer from "./components/route-layer";
 import { useRouteStore } from "@/store/route-store";
 import Navigating from "./components/navigating";
 import { useMapStore } from "@/store/map-store";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { Button } from "@binspire/ui/components/button";
 import { ArrowUpRight } from "lucide-react";
 import ReportIssue from "../report-issue";
@@ -52,6 +51,7 @@ export default function GlobalMap({
   const { route } = useRouteStore();
   const { viewState, setViewState, resetViewState } = useMapStore();
   const { data: trashbins } = useGetAllTrashbins();
+  const { pathname } = useLocation();
   const bins = useTrashbinRealtime((state) => state.bins);
   const {
     departmentQuery,
@@ -236,7 +236,20 @@ export default function GlobalMap({
         },
       });
     }
-  }, [currentSettings, resetViewState]);
+
+    if (loc && pathname === "/" && isOnHome === true) {
+      resetViewState({
+        longitude: loc.lng,
+        latitude: loc.lat,
+        zoom: 16.5,
+        pitch: 70,
+        bearing: 10,
+        padding: {
+          bottom: 0,
+        },
+      });
+    }
+  }, [currentSettings, resetViewState, pathname, isOnHome]);
 
   return (
     <main className={isOnHome ? "w-full h-[400px]" : "w-full h-screen"}>
@@ -257,9 +270,8 @@ export default function GlobalMap({
         isOnHome ||
         route ? null : (
           <>
-            <div className="fixed right-4 bottom-4 flex flex-col gap-2 z-50">
+            <div className="fixed right-4 bottom-4 flex flex-col gap-4 z-50">
               <ResetMapState />
-              <Locate />
               <ZoomControls />
             </div>
           </>
