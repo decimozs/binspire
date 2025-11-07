@@ -27,6 +27,7 @@ export const Route = createFileRoute("/(auth)/register/")({
 
 function RouteComponent() {
   const { invitation } = Route.useLoaderData();
+
   return (
     <AuthLayout>
       <RegisterForm {...invitation} />

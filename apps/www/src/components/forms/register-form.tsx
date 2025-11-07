@@ -92,7 +92,7 @@ export default function RegisterForm({ id, email }: UserInvitation) {
         }
 
         if (invitation.role === "maintenance") {
-          window.location.href = "https://client.binspire.space/";
+          window.location.href = `/download-client?id=${encodeURIComponent(invitation.id)}`;
         }
       } catch (err) {
         const error = err as Error;
