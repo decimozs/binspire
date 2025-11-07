@@ -92,7 +92,7 @@ export default function RegisterForm({ id, email }: UserInvitation) {
         }
 
         if (invitation.role === "maintenance") {
-          window.location.href = `/download-client?id=${encodeURIComponent(invitation.id)}`;
+          window.location.href = `/download-client?id=${invitation.id}`;
         }
       } catch (err) {
         const error = err as Error;

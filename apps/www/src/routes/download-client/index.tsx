@@ -18,8 +18,7 @@ export const Route = createFileRoute("/download-client/")({
 
     const invitation = await UserInvitationsApi.getById(id);
 
-    if (!invitation || invitation.status !== "confirmed")
-      throw redirect({ to: "/" });
+    if (!invitation) throw redirect({ to: "/" });
 
     return { invitation };
   },
