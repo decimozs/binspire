@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RequestDemoIndexRouteImport } from './routes/request-demo/index'
 import { Route as NewsletterIndexRouteImport } from './routes/newsletter/index'
+import { Route as DownloadIndexRouteImport } from './routes/download/index'
 import { Route as authResetPasswordIndexRouteImport } from './routes/(auth)/reset-password/index'
 import { Route as authRegisterIndexRouteImport } from './routes/(auth)/register/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
@@ -31,6 +32,11 @@ const RequestDemoIndexRoute = RequestDemoIndexRouteImport.update({
 const NewsletterIndexRoute = NewsletterIndexRouteImport.update({
   id: '/newsletter/',
   path: '/newsletter/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DownloadIndexRoute = DownloadIndexRouteImport.update({
+  id: '/download/',
+  path: '/download/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authResetPasswordIndexRoute = authResetPasswordIndexRouteImport.update({
@@ -61,6 +67,7 @@ const authForgotPasswordIndexRoute = authForgotPasswordIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/download': typeof DownloadIndexRoute
   '/newsletter': typeof NewsletterIndexRoute
   '/request-demo': typeof RequestDemoIndexRoute
   '/forgot-password': typeof authForgotPasswordIndexRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/download': typeof DownloadIndexRoute
   '/newsletter': typeof NewsletterIndexRoute
   '/request-demo': typeof RequestDemoIndexRoute
   '/forgot-password': typeof authForgotPasswordIndexRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/download/': typeof DownloadIndexRoute
   '/newsletter/': typeof NewsletterIndexRoute
   '/request-demo/': typeof RequestDemoIndexRoute
   '/(auth)/forgot-password/': typeof authForgotPasswordIndexRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/download'
     | '/newsletter'
     | '/request-demo'
     | '/forgot-password'
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/download'
     | '/newsletter'
     | '/request-demo'
     | '/forgot-password'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/download/'
     | '/newsletter/'
     | '/request-demo/'
     | '/(auth)/forgot-password/'
@@ -125,6 +137,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DownloadIndexRoute: typeof DownloadIndexRoute
   NewsletterIndexRoute: typeof NewsletterIndexRoute
   RequestDemoIndexRoute: typeof RequestDemoIndexRoute
   authForgotPasswordIndexRoute: typeof authForgotPasswordIndexRoute
@@ -155,6 +168,13 @@ declare module '@tanstack/react-router' {
       path: '/newsletter'
       fullPath: '/newsletter'
       preLoaderRoute: typeof NewsletterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/download/': {
+      id: '/download/'
+      path: '/download'
+      fullPath: '/download'
+      preLoaderRoute: typeof DownloadIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/reset-password/': {
@@ -197,6 +217,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DownloadIndexRoute: DownloadIndexRoute,
   NewsletterIndexRoute: NewsletterIndexRoute,
   RequestDemoIndexRoute: RequestDemoIndexRoute,
   authForgotPasswordIndexRoute: authForgotPasswordIndexRoute,
