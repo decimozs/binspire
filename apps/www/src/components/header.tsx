@@ -9,7 +9,6 @@ const menuItems = [
   { name: "Features", href: "#features1" },
   { name: "About", href: "#about" },
   { name: "Docs", href: "https://docs.binspire.space/" },
-  { name: "Download", href: "/download" },
 ];
 
 export default function Header() {

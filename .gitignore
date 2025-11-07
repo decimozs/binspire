@@ -113,3 +113,7 @@ bun.lockb
 
 # Firebase
 service-account.json
+
+# Android 
+my-release-key.jks
+*.jks
