@@ -12,7 +12,8 @@ import { useLocation } from "@tanstack/react-router";
 export default function Navigating() {
   const { pathname } = useLocation();
   const { route } = useRouteStore();
-  const [markTrashbinQuery] = useQueryState("mark_trashbin_id");
+  const [markTrashbinQuery, setMarkTrashbinQuery] =
+    useQueryState("mark_trashbin_id");
   const [trashbinId, setTrashbinId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function Navigating() {
       setTrashbinId(markTrashbinQuery);
     } else if (localId) {
       setTrashbinId(localId);
+      setMarkTrashbinQuery(localId);
     } else {
       setTrashbinId(null);
     }

@@ -26,7 +26,7 @@ import RouteLayer from "./components/route-layer";
 import { useRouteStore } from "@/store/route-store";
 import Navigating from "./components/navigating";
 import { useMapStore } from "@/store/map-store";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { Button } from "@binspire/ui/components/button";
 import { ArrowUpRight } from "lucide-react";
 import ReportIssue from "../report-issue";
@@ -49,6 +49,7 @@ export default function GlobalMap({
   isOnHome?: boolean;
 }) {
   const session = useSession();
+  const { pathname } = useLocation();
   const { route } = useRouteStore();
   const { viewState, setViewState, resetViewState } = useMapStore();
   const { data: trashbins } = useGetAllTrashbins();
@@ -235,8 +236,21 @@ export default function GlobalMap({
           bottom: 0,
         },
       });
+
+      if (pathname === "/map") {
+        resetViewState({
+          longitude: loc.lng,
+          latitude: loc.lat,
+          zoom: 16.5,
+          pitch: 70,
+          bearing: 10,
+          padding: {
+            bottom: 0,
+          },
+        });
+      }
     }
-  }, [currentSettings, resetViewState]);
+  }, [currentSettings, resetViewState, pathname]);
 
   return (
     <main className={isOnHome ? "w-full h-[350px]" : "w-full h-screen"}>
