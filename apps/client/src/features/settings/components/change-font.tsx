@@ -41,7 +41,7 @@ export default function ChangeFont() {
 
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Change Font</DrawerTitle>
+          <DrawerTitle className="text-4xl font-bold">Font</DrawerTitle>
           <DrawerDescription>
             Select a font you prefer for the app.
           </DrawerDescription>

@@ -15,8 +15,8 @@ export default function SettingsItem({ label, description, icon }: Props) {
         <Icon size={30} />
       </div>
       <div>
-        <p>{label}</p>
-        <p className="mt-1 text-muted-foreground leading-4 text-sm">
+        <p className="font-bold">{label}</p>
+        <p className="mt-1 text-muted-foreground leading-4 text-sm font-bold">
           {description}
         </p>
       </div>

@@ -9,10 +9,17 @@ import {
   DrawerTrigger,
 } from "@binspire/ui/components/drawer";
 import { Skeleton } from "@binspire/ui/components/skeleton";
-import { Hammer } from "lucide-react";
+import { Hammer, Info } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import ViewTrashbinIssue from "./view-trashbin-issue";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@binspire/ui/components/empty";
 
 export default function TrashbinIssues() {
   const [open, setOpen] = useQueryState(
@@ -34,9 +41,13 @@ export default function TrashbinIssues() {
         {isPending ? (
           <Skeleton className="h-10 w-12" />
         ) : (
-          <Button variant="secondary" size="lg" className="relative">
+          <Button
+            variant="secondary"
+            size="lg"
+            className="relative border-[1px] border-primary h-12"
+          >
             <Hammer />
-            <span className="absolute -end-1 -top-1 size-5 rounded-full border-1 border-background bg-red-500 flex items-center justify-center">
+            <span className="absolute -end-1 -top-1 size-5 rounded-full bg-red-500 flex items-center justify-center">
               <p className="text-xs">{trashbinIssues?.length}</p>
             </span>
           </Button>
@@ -66,9 +77,19 @@ export default function TrashbinIssues() {
             </div>
           )}
           {trashbinIssues && trashbinIssues.length === 0 && (
-            <p className="text-center text-muted-foreground">
-              No trashbin issues found.
-            </p>
+            <Empty>
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <Info />
+                </EmptyMedia>
+                <EmptyTitle>No Trashbin Issues Found</EmptyTitle>
+                <EmptyDescription>
+                  Great job! There are currently no reported issues with any
+                  trashbins. Check back later or report a new issue if something
+                  comes up.
+                </EmptyDescription>
+              </EmptyHeader>
+            </Empty>
           )}
         </ScrollArea>
       </DrawerContent>

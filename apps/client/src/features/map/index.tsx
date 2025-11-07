@@ -238,7 +238,7 @@ export default function GlobalMap({
       });
     }
 
-    if (pathname !== "/map") {
+    if (pathname !== "/map" && isOnHome) {
       resetViewState({
         longitude: loc.lng,
         latitude: loc.lat,
@@ -269,7 +269,7 @@ export default function GlobalMap({
         isOnHome ||
         route ? null : (
           <>
-            <div className="fixed right-4 bottom-4 flex flex-col gap-2 z-50">
+            <div className="fixed right-4 bottom-4 flex flex-col gap-4 z-50">
               <ResetMapState />
               <Locate />
               <ZoomControls />
@@ -287,7 +287,7 @@ export default function GlobalMap({
           </div>
         )}
         {!isOnHome && !route && (
-          <div className="fixed left-4 bottom-4 flex flex-col gap-2">
+          <div className="fixed left-4 bottom-4 flex flex-col gap-4">
             <AssignedTrashbins />
             <TrashbinIssues />
           </div>

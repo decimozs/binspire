@@ -23,7 +23,7 @@ export default function About() {
       </DrawerTrigger>
       <DrawerContent className="px-4 pb-4">
         <DrawerHeader>
-          <DrawerTitle>About</DrawerTitle>
+          <DrawerTitle className="text-4xl font-bold">About</DrawerTitle>
           <DrawerDescription>
             View system details including version, health status, updates,
             developer info, and license.

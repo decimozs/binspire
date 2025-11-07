@@ -25,7 +25,12 @@ export default function LogoutButton() {
   };
 
   return (
-    <Button variant="destructive" onClick={handleLogout} disabled={loading}>
+    <Button
+      variant="destructive"
+      onClick={handleLogout}
+      disabled={loading}
+      className="font-bold text-lg"
+    >
       {loading ? <Loader2 className="animate-spin" /> : "Logout"}
     </Button>
   );

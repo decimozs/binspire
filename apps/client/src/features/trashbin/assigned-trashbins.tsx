@@ -15,6 +15,13 @@ import { Skeleton } from "@binspire/ui/components/skeleton";
 import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import { formatDistanceToNow } from "date-fns";
 import { useMap } from "react-map-gl/maplibre";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@binspire/ui/components/empty";
 
 export default function AssignedTrashbins() {
   const { current: map } = useMap();
@@ -60,9 +67,13 @@ export default function AssignedTrashbins() {
         {isPending ? (
           <Skeleton className="h-10 w-12" />
         ) : (
-          <Button variant="secondary" size="lg" className="relative">
+          <Button
+            variant="secondary"
+            size="lg"
+            className="relative border-[1px] border-primary h-12"
+          >
             <Recycle />
-            <span className="absolute -end-1 -top-1 size-5 rounded-full border-1 border-background bg-red-500 flex items-center justify-center">
+            <span className="absolute -end-1 -top-1 size-5 rounded-full bg-red-500 flex items-center justify-center">
               <p className="text-xs">{assignedCollections?.length}</p>
             </span>
           </Button>
@@ -116,9 +127,18 @@ export default function AssignedTrashbins() {
             </div>
           )}
           {assignedCollections && assignedCollections.length === 0 && (
-            <p className="text-center text-muted-foreground">
-              No assigned collections found.
-            </p>
+            <Empty>
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <Recycle />
+                </EmptyMedia>
+                <EmptyTitle>No Collection Assignments</EmptyTitle>
+                <EmptyDescription>
+                  You currently have no assigned trashbin collections. Once
+                  assignments are available, they’ll appear here.
+                </EmptyDescription>
+              </EmptyHeader>
+            </Empty>
           )}
         </ScrollArea>
       </DrawerContent>

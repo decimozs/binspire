@@ -10,7 +10,7 @@ function AccountDetailsItem({
   value: string;
 }) {
   return (
-    <div>
+    <div className="font-bold text-xl">
       <p className="text-muted-foreground">{label}</p>
       <p className="text-xl font-medium">{value}</p>
     </div>

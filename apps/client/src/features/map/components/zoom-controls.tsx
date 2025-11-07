@@ -16,11 +16,21 @@ export default function ZoomControls() {
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <Button variant="secondary" size="lg" onClick={handleZoomIn}>
+    <div className="flex flex-col gap-4">
+      <Button
+        variant="secondary"
+        size="lg"
+        onClick={handleZoomIn}
+        className="border-[1px] border-primary h-12"
+      >
         <Plus />
       </Button>
-      <Button variant="secondary" size="lg" onClick={handleZoomOut}>
+      <Button
+        variant="secondary"
+        size="lg"
+        onClick={handleZoomOut}
+        className="border-[1px] border-primary h-12"
+      >
         <Minus />
       </Button>
     </div>

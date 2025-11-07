@@ -36,7 +36,7 @@ export default function ChangeTheme() {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Change Theme</DrawerTitle>
+          <DrawerTitle className="text-4xl font-bold">Theme</DrawerTitle>
           <DrawerDescription>This action cannot be undone.</DrawerDescription>
         </DrawerHeader>
         <div className="px-4">

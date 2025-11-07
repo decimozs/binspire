@@ -34,7 +34,12 @@ export default function ResetMapState() {
   };
 
   return (
-    <Button variant="secondary" size="lg" onClick={handleResetMapState}>
+    <Button
+      variant="secondary"
+      size="lg"
+      onClick={handleResetMapState}
+      className="border-[1px] border-primary h-12"
+    >
       <ScanEye />
     </Button>
   );
