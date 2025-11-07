@@ -8,7 +8,7 @@ export const Route = createFileRoute("/download/")({
 function RouteComponent() {
   return (
     <a href="/app-release.apk" download>
-      <Button>Download Binspire</Button>
+      <Button>Download Client</Button>
     </a>
   );
 }
