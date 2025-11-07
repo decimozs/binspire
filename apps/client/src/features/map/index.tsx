@@ -225,32 +225,30 @@ export default function GlobalMap({
   useEffect(() => {
     const loc = currentSettings?.general?.location;
 
-    if (loc) {
+    if (!loc) return;
+
+    if (pathname === "/map") {
       resetViewState({
         longitude: loc.lng,
         latitude: loc.lat,
         zoom: 16.5,
         pitch: 70,
         bearing: 10,
-        padding: {
-          bottom: 0,
-        },
+        padding: { bottom: 0 },
       });
-
-      if (pathname === "/map") {
-        resetViewState({
-          longitude: loc.lng,
-          latitude: loc.lat,
-          zoom: 16.5,
-          pitch: 70,
-          bearing: 10,
-          padding: {
-            bottom: 0,
-          },
-        });
-      }
     }
-  }, [currentSettings, resetViewState, pathname]);
+
+    if (pathname !== "/map") {
+      resetViewState({
+        longitude: loc.lng,
+        latitude: loc.lat,
+        zoom: 16.5,
+        pitch: 70,
+        bearing: 10,
+        padding: { bottom: 0 },
+      });
+    }
+  }, [pathname, currentSettings, resetViewState]);
 
   return (
     <main className={isOnHome ? "w-full h-[350px]" : "w-full h-screen"}>
