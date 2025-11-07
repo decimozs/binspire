@@ -238,30 +238,6 @@ export default function GlobalMap({
     }
   }, [currentSettings, resetViewState]);
 
-  if (isOnHome) {
-    return (
-      <main className="w-full h-[400px]">
-        <Map
-          {...viewState}
-          onMove={(evt) => setViewState(evt.viewState)}
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "8px",
-          }}
-          mapStyle={`https://api.maptiler.com/maps/019806b1-7482-71db-96b3-1ee247f83d51/style.json?key=${import.meta.env.VITE_MAP_TILER_KEY}`}
-        >
-          <TrashbinLayers trashbins={filteredTrashbins} />
-          <Link to="/map" className="absolute bottom-4 right-4 z-50">
-            <Button className="w-full" variant="default">
-              <ArrowUpRight />
-            </Button>
-          </Link>
-        </Map>
-      </main>
-    );
-  }
-
   return (
     <main className={isOnHome ? "w-full h-[400px]" : "w-full h-screen"}>
       <Map
@@ -281,7 +257,7 @@ export default function GlobalMap({
         isOnHome ||
         route ? null : (
           <>
-            <div className="fixed right-4 bottom-4 flex flex-col gap-4 z-50">
+            <div className="fixed right-4 bottom-4 flex flex-col gap-2 z-50">
               <ResetMapState />
               <Locate />
               <ZoomControls />

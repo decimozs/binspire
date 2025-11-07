@@ -71,7 +71,7 @@ export default function SelectProfile() {
         ) : (
           <>
             <Car />
-            <p className="ml-2">Drive Mode</p>
+            <p className="ml-2 font-bold">Drive Mode</p>
           </>
         )}
       </Button>
@@ -86,7 +86,7 @@ export default function SelectProfile() {
         ) : (
           <>
             <Footprints />
-            <p className="ml-2">Walk Mode</p>
+            <p className="ml-2 font-bold">Walk Mode</p>
           </>
         )}
       </Button>
