@@ -154,7 +154,7 @@ export default function RegisterTrashbin() {
             >
               <div className="grid grid-cols-[30px_1fr] gap-4">
                 <Camera size={30} />
-                <p className="text-xl">Scan with Camera</p>
+                <p className="text-xl font-bold">Scan with Camera</p>
               </div>
             </button>
 
@@ -171,7 +171,7 @@ export default function RegisterTrashbin() {
               />
               <div className="grid grid-cols-[30px_1fr] gap-4">
                 <FileUpIcon size={30} />
-                <p className="text-xl">Upload QR</p>
+                <p className="text-xl font-bold">Upload QR</p>
               </div>
             </button>
           </>

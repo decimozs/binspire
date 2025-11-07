@@ -41,11 +41,7 @@ export default function TrashbinIssues() {
         {isPending ? (
           <Skeleton className="h-10 w-12" />
         ) : (
-          <Button
-            variant="secondary"
-            size="lg"
-            className="relative border-[1px] border-primary h-12"
-          >
+          <Button variant="secondary" size="lg" className="relative h-12">
             <Hammer />
             <span className="absolute -end-1 -top-1 size-5 rounded-full bg-red-500 flex items-center justify-center">
               <p className="text-xs">{trashbinIssues?.length}</p>

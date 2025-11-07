@@ -38,7 +38,7 @@ export default function ResetMapState() {
       variant="secondary"
       size="lg"
       onClick={handleResetMapState}
-      className="border-[1px] border-primary h-12"
+      className="h-12"
     >
       <ScanEye />
     </Button>

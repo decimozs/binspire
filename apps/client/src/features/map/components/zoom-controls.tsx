@@ -21,7 +21,7 @@ export default function ZoomControls() {
         variant="secondary"
         size="lg"
         onClick={handleZoomIn}
-        className="border-[1px] border-primary h-12"
+        className="h-12"
       >
         <Plus />
       </Button>
@@ -29,7 +29,7 @@ export default function ZoomControls() {
         variant="secondary"
         size="lg"
         onClick={handleZoomOut}
-        className="border-[1px] border-primary h-12"
+        className="h-12"
       >
         <Minus />
       </Button>

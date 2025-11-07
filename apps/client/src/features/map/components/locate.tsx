@@ -54,7 +54,7 @@ export default function Locate() {
         variant="secondary"
         size="lg"
         onClick={startTracking}
-        className="border-[1px] border-primary h-12"
+        className="h-12"
       >
         {!tracking ? <Navigation /> : <NavigationOff />}
       </Button>

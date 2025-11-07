@@ -10,12 +10,7 @@ export default function Back() {
   };
 
   return (
-    <Button
-      variant="secondary"
-      size="lg"
-      onClick={handleBack}
-      className="border-[1px] border-primary h-12"
-    >
+    <Button variant="secondary" size="lg" onClick={handleBack} className="h-12">
       <ArrowLeft />
     </Button>
   );

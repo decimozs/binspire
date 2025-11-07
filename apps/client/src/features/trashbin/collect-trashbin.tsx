@@ -262,7 +262,7 @@ export default function CollectTrashbin() {
               >
                 <div className="grid grid-cols-[30px_1fr] gap-4">
                   <Camera size={30} />
-                  <p className="text-xl">Scan with Camera</p>
+                  <p className="text-xl font-bold">Scan with Camera</p>
                 </div>
               </button>
 
@@ -279,7 +279,7 @@ export default function CollectTrashbin() {
                 />
                 <div className="grid grid-cols-[30px_1fr] gap-4">
                   <FileUpIcon size={30} />
-                  <p className="text-xl">Upload QR</p>
+                  <p className="text-xl font-bold">Upload QR</p>
                 </div>
               </button>
             </>
@@ -289,7 +289,9 @@ export default function CollectTrashbin() {
               id={qrRegionId}
               className="w-full h-[300px] bg-black/70 rounded-lg overflow-hidden flex items-center justify-center"
             >
-              <p className="text-muted-foreground">Initializing camera...</p>
+              <p className="text-muted-foreground font-bold">
+                Initializing camera...
+              </p>
             </div>
           )}
         </div>
