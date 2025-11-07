@@ -55,7 +55,7 @@ export default defineConfig({
           },
         ],
         start_url: "/",
-        display: "standalone",
+        display: "fullscreen",
         background_color: "#FFFFFF",
         theme_color: "#000000",
         description:
