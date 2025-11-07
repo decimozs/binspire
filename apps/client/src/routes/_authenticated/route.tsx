@@ -3,6 +3,7 @@ import Nav from "@/components/nav";
 import { authClient } from "@/features/auth";
 import { GeneralError } from "@/features/errors/general-error";
 import { NotFoundError } from "@/features/errors/not-found-error";
+import { useFCMToken } from "@/hooks/use-fcm-token";
 import { MaintenanceApi, UserQuotaApi } from "@binspire/query";
 import {
   createFileRoute,
@@ -45,6 +46,7 @@ export const Route = createFileRoute("/_authenticated")({
 function RouteComponent() {
   const navigate = useNavigate();
   const route = useRouterState();
+  useFCMToken();
 
   useEffect(() => {
     const hasDismissed = localStorage.getItem(

@@ -5,7 +5,6 @@ import { QueryClient } from "@binspire/query";
 import { useIsMobile } from "@binspire/ui/hooks/use-mobile";
 import { NotAvailable } from "@/features/errors/not-available";
 import LoaderLayout from "@/components/layout/loader-layout";
-import { useFCMToken } from "@/hooks/use-fcm-token";
 import { useNotifications } from "@/hooks/use-notifications";
 
 interface RootContext {
@@ -14,7 +13,6 @@ interface RootContext {
 
 const RootLayout = () => {
   useNotifications();
-  useFCMToken();
 
   const isSmallScreen = useIsMobile(1024);
 
