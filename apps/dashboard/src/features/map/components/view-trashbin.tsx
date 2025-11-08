@@ -61,7 +61,7 @@ export default function ViewTrashbin() {
   const hasPermission = permission.mapManagement?.actions.create;
 
   return (
-    <Dialog open={open} onOpenChange={(o) => !o && handleClose()}>
+    <Dialog open={open} onOpenChange={(o) => !o && handleClose()} modal={false}>
       <DialogContent
         onInteractOutside={(e) => e.preventDefault()}
         onPointerDownOutside={(e) => e.preventDefault()}

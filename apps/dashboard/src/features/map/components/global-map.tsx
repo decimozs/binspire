@@ -62,11 +62,25 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
 
   const trashbinsWithLevel = useMemo(() => {
     if (!trashbins) return [];
+
     return trashbins.map((bin) => {
       const realtime = bins[bin.id];
+      const MAX_DISTANCE = 53;
+
+      const fillLevel =
+        realtime?.wasteLevel !== undefined
+          ? Math.max(
+              0,
+              Math.min(
+                100,
+                ((MAX_DISTANCE - realtime.wasteLevel) / MAX_DISTANCE) * 100,
+              ),
+            )
+          : 0;
+
       return {
         ...bin,
-        wasteLevel: realtime?.wasteLevel ?? 0,
+        wasteLevel: fillLevel,
         weightLevel: realtime?.weightLevel ?? 0,
         batteryLevel: realtime?.batteryLevel ?? 0,
       };

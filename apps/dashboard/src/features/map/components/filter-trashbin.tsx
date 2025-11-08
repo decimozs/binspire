@@ -127,7 +127,7 @@ export default function FilterTrashbin() {
           <Blend />
         </Button>
       </SheetTrigger>
-      <SheetContent onInteractOutside={(e) => e.preventDefault()}>
+      <SheetContent side="left" onInteractOutside={(e) => e.preventDefault()}>
         <SheetHeader>
           <SheetTitle>Filter Trashbins</SheetTitle>
           <SheetDescription>

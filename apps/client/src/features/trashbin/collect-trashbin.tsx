@@ -27,12 +27,14 @@ import { useQueryState } from "nuqs";
 import { useTrashbinRealtime } from "@/store/realtime-store";
 import { useMqtt } from "@/context/mqtt-provider";
 import { useMap } from "react-map-gl/maplibre";
+import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
 
 export default function CollectTrashbin() {
   const [trashbinId, setTrashbinId] = useQueryState("trashbin_id");
   const { data: trashbin } = useGetTrashbinById(trashbinId || "");
   const [, setLat] = useQueryState("lat");
   const [, setLng] = useQueryState("lng");
+  const { resetLogs } = useTrashbinLogsStore();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: session } = authClient.useSession();
   const orgSettings = useGetOrganizationSettingsById(session?.user.orgId!);
@@ -49,6 +51,7 @@ export default function CollectTrashbin() {
   const quotaAction = useUpdateUserQuota();
   const { client } = useMqtt();
   const { current: map } = useMap();
+  const [isVerifying, setIsVerifying] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -156,6 +159,9 @@ export default function CollectTrashbin() {
   } = bins[trashbinId!] ?? {};
 
   const handleVerification = async (decodedText: string) => {
+    if (isVerifying) return;
+    setIsVerifying(true);
+
     try {
       if (!secret) throw new Error("Missing organization secret.");
 
@@ -214,6 +220,7 @@ export default function CollectTrashbin() {
       setLat(null);
       setLng(null);
       setOpen(false);
+      resetLogs(decrypted);
 
       if (!map) return null;
 
@@ -234,6 +241,8 @@ export default function CollectTrashbin() {
       }
     } catch (err: any) {
       ShowToast("error", err.message || "QR Code verification failed.");
+    } finally {
+      setIsVerifying(false);
     }
   };
 

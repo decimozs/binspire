@@ -21,6 +21,12 @@ export default function TrashbinStatus() {
 
   const { wasteLevel, weightLevel, batteryLevel } = bin;
 
+  const MAX_DISTANCE = 53;
+  const fillLevel = Math.max(
+    0,
+    Math.min(100, ((MAX_DISTANCE - wasteLevel) / MAX_DISTANCE) * 100),
+  );
+
   return (
     <div className="grid grid-cols-1 gap-2 mt-2">
       <div>
@@ -30,7 +36,7 @@ export default function TrashbinStatus() {
         <p>Waste Level</p>
         <TrashbinStatusBadge
           label="Waste Level"
-          value={wasteLevel}
+          value={Number(fillLevel.toFixed(0))}
           unit="%"
           type="waste-level"
           enabledColumn={true}

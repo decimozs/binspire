@@ -2,6 +2,7 @@ import { useMemo, useCallback } from "react";
 import { ScenegraphLayer } from "@deck.gl/mesh-layers";
 import { type Trashbin } from "@binspire/query";
 import { useTrashbinMap } from "./use-trashbin-map";
+import { TRASHBIN_CONFIG } from "@binspire/shared";
 
 type TrashbinWithLevel = Trashbin & {
   wasteLevel: number;
@@ -20,7 +21,7 @@ function createTrashbinLayer(
     data,
     getPosition: (d) =>
       d.latitude && d.longitude ? [d.longitude, d.latitude] : [0, 0],
-    getOrientation: () => [0, Math.random() * 180, 90],
+    getOrientation: () => [0, 10 * 180, 90],
     scenegraph: modelPath,
     sizeScale: 1,
     getScale: [0.1, 0.1, 0.1],
@@ -53,17 +54,31 @@ export function useTrashbinLayer(trashbinsWithLevel: TrashbinWithLevel[]) {
   return useMemo(() => {
     if (!trashbinsWithLevel.length) return [];
 
+    const wasteConfig = TRASHBIN_CONFIG["waste-level"];
+
     return [
       createTrashbinLayer(
         "trashbin-empty",
-        trashbinsWithLevel.filter((b) => b.wasteLevel <= 30),
+        trashbinsWithLevel.filter((b) => b.wasteLevel <= wasteConfig.low.value),
+        "/models/bin.glb",
+        handleClick,
+      ),
+      createTrashbinLayer(
+        "trashbin-low",
+        trashbinsWithLevel.filter(
+          (b) =>
+            b.wasteLevel > wasteConfig.low.value &&
+            b.wasteLevel < wasteConfig["almost-full"].value,
+        ),
         "/models/bin.glb",
         handleClick,
       ),
       createTrashbinLayer(
         "trashbin-almost-full",
         trashbinsWithLevel.filter(
-          (b) => b.wasteLevel > 30 && b.wasteLevel < 90,
+          (b) =>
+            b.wasteLevel >= wasteConfig["almost-full"].value &&
+            b.wasteLevel < wasteConfig.full.value,
         ),
         "/models/almost-full.glb",
         handleClick,
@@ -71,14 +86,18 @@ export function useTrashbinLayer(trashbinsWithLevel: TrashbinWithLevel[]) {
       createTrashbinLayer(
         "trashbin-full",
         trashbinsWithLevel.filter(
-          (b) => b.wasteLevel >= 90 && b.wasteLevel < 100,
+          (b) =>
+            b.wasteLevel >= wasteConfig.full.value &&
+            b.wasteLevel < wasteConfig.overflowing.value,
         ),
         "/models/full.glb",
         handleClick,
       ),
       createTrashbinLayer(
         "trashbin-overflowing",
-        trashbinsWithLevel.filter((b) => b.wasteLevel >= 100),
+        trashbinsWithLevel.filter(
+          (b) => b.wasteLevel >= wasteConfig.overflowing.value,
+        ),
         "/models/overflowing.glb",
         handleClick,
       ),

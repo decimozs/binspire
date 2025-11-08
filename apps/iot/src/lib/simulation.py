@@ -36,7 +36,7 @@ async def simulate_trashbin(id, db: Database):
 
     try:
         while True:
-            waste_level = random.randint(0, 100)
+            waste_level = random.randint(0, 53)
             weight_level = round(random.uniform(0, 30), 2)
             battery_level = random.randint(0, 100)
 

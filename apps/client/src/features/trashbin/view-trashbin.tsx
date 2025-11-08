@@ -26,6 +26,7 @@ import { useSession } from "../auth";
 import { useMap } from "react-map-gl/maplibre";
 import TrashbinStatus from "./trashbin-status";
 import ReportIssue from "../report-issue";
+import TrashbinLogs from "./trashbin-logs";
 
 export default function ViewTrashbin() {
   const [trashbin, setTrashbinQuery] = useQueryState("trashbin_id");
@@ -150,7 +151,14 @@ export default function ViewTrashbin() {
           )}
         </div>
         <DrawerFooter>
-          <div className="grid grid-cols-[1fr_50px] w-full gap-2">
+          <div
+            className={
+              hasValidConnection
+                ? "grid grid-cols-[50px_1fr_50px] w-full gap-2"
+                : "grid grid-cols-[1fr_50px] w-full gap-2"
+            }
+          >
+            {hasValidConnection && <TrashbinLogs id={data?.id as string} />}
             {selectProfileQuery ? (
               <SelectProfile />
             ) : isCollected ? (

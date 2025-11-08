@@ -1,4 +1,3 @@
-import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
 import { useMemo, useState } from "react";
 import { Button } from "@binspire/ui/components/button";
 import { format } from "date-fns";
@@ -10,8 +9,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@binspire/ui/components/sheet";
-import { ArrowUpRight } from "lucide-react";
+import { Trash } from "lucide-react";
 import { ScrollArea } from "@binspire/ui/components/scroll-area";
+import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
 
 export default function TrashbinLogs({ id }: { id: string }) {
   const logsRaw = useTrashbinLogsStore((state) => state.logs);
@@ -52,13 +52,12 @@ export default function TrashbinLogs({ id }: { id: string }) {
   return (
     <Sheet open={logsOpen} onOpenChange={setLogsOpen} modal={false}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="lg" className="grow">
-          Logs
-          <ArrowUpRight className="ml-1 mt-0.5" />
+        <Button variant="secondary" className="font-bold">
+          <Trash />
         </Button>
       </SheetTrigger>
       <SheetContent
-        side="left"
+        className="w-full"
         onInteractOutside={(e) => e.preventDefault()}
         onPointerDownOutside={(e) => e.preventDefault()}
       >
@@ -78,7 +77,7 @@ export default function TrashbinLogs({ id }: { id: string }) {
               key={category}
               className="py-2 px-4 border-[1px] bg-card border-muted rounded-md flex flex-row items-center justify-between"
             >
-              <span className="text-sm">{category}</span>
+              <span className="text-sm font-bold">{category}</span>
               <span className="font-bold text-primary">
                 {countsByCategory[category]}
               </span>
@@ -86,16 +85,16 @@ export default function TrashbinLogs({ id }: { id: string }) {
           ))}
         </div>
 
-        <ScrollArea className="h-[85vh] px-4">
+        <ScrollArea className="h-[60vh] px-4 pb-4">
           <div className="space-y-2">
             {logs.length === 0 && <p className="text-gray-500">No logs yet.</p>}
             {logs.map((log, index) => (
               <div
                 key={index}
-                className="py-2 px-4 border rounded-md border-dashed flex justify-between items-center"
+                className="py-2 font-bold px-4 border rounded-md border-dashed flex justify-between items-center"
               >
                 <div>
-                  <p className="font-medium mb-2">{log.class}</p>
+                  <p className="text-xl mb-2">{log.class}</p>
                   <p className="orange-badge w-fit mb-2">
                     Confidence: {(log.confidence * 100).toFixed(0)}%
                   </p>

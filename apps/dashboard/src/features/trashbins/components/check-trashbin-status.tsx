@@ -12,6 +12,7 @@ import { TrashbinRadialStatus } from "./trashbin-radial-status";
 import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import { useTrashbinRealtime } from "@/store/realtime-store";
 import { TrashbinStatus } from "@/features/trashbin-collections/components/trashbin-details";
+import { useState } from "react";
 
 interface Props {
   id: string;
@@ -20,6 +21,7 @@ interface Props {
 export default function CheckTrashbinStatus({ id }: Props) {
   const bins = useTrashbinRealtime((state) => state.bins);
   const bin = bins[id];
+  const [statusOpen, setStatusOpen] = useState(false);
 
   if (!bin) {
     return (
@@ -31,15 +33,24 @@ export default function CheckTrashbinStatus({ id }: Props) {
 
   const { wasteLevel, weightLevel, batteryLevel } = bin;
 
+  const MAX_DISTANCE = 53;
+  const fillLevel = Math.max(
+    0,
+    Math.min(100, ((MAX_DISTANCE - wasteLevel) / MAX_DISTANCE) * 100),
+  );
+
   return (
-    <Sheet>
+    <Sheet open={statusOpen} onOpenChange={setStatusOpen} modal={false}>
       <SheetTrigger asChild>
         <Button variant="outline" size="lg" className="grow">
           Status
           <ArrowUpRight className="ml-1 mt-0.5" />
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent
+        onInteractOutside={(e) => e.preventDefault()}
+        onPointerDownOutside={(e) => e.preventDefault()}
+      >
         <SheetHeader>
           <SheetTitle>Trashbin Status</SheetTitle>
           <SheetDescription>Check current real-time status</SheetDescription>
@@ -50,20 +61,20 @@ export default function CheckTrashbinStatus({ id }: Props) {
               title="Waste Level"
               description="Current Waste Level"
               data={[
-                { role: "Filled", count: wasteLevel },
-                { role: "Remaining", count: 100 - wasteLevel },
+                { role: "Filled", count: fillLevel },
+                { role: "Remaining", count: 100 - fillLevel },
               ]}
               config={{
                 Filled: { label: "Filled", color: "var(--chart-1)" },
-                Remaining: { label: "Remaining", color: "var(--chart-2)" },
+                Remaining: { label: "Remaining", color: "var(--chart-4)" },
               }}
               dataKey="count"
               nameKey="role"
-              footerSubText={`${wasteLevel}%`}
+              footerSubText={`${fillLevel}%`}
               badge={
                 <TrashbinStatus
                   label="Waste Level"
-                  value={wasteLevel}
+                  value={Number(fillLevel.toFixed(0))}
                   unit="%"
                   type="waste-level"
                   enabledColumn={true}
@@ -80,7 +91,7 @@ export default function CheckTrashbinStatus({ id }: Props) {
               ]}
               config={{
                 Weight: { label: "Weight", color: "var(--chart-1)" },
-                Remaining: { label: "Remaining", color: "var(--chart-2)" },
+                Remaining: { label: "Remaining", color: "var(--chart-4)" },
               }}
               dataKey="count"
               nameKey="role"
@@ -105,7 +116,7 @@ export default function CheckTrashbinStatus({ id }: Props) {
               ]}
               config={{
                 Battery: { label: "Battery", color: "var(--chart-1)" },
-                Used: { label: "Used", color: "var(--chart-2)" },
+                Used: { label: "Used", color: "var(--chart-4)" },
               }}
               dataKey="count"
               nameKey="role"

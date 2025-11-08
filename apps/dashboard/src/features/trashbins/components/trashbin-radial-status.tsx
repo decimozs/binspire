@@ -56,7 +56,7 @@ export function TrashbinRadialStatus<T extends Record<string, any>>({
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={config}
-          className="mx-auto aspect-square max-h-[200px]"
+          className="mx-auto aspect-square max-h-[250px]"
         >
           <PieChart>
             <ChartTooltip

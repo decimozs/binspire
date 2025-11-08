@@ -9,6 +9,7 @@ import type { MqttClient } from "mqtt";
 import { createMqttClient } from "@/features/mqtt";
 import { setConnected } from "@/store/telemetry-store";
 import { resetBins, setBinData } from "@/store/realtime-store";
+import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
 
 interface MqttContextType {
   client: MqttClient | null;
@@ -37,6 +38,7 @@ export function MqttProvider({ children }: Props) {
       mqttClient.subscribe("trashbin/+/status");
       mqttClient.subscribe("trashbin/collection");
       mqttClient.subscribe("server/status");
+      mqttClient.subscribe("trashbin/detections");
     });
 
     mqttClient.on("message", (topic, payload) => {
@@ -52,6 +54,23 @@ export function MqttProvider({ children }: Props) {
           } else {
             setConnected(true);
           }
+          return;
+        }
+
+        if (topic === "trashbin/detections") {
+          const {
+            bin_id,
+            event,
+            class: className,
+            confidence,
+            timestamp,
+          } = message;
+          useTrashbinLogsStore.getState().addLog(bin_id, {
+            event,
+            class: className,
+            confidence,
+            timestamp,
+          });
           return;
         }
 

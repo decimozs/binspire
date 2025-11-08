@@ -48,17 +48,17 @@ export const TRASHBIN_CONFIG = {
     },
     "almost-full": {
       style: "yellow-badge",
-      value: 60,
+      value: 50,
       label: "Almost Full",
     },
     full: {
       style: "orange-badge",
-      value: 90,
+      value: 80,
       label: "Full",
     },
     overflowing: {
       style: "red-badge",
-      value: 100,
+      value: 95,
       label: "Overflowing",
     },
   },

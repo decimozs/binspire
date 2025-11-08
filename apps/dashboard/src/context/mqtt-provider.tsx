@@ -15,6 +15,7 @@ interface Props {
 export function MqttProvider({ children }: Props) {
   const [client, setClient] = useState<MqttClient | null>(null);
   const [messages, setMessages] = useState<Record<string, string>>({});
+  const shownCollectionToasts = new Set<string>();
 
   useEffect(() => {
     const mqttClient = createMqttClient();
@@ -64,8 +65,14 @@ export function MqttProvider({ children }: Props) {
           }
 
           if (topic === "trashbin/collection") {
-            const { name, location } = message;
-            ShowToast("success", `${name} collected at ${location}`);
+            const { trashbinId, name, location } = message;
+
+            if (!shownCollectionToasts.has(trashbinId)) {
+              ShowToast("success", `${name} collected at ${location}`);
+              shownCollectionToasts.add(trashbinId);
+
+              setTimeout(() => shownCollectionToasts.delete(trashbinId), 5000);
+            }
           }
 
           if (topic === "user/permissions/update") {
