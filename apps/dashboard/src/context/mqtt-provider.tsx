@@ -30,7 +30,6 @@ export function MqttProvider({ children }: Props) {
       mqttClient.subscribe("server/status");
       mqttClient.subscribe("user/permissions/update");
       mqttClient.subscribe("trashbin/detections");
-      mqttClient.subscribe("emergency");
     });
 
     mqttClient.on("message", (topic, payload) => {
@@ -126,12 +125,6 @@ export function MqttProvider({ children }: Props) {
                 "top-center",
               );
             }
-          }
-
-          if (topic === "emergency") {
-            const { username } = message;
-
-            ShowToast("error", `${username} calls for emergency!`);
           }
 
           const match = topic.match(/^trashbin\/([^/]+)\/status$/);
