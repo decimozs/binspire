@@ -45,6 +45,7 @@ export default function CollectTrashbin() {
   const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [shouldStartCamera, setShouldStartCamera] = useState(false);
+  const [hasScanned, setHasScanned] = useState(false); // NEW
   const bins = useTrashbinRealtime((state) => state.bins);
   const userQuota = useGetUserQuotaByUserId(session?.user.id!);
   const collectAction = useCollectTrashbin();
@@ -67,12 +68,15 @@ export default function CollectTrashbin() {
   }, [shouldStartCamera]);
 
   const startCameraScan = async () => {
+    setHasScanned(false); // Reset scan flag
     setIsScanning(true);
     setShouldStartCamera(true);
   };
 
   const initCamera = async () => {
     try {
+      if (html5QrCodeRef.current) return; // Prevent multiple instances
+
       const element = qrContainerRef.current;
       if (!element) throw new Error("QR container not found in DOM");
 
@@ -96,6 +100,9 @@ export default function CollectTrashbin() {
         camera.id,
         { fps: 10 },
         async (decodedText) => {
+          if (hasScanned) return; // Ignore multiple detections
+          setHasScanned(true);
+
           await handleVerification(decodedText);
           stopCameraScan();
         },
