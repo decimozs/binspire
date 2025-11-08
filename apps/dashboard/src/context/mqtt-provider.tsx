@@ -14,7 +14,6 @@ interface Props {
 
 export function MqttProvider({ children }: Props) {
   const [client, setClient] = useState<MqttClient | null>(null);
-  const { data: current } = authClient.useSession();
   const [messages, setMessages] = useState<Record<string, string>>({});
   const shownCollectionToasts = new Set<string>();
 
@@ -31,7 +30,7 @@ export function MqttProvider({ children }: Props) {
       mqttClient.subscribe("server/status");
       mqttClient.subscribe("user/permissions/update");
       mqttClient.subscribe("trashbin/detections");
-      mqttClient.subscribe(`${current?.user.orgId}/emergency`);
+      mqttClient.subscribe("emergency");
     });
 
     mqttClient.on("message", (topic, payload) => {
@@ -129,14 +128,10 @@ export function MqttProvider({ children }: Props) {
             }
           }
 
-          if (topic === `${current?.user.orgId}/emergency`) {
+          if (topic === "emergency") {
             const { username } = message;
 
-            ShowToast(
-              "error",
-              `${username} calls for emergency!`,
-              "top-center",
-            );
+            ShowToast("error", `${username} calls for emergency!`);
           }
 
           const match = topic.match(/^trashbin\/([^/]+)\/status$/);

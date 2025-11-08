@@ -19,7 +19,7 @@ export default function Emergency() {
 
   const handleSendEmergency = async () => {
     client?.publish(
-      `${current?.user.orgId}/emergency`,
+      "emergency",
       JSON.stringify({
         username: current?.user.name,
       }),
