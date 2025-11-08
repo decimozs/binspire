@@ -44,8 +44,6 @@ export default function CollectTrashbin() {
   const qrContainerRef = useRef<HTMLDivElement | null>(null);
   const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
   const [isScanning, setIsScanning] = useState(false);
-  const [shouldStartCamera, setShouldStartCamera] = useState(false);
-  const [hasScanned, setHasScanned] = useState(false); // NEW
   const bins = useTrashbinRealtime((state) => state.bins);
   const userQuota = useGetUserQuotaByUserId(session?.user.id!);
   const collectAction = useCollectTrashbin();
@@ -54,6 +52,14 @@ export default function CollectTrashbin() {
   const { current: map } = useMap();
   const [isVerifying, setIsVerifying] = useState(false);
 
+  const scannedQRCodes = useRef(new Set<string>());
+
+  const {
+    wasteLevel = 0,
+    weightLevel = 0,
+    batteryLevel = 0,
+  } = bins[trashbinId!] ?? {};
+
   useEffect(() => {
     return () => {
       stopCameraScan();
@@ -61,24 +67,22 @@ export default function CollectTrashbin() {
   }, []);
 
   useEffect(() => {
-    if (shouldStartCamera && qrContainerRef.current) {
+    if (isScanning && qrContainerRef.current && !html5QrCodeRef.current) {
       initCamera();
-      setShouldStartCamera(false);
     }
-  }, [shouldStartCamera]);
+  });
 
-  const startCameraScan = async () => {
-    setHasScanned(false); // Reset scan flag
+  const startCameraScan = () => {
     setIsScanning(true);
-    setShouldStartCamera(true);
+    scannedQRCodes.current.clear();
   };
 
   const initCamera = async () => {
     try {
-      if (html5QrCodeRef.current) return; // Prevent multiple instances
+      if (html5QrCodeRef.current) return;
 
       const element = qrContainerRef.current;
-      if (!element) throw new Error("QR container not found in DOM");
+      if (!element) throw new Error("QR container not found");
 
       html5QrCodeRef.current = new Html5Qrcode(qrRegionId, {
         formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
@@ -100,20 +104,21 @@ export default function CollectTrashbin() {
         camera.id,
         { fps: 10 },
         async (decodedText) => {
-          if (hasScanned) return; // Ignore multiple detections
-          setHasScanned(true);
+          if (scannedQRCodes.current.has(decodedText)) return;
+          scannedQRCodes.current.add(decodedText);
 
           await handleVerification(decodedText);
-          stopCameraScan();
+          await stopCameraScan();
         },
         (error) => console.warn("QR scan error:", error),
       );
     } catch (err: any) {
-      const message =
+      ShowToast(
+        "error",
         err?.name === "NotAllowedError" || err?.message?.includes("denied")
           ? "Camera permission denied. Please allow camera access."
-          : err?.message || "Failed to start camera scan.";
-      ShowToast("error", message);
+          : err?.message || "Failed to start camera scan.",
+      );
       setIsScanning(false);
     }
   };
@@ -149,21 +154,17 @@ export default function CollectTrashbin() {
     try {
       const html5QrCode = new Html5Qrcode(tempDivId);
       const result = await html5QrCode.scanFile(file, true);
-      await handleVerification(result);
+      if (!scannedQRCodes.current.has(result)) {
+        scannedQRCodes.current.add(result);
+        await handleVerification(result);
+      }
       await html5QrCode.clear();
     } catch (err: any) {
-      const message = "Failed to scan image: " + err.message;
-      ShowToast("error", message);
+      ShowToast("error", "Failed to scan image: " + err.message);
     } finally {
       event.target.value = "";
     }
   };
-
-  const {
-    wasteLevel = 0,
-    weightLevel = 0,
-    batteryLevel = 0,
-  } = bins[trashbinId!] ?? {};
 
   const handleVerification = async (decodedText: string) => {
     if (isVerifying) return;
@@ -171,18 +172,15 @@ export default function CollectTrashbin() {
 
     try {
       if (!secret) throw new Error("Missing organization secret.");
-
       const decrypted = await decryptWithSecret(secret, decodedText);
-
       if (!decrypted) throw new Error("Invalid QR code.");
 
       if (trashbinId !== decrypted) {
-        ShowToast("error", "QR Code not match to the trashbin id.");
+        ShowToast("error", "QR Code does not match the trashbin ID.");
         return;
       }
 
       const isSecretExisting = await TrashbinApi.getById(decrypted);
-
       if (!isSecretExisting) {
         ShowToast("error", "QR code not found or already used.");
         return;
@@ -190,29 +188,15 @@ export default function CollectTrashbin() {
 
       const collect = await collectAction.mutateAsync({
         id: decrypted,
-        data: {
-          wasteLevel,
-          weightLevel,
-          batteryLevel,
-        },
+        data: { wasteLevel, weightLevel, batteryLevel },
       });
-
-      if (!collect) {
-        ShowToast("error", "Failed to collect trashbin data.");
-        return;
-      }
+      if (!collect) throw new Error("Failed to collect trashbin data.");
 
       const newQuota = await quotaAction.mutateAsync({
         userId: session?.user.id!,
-        data: {
-          used: userQuota.data?.used! + 1,
-        },
+        data: { used: userQuota.data?.used! + 1 },
       });
-
-      if (!newQuota) {
-        ShowToast("error", "Failed to update user quota.");
-        return;
-      }
+      if (!newQuota) throw new Error("Failed to update user quota.");
 
       ShowToast("success", "Trashbin collected successfully!");
       client?.publish(
@@ -223,15 +207,14 @@ export default function CollectTrashbin() {
           location: trashbin?.location,
         }),
       );
+
       setTrashbinId(null);
       setLat(null);
       setLng(null);
       setOpen(false);
       resetLogs(decrypted);
 
-      if (!map) return null;
-
-      if (orgSettings.data?.settings?.general?.location) {
+      if (map && orgSettings.data?.settings?.general?.location) {
         map.flyTo({
           center: [
             orgSettings.data?.settings?.general?.location.lng!,
@@ -240,9 +223,7 @@ export default function CollectTrashbin() {
           zoom: 16.5,
           pitch: 70,
           bearing: 10,
-          padding: {
-            bottom: 0,
-          },
+          padding: { bottom: 0 },
           essential: true,
         });
       }

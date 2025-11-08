@@ -176,24 +176,23 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
 
       const matchesCollected =
         collectedQuery === "all" ||
-        (collectedQuery === "collected" && trashbin.status.isCollected) ||
-        (collectedQuery === "not-collected" && !trashbin.status.isCollected);
+        (collectedQuery === "true" && trashbin.status?.isCollected) ||
+        (collectedQuery === "false" && !trashbin.status?.isCollected);
 
       const matchesScheduled =
         scheduledQuery === "all" ||
-        (scheduledQuery === "scheduled" && trashbin.status.isScheduled) ||
-        (scheduledQuery === "not-scheduled" && !trashbin.status.isScheduled);
+        (scheduledQuery === "true" && trashbin.status?.isScheduled) ||
+        (scheduledQuery === "false" && !trashbin.status?.isScheduled);
 
       const matchesOperational =
         operationalQuery === "all" ||
-        (operationalQuery === "operational" && trashbin.status.isOperational) ||
-        (operationalQuery === "non-operational" &&
-          !trashbin.status.isOperational);
+        (operationalQuery === "true" && trashbin.status?.isOperational) ||
+        (operationalQuery === "false" && !trashbin.status?.isOperational);
 
       const matchesArchived =
         archivedQuery === "all" ||
-        (archivedQuery === "archived" && trashbin.status.isArchived) ||
-        (archivedQuery === "active" && !trashbin.status.isArchived);
+        (archivedQuery === "true" && trashbin.status?.isArchived) ||
+        (archivedQuery === "false" && !trashbin.status?.isArchived);
 
       return (
         matchesDepartment &&

@@ -94,9 +94,6 @@ export default function ShowQrCode({ id }: { id: string }) {
         </DialogHeader>
         <div className="px-4 flex items-center justify-center">
           <div className="p-3 bg-white rounded-2xl shadow overflow-hidden inline-block">
-            <p className="text-background font-bold text-center break-all">
-              TRASHBIN
-            </p>
             {qrValue && (
               <QRCodeSVG
                 ref={qrRef}

@@ -251,7 +251,6 @@ export default function FilterTrashbin() {
               </div>
 
               <div className="flex flex-col gap-4">
-                {/* Collected Filter */}
                 <div className="flex flex-row items-center justify-between">
                   <p className="text-sm">Collected</p>
                   <Select
