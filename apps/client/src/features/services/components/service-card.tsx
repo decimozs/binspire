@@ -15,7 +15,7 @@ export default function ServiceCard({ label, link, icon, onClick }: Props) {
     <div className="border-muted border-[1px] rounded-md p-4 cursor-pointer bg-muted">
       <Link to={link} onClick={onClick}>
         <div className="grid grid-cols-[30px_1fr] gap-4">
-          <Icon size={30} />
+          <Icon size={30} className="text-primary" />
           <p className="text-xl font-bold">{label}</p>
         </div>
       </Link>

@@ -277,6 +277,16 @@ export default function GlobalMap({
         }}
         mapStyle={`https://api.maptiler.com/maps/019806b1-7482-71db-96b3-1ee247f83d51/style.json?key=${import.meta.env.VITE_MAP_TILER_KEY}`}
       >
+        {isOnHome && (
+          <div className="relative w-full h-[400px]">
+            <div className="w-full h-[400px] absolute top-0 left-0" />
+          </div>
+        )}
+        {!isOnHome && !route && (
+          <div className="fixed right-4 top-4 z-50">
+            <ReportIssue label="Report Map" entity="mapManagement" />
+          </div>
+        )}
         <RouteLayer />
         <TrashbinLayers trashbins={filteredTrashbins} />
         {assignedTrashbinsQuery ||
@@ -291,18 +301,13 @@ export default function GlobalMap({
           </>
         )}
         {!isOnHome && !route && (
-          <div className="fixed right-4 top-4">
-            <ReportIssue label="Report Map" entity="mapManagement" />
-          </div>
-        )}
-        {!isOnHome && !route && (
-          <div className="fixed left-4 top-4 flex flex-col gap-2">
+          <div className="fixed left-4 top-4 flex flex-col gap-4">
             <Back />
             <MapLegend />
           </div>
         )}
         {!isOnHome && !route && (
-          <div className="fixed left-4 bottom-4 flex flex-col gap-2">
+          <div className="fixed left-4 bottom-4 flex flex-col gap-4">
             <AssignedTrashbins />
             <TrashbinIssues />
           </div>

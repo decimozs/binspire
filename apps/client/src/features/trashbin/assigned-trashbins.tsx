@@ -76,8 +76,8 @@ export default function AssignedTrashbins() {
         )}
       </DrawerTrigger>
       <DrawerContent className="h-[50%]">
-        <DrawerHeader className="items-start">
-          <DrawerTitle className="text-2xl">Assigned Collections</DrawerTitle>
+        <DrawerHeader>
+          <DrawerTitle className="text-4xl font-bold">Assigments</DrawerTitle>
           <DrawerDescription>
             List of trashbins assigned for collection
           </DrawerDescription>
@@ -122,21 +122,21 @@ export default function AssignedTrashbins() {
                 ))}
             </div>
           )}
-          {assignedCollections && assignedCollections.length === 0 && (
-            <Empty>
-              <EmptyHeader>
-                <EmptyMedia variant="icon">
-                  <Recycle />
-                </EmptyMedia>
-                <EmptyTitle>No Collection Assignments</EmptyTitle>
-                <EmptyDescription>
-                  You currently have no assigned trashbin collections. Once
-                  assignments are available, they’ll appear here.
-                </EmptyDescription>
-              </EmptyHeader>
-            </Empty>
-          )}
         </ScrollArea>
+        {assignedCollections && assignedCollections.length === 0 && (
+          <Empty className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/4 w-full">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Recycle />
+              </EmptyMedia>
+              <EmptyTitle>No Collection Assignments</EmptyTitle>
+              <EmptyDescription>
+                You currently have no assigned trashbin collections. Once
+                assignments are available, they’ll appear here.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        )}
       </DrawerContent>
     </Drawer>
   );

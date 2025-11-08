@@ -98,7 +98,7 @@ export default function ReportIssue({
   return (
     <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
       <SheetTrigger asChild>
-        <Button variant="destructive" size="icon">
+        <Button variant="destructive">
           <Info />
         </Button>
       </SheetTrigger>
@@ -110,7 +110,7 @@ export default function ReportIssue({
       >
         <SheetContent className="w-full">
           <SheetHeader>
-            <SheetTitle className="text-2xl">{label}</SheetTitle>
+            <SheetTitle className="text-4xl">{label}</SheetTitle>
             <SheetDescription>
               Please provide details about the issue you encountered with this
               trashbin. Your feedback helps us improve our services.

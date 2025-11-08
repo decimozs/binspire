@@ -19,7 +19,9 @@ export default function RouteSegments({ steps }: { steps: any }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="secondary">Route Segments</Button>
+        <Button variant="secondary" className="font-bold text-xl">
+          Route Segments
+        </Button>
       </SheetTrigger>
 
       <SheetContent className="w-full flex flex-col">
@@ -38,10 +40,18 @@ export default function RouteSegments({ steps }: { steps: any }) {
                   key={index}
                   className="flex flex-col border-b border-muted pb-3 mb-3"
                 >
-                  <span className="font-bold text-xl">{step.instruction}</span>
-                  <span className="text-muted-foreground">
+                  <div>
+                    {index === 0 && (
+                      <p className="orange-badge w-fit mb-2">Start</p>
+                    )}
+                    {index === steps.length - 1 && (
+                      <p className="green-badge w-fit mb-2">End</p>
+                    )}
+                    <p className="font-bold text-xl">{step.instruction}</p>
+                  </div>
+                  <p className="text-muted-foreground">
                     {step.distance.toFixed(0)} m • {Math.round(step.duration)} s
-                  </span>
+                  </p>
                 </div>
               ))}
             </ScrollArea>
@@ -50,7 +60,7 @@ export default function RouteSegments({ steps }: { steps: any }) {
           )}
         </div>
         <SheetFooter>
-          <div className="flex flex-row items-center justify-between font-bold">
+          <div className="flex flex-row items-center justify-between font-bold text-xl">
             <p>Total Distance</p>
             <p className="text-muted-foreground">
               {(distance / 1000).toFixed(2) + " km"}

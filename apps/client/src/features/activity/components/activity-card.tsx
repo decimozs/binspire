@@ -10,6 +10,7 @@ import {
 import { format } from "date-fns";
 import type { AuditWithType, CollectionWithType } from "./activity-list";
 import { TrashbinStatus as TrashbinStatusBadge } from "@/components/badges";
+import { Separator } from "@binspire/ui/components/separator";
 
 interface Props {
   data: CollectionWithType | AuditWithType;
@@ -42,12 +43,8 @@ export default function ActivityCard({ data }: Props) {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle className="font-bold text-xl text-left">
-            Activity
-          </DrawerTitle>
-          <DrawerDescription className="text-left">
-            ID: {data.id}
-          </DrawerDescription>
+          <DrawerTitle className="font-bold text-4xl">Activity</DrawerTitle>
+          <DrawerDescription>ID: {data.id}</DrawerDescription>
         </DrawerHeader>
         <div className="px-4 grid-cols-1 gap-2 pb-4">
           <div className="text-xl font-bold mt-2">
@@ -108,6 +105,8 @@ export default function ActivityCard({ data }: Props) {
               </div>
             </>
           )}
+
+          <Separator className="mt-4" />
 
           <div className="text-xl font-bold mt-4">
             <p>Created At</p>

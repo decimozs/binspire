@@ -52,7 +52,9 @@ export default function CancelNavigation() {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+          <DrawerTitle className="text-4xl font-bold">
+            Stop Navigating
+          </DrawerTitle>
           <DrawerDescription>
             This will end your current navigation session.
           </DrawerDescription>
@@ -61,7 +63,8 @@ export default function CancelNavigation() {
           <Button
             onClick={handleResetMapState}
             disabled={isLoading}
-            className="w-full"
+            variant="destructive"
+            className="w-full font-bold text-lg"
           >
             {isLoading ? <Loader2 className="animate-spin" /> : "Confirm"}
           </Button>

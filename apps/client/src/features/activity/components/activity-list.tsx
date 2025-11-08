@@ -43,7 +43,6 @@ export default function ActivityList({ collections, audits }: Props) {
   const filteredData = searchFilter
     ? combinedData.filter((item) => {
         const query = searchFilter.toLowerCase().trim();
-
         const typeNormalized = item.type.replace(/-/g, " ").toLowerCase();
         if (typeNormalized.includes(query)) return true;
 
@@ -69,10 +68,16 @@ export default function ActivityList({ collections, audits }: Props) {
       })
     : combinedData;
 
+  const sortedData = [...filteredData].sort((a, b) => {
+    const dateA = new Date(a.createdAt ?? a.updatedAt ?? 0).getTime();
+    const dateB = new Date(b.createdAt ?? b.updatedAt ?? 0).getTime();
+    return dateB - dateA;
+  });
+
   return (
     <div className="grid grid-cols-1 gap-3">
-      {filteredData.length > 0 &&
-        filteredData.map((item) => <ActivityCard key={item.id} data={item} />)}
+      {sortedData.length > 0 &&
+        sortedData.map((item) => <ActivityCard key={item.id} data={item} />)}
     </div>
   );
 }

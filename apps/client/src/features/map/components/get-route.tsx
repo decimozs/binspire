@@ -13,7 +13,11 @@ export default function GetRoute() {
       variant="secondary"
       onClick={() => setSelectProfileQuery(!selectProfileQuery)}
     >
-      {!selectProfileQuery ? <ArrowUpRight /> : <X />}
+      {!selectProfileQuery ? (
+        <ArrowUpRight className="size-8" />
+      ) : (
+        <X className="size-8" />
+      )}
     </Button>
   );
 }

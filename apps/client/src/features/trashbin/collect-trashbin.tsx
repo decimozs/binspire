@@ -239,7 +239,7 @@ export default function CollectTrashbin() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button className="w-full">Collect</Button>
+        <Button className="w-full font-bold text-xl">Collect</Button>
       </SheetTrigger>
 
       <SheetContent className="w-full">
@@ -296,14 +296,16 @@ export default function CollectTrashbin() {
         <SheetFooter>
           {!isScanning ? (
             <SheetClose asChild>
-              <Button variant="secondary">Cancel</Button>
+              <Button variant="secondary" className="w-full font-bold text-xl">
+                Cancel
+              </Button>
             </SheetClose>
           ) : (
             <Button
               variant="destructive"
               size="lg"
               onClick={stopCameraScan}
-              className="w-full"
+              className="w-full font-bold text-xl"
             >
               Cancel
             </Button>

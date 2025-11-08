@@ -50,8 +50,8 @@ export default function TrashbinIssues() {
         )}
       </DrawerTrigger>
       <DrawerContent className="h-[50%]">
-        <DrawerHeader className="items-start">
-          <DrawerTitle className="text-2xl">Trashbin Issues</DrawerTitle>
+        <DrawerHeader>
+          <DrawerTitle className="text-4xl font-bold">Issues</DrawerTitle>
           <DrawerDescription>
             List of trashbins that has issues needing attention
           </DrawerDescription>
@@ -72,22 +72,22 @@ export default function TrashbinIssues() {
                 ))}
             </div>
           )}
-          {trashbinIssues && trashbinIssues.length === 0 && (
-            <Empty>
-              <EmptyHeader>
-                <EmptyMedia variant="icon">
-                  <Info />
-                </EmptyMedia>
-                <EmptyTitle>No Trashbin Issues Found</EmptyTitle>
-                <EmptyDescription>
-                  Great job! There are currently no reported issues with any
-                  trashbins. Check back later or report a new issue if something
-                  comes up.
-                </EmptyDescription>
-              </EmptyHeader>
-            </Empty>
-          )}
         </ScrollArea>
+        {trashbinIssues && trashbinIssues.length === 0 && (
+          <Empty className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/4 w-full">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Info />
+              </EmptyMedia>
+              <EmptyTitle>No Trashbin Issues Found</EmptyTitle>
+              <EmptyDescription>
+                Great job! There are currently no reported issues with any
+                trashbins. Check back later or report a new issue if something
+                comes up.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        )}
       </DrawerContent>
     </Drawer>
   );

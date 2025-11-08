@@ -51,7 +51,11 @@ export default function Home() {
           </div>
           <div className="flex flex-row items-center gap-2 mt-auto">
             <Database size={15} className="text-primary" />
-            <p className="font-bold">{userQuota} / 5 bins</p>
+            {userQuota !== 5 ? (
+              <p className="font-bold">{userQuota} / 5 bins</p>
+            ) : (
+              <p className="font-bold">Quota Reached</p>
+            )}
           </div>
         </div>
         <div className="flex items-end justify-end">
@@ -85,8 +89,8 @@ export default function Home() {
             Assigned Collections
           </p>
           <div className="flex flex-row items-center gap-2 font-bold">
-            <Trash size={15} />
-            <p>{assignedCollections?.length} bins</p>
+            <Trash size={15} className="text-primary" />
+            <p>{assignedCollections?.length} Bins</p>
           </div>
         </div>
         <div>
@@ -94,8 +98,8 @@ export default function Home() {
             Trashbin Issues
           </p>
           <div className="flex flex-row items-center gap-2 font-bold">
-            <Trash size={15} />
-            <p>{trashbinIssues?.length} issues</p>
+            <Trash size={15} className="text-primary" />
+            <p>{trashbinIssues?.length} Issues</p>
           </div>
         </div>
       </div>

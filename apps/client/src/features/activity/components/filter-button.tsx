@@ -42,7 +42,9 @@ export default function FilterButton() {
 
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle className="text-xl">Filter Activity</DrawerTitle>
+          <DrawerTitle className="text-4xl font-bold">
+            Filter Activity
+          </DrawerTitle>
           <DrawerDescription>
             Customize your activity feed by applying filters to refine the
             displayed results.

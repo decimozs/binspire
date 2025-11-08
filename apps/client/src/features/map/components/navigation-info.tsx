@@ -150,14 +150,18 @@ export default function NavigationInfo() {
         <div className="px-4 grid grid-cols-2 gap-2 mt-4">
           <Button
             variant={activeTab === "trashbin" ? "default" : "outline"}
-            size="sm"
+            className={
+              activeTab === "trashbin" ? "font-bold text-xl" : "text-xl"
+            }
             onClick={() => setActiveTab("trashbin")}
           >
             Trashbin
           </Button>
           <Button
             variant={activeTab === "direction" ? "default" : "outline"}
-            size="sm"
+            className={
+              activeTab === "direction" ? "font-bold text-xl" : "text-xl"
+            }
             onClick={() => setActiveTab("direction")}
           >
             Directions

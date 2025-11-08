@@ -75,7 +75,7 @@ export default function Navigating() {
         <div className="grow">
           <CollectTrashbin />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
           <Emergency />
           <CancelNavigation />
         </div>
