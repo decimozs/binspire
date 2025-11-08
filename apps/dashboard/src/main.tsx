@@ -46,7 +46,7 @@ if (!rootElement.innerHTML) {
             <MapLayerProvider>
               <FontProvider>
                 <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-                  <Toaster position="bottom-right" richColors />
+                  <Toaster position="bottom-right" richColors expand />
                   <NuqsAdapter>
                     <RouterProvider router={router} />
                   </NuqsAdapter>

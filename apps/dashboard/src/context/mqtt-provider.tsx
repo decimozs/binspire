@@ -25,6 +25,7 @@ export function MqttProvider({ children }: Props) {
       setConnected(true);
 
       mqttClient.subscribe("trashbin/+/status");
+      mqttClient.subscribe("trashbin/+/alerts");
       mqttClient.subscribe("trashbin/collection");
       mqttClient.subscribe("server/status");
       mqttClient.subscribe("user/permissions/update");
@@ -38,11 +39,14 @@ export function MqttProvider({ children }: Props) {
 
           if (topic === "server/status") {
             const { server } = message;
+
             if (server === "offline") {
               setConnected(false);
               resetBins();
+              ShowToast("warning", "Telemetry disconnected.", "bottom-left");
             } else {
               setConnected(true);
+              ShowToast("success", "Telemetry connected.", "bottom-left");
             }
             return;
           }
@@ -64,11 +68,45 @@ export function MqttProvider({ children }: Props) {
             return;
           }
 
+          if (
+            topic.startsWith("trashbin/") &&
+            topic.endsWith("/alerts") &&
+            window.location.pathname.startsWith("/map")
+          ) {
+            const { event, name } = message;
+
+            if (event === "battery_low") {
+              ShowToast("warning", `${name} battery is low.`, "bottom-left");
+            }
+
+            if (event === "battery_critical") {
+              ShowToast("error", `${name} battery is critical.`, "bottom-left");
+            }
+
+            if (event === "almost-full") {
+              ShowToast("warning", `${name} is almost full.`, "bottom-left");
+            }
+
+            if (event === "full") {
+              ShowToast("error", `${name} is full.`, "bottom-left");
+            }
+
+            if (event === "overflowing") {
+              ShowToast("error", `${name} is overflowing.`, "bottom-left");
+            }
+
+            return;
+          }
+
           if (topic === "trashbin/collection") {
             const { trashbinId, name, location } = message;
 
             if (!shownCollectionToasts.has(trashbinId)) {
-              ShowToast("success", `${name} collected at ${location}`);
+              ShowToast(
+                "success",
+                `${name} collected at ${location}`,
+                "bottom-center",
+              );
               shownCollectionToasts.add(trashbinId);
 
               setTimeout(() => shownCollectionToasts.delete(trashbinId), 5000);

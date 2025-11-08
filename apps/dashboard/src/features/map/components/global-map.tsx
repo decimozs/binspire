@@ -18,7 +18,6 @@ import { useMapLayer } from "@/hooks/use-map-layer";
 import { Skeleton } from "@binspire/ui/components/skeleton";
 import FilterTrashbin from "./filter-trashbin";
 import { useTrashbinRealtime } from "@/store/realtime-store";
-import LiveUpdates from "./live-updates";
 import { useFilterTrashbin } from "@/hooks/use-filter-trashbin";
 import { TRASHBIN_CONFIG } from "@binspire/shared";
 import AvailableCollectors from "./available-collectors";
@@ -278,9 +277,6 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
             <LocateButton />
             <ResetMapStateButton />
             <ZoomControls />
-          </div>
-          <div className="fixed left-4 bottom-4">
-            <LiveUpdates />
           </div>
         </>
       )}
