@@ -29,6 +29,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { Button } from "@binspire/ui/components/button";
 import { ArrowUpRight } from "lucide-react";
 import ReportIssue from "../report-issue";
+import MapLegend from "./components/map-legend";
 
 function DeckGLOverlay(props: DeckProps) {
   const overlay = useControl<MapboxOverlay>(() => new MapboxOverlay(props));
@@ -295,8 +296,9 @@ export default function GlobalMap({
           </div>
         )}
         {!isOnHome && !route && (
-          <div className="fixed left-4 top-4">
+          <div className="fixed left-4 top-4 flex flex-col gap-2">
             <Back />
+            <MapLegend />
           </div>
         )}
         {!isOnHome && !route && (
