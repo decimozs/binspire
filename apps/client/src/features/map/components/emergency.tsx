@@ -1,3 +1,5 @@
+import { useMqtt } from "@/context/mqtt-provider";
+import { useSession } from "@/features/auth";
 import { Button } from "@binspire/ui/components/button";
 import {
   Drawer,
@@ -12,6 +14,17 @@ import { PhoneCall } from "lucide-react";
 
 export default function Emergency() {
   const emergencyNumber = "+1234567890";
+  const { client } = useMqtt();
+  const { data: current } = useSession();
+
+  const handleSendEmergency = async () => {
+    client?.publish(
+      `${current?.user.orgId}/emergency`,
+      JSON.stringify({
+        username: current?.user.name,
+      }),
+    );
+  };
 
   return (
     <Drawer>
@@ -30,7 +43,11 @@ export default function Emergency() {
           </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <a href={`tel:${emergencyNumber}`} className="w-full">
+          <a
+            href={`tel:${emergencyNumber}`}
+            className="w-full"
+            onClick={handleSendEmergency}
+          >
             <Button className="font-bold text-lg w-full" variant="destructive">
               Call
             </Button>
