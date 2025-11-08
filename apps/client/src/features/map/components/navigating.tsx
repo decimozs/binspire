@@ -8,6 +8,7 @@ import { Skeleton } from "@binspire/ui/components/skeleton";
 import NavigationInfo from "./navigation-info";
 import CancelNavigation from "./cancel-navigation";
 import { useLocation } from "@tanstack/react-router";
+import Emergency from "./emergency";
 
 export default function Navigating() {
   const { pathname } = useLocation();
@@ -69,12 +70,15 @@ export default function Navigating() {
         )}
       </div>
 
-      <div className="absolute bottom-4 w-full z-50 flex flex-row items-center gap-2 px-4">
+      <div className="absolute bottom-4 w-full z-50 flex flex-row items-end gap-2 px-4">
         <NavigationInfo />
         <div className="grow">
           <CollectTrashbin />
         </div>
-        <CancelNavigation />
+        <div className="flex flex-col gap-2">
+          <Emergency />
+          <CancelNavigation />
+        </div>
       </div>
     </>
   );
