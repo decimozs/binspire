@@ -62,7 +62,7 @@ export default function TrashbinLogs({ id }: { id: string }) {
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <SheetHeader>
-          <SheetTitle>Trash Logs</SheetTitle>
+          <SheetTitle className="text-2xl">Trash Logs</SheetTitle>
           <SheetDescription>
             View the types of waste collected in the bin, such as plastics,
             paper, electronic devices, and more.

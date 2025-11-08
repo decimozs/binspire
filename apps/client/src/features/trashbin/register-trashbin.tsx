@@ -64,7 +64,7 @@ export default function RegisterTrashbin() {
 
       await html5QrCodeRef.current.start(
         camera.id,
-        { fps: 10, qrbox: { width: 250, height: 250 } },
+        { fps: 10 },
         async (decodedText) => {
           await handleVerification(decodedText);
           stopCameraScan();
