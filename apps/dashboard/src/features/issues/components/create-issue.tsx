@@ -39,6 +39,7 @@ import { ShowToast } from "@/components/core/toast-notification";
 import { useCreateIssue } from "@binspire/query";
 import {
   ENTITY_DATA_VALUE,
+  formatLabel,
   ISSUE_STATUS_CONFIG,
   PRIORITY_SCORES_CONFIG,
   type ISSUE_STATUSES,
@@ -49,6 +50,7 @@ import {
 } from "@binspire/shared";
 import { FormFieldError } from "@binspire/ui/forms";
 import z from "zod";
+import { useMqtt } from "@/hooks/use-mqtt";
 
 export const issueFormSchema = insertIssueSchema
   .pick({
@@ -83,6 +85,7 @@ export default function CreateIssue() {
   const { data: currentSession } = authClient.useSession();
   const user = currentSession?.user;
   const [open, setOpen] = useState(false);
+  const { client } = useMqtt();
 
   const form = useForm({
     defaultValues: {
@@ -96,15 +99,39 @@ export default function CreateIssue() {
       onSubmit: issueFormSchema,
     },
     onSubmit: async ({ value }) => {
-      await createAction.mutateAsync({
-        data: {
-          userId: user?.id as string,
-          orgId: user?.orgId as string,
-          ...value,
-        },
-      });
-      ShowToast("success", "Issue created successfully");
-      setCreateIssue(false);
+      try {
+        const issue = await createAction.mutateAsync({
+          data: {
+            userId: user?.id as string,
+            orgId: user?.orgId as string,
+            ...value,
+          },
+        });
+        ShowToast("success", "Issue created successfully");
+        setCreateIssue(false);
+
+        client?.publish(
+          "issues",
+          JSON.stringify({
+            title: `Issue #${issue.no}`,
+            description: `You have new issue from ${formatLabel(issue.entity)} that has a priority score of ${issue.priority}.`,
+            timestamp: issue.createdAt,
+            userId: issue.userId,
+            key: "issueManagement_actionDialog",
+            url: {
+              type: "issueManagement",
+              id: issue.id,
+              action: ["view"],
+            },
+          }),
+        );
+      } catch (error) {
+        const err = error as Error;
+        ShowToast(
+          "error",
+          err.message || "Failed to create issue. Please try again.",
+        );
+      }
     },
   });
 

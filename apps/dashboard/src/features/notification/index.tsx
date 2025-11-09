@@ -26,7 +26,8 @@ export interface NotificationItem {
   description: string;
   timestamp: string;
   key?: string;
-  url?: string;
+  url?: { type: string; id: string; action: string[] };
+  isRead?: boolean;
 }
 
 const LOCAL_STORAGE_KEY = "notifications";
@@ -37,23 +38,24 @@ export default function Notification() {
   useEffect(() => {
     const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
 
-    if (stored) {
-      setNotifications(JSON.parse(stored));
-    } else {
-      const initial = Array.from({ length: 10 }).map((_, index) => ({
-        id: index,
-        title: `title ${index + 1}`,
-        description: `description ${index + 1}`,
-        timestamp: new Date().toLocaleTimeString(),
-      }));
-      setNotifications(initial);
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(initial));
-    }
-  }, []);
+    if (stored) setNotifications(JSON.parse(stored));
 
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(notifications));
-  }, [notifications]);
+    const handleUpdate = (e: CustomEvent<NotificationItem[]>) => {
+      setNotifications(e.detail);
+    };
+
+    window.addEventListener(
+      "notifications-updated",
+      handleUpdate as EventListener,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "notifications-updated",
+        handleUpdate as EventListener,
+      );
+    };
+  }, []);
 
   const clearNotification = (id: number) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
@@ -63,8 +65,16 @@ export default function Notification() {
   const clearAll = () => setNotifications([]);
 
   const handleView = (notif: NotificationItem) => {
-    const query = { key: notif.key, url: notif.url };
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === notif.id ? { ...n, isRead: true } : n)),
+    );
 
+    const stored = notifications.map((n) =>
+      n.id === notif.id ? { ...n, isRead: true } : n,
+    );
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stored));
+
+    const query = { key: notif.key, url: notif.url };
     if (!query?.key || !query.url) return;
 
     const url = window.location.href.split("?")[0];
@@ -73,73 +83,101 @@ export default function Notification() {
     window.dispatchEvent(new Event("popstate"));
   };
 
+  const handleBellClick = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+
+    const updated = notifications.map((n) => ({ ...n, isRead: true }));
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-9 relative">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-9 relative"
+          onClick={handleBellClick}
+        >
           <Bell />
+          {notifications.some((n) => !n.isRead) && (
+            <span className="absolute -top-0.5 -right-0.5 bg-red-500 rounded-full font-bold text-[9px] flex items-center justify-center size-4">
+              <p>{notifications.filter((n) => !n.isRead).length}</p>
+            </span>
+          )}
         </Button>
       </SheetTrigger>
       <SheetContent className="min-w-[600px]">
         <SheetHeader>
           <SheetTitle>Notifications</SheetTitle>
-          <SheetDescription>
-            {notifications.length === 0
-              ? "You have no new notifications."
-              : `You have ${notifications.length} notifications.`}
-          </SheetDescription>
+          {notifications.length > 0 && (
+            <SheetDescription>
+              {`You have ${notifications.length} notifications.`}
+            </SheetDescription>
+          )}
         </SheetHeader>
         <div className="-mt-4 px-4">
-          <ScrollArea className="h-[85vh]">
-            <div className="space-y-2">
-              {notifications.map((notif) => (
-                <div
-                  className="bg-card rounded-md p-4 border-[1px] border-secondary flex flex-col gap-2"
-                  key={notif.id}
-                >
-                  <div>
-                    <p>{notif.title}</p>
-                    <p>{notif.description}</p>
-                  </div>
-                  <div className="flex flex-row items-center justify-between">
-                    <p className="text-sm">
-                      {formatDistanceToNow(new Date(notif.timestamp), {
-                        addSuffix: true,
-                      })}
-                    </p>
-                    <div className="flex flex-row items-center gap-2">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => handleView(notif)}
-                      >
-                        View
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => clearNotification(notif.id)}
-                      >
-                        Clear
-                      </Button>
+          {notifications.length > 0 && (
+            <ScrollArea className="h-[85vh]">
+              <div className="space-y-2">
+                {notifications.map((notif) => (
+                  <div
+                    className="bg-card rounded-md p-4 border-[1px] border-secondary flex flex-col gap-2"
+                    key={notif.id}
+                  >
+                    <div>
+                      <p>{notif.title}</p>
+                      <p>{notif.description}</p>
+                    </div>
+                    <div className="flex flex-row items-center justify-between">
+                      <div className="flex flex-row items-center gap-2">
+                        <p className="text-sm">
+                          {formatDistanceToNow(new Date(notif.timestamp), {
+                            addSuffix: true,
+                          })}
+                        </p>
+                        <p
+                          className={`w-fit ${notif.isRead ? "blue-badge" : "yellow-badge"}`}
+                        >
+                          {notif.isRead ? "Read" : "Unread"}
+                        </p>
+                      </div>
+                      <div className="flex flex-row items-center gap-2">
+                        <Button
+                          size="sm"
+                          variant={notif.isRead ? "outline" : "secondary"}
+                          onClick={() => handleView(notif)}
+                        >
+                          View
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => clearNotification(notif.id)}
+                        >
+                          Clear
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </ScrollArea>
+                ))}
+              </div>
+            </ScrollArea>
+          )}
+          {notifications.length === 0 && (
+            <Empty>
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <Bell />
+                </EmptyMedia>
+                <EmptyTitle>You have no notifications</EmptyTitle>
+                <EmptyDescription>
+                  You're all caught up! Check back later for new notifications.
+                </EmptyDescription>
+              </EmptyHeader>
+            </Empty>
+          )}
         </div>
-        {notifications.length === 0 && (
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <Bell />
-              </EmptyMedia>
-              <EmptyTitle>No notifications</EmptyTitle>
-              <EmptyDescription>No data found</EmptyDescription>
-            </EmptyHeader>
-          </Empty>
-        )}
         {notifications.length > 0 && (
           <SheetFooter className="flex flex-row items-center justify-between text-muted-foreground">
             <p className="cursor-pointer" onClick={markAllAsRead}>

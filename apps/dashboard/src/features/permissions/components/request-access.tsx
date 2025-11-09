@@ -20,7 +20,7 @@ import { useForm } from "@tanstack/react-form";
 import { authClient } from "@/lib/auth-client";
 import { ShowToast } from "@/components/core/toast-notification";
 import { useState } from "react";
-import type { ModuleActions } from "@binspire/shared";
+import { formatLabel, type ModuleActions } from "@binspire/shared";
 import { useCreateUserRequest, UserApi } from "@binspire/query";
 import { FormFieldError } from "@binspire/ui/forms";
 import { useMqtt } from "@/hooks/use-mqtt";
@@ -60,33 +60,41 @@ export default function RequestAccess({ actions }: RequestAccessProps) {
       onSubmit: requestAccessFormSchema,
     },
     onSubmit: async ({ value, formApi }) => {
-      const request = await createRequest.mutateAsync({
-        ...value,
-        type: "access_request",
-        userId: currentSession.data?.user.id as string,
-      });
+      try {
+        const request = await createRequest.mutateAsync({
+          ...value,
+          type: "access_request",
+          userId: currentSession.data?.user.id as string,
+        });
 
-      const user = await UserApi.getById(request.userId);
+        const user = await UserApi.getById(request.userId);
 
-      formApi.reset();
-      ShowToast("success", "Your request has been submitted successfully.");
-      setOpen(false);
+        formApi.reset();
+        ShowToast("success", "Your request has been submitted successfully.");
+        setOpen(false);
 
-      client?.publish(
-        "users-requests",
-        JSON.stringify({
-          title: `Request #${request.no}`,
-          description: `You have new request from ${user.name}`,
-          timestamp: request.createdAt,
-          userId: request.userId,
-          key: "accessRequestsManagement_actionDialog",
-          url: {
-            type: "collectionsManagement",
-            id: request.id,
-            action: ["view"],
-          },
-        }),
-      );
+        client?.publish(
+          "users-requests",
+          JSON.stringify({
+            title: `Request #${request.no}`,
+            description: `You have new request from ${user.name} for ${formatLabel(request.type)}`,
+            timestamp: request.createdAt,
+            userId: request.userId,
+            key: "accessRequestsManagement_actionDialog",
+            url: {
+              type: "collectionsManagement",
+              id: request.id,
+              action: ["view"],
+            },
+          }),
+        );
+      } catch (error) {
+        const err = error as Error;
+        ShowToast(
+          "error",
+          err.message || "Failed to request. Please try again.",
+        );
+      }
     },
   });
 

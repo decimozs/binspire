@@ -36,6 +36,7 @@ export function MqttProvider({ children }: Props) {
       mqttClient.subscribe("user/permissions/update");
       mqttClient.subscribe("trashbin/detections");
       mqttClient.subscribe("users-requests");
+      mqttClient.subscribe("issues");
     });
 
     mqttClient.on("message", (topic, payload) => {
@@ -146,7 +147,7 @@ export function MqttProvider({ children }: Props) {
             return;
           }
 
-          if (topic === "users-requests") {
+          if (topic === "users-requests" || topic === "issues") {
             const { userId, title, description, timestamp, key, url } = message;
             const session = await authClient.getSession();
             const currentUserId = session?.data?.user.id;
@@ -154,6 +155,7 @@ export function MqttProvider({ children }: Props) {
             if (userId === currentUserId) return;
 
             const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+
             let currentNotifications: NotificationItem[] = [];
 
             if (stored) currentNotifications = JSON.parse(stored);
@@ -165,6 +167,7 @@ export function MqttProvider({ children }: Props) {
               timestamp,
               key,
               url,
+              isRead: false,
             };
 
             const updatedNotifications = [newNotif, ...currentNotifications];
@@ -172,6 +175,12 @@ export function MqttProvider({ children }: Props) {
             localStorage.setItem(
               LOCAL_STORAGE_KEY,
               JSON.stringify(updatedNotifications),
+            );
+
+            window.dispatchEvent(
+              new CustomEvent("notifications-updated", {
+                detail: updatedNotifications,
+              }),
             );
 
             return;
