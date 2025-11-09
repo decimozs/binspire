@@ -1,5 +1,12 @@
 # Contributor Covenant Code of Conduct
 
+## Quick Summary
+- Be kind and respectful
+- No harassment or discrimination
+- Follow branch and PR guidelines
+- Violations may lead to warnings or bans
+- Report issues via contact.binspire@gmail.com.
+
 ## Our Pledge
 
 We as members, contributors, and leaders pledge to make participation in our
