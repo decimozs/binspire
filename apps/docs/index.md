@@ -3,6 +3,10 @@ title: Binspire Docs
 titleTemplate: ':title'
 ---
 
+::: warning Development in Progress
+This documentation is currently under active development and may change rapidly. Some features, instructions, or interfaces may not be finalized.
+:::
+
 # Binspire
 A SWMS to make waste collection more efficient, sustainable, and transparent.
 
