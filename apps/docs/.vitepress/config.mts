@@ -62,10 +62,13 @@ export default defineConfig({
     sidebar: {
       "/": sidebars(),
     },
-    algolia: {
-      appId: "1GIFSU1REV",
-      apiKey: "c6a0f86b9a9f8551654600f28317a9e9",
-      indexName: "binspire",
+    search: {
+      provider: "algolia",
+      options: {
+        appId: "4FKETO0A20",
+        apiKey: "03223cde5bde720c013a7d28bb7c5cd4",
+        indexName: "Binspire Docs",
+      },
     },
     socialLinks: [
       { icon: "github", link: "https://github.com/decimozs/binspire" },
