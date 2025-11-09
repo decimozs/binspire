@@ -126,8 +126,8 @@ export default function Notification() {
                     key={notif.id}
                   >
                     <div>
-                      <p>{notif.title}</p>
-                      <p>{notif.description}</p>
+                      <p className="mb-2">{notif.title}</p>
+                      <p className="text-sm">{notif.description}</p>
                     </div>
                     <div className="flex flex-row items-center justify-between">
                       <div className="flex flex-row items-center gap-2">

@@ -77,7 +77,7 @@ export default function RequestAccess({ actions }: RequestAccessProps) {
           "users-requests",
           JSON.stringify({
             title: `Request #${request.no}`,
-            description: `You have new request from ${user.name} for ${formatLabel(request.type)}`,
+            description: `You have new request from ${user.name} for ${formatLabel(request.type)}.`,
             timestamp: request.createdAt,
             userId: request.userId,
             key: "accessRequestsManagement_actionDialog",

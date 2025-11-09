@@ -98,7 +98,7 @@ export default function CreateIssue() {
     validators: {
       onSubmit: issueFormSchema,
     },
-    onSubmit: async ({ value }) => {
+    onSubmit: async ({ value, formApi }) => {
       try {
         const issue = await createAction.mutateAsync({
           data: {
@@ -107,6 +107,8 @@ export default function CreateIssue() {
             ...value,
           },
         });
+
+        formApi.reset();
         ShowToast("success", "Issue created successfully");
         setCreateIssue(false);
 
