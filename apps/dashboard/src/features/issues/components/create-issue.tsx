@@ -68,7 +68,7 @@ export const issueFormSchema = insertIssueSchema
   .extend({
     title: z
       .string()
-      .min(10, "Title must be at least 3 characters long.")
+      .min(10, "Title must be at least 10 characters long.")
       .max(100, "Title must not exceed 100 characters."),
     description: z
       .string()
@@ -144,7 +144,7 @@ export default function CreateIssue() {
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create a New Issue</DialogTitle>
+          <DialogTitle>Report Issue</DialogTitle>
           <DialogDescription>
             Fill out the details for your new issue. Once created, it will
             appear in the issues list.

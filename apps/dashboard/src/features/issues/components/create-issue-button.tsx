@@ -1,7 +1,6 @@
-import { usePermissionStore } from "@/store/permission-store";
 import { Button } from "@binspire/ui/components/button";
 import { useLocation } from "@tanstack/react-router";
-import { Info } from "lucide-react";
+import { Ticket } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
 
 export default function CreateIssueButton() {
@@ -10,14 +9,6 @@ export default function CreateIssueButton() {
     "is_creating_issue",
     parseAsBoolean.withDefault(false),
   );
-
-  const { permission } = usePermissionStore();
-
-  const hasPermission = permission.issueManagement?.actions.create;
-
-  if (!hasPermission) {
-    return null;
-  }
 
   if (location.pathname !== "/issues") return null;
 
@@ -32,7 +23,7 @@ export default function CreateIssueButton() {
       onClick={handleCreateIssue}
       className="font-bold"
     >
-      <Info />
+      <Ticket />
       New Issue
     </Button>
   );

@@ -1,6 +1,5 @@
 import {
   ChartLine,
-  Info,
   History,
   LayoutDashboard,
   Map,
@@ -11,6 +10,7 @@ import {
   ShieldQuestionMark,
   Trophy,
   ClipboardList,
+  Ticket,
 } from "lucide-react";
 import {
   SidebarGroup,
@@ -28,7 +28,7 @@ const generalMenus: MenuItem[] = [
   { title: "Map", url: "/map", icon: Map },
   { title: "Leaderboard", url: "/leaderboards", icon: Trophy },
   { title: "Analytics", url: "/analytics", icon: ChartLine },
-  { title: "Issue", url: "/issues", icon: Info },
+  { title: "Issue", url: "/issues", icon: Ticket },
   { title: "Audit", url: "/audits", icon: ShieldQuestionMark },
   { title: "History", url: "/history", icon: History },
   { title: "Users", url: "/users", icon: Users },
