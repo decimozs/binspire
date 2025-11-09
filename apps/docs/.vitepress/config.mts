@@ -55,6 +55,15 @@ export default defineConfig({
     "A SWMS to make waste collection more efficient, sustainable, and transparent.",
   ignoreDeadLinks: true,
   cleanUrls: true,
+  head: [
+    [
+      "meta",
+      {
+        name: "algolia-site-verification",
+        content: "5F3DA4C0C96D75B1",
+      },
+    ],
+  ],
   themeConfig: {
     nav: [{ text: "Docs", link: "/" }],
     logo: "/favicon.ico",
