@@ -21,8 +21,9 @@ import { authClient } from "@/lib/auth-client";
 import { ShowToast } from "@/components/core/toast-notification";
 import { useState } from "react";
 import type { ModuleActions } from "@binspire/shared";
-import { useCreateUserRequest } from "@binspire/query";
+import { useCreateUserRequest, UserApi } from "@binspire/query";
 import { FormFieldError } from "@binspire/ui/forms";
+import { useMqtt } from "@/hooks/use-mqtt";
 
 interface RequestAccessProps {
   actions?: ModuleActions;
@@ -37,6 +38,7 @@ export default function RequestAccess({ actions }: RequestAccessProps) {
   const createRequest = useCreateUserRequest();
   const currentSession = authClient.useSession();
   const [open, setOpen] = useState(false);
+  const { client } = useMqtt();
 
   const isViewMode =
     actions?.read === true &&
@@ -58,15 +60,33 @@ export default function RequestAccess({ actions }: RequestAccessProps) {
       onSubmit: requestAccessFormSchema,
     },
     onSubmit: async ({ value, formApi }) => {
-      await createRequest.mutateAsync({
+      const request = await createRequest.mutateAsync({
         ...value,
         type: "access_request",
         userId: currentSession.data?.user.id as string,
       });
 
+      const user = await UserApi.getById(request.userId);
+
       formApi.reset();
       ShowToast("success", "Your request has been submitted successfully.");
       setOpen(false);
+
+      client?.publish(
+        "users-requests",
+        JSON.stringify({
+          title: `Request #${request.no}`,
+          description: `You have new request from ${user.name}`,
+          timestamp: request.createdAt,
+          userId: request.userId,
+          key: "accessRequestsManagement_actionDialog",
+          url: {
+            type: "collectionsManagement",
+            id: request.id,
+            action: ["view"],
+          },
+        }),
+      );
     },
   });
 

@@ -8,10 +8,13 @@ import { ShowToast } from "@/components/core/toast-notification";
 import { authClient } from "@/lib/auth-client";
 import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
 import { useQueryClient } from "@binspire/query";
+import type { NotificationItem } from "@/features/notification";
 
 interface Props {
   children: ReactNode;
 }
+
+const LOCAL_STORAGE_KEY = "notifications";
 
 export function MqttProvider({ children }: Props) {
   const [client, setClient] = useState<MqttClient | null>(null);
@@ -32,6 +35,7 @@ export function MqttProvider({ children }: Props) {
       mqttClient.subscribe("server/status");
       mqttClient.subscribe("user/permissions/update");
       mqttClient.subscribe("trashbin/detections");
+      mqttClient.subscribe("users-requests");
     });
 
     mqttClient.on("message", (topic, payload) => {
@@ -138,6 +142,37 @@ export function MqttProvider({ children }: Props) {
                 "top-center",
               );
             }
+
+            return;
+          }
+
+          if (topic === "users-requests") {
+            const { userId, title, description, timestamp, key, url } = message;
+            const session = await authClient.getSession();
+            const currentUserId = session?.data?.user.id;
+
+            if (userId === currentUserId) return;
+
+            const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+            let currentNotifications: NotificationItem[] = [];
+
+            if (stored) currentNotifications = JSON.parse(stored);
+
+            const newNotif: NotificationItem = {
+              id: Date.now(),
+              title,
+              description,
+              timestamp,
+              key,
+              url,
+            };
+
+            const updatedNotifications = [newNotif, ...currentNotifications];
+
+            localStorage.setItem(
+              LOCAL_STORAGE_KEY,
+              JSON.stringify(updatedNotifications),
+            );
 
             return;
           }

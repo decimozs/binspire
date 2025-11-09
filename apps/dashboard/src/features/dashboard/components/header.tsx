@@ -2,6 +2,7 @@ import LayoutButton from "@/components/core/layout-button";
 import { Search } from "@/components/core/search";
 import ThemeToggle from "@/components/core/toggle-theme";
 import BinspireAI from "@/features/binspire-ai";
+import Notification from "@/features/notification";
 import { authClient } from "@/lib/auth-client";
 import { useGetMaintenanceById } from "@binspire/query";
 import { Separator } from "@binspire/ui/components/separator";
@@ -67,6 +68,7 @@ export default function DashboardHeader() {
             <LayoutButton />
             <ThemeToggle />
             <BinspireAI />
+            <Notification />
           </div>
         </div>
       </div>
