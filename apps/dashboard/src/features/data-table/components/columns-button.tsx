@@ -40,7 +40,9 @@ export default function ColumnsButton<T>({ table }: ColumnsButtonProps<T>) {
                     : formatCamelCase(column.id)}
               </p>
               <p className="ml-auto">
-                {column.getIsVisible() && <Check className="w-4 h-4" />}
+                {column.getIsVisible() && (
+                  <Check className="w-4 h-4 text-primary" />
+                )}
               </p>
             </DropdownMenuItem>
           );

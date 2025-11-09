@@ -7,7 +7,7 @@ export default function LoaderLayout({ ...props }: ComponentProps<"div">) {
 
   return (
     <main
-      className={`flex flex-col gap-2 ${layout === "full" ? "" : "lg:w-[1200px]"}`}
+      className={`flex flex-col gap-2 ${layout === "full" ? "" : "lg:w-[1400px]"}`}
       {...props}
     >
       <Skeleton className="h-9" />

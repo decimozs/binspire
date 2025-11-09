@@ -7,6 +7,7 @@ import { setConnected } from "@/store/telemetry-store";
 import { ShowToast } from "@/components/core/toast-notification";
 import { authClient } from "@/lib/auth-client";
 import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
+import { useQueryClient } from "@binspire/query";
 
 interface Props {
   children: ReactNode;
@@ -16,6 +17,7 @@ export function MqttProvider({ children }: Props) {
   const [client, setClient] = useState<MqttClient | null>(null);
   const [messages, setMessages] = useState<Record<string, string>>({});
   const shownCollectionToasts = new Set<string>();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const mqttClient = createMqttClient();
@@ -99,18 +101,29 @@ export function MqttProvider({ children }: Props) {
           }
 
           if (topic === "trashbin/collection") {
-            const { trashbinId, name, location } = message;
+            queryClient.invalidateQueries({
+              queryKey: ["trashbin-collections"],
+            });
+
+            const { trashbinId, name, location, key, url } = message;
 
             if (!shownCollectionToasts.has(trashbinId)) {
               ShowToast(
                 "success",
                 `${name} collected at ${location}`,
-                "bottom-center",
+                window.location.pathname.startsWith("/map")
+                  ? "bottom-left"
+                  : "bottom-right",
+                true,
+                { key, url },
               );
+
               shownCollectionToasts.add(trashbinId);
 
               setTimeout(() => shownCollectionToasts.delete(trashbinId), 5000);
             }
+
+            return;
           }
 
           if (topic === "user/permissions/update") {
@@ -125,6 +138,8 @@ export function MqttProvider({ children }: Props) {
                 "top-center",
               );
             }
+
+            return;
           }
 
           const match = topic.match(/^trashbin\/([^/]+)\/status$/);

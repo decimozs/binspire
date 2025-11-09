@@ -17,6 +17,7 @@ import { useForm } from "@tanstack/react-form";
 import * as React from "react";
 import { FormFieldError } from "@binspire/ui/forms";
 import { exportToCSV } from "@/lib/export";
+import { useLocation } from "@tanstack/react-router";
 
 interface ExportButtonProps<T> {
   table: Table<T>;
@@ -28,10 +29,16 @@ const exportFormSchema = z.object({
 
 export default function ExportButton<T>({ table }: ExportButtonProps<T>) {
   const [isExporting, setIsExporting] = React.useState(false);
+  const { pathname } = useLocation();
+  const now = new Date();
+  const dateTime = now
+    .toLocaleString("sv-SE", { hour12: false })
+    .replace(" ", "_")
+    .replace(/:/g, "-");
 
   const form = useForm({
     defaultValues: {
-      filename: "table-export",
+      filename: `${pathname.replace("/", "")}-data-export-${dateTime}`,
     },
     validators: {
       onSubmit: exportFormSchema,

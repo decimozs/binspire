@@ -55,7 +55,7 @@ export default function CheckTrashbinStatus({ id }: Props) {
           <SheetTitle>Trashbin Status</SheetTitle>
           <SheetDescription>Check current real-time status</SheetDescription>
         </SheetHeader>
-        <ScrollArea className="px-4 overflow-auto rounded-md pb-4">
+        <ScrollArea className="px-4 overflow-auto rounded-md pb-4 -mt-4">
           <div className="grid grid-cols-1 gap-4">
             <TrashbinRadialStatus
               title="Waste Level"

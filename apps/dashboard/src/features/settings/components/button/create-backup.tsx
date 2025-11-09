@@ -38,27 +38,33 @@ export function CreateBackup() {
     },
     validators: {
       onSubmit: createBackupFormSchema,
-      onChange: createBackupFormSchema,
-      onBlur: createBackupFormSchema,
     },
     onSubmit: async ({ value, formApi }) => {
-      const data = {
-        data: {
-          newPassword: value.password,
-          currentPassword: value.password,
-        },
-      };
+      try {
+        const data = {
+          data: {
+            newPassword: value.password,
+            currentPassword: value.password,
+          },
+        };
 
-      await verifyPassword.mutateAsync(data);
-      await createBackup.mutateAsync();
+        await verifyPassword.mutateAsync(data);
+        await createBackup.mutateAsync();
 
-      ShowToast("success", "Backup created successfully");
+        ShowToast("success", "Backup created successfully");
 
-      formApi.reset();
+        formApi.reset();
 
-      setOpen(false);
+        setOpen(false);
 
-      verifyPassword.reset();
+        verifyPassword.reset();
+      } catch (error) {
+        const err = error as Error;
+        ShowToast(
+          "error",
+          err.message || "Failed to create backup. Please try again.",
+        );
+      }
     },
   });
 

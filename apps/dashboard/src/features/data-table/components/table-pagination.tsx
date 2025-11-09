@@ -58,7 +58,13 @@ function TablePaginationInner<T>({
   return (
     <div className="flex items-center justify-between py-2">
       <div className="flex-1 text-sm text-muted-foreground">
-        {selectedCount} of {totalCount} row(s) selected.
+        <p>
+          <span className={selectedCount === 0 ? "" : "text-primary font-bold"}>
+            {" "}
+            {selectedCount}
+          </span>{" "}
+          of {totalCount} row(s) selected.
+        </p>
       </div>
 
       <div className="flex flex-row gap-8 items-center">

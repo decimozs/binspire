@@ -57,7 +57,7 @@ export class TrashbinRepository
   }
 
   async collect(id: string, data: InsertTrashbinCollection) {
-    const updated = await this.db
+    await this.db
       .update(trashbinsStatusTable)
       .set({
         isCollected: true,
@@ -71,9 +71,10 @@ export class TrashbinRepository
       .delete(userCollectionAssignmentsTable)
       .where(eq(userCollectionAssignmentsTable.trashbinId, id));
 
-    await this.db.insert(trashbinsCollectionsTable).values(data);
-
-    return updated;
+    return await this.db
+      .insert(trashbinsCollectionsTable)
+      .values(data)
+      .returning();
   }
 }
 

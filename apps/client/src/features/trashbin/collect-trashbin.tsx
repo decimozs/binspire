@@ -190,21 +190,30 @@ export default function CollectTrashbin() {
         id: decrypted,
         data: { wasteLevel, weightLevel, batteryLevel },
       });
+
       if (!collect) throw new Error("Failed to collect trashbin data.");
 
       const newQuota = await quotaAction.mutateAsync({
         userId: session?.user.id!,
         data: { used: userQuota.data?.used! + 1 },
       });
+
       if (!newQuota) throw new Error("Failed to update user quota.");
 
       ShowToast("success", "Trashbin collected successfully!");
+
       client?.publish(
         "trashbin/collection",
         JSON.stringify({
           trashbinId: decrypted,
           name: trashbin?.name,
           location: trashbin?.location,
+          key: "collectionsManagement_actionDialog",
+          url: {
+            type: "collectionsManagement",
+            id: collect.id,
+            action: ["view"],
+          },
         }),
       );
 

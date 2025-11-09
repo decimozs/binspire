@@ -43,7 +43,11 @@ const CheckboxItem = React.memo(function CheckboxItem({
       onClick={() => onToggle(value)}
       className="flex flex-row items-center gap-3 p-2"
     >
-      <Checkbox checked={checked} onCheckedChange={() => onToggle(value)} />
+      <Checkbox
+        checked={checked}
+        onCheckedChange={() => onToggle(value)}
+        className="border-primary"
+      />
       <div className="grid grid-cols-2 w-full">
         <p className="text-sm capitalize">{formatLabel(value)}</p>
         <div className="ml-auto w-[25px] green-badge flex items-center justify-center">
