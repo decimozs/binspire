@@ -23,6 +23,8 @@ import { TRASHBIN_CONFIG } from "@binspire/shared";
 import AvailableCollectors from "./available-collectors";
 import MapLegend from "./map-legend";
 import LiveUpdates from "./live-updates";
+import MonitoringMode from "./monitoring-mode";
+import { useMonitoringStore } from "@/store/monitoring-store";
 
 interface Props {
   isFullScreen?: boolean;
@@ -60,6 +62,7 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
     pitch: 70,
     bearing: 10,
   });
+  const { enabled } = useMonitoringStore();
 
   const trashbinsWithLevel = useMemo(() => {
     if (!trashbins) return [];
@@ -269,19 +272,30 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
         </Button>
       ) : (
         <>
-          <div className="flex flex-col items-start gap-4 fixed left-3 top-16">
-            <FilterTrashbin />
-            <AvailableCollectors />
-            <MapLegend />
-          </div>
-          <div className="flex flex-col gap-4 fixed right-4 top-1/2 -translate-y-1/2">
-            <LocateButton />
-            <ResetMapStateButton />
-            <ZoomControls />
-          </div>
-          <div className="fixed bottom-4 left-4 z-10">
-            <LiveUpdates />
-          </div>
+          {!enabled && (
+            <div className="flex flex-col items-start gap-4 fixed left-3 top-16">
+              <FilterTrashbin />
+              <AvailableCollectors />
+              <MapLegend />
+            </div>
+          )}
+          {enabled ? (
+            <div className="flex flex-col gap-4 fixed right-4 bottom-4">
+              <MonitoringMode />
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4 fixed right-4 top-1/2 -translate-y-1/2">
+              <LocateButton />
+              <MonitoringMode />
+              <ResetMapStateButton />
+              <ZoomControls />
+            </div>
+          )}
+          {!enabled && (
+            <div className="fixed bottom-4 left-4 z-10">
+              <LiveUpdates />
+            </div>
+          )}
         </>
       )}
     </Map>
