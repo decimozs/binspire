@@ -26,10 +26,12 @@ import {
 } from "@binspire/query";
 import { FormFieldError } from "@binspire/ui/forms";
 import { useTheme } from "@/hooks/use-theme";
+import { Switch } from "@binspire/ui/components/switch";
 
 const appearanceFormSchema = z.object({
   theme: z.enum(themes.map((t) => t.value)),
   font: z.enum(fonts.map((f) => f.value)),
+  liveUpdatesOnMap: z.boolean(),
 });
 
 export default function AppearanceSettings() {
@@ -49,7 +51,8 @@ export default function AppearanceSettings() {
   const form = useForm({
     defaultValues: {
       theme: selectedTheme,
-      font: currentSettings?.appearance.font || "manrope",
+      font: currentSettings?.appearance.font ?? "manrope",
+      liveUpdatesOnMap: currentSettings?.appearance.liveUpdatesOnMap ?? false,
     },
     validators: {
       onSubmit: appearanceFormSchema,
@@ -65,6 +68,7 @@ export default function AppearanceSettings() {
             appearance: {
               theme: value.theme,
               font: value.font,
+              liveUpdatesOnMap: value.liveUpdatesOnMap,
             },
           },
         },
@@ -202,6 +206,35 @@ export default function AppearanceSettings() {
           )}
           <p className="text-sm text-muted-foreground">
             Choose between light, dark, or system default theme.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <p>Live Updates on Map</p>
+            <form.Field name="liveUpdatesOnMap">
+              {(field) => (
+                <>
+                  {isPending ? (
+                    <Skeleton className="h-[20px] w-16 rounded-full" />
+                  ) : (
+                    <div className="flex flex-row items-center gap-2">
+                      <p className="text-sm">
+                        {field.state.value ? "On" : "Off"}
+                      </p>
+                      <Switch
+                        checked={field.state.value}
+                        onCheckedChange={(checked) => field.setValue(checked)}
+                      />
+                    </div>
+                  )}
+                  <FormFieldError field={field} />
+                </>
+              )}
+            </form.Field>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Enable or disable live updates displayed on the map interface.
           </p>
         </div>
 

@@ -85,26 +85,26 @@ export function MqttProvider({ children }: Props) {
             topic.endsWith("/alerts") &&
             window.location.pathname.startsWith("/map")
           ) {
-            const { event, name, location, battery_level } = message;
+            const { event, name, location, battery_level, timestamp } = message;
 
             if (event === "battery_low") {
               const msg = `Low battery detected for ${name} (${battery_level}%) at ${location}.`;
-              addUpdate(msg);
+              addUpdate({ msg, timestamp });
             }
 
             if (event === "battery_critical") {
               const msg = `Critical battery detected for ${name} (${battery_level}%) at ${location}.`;
-              addUpdate(msg);
+              addUpdate({ msg, timestamp });
             }
 
             if (event === "almost-full") {
               const msg = `${name} is almost full.`;
-              addUpdate(msg);
+              addUpdate({ msg, timestamp });
             }
 
             if (event === "full") {
               const msg = `${name} is full.`;
-              addUpdate(msg);
+              addUpdate({ msg, timestamp });
             }
 
             return;
@@ -194,7 +194,7 @@ export function MqttProvider({ children }: Props) {
           if (!match) return;
 
           const id = match[1];
-          const { status, name, location } = message.trashbin;
+          const { status, name, location, timestamp } = message.trashbin;
 
           const MAX_DISTANCE = 53;
           const fillLevel = Math.max(
@@ -223,7 +223,7 @@ export function MqttProvider({ children }: Props) {
             msg += ` Current weight is ${status.weightLevel} kg, check for overload.`;
           }
 
-          addUpdate(msg);
+          addUpdate({ msg, timestamp });
           setBinData(id, status);
           setMessages(message);
         } catch (e) {

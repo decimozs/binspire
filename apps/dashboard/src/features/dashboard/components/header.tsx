@@ -3,6 +3,7 @@ import { Search } from "@/components/core/search";
 import ThemeToggle from "@/components/core/toggle-theme";
 import BinspireAI from "@/features/binspire-ai";
 import Notification from "@/features/notification";
+import Telemetry from "@/features/telemetry";
 import { authClient } from "@/lib/auth-client";
 import { useGetMaintenanceById } from "@binspire/query";
 import { Separator } from "@binspire/ui/components/separator";
@@ -67,6 +68,7 @@ export default function DashboardHeader() {
           <div className="flex items-center gap-2">
             <LayoutButton />
             <ThemeToggle />
+            <Telemetry />
             <BinspireAI />
             <Notification />
           </div>

@@ -279,7 +279,7 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
             <ResetMapStateButton />
             <ZoomControls />
           </div>
-          <div className="fixed bottom-4 left-4">
+          <div className="fixed bottom-4 left-4 z-10">
             <LiveUpdates />
           </div>
         </>

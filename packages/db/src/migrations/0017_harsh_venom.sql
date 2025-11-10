@@ -1,0 +1,1 @@
+ALTER TABLE "user_settings" ALTER COLUMN "settings" SET DEFAULT '{"appearance":{"theme":"dark","font":"Manrope","liveUpdatesOnMap":true}}'::jsonb;

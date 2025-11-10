@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as MaintenanceIndexRouteImport } from './routes/maintenance/index'
+import { Route as LiveUpdatesIndexRouteImport } from './routes/live-updates/index'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedAnalyticsRouteRouteImport } from './routes/_authenticated/analytics/route'
@@ -50,6 +51,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const MaintenanceIndexRoute = MaintenanceIndexRouteImport.update({
   id: '/maintenance/',
   path: '/maintenance/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveUpdatesIndexRoute = LiveUpdatesIndexRouteImport.update({
+  id: '/live-updates/',
+  path: '/live-updates/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
@@ -240,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof AuthenticatedAnalyticsRouteRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/': typeof AuthenticatedIndexRoute
+  '/live-updates': typeof LiveUpdatesIndexRoute
   '/maintenance': typeof MaintenanceIndexRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRouteRouteWithChildren
   '/analytics/': typeof AuthenticatedAnalyticsIndexRoute
@@ -272,6 +279,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
+  '/live-updates': typeof LiveUpdatesIndexRoute
   '/maintenance': typeof MaintenanceIndexRoute
   '/analytics': typeof AuthenticatedAnalyticsIndexRoute
   '/audits': typeof AuthenticatedAuditsIndexRoute
@@ -307,6 +315,7 @@ export interface FileRoutesById {
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRouteRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/live-updates/': typeof LiveUpdatesIndexRoute
   '/maintenance/': typeof MaintenanceIndexRoute
   '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRouteRouteWithChildren
   '/_authenticated/analytics/': typeof AuthenticatedAnalyticsIndexRoute
@@ -343,6 +352,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/settings'
     | '/'
+    | '/live-updates'
     | '/maintenance'
     | '/users/$userId'
     | '/analytics/'
@@ -375,6 +385,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/live-updates'
     | '/maintenance'
     | '/analytics'
     | '/audits'
@@ -409,6 +420,7 @@ export interface FileRouteTypes {
     | '/_authenticated/analytics'
     | '/_authenticated/settings'
     | '/_authenticated/'
+    | '/live-updates/'
     | '/maintenance/'
     | '/_authenticated/users/$userId'
     | '/_authenticated/analytics/'
@@ -442,6 +454,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  LiveUpdatesIndexRoute: typeof LiveUpdatesIndexRoute
   MaintenanceIndexRoute: typeof MaintenanceIndexRoute
 }
 
@@ -459,6 +472,13 @@ declare module '@tanstack/react-router' {
       path: '/maintenance'
       fullPath: '/maintenance'
       preLoaderRoute: typeof MaintenanceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live-updates/': {
+      id: '/live-updates/'
+      path: '/live-updates'
+      fullPath: '/live-updates'
+      preLoaderRoute: typeof LiveUpdatesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/': {
@@ -802,6 +822,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  LiveUpdatesIndexRoute: LiveUpdatesIndexRoute,
   MaintenanceIndexRoute: MaintenanceIndexRoute,
 }
 export const routeTree = rootRouteImport

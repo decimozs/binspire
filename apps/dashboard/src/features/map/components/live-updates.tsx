@@ -1,19 +1,20 @@
-import {
-  useRealtimeUpdatesStore,
-  useTrashbinRealtime,
-} from "@/store/realtime-store";
-import { useTelemetryStore } from "@/store/telemetry-store";
+import { authClient } from "@/lib/auth-client";
+import { useRealtimeUpdatesStore } from "@/store/realtime-store";
+import { useGetUserSettingsByUserId } from "@binspire/query";
 import { ScrollArea } from "@binspire/ui/components/scroll-area";
 
 export default function LiveUpdates() {
+  const session = authClient.useSession();
+  const currentUser = session.data?.user;
+  const { data: settings } = useGetUserSettingsByUserId(
+    currentUser?.id as string,
+  );
+
+  const currentSettings = settings?.settings;
+
   const updates = useRealtimeUpdatesStore((state) => state.updates);
-  const isTelemetryConnected = useTelemetryStore((state) => state.isConnected);
-  const realtimeTrashbins = useTrashbinRealtime((state) => state.bins);
 
-  const hasValidConnection =
-    isTelemetryConnected && Object.entries(realtimeTrashbins).length > 0;
-
-  if (!hasValidConnection) return null;
+  if (!currentSettings?.appearance.liveUpdatesOnMap) return null;
 
   return (
     <div className="flex flex-col gap-3">
@@ -28,7 +29,7 @@ export default function LiveUpdates() {
               key={index}
               className="animate-fadeIn transition-all duration-700"
             >
-              {update}
+              {update.msg}
             </div>
           ))}
         </div>

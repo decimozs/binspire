@@ -49,10 +49,11 @@ export const userSettingsTable = pgTable("user_settings", {
   userId: text("user_id")
     .references(() => usersTable.id, { onDelete: "cascade" })
     .notNull(),
-
   settings: jsonb("settings")
     .$type<UserSettingsOpts>()
-    .default({ appearance: { theme: "dark", font: "Manrope" } })
+    .default({
+      appearance: { theme: "dark", font: "Manrope", liveUpdatesOnMap: true },
+    })
     .notNull(),
   ...timestamps,
 });

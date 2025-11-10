@@ -57,6 +57,7 @@ export default function AppSidebar({
                   className="cursor-pointer"
                 >
                   <Ticket />
+                  <span>Report Issue</span>
                 </SidebarMenuButton>
               </TooltipTrigger>
               <TooltipContent side="right">

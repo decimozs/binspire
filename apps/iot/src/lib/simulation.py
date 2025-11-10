@@ -5,7 +5,7 @@ import asyncio
 import coloredlogs
 from lib.mqtt_client import MQTTClient
 from lib.db import Database
-from datetime import datetime
+from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(
@@ -99,6 +99,7 @@ async def simulate_trashbin(id, db: Database):
                     "id": trashbin["id"],
                     "name": trashbin["name"],
                     "location": trashbin["location"],
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "latitude": (
                         float(trashbin["latitude"]) if trashbin["latitude"] else None
                     ),
@@ -129,7 +130,7 @@ async def simulate_trashbin(id, db: Database):
                     "event": "battery_low",
                     "location": bin_location,
                     "battery_level": battery_level,
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "message": f"Battery critical: {battery_level}% remaining",
                 }
                 client.publish(alert_topic, json.dumps(alert_message, indent=2))
@@ -147,7 +148,7 @@ async def simulate_trashbin(id, db: Database):
                     "event": "battery_critical",
                     "location": bin_location,
                     "battery_level": battery_level,
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "message": f"Battery critical: {battery_level}% remaining",
                 }
                 client.publish(alert_topic, json.dumps(alert_message, indent=2))
@@ -163,7 +164,7 @@ async def simulate_trashbin(id, db: Database):
                 "event": "object_detected",
                 "class": detected_class,
                 "confidence": confidence,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             client.publish(detections_topic, json.dumps(detection_message))

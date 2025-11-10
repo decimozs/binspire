@@ -32,6 +32,7 @@ export type PermissionModuleKeys = keyof PermissionModules;
 export interface AppearanceOpts {
   theme: string;
   font: string;
+  liveUpdatesOnMap: boolean;
 }
 
 export interface UserSettingsOpts {

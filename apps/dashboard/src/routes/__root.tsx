@@ -1,4 +1,8 @@
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  Outlet,
+  useLocation,
+} from "@tanstack/react-router";
 import { NotFoundError } from "@/features/errors/not-found-error";
 import { GeneralError } from "@/features/errors/general-error";
 import NavigationProgress from "@/components/core/navigation-progress";
@@ -16,8 +20,12 @@ const RootLayout = () => {
 
   const isMobile = useIsMobile();
   const isTablet = useIsMobile(1024);
+  const { pathname } = useLocation();
 
-  if (isMobile || isTablet) {
+  if (
+    (isMobile && pathname !== "/live-updates") ||
+    (isTablet && pathname !== "/live-updates")
+  ) {
     return (
       <NotAvailable
         message="This page is optimized for larger screens.
