@@ -2,24 +2,22 @@ name: CI
 
 on:
   push:
-    branches:
-      - "**"
+    branches: ["main"]
   pull_request:
-    branches:
-      - main
+    types: [opened, synchronize]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v4
+
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-
-      - name: Clean build cache
-        run: bun pm cache clean
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
