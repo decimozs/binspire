@@ -28,3 +28,18 @@ export const setBinData = (id: string, data: TrashbinRealtimeData) =>
   useTrashbinRealtime.getState().setBinData(id, data);
 
 export const resetBins = () => useTrashbinRealtime.getState().resetBins();
+
+interface UpdatesState {
+  updates: string[];
+  addUpdate: (msg: string) => void;
+  clearUpdates: () => void;
+}
+
+export const useRealtimeUpdatesStore = create<UpdatesState>((set) => ({
+  updates: [],
+  addUpdate: (msg) =>
+    set((state) => ({
+      updates: [msg, ...state.updates].slice(0, 20),
+    })),
+  clearUpdates: () => set({ updates: [] }),
+}));

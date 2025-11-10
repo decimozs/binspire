@@ -16,6 +16,7 @@
     "@binspire/shared": "workspace:*",
     "@binspire/ui": "workspace:*",
     "@deck.gl/core": "^9.2.1",
+    "@deck.gl/layers": "^9.2.2",
     "@deck.gl/mapbox": "^9.2.1",
     "@deck.gl/mesh-layers": "^9.2.1",
     "@google/model-viewer": "^4.1.0",

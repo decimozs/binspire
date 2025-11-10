@@ -22,6 +22,7 @@ import { useFilterTrashbin } from "@/hooks/use-filter-trashbin";
 import { TRASHBIN_CONFIG } from "@binspire/shared";
 import AvailableCollectors from "./available-collectors";
 import MapLegend from "./map-legend";
+import LiveUpdates from "./live-updates";
 
 interface Props {
   isFullScreen?: boolean;
@@ -273,10 +274,13 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
             <AvailableCollectors />
             <MapLegend />
           </div>
-          <div className="flex flex-col gap-4 fixed right-4 bottom-4">
+          <div className="flex flex-col gap-4 fixed right-4 top-1/2 -translate-y-1/2">
             <LocateButton />
             <ResetMapStateButton />
             <ZoomControls />
+          </div>
+          <div className="fixed bottom-4 left-4">
+            <LiveUpdates />
           </div>
         </>
       )}

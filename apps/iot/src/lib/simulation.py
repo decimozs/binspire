@@ -40,7 +40,25 @@ async def simulate_trashbin(id, db: Database):
     try:
         while True:
             # 🔹 Simulate sensor data
-            waste_level = random.randint(0, 100)
+            # waste_level = random.randint(0, 2) - test overflow bins
+            # waste_level = random.randint(50, 79) - test almost-full bins
+            # waste_level = random.randint(3, 49) - default
+
+            level_type = random.choice(
+                ["empty", "low", "almost-full", "full", "overflowing"]
+            )
+
+            if level_type == "empty":
+                waste_level = random.randint(42, 53)
+            elif level_type == "low":
+                waste_level = random.randint(27, 41)
+            elif level_type == "almost-full":
+                waste_level = random.randint(11, 26)
+            elif level_type == "full":
+                waste_level = random.randint(3, 10)
+            else:
+                waste_level = random.randint(0, 2)
+
             weight_level = round(random.uniform(0, 30), 2)
             battery_level = random.randint(0, 100)
 
@@ -79,6 +97,8 @@ async def simulate_trashbin(id, db: Database):
             status_message = {
                 "trashbin": {
                     "id": trashbin["id"],
+                    "name": trashbin["name"],
+                    "location": trashbin["location"],
                     "latitude": (
                         float(trashbin["latitude"]) if trashbin["latitude"] else None
                     ),
@@ -91,6 +111,7 @@ async def simulate_trashbin(id, db: Database):
                         "batteryLevel": battery_level,
                         "urgencyScore": round(urgency_score, 2),
                         "isScheduled": urgency_score >= 0.75,
+                        "levelType": level_type,
                     },
                 },
             }
@@ -99,12 +120,14 @@ async def simulate_trashbin(id, db: Database):
             logger.info(f"{id}: Published status message to topic '{status_topic}'")
 
             if battery_level <= BATTERY_LOW_THRESHOLD:
-                bin_name = trashbin.get("name", f"Bin {id}")
+                bin_name = trashbin["name"]
+                bin_location = trashbin["location"]
 
                 alert_message = {
                     "bin_id": id,
                     "name": bin_name,
                     "event": "battery_low",
+                    "location": bin_location,
                     "battery_level": battery_level,
                     "timestamp": datetime.utcnow().isoformat(),
                     "message": f"Battery critical: {battery_level}% remaining",
@@ -115,12 +138,14 @@ async def simulate_trashbin(id, db: Database):
                 )
 
             if battery_level <= BATTERY_CRITICAL_THRESHOLD:
-                bin_name = trashbin.get("name", f"Bin {id}")
+                bin_name = trashbin["name"]
+                bin_location = trashbin["location"]
 
                 alert_message = {
                     "bin_id": id,
                     "name": bin_name,
                     "event": "battery_critical",
+                    "location": bin_location,
                     "battery_level": battery_level,
                     "timestamp": datetime.utcnow().isoformat(),
                     "message": f"Battery critical: {battery_level}% remaining",

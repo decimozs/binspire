@@ -2,7 +2,11 @@ import { useEffect, useState, type ReactNode } from "react";
 import { MqttContext } from "./mqtt-context";
 import type { MqttClient } from "mqtt";
 import { createMqttClient } from "@/lib/mqtt_client";
-import { resetBins, setBinData } from "@/store/realtime-store";
+import {
+  resetBins,
+  setBinData,
+  useRealtimeUpdatesStore,
+} from "@/store/realtime-store";
 import { setConnected } from "@/store/telemetry-store";
 import { ShowToast } from "@/components/core/toast-notification";
 import { authClient } from "@/lib/auth-client";
@@ -21,6 +25,7 @@ export function MqttProvider({ children }: Props) {
   const [messages, setMessages] = useState<Record<string, string>>({});
   const shownCollectionToasts = new Set<string>();
   const queryClient = useQueryClient();
+  const { addUpdate } = useRealtimeUpdatesStore.getState();
 
   useEffect(() => {
     const mqttClient = createMqttClient();
@@ -50,10 +55,10 @@ export function MqttProvider({ children }: Props) {
             if (server === "offline") {
               setConnected(false);
               resetBins();
-              ShowToast("warning", "Telemetry disconnected.", "bottom-left");
+              ShowToast("warning", "Telemetry disconnected.");
             } else {
               setConnected(true);
-              ShowToast("success", "Telemetry connected.", "bottom-left");
+              ShowToast("success", "Telemetry connected.");
             }
             return;
           }
@@ -80,26 +85,26 @@ export function MqttProvider({ children }: Props) {
             topic.endsWith("/alerts") &&
             window.location.pathname.startsWith("/map")
           ) {
-            const { event, name } = message;
+            const { event, name, location, battery_level } = message;
 
             if (event === "battery_low") {
-              ShowToast("warning", `${name} battery is low.`, "bottom-left");
+              const msg = `Low battery detected for ${name} (${battery_level}%) at ${location}.`;
+              addUpdate(msg);
             }
 
             if (event === "battery_critical") {
-              ShowToast("error", `${name} battery is critical.`, "bottom-left");
+              const msg = `Critical battery detected for ${name} (${battery_level}%) at ${location}.`;
+              addUpdate(msg);
             }
 
             if (event === "almost-full") {
-              ShowToast("warning", `${name} is almost full.`, "bottom-left");
+              const msg = `${name} is almost full.`;
+              addUpdate(msg);
             }
 
             if (event === "full") {
-              ShowToast("error", `${name} is full.`, "bottom-left");
-            }
-
-            if (event === "overflowing") {
-              ShowToast("error", `${name} is overflowing.`, "bottom-left");
+              const msg = `${name} is full.`;
+              addUpdate(msg);
             }
 
             return;
@@ -116,9 +121,7 @@ export function MqttProvider({ children }: Props) {
               ShowToast(
                 "success",
                 `${name} collected at ${location}`,
-                window.location.pathname.startsWith("/map")
-                  ? "bottom-left"
-                  : "bottom-right",
+                "bottom-right",
                 true,
                 { key, url },
               );
@@ -187,11 +190,40 @@ export function MqttProvider({ children }: Props) {
           }
 
           const match = topic.match(/^trashbin\/([^/]+)\/status$/);
+
           if (!match) return;
 
           const id = match[1];
-          const { status } = message.trashbin;
+          const { status, name, location } = message.trashbin;
 
+          const MAX_DISTANCE = 53;
+          const fillLevel = Math.max(
+            0,
+            Math.min(
+              100,
+              ((MAX_DISTANCE - status.wasteLevel) / MAX_DISTANCE) * 100,
+            ),
+          ).toFixed(0);
+
+          let msg: string = "";
+
+          if (status.levelType === "empty") {
+            msg = `${name} is currently empty at ${location}. No collection needed.`;
+          } else if (status.levelType === "low") {
+            msg = `${name} has a low waste level (${fillLevel}%) at ${location}. Monitoring recommended.`;
+          } else if (status.levelType === "almost-full") {
+            msg = `${name} is almost full (${fillLevel}%) at ${location}. Schedule collection soon.`;
+          } else if (status.levelType === "full") {
+            msg = `${name} is full (${fillLevel}%) at ${location}. Immediate collection advised.`;
+          } else if (status.levelType === "overflowing") {
+            msg = `${name} is overflowing (${fillLevel}%) at ${location}. Urgent collection required!`;
+          }
+
+          if (status.weightLevel >= 25) {
+            msg += ` Current weight is ${status.weightLevel} kg, check for overload.`;
+          }
+
+          addUpdate(msg);
           setBinData(id, status);
           setMessages(message);
         } catch (e) {
