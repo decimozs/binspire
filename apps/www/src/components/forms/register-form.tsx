@@ -78,7 +78,13 @@ export default function RegisterForm({ id, email }: UserInvitation) {
 
         await UserSettingsApi.create({
           userId: newUser.user.id,
-          settings: { appearance: { theme: "dark", font: "manrope" } },
+          settings: {
+            appearance: {
+              theme: "dark",
+              font: "manrope",
+              liveUpdatesOnMap: true,
+            },
+          },
         });
 
         await UserInvitationsApi.update(id, {
