@@ -1,8 +1,10 @@
 import { exec } from "child_process";
 import { AuditService } from "./audit";
+import fs from "fs";
+import { supabase } from "@/features/supabase";
 
 interface IBackupService {
-  create(userId: string, orgId: string): Promise<string>;
+  create(userId: string, orgId: string): Promise<{ url: string }>;
   restore(dumpFile: string, userId: string, orgId: string): Promise<unknown>;
 }
 
@@ -12,33 +14,42 @@ export class BackupService implements IBackupService {
   async create(userId: string, orgId: string) {
     const dumpFile = `binspire-backup-${Date.now()}.bak`;
 
-    const backup = new Promise<string>((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       exec(
         `pg_dump -Fc -v -d "${Bun.env.DATABASE_URL}" -f ${dumpFile}`,
         (err) => {
           if (err) reject(err);
-          else resolve(dumpFile);
+          else resolve();
         },
       );
     });
 
-    if (!backup) {
-      throw new Error("Backup failed");
-    }
+    const fileData = fs.readFileSync(dumpFile);
+    const { error } = await supabase.storage
+      .from("binspire_bucket")
+      .upload(dumpFile, fileData, {
+        contentType: "application/octet-stream",
+        upsert: true,
+      });
+
+    if (error) throw error;
+
+    const { data: urlData } = supabase.storage
+      .from("binspire_bucket")
+      .getPublicUrl(dumpFile);
+
+    fs.unlinkSync(dumpFile);
 
     await this.auditLogger.create({
       orgId,
       userId,
-      title: `Database Backup Created`,
+      title: "Database Backup Created",
       entity: "settingsManagement",
       action: "create",
-      changes: {
-        before: {},
-        after: { dumpFile },
-      },
+      changes: { before: {}, after: { dumpFile, url: urlData.publicUrl } },
     });
 
-    return backup;
+    return { url: urlData.publicUrl };
   }
 
   async restore(dumpFile: string, userId: string, orgId: string) {

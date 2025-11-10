@@ -49,7 +49,16 @@ export function CreateBackup() {
         };
 
         await verifyPassword.mutateAsync(data);
-        await createBackup.mutateAsync();
+        const result = await createBackup.mutateAsync();
+
+        if (result?.url) {
+          const a = document.createElement("a");
+          a.href = result.url;
+          a.download = "";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
 
         ShowToast("success", "Backup created successfully");
 
