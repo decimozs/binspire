@@ -1,1 +1,1 @@
-bun run prepush
+bun run pre-commit
