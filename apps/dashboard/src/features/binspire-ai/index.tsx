@@ -59,6 +59,11 @@ import {
 import { useRef } from "react";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@binspire/ui/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@binspire/ui/components/tooltip";
 
 const token = import.meta.env.VITE_GITHUB_TOKEN;
 const endpoint = "https://models.github.ai/inference";
@@ -279,11 +284,18 @@ export default function BinspireAI() {
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-9 text-primary">
-          <Sparkle />
-        </Button>
-      </SheetTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-9 text-primary">
+              <Sparkle />
+            </Button>
+          </SheetTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          <p className="font-bold">Binspire AI</p>
+        </TooltipContent>
+      </Tooltip>
 
       <SheetContent className="min-w-[800px] flex flex-col">
         <SheetHeader>

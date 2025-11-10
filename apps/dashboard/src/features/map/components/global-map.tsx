@@ -3,7 +3,6 @@ import { useNavigate } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import Map, { useControl, type ViewState } from "react-map-gl/maplibre";
 import ZoomControls from "./zoom-controls";
-import LocateButton from "./locate-button";
 import { useEffect, useMemo, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import ResetMapStateButton from "./reset-map-state-button";
@@ -285,7 +284,6 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
             </div>
           ) : (
             <div className="flex flex-col gap-4 fixed right-4 top-1/2 -translate-y-1/2">
-              <LocateButton />
               <MonitoringMode />
               <ResetMapStateButton />
               <ZoomControls />

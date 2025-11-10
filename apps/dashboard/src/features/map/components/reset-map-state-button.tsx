@@ -3,6 +3,11 @@ import { useGetOrganizationSettingsById } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import { ScanEye } from "lucide-react";
 import { useMap } from "react-map-gl/maplibre";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@binspire/ui/components/tooltip";
 
 export default function ResetMapStateButton() {
   const { current: map } = useMap();
@@ -30,8 +35,15 @@ export default function ResetMapStateButton() {
   };
 
   return (
-    <Button variant="ghost" size="sm" onClick={handleResetMapState}>
-      <ScanEye />
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="ghost" size="sm" onClick={handleResetMapState}>
+          <ScanEye />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent side="left">
+        <p className="font-bold">Reset View</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }

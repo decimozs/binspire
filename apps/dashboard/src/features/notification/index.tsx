@@ -19,6 +19,11 @@ import {
   EmptyTitle,
 } from "@binspire/ui/components/empty";
 import { formatDistanceToNow } from "date-fns";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@binspire/ui/components/tooltip";
 
 export interface NotificationItem {
   id: number;
@@ -92,21 +97,28 @@ export default function Notification() {
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-9 relative"
-          onClick={handleBellClick}
-        >
-          <Bell />
-          {notifications.some((n) => !n.isRead) && (
-            <span className="absolute -top-0.5 -right-0.5 bg-red-500 rounded-full font-bold text-[9px] flex items-center justify-center size-4">
-              <p>{notifications.filter((n) => !n.isRead).length}</p>
-            </span>
-          )}
-        </Button>
-      </SheetTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 relative"
+              onClick={handleBellClick}
+            >
+              <Bell />
+              {notifications.some((n) => !n.isRead) && (
+                <span className="absolute -top-0.5 -right-0.5 bg-red-500 rounded-full font-bold text-[9px] flex items-center justify-center size-4">
+                  <p>{notifications.filter((n) => !n.isRead).length}</p>
+                </span>
+              )}
+            </Button>
+          </SheetTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          <p className="font-bold">Notifications</p>
+        </TooltipContent>
+      </Tooltip>
       <SheetContent className="min-w-[600px]">
         <SheetHeader>
           <SheetTitle>Notifications</SheetTitle>

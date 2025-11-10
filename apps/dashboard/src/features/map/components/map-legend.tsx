@@ -7,15 +7,27 @@ import {
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
 import { Button } from "@binspire/ui/components/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@binspire/ui/components/tooltip";
 
 export default function MapLegend() {
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger asChild>
-        <Button size="sm" variant="ghost">
-          <Layers2 />
-        </Button>
-      </DropdownMenuTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenuTrigger asChild>
+            <Button size="sm" variant="ghost">
+              <Layers2 />
+            </Button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="left">
+          <p className="font-bold">Legend</p>
+        </TooltipContent>
+      </Tooltip>
       <DropdownMenuContent
         align="start"
         side="right"

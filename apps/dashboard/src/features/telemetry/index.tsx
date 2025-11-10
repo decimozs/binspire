@@ -22,6 +22,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@binspire/ui/components/empty";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@binspire/ui/components/tooltip";
 
 export default function Telemetry() {
   const updates = useRealtimeUpdatesStore((state) => state.updates);
@@ -33,11 +38,19 @@ export default function Telemetry() {
 
   return (
     <Sheet modal={false}>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-9 relative">
-          <Telescope />
-        </Button>
-      </SheetTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-9 relative">
+              <Telescope />
+            </Button>
+          </SheetTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          <p className="font-bold">Telemetry</p>
+        </TooltipContent>
+      </Tooltip>
+
       <SheetContent
         className="min-w-[600px]"
         onInteractOutside={(e) => e.preventDefault()}

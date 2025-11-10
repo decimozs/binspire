@@ -24,6 +24,11 @@ import {
 } from "@binspire/ui/components/sheet";
 import { Skeleton } from "@binspire/ui/components/skeleton";
 import { Blend } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@binspire/ui/components/tooltip";
 
 export default function FilterTrashbin() {
   const { data, isPending } = useGetAllTrashbins();
@@ -122,11 +127,19 @@ export default function FilterTrashbin() {
 
   return (
     <Sheet modal={false}>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <Blend />
-        </Button>
-      </SheetTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="sm">
+              <Blend />
+            </Button>
+          </SheetTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="left">
+          <p className="font-bold">Filter</p>
+        </TooltipContent>
+      </Tooltip>
+
       <SheetContent side="left" onInteractOutside={(e) => e.preventDefault()}>
         <SheetHeader>
           <SheetTitle>Filter Trashbins</SheetTitle>

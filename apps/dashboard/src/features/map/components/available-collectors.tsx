@@ -42,6 +42,11 @@ import {
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
 import { usePermissionStore } from "@/store/permission-store";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@binspire/ui/components/tooltip";
 
 export default function AvailableCollectors() {
   const { permission } = usePermissionStore();
@@ -141,15 +146,22 @@ export default function AvailableCollectors() {
       }}
       modal={false}
     >
-      <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleOpenAvailableCollectors}
-        >
-          <CalendarPlus />
-        </Button>
-      </SheetTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleOpenAvailableCollectors}
+            >
+              <CalendarPlus />
+            </Button>
+          </SheetTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="left">
+          <p className="font-bold">Available Collectors</p>
+        </TooltipContent>
+      </Tooltip>
       <SheetContent
         className="min-w-[500px]"
         onInteractOutside={(e) => e.preventDefault()}
