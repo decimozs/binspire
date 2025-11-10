@@ -78,7 +78,7 @@ export default function DashboardHeader() {
             <Skeleton className="h-5 w-30" />
           ) : (
             <div
-              className={`flex flex-row items-center gap-2 font-bold text-xs px-3 py-1 rounded-md w-fit
+              className={`flex flex-row items-center gap-2 font-bold text-xs px-3 py-1 rounded-md w-fit shadow-sm
       ${
         maintenanceMode.data?.isInMaintenance
           ? "bg-yellow-500/30 text-yellow-100"
