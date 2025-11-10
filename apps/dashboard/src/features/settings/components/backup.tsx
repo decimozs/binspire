@@ -163,15 +163,38 @@ export default function BackupSettings() {
 
         <div className="flex flex-col gap-2">
           <p>Restore Data</p>
+          <WarningSign
+            message="Expiremental may not work reliably."
+            iconSize={20}
+            iconClassName="mt-0.5"
+          />
           <RestoreBackup />
           <p className="text-sm text-muted-foreground">
             Upload a previously downloaded backup file to restore your system.
+          </p>
+          <p className="text-sm">Another option for restoring data</p>
+          <a
+            href="https://docs.binspire.space/docs/guides/backup"
+            className="w-full"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant="outline" size="lg" className="w-full">
+              Read Documentation
+            </Button>
+          </a>
+          <p className="text-sm text-muted-foreground">
+            Learn more about backup restoration in manual way.
           </p>
         </div>
 
         <div className="flex flex-col gap-2">
           <p>Cloud Integration</p>
-          <WarningSign message="Cloud integration is not available for now." />
+          <WarningSign
+            message="Cloud integration is not available for now."
+            iconSize={20}
+            iconClassName="mt-0.5"
+          />
           <Button size="lg" variant="secondary" type="button" disabled>
             Connect
           </Button>

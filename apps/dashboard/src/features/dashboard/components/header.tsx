@@ -113,7 +113,7 @@ export default function DashboardHeader() {
         </div>
         <div className="flex items-center gap-5">
           <Search />
-          <div className="ml-3 flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <LayoutButton />
             <ThemeToggle />
             <Telemetry />

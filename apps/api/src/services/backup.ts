@@ -2,6 +2,7 @@ import { exec } from "child_process";
 import { AuditService } from "./audit";
 import fs from "fs";
 import { supabase } from "@/features/supabase";
+import path from "path";
 
 interface IBackupService {
   create(userId: string, orgId: string): Promise<{ url: string }>;
@@ -16,7 +17,7 @@ export class BackupService implements IBackupService {
 
     await new Promise<void>((resolve, reject) => {
       exec(
-        `pg_dump -Fc -v -d "${Bun.env.DATABASE_URL}" -f ${dumpFile}`,
+        `pg_dump -Fc -v -d "${Bun.env.TEST_DATABASE_URL}" -f ${dumpFile}`,
         (err) => {
           if (err) reject(err);
           else resolve();
@@ -26,7 +27,7 @@ export class BackupService implements IBackupService {
 
     const fileData = fs.readFileSync(dumpFile);
     const { error } = await supabase.storage
-      .from("binspire_bucket")
+      .from("binspire_bucket/backups")
       .upload(dumpFile, fileData, {
         contentType: "application/octet-stream",
         upsert: true,
@@ -35,7 +36,7 @@ export class BackupService implements IBackupService {
     if (error) throw error;
 
     const { data: urlData } = supabase.storage
-      .from("binspire_bucket")
+      .from("binspire_bucket/backups")
       .getPublicUrl(dumpFile);
 
     fs.unlinkSync(dumpFile);
@@ -52,34 +53,35 @@ export class BackupService implements IBackupService {
     return { url: urlData.publicUrl };
   }
 
-  async restore(dumpFile: string, userId: string, orgId: string) {
-    const data = new Promise((resolve, reject) => {
+  async restore(base64DataUrl: string, userId: string, orgId: string) {
+    const parts = base64DataUrl.split(",");
+    if (parts.length !== 2) {
+      throw new Error("Invalid base64 data URL format.");
+    }
+
+    const base64Data = parts[1];
+
+    const fileBuffer = Buffer.from(base64Data!, "base64");
+
+    const dumpFileName = `restore_${userId}_${Date.now()}.dump`;
+    const localFilePath = path.resolve(`/tmp/${dumpFileName}`);
+
+    await fs.promises.writeFile(localFilePath, fileBuffer);
+
+    await new Promise<void>((resolve, reject) => {
       exec(
-        `pg_restore -v -d "${Bun.env.DATABASE_URL}" ${dumpFile}`,
-        (error, stdout, stderr) => {
-          if (error) return reject(error);
-          if (stderr) console.error(`Stderr: ${stderr}`);
-          resolve(`Database restored from ${dumpFile}`);
+        `pg_restore -v -d "${process.env.TEST_DATABASE_URL}" "${localFilePath}"`,
+        (err, stdout, stderr) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve();
         },
       );
     });
 
-    if (!data) {
-      throw new Error("Restore failed");
-    }
+    await fs.promises.unlink(localFilePath);
 
-    await this.auditLogger.create({
-      orgId,
-      userId,
-      title: `Database Restored`,
-      entity: "settingsManagement",
-      action: "restore",
-      changes: {
-        before: {},
-        after: { dumpFile },
-      },
-    });
-
-    return data;
+    return dumpFileName;
   }
 }

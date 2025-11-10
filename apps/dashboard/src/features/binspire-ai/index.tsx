@@ -287,8 +287,24 @@ export default function BinspireAI() {
       <Tooltip>
         <TooltipTrigger asChild>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-9 text-primary">
-              <Sparkle />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="
+    relative 
+    inline-flex 
+    w-9 h-9 
+    rounded-full 
+    bg-gradient-to-r from-blue-500 via-green-500 to-primary 
+    bg-[length:200%_200%] animate-gradient-move 
+    items-center justify-center
+    transition-all
+    hover:opacity-90 disabled:opacity-60
+    shadow-none
+    animate-colored-shadow
+  "
+            >
+              <Sparkle className="w-5 h-5 text-white" />
             </Button>
           </SheetTrigger>
         </TooltipTrigger>
