@@ -33,7 +33,7 @@ export default function RecentActivityTabs({ data }: Props) {
           size="sm"
           onClick={() =>
             navigate({
-              to: `/users/$userId?sort=${sortParam}`,
+              to: `/users/${data.id}?sort=${sortParam}`,
               params: { userId: data.id },
             })
           }
