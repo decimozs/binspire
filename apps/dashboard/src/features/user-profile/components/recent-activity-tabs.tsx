@@ -11,6 +11,10 @@ export default function RecentActivityTabs({ data }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const sortParam = encodeURIComponent(
+    JSON.stringify([{ id: "updatedAt", desc: true }]),
+  );
+
   return (
     <>
       <div className="flex flex-col gap-3">
@@ -29,7 +33,7 @@ export default function RecentActivityTabs({ data }: Props) {
           size="sm"
           onClick={() =>
             navigate({
-              to: "/users/$userId",
+              to: `/users/$userId?sort=${sortParam}`,
               params: { userId: data.id },
             })
           }
@@ -48,7 +52,7 @@ export default function RecentActivityTabs({ data }: Props) {
           size="sm"
           onClick={() =>
             navigate({
-              to: "/users/$userId/user-audit-logs",
+              to: `/users/$userId/user-audit-logs?sort=${sortParam}`,
               params: { userId: data.id },
             })
           }
