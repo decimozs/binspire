@@ -1,49 +1,37 @@
 import os
-import random
 import sys
 import time
 import json
+import random
 import cv2
 import numpy as np
 import pigpio
+import asyncio
 from datetime import datetime, timezone
 from ultralytics import YOLO
 from dotenv import load_dotenv
-from sonic import measure_distance  # ultrasonic
+from sonic import measure_distance
 from bat import get_battery_status
+import argparse
 
-# ---------------- ENVIRONMENT SETUP ----------------
+# ---------------- ENVIRONMENT ----------------
 load_dotenv("/home/kalabaw/yolo/.env")
 load_dotenv("/home/kalabaw/yolo/binspire-iot/.env")
-
 sys.path.append(os.path.join(os.path.dirname(__file__), "binspire-iot", "src"))
 from lib.mqtt_client import MQTTClient
 from lib.supabase import upload_detection_image
-
-waste_level_topic = f"trashbin/{id}/waste_level"
-weight_level_topic = f"trashbin/{id}/weight_level"
-detections_topic = f"trashbin/{id}/detections"
-battery_level_topic = f"trashbin/{id}/battery_level"
-alert_topic = f"trashbin/{id}/alerts"
-
 
 # ---------------- SERVO CONFIG ----------------
 SERVO_PIN = 18
 MIN_PULSE, MAX_PULSE = 700, 2300
 SERVO_OPEN, SERVO_CLOSE = 0, 125
-OPEN_TIME = 5  # seconds lid stays open
-COOLDOWN = 5  # seconds between detections
+OPEN_TIME = 5
+COOLDOWN = 5
 
+# ---------------- MQTT ----------------
+mqtt = MQTTClient(client_id="yolo_detector")
 
-def publish_server_status(status: str):
-    """Helper to publish server online/offline status"""
-    mqtt_client = MQTTClient(client_id="server_status")
-    mqtt_client.connect()
-    mqtt_client.publish("server/status", f'{{"server": "{status}"}}')
-    time.sleep(5)
-    mqtt_client.disconnect()
-
-
+# ---------------- PIGPIO ----------------
 pi = pigpio.pi()
 if not pi.connected:
     print("ERROR: Start pigpio with 'sudo pigpiod'")
@@ -57,32 +45,43 @@ def set_servo(angle):
 
 
 def move_servo(start, end, step=10, delay=0.02):
-    if start < end:
-        angles = np.arange(start, end + step, step)
-    else:
-        angles = np.arange(start, end - step, -step)
+    angles = np.arange(
+        start, end + step if start < end else end - step, step if start < end else -step
+    )
     for angle in angles:
         set_servo(int(angle))
         time.sleep(delay)
     set_servo(int(end))
 
 
-def open_lid():
+async def open_lid():
     print("[SERVO] Opening lid")
-    move_servo(SERVO_CLOSE, SERVO_OPEN)
+    await asyncio.to_thread(move_servo, SERVO_CLOSE, SERVO_OPEN)
 
 
-def close_lid():
+async def close_lid():
     print("[SERVO] Closing lid")
-    move_servo(SERVO_OPEN, SERVO_CLOSE)
+    await asyncio.to_thread(move_servo, SERVO_OPEN, SERVO_CLOSE)
     hold_pulse = MIN_PULSE + (SERVO_CLOSE / 180.0) * (MAX_PULSE - MIN_PULSE)
-    pi.set_servo_pulsewidth(SERVO_PIN, hold_pulse)
+    pi.set_servo_pulsewidth(hold_pulse)
     print("[SERVO] Lid closed")
 
 
-# ---------------- ARGUMENTS ----------------
-import argparse
+async def publish_server_status(status: str):
+    """Publish server status using the persistent MQTT client"""
+    try:
+        mqtt.publish("server/status", json.dumps({"server": status}))
+    except Exception as e:
+        print(f"[ERROR] Server status failed: {e}")
 
+
+async def periodic_server_status(interval=60):
+    while True:
+        await publish_server_status("online")
+        await asyncio.sleep(interval)
+
+
+# ---------------- ARGUMENTS ----------------
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", required=True)
 parser.add_argument("--source", required=True)
@@ -91,72 +90,63 @@ parser.add_argument("--thresh", type=float, default=0.5)
 parser.add_argument("--headless", action="store_true")
 args = parser.parse_args()
 
+resW, resH = map(int, args.resolution.split("x"))
+
+
+# ---------------- CAMERA ----------------
+async def init_camera():
+    global get_frame, cam
+    if "picamera" in args.source:
+        from picamera2 import Picamera2
+        from libcamera import Transform
+
+        cam = Picamera2()
+        cam.configure(
+            cam.create_video_configuration(
+                main={"format": "XRGB8888", "size": (resW, resH)},
+                transform=Transform(vflip=1),
+            )
+        )
+        cam.start()
+        await asyncio.sleep(2)
+        get_frame = lambda: cv2.cvtColor(cam.capture_array(), cv2.COLOR_BGRA2BGR)
+    elif "usb" in args.source:
+        idx = int(args.source[3:])
+        cam = cv2.VideoCapture(idx)
+        cam.set(3, resW)
+        cam.set(4, resH)
+        get_frame = lambda: cam.read()[1]
+    else:
+        print("Unsupported source. Use 'picamera0' or 'usb0'")
+        sys.exit(1)
+
+
 # ---------------- YOLO MODEL ----------------
 model = YOLO(args.model)
 labels = model.names
 print(f"[INFO] Model loaded: {args.model}")
 
-# ---------------- MQTT SETUP ----------------
-mqtt = MQTTClient(client_id="yolo_detector")
-mqtt.connect()
-print("[INFO] MQTT connected")
-publish_server_status("online")
-
-# ---------------- CAMERA SOURCE ----------------
-resW, resH = map(int, args.resolution.split("x"))
-
-if "picamera" in args.source:
-    from picamera2 import Picamera2
-    from libcamera import Transform
-
-    cam = Picamera2()
-    cam.configure(
-        cam.create_video_configuration(
-            main={"format": "XRGB8888", "size": (resW, resH)},
-            transform=Transform(vflip=1),
-        )
-    )
-    cam.start()
-    time.sleep(2)
-    get_frame = lambda: cv2.cvtColor(cam.capture_array(), cv2.COLOR_BGRA2BGR)
-
-elif "usb" in args.source:
-    idx = int(args.source[3:])
-    cap = cv2.VideoCapture(idx)
-    cap.set(3, resW)
-    cap.set(4, resH)
-    get_frame = lambda: cap.read()[1]
-
-else:
-    print("Unsupported source. Use 'picamera0' or 'usb0'")
-    sys.exit(1)
-
-# ---------------- MAIN LOOP ----------------
+# ---------------- MAIN TASKS ----------------
 lid_open = False
 last_detection_time = 0
 lid_timer_start = None
-
 last_measure_time = 0
-MEASURE_INTERVAL = 30  # seconds for ultrasonic + battery
+MEASURE_INTERVAL = 30
 
-close_lid()
-print("[INFO] Continuous detection loop started...")
 
-try:
+async def yolo_detection_loop():
+    global lid_open, last_detection_time, lid_timer_start
     while True:
         frame = get_frame()
         if frame is None:
-            time.sleep(0.5)
+            await asyncio.sleep(0.5)
             continue
 
         now = time.time()
-
-        # --- YOLO DETECTION ---
         results = model(frame, verbose=False)
         detections = results[0].boxes
         object_found = False
         classname, conf = None, 0
-
         for det in detections:
             conf = det.conf.item()
             if conf < args.thresh:
@@ -165,49 +155,45 @@ try:
             object_found = True
             break
 
-        # --- LID CONTROL & DETECTION ---
         if object_found and (now - last_detection_time > COOLDOWN) and not lid_open:
             last_detection_time = now
             lid_open = True
             lid_timer_start = now
-            open_lid()
-
-            # Encode & upload image
+            await open_lid()
             _, buffer = cv2.imencode(".jpg", frame)
             url = upload_detection_image(
                 buffer.tobytes(), classname, conf, datetime.now().isoformat()
             )
-            print("[SUPABASE]", "Upload success" if url else "Upload failed")
-
-            # Prepare MQTT message including URL
             data = {
                 "class": classname,
                 "confidence": round(conf, 2),
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "imageUrl": url,  # <-- include the Supabase URL
+                "imageUrl": url,
             }
             mqtt.publish("trashbin/EN7MIZC5jw_CJHPzffRRV/detections", json.dumps(data))
-            print(f"[MQTT] Published: {data}")
+            print(f"[MQTT] Published detection: {data}")
 
         if lid_open and lid_timer_start and (now - lid_timer_start > OPEN_TIME):
-            close_lid()
+            await close_lid()
             lid_open = False
             lid_timer_start = None
 
-        # --- ULTRASONIC + BATTERY EVERY 30 SECONDS ---
+        if not args.headless:
+            cv2.imshow("YOLO Detection", frame)
+            if cv2.waitKey(1) & 0xFF == ord("q"):
+                break
+        await asyncio.sleep(0.01)
+
+
+async def sensor_loop():
+    global last_measure_time
+    while True:
+        now = time.time()
         if now - last_measure_time > MEASURE_INTERVAL:
             last_measure_time = now
             weight_level = round(random.uniform(0, 30), 2)
-
-            weight_level_message = {
-                "weightLevel": weight_level,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-
-            # Ultrasonic
             dist = measure_distance()
             if dist is not None:
-                print(f"[ULTRASONIC] Current level: {dist:.2f} cm")
                 mqtt.publish(
                     "trashbin/EN7MIZC5jw_CJHPzffRRV/waste_level",
                     json.dumps(
@@ -217,7 +203,6 @@ try:
                         }
                     ),
                 )
-
                 mqtt.publish(
                     "trashbin/EN7MIZC5jw_CJHPzffRRV/weight_level",
                     json.dumps(
@@ -227,11 +212,11 @@ try:
                         }
                     ),
                 )
+                print(f"[ULTRASONIC] Level: {dist:.2f} cm, Weight: {weight_level}")
             else:
                 print("[ULTRASONIC] No reading")
 
-            # Battery
-            battery = get_battery_status()  # returns dict with voltage/current/power
+            battery = get_battery_status()
             mqtt.publish(
                 "trashbin/EN7MIZC5jw_CJHPzffRRV/battery_level",
                 json.dumps(
@@ -245,24 +230,33 @@ try:
                 ),
             )
             print(f"[BATTERY] {battery}")
+        await asyncio.sleep(1)
 
-        # --- DISPLAY ---
-        if not args.headless:
-            cv2.imshow("YOLO Detection", frame)
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                break
 
-except KeyboardInterrupt:
-    print("\n[INFO] Interrupted by user")
+async def main():
+    mqtt.connect()  # Connect once
+    print("[INFO] MQTT connected")
+    await publish_server_status("online")
+    await init_camera()
+    await asyncio.gather(
+        periodic_server_status(interval=60),
+        yolo_detection_loop(),
+        sensor_loop(),
+    )
 
-finally:
-    print("[INFO] Cleaning up...")
-    pi.set_servo_pulsewidth(SERVO_PIN, 0)
-    mqtt.disconnect()
-    publish_server_status("offline")
-    if "usb" in args.source:
-        cap.release()
-    elif "picamera" in args.source:
-        cam.stop()
-    cv2.destroyAllWindows()
-    print("[INFO] Shutdown complete.")
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("[INFO] Interrupted by user")
+    finally:
+        pi.set_servo_pulsewidth(SERVO_PIN, 0)
+        mqtt.disconnect()
+        asyncio.run(publish_server_status("offline"))
+        if "usb" in args.source:
+            cam.release()
+        elif "picamera" in args.source:
+            cam.stop()
+        cv2.destroyAllWindows()
+        print("[INFO] Shutdown complete.")

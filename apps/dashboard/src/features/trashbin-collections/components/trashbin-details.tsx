@@ -11,7 +11,7 @@ export function TrashbinStatus({
   label: string;
   value: number;
   unit?: string;
-  type: "waste-level" | "weight-level" | "battery-level";
+  type: "waste-level" | "weight-level" | "battery-level" | "solar-power";
   enabledColumn?: boolean;
 }) {
   return (

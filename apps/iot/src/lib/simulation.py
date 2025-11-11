@@ -174,7 +174,6 @@ async def simulate_trashbin(id, db: Database):
             detected_class = random.choice(WASTE_CLASSES)
             confidence = round(random.uniform(0.2, 0.99), 2)
             detection_message = {
-                "event": "object_detected",
                 "class": detected_class,
                 "confidence": confidence,
                 "timestamp": datetime.now(timezone.utc).isoformat(),

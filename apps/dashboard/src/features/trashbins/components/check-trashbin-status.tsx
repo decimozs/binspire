@@ -13,6 +13,7 @@ import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import { useTrashbinRealtime } from "@/store/realtime-store";
 import { TrashbinStatus } from "@/features/trashbin-collections/components/trashbin-details";
 import { useState } from "react";
+import { getColor } from "@/lib/utils";
 
 interface Props {
   id: string;
@@ -42,6 +43,8 @@ export default function CheckTrashbinStatus({ id }: Props) {
     Math.min(100, ((MAX_DISTANCE - wasteLevel) / MAX_DISTANCE) * 100),
   );
 
+  const clampedSolarPower = Math.min(100, Math.max(0, solarPowerLevel));
+
   return (
     <Sheet open={statusOpen} onOpenChange={setStatusOpen} modal={false}>
       <SheetTrigger asChild>
@@ -68,9 +71,16 @@ export default function CheckTrashbinStatus({ id }: Props) {
                 { role: "Remaining", count: 100 - fillLevel },
               ]}
               config={{
-                Filled: { label: "Filled", color: "var(--chart-1)" },
-                Remaining: { label: "Remaining", color: "var(--chart-4)" },
+                Filled: {
+                  label: "Filled",
+                  color: getColor("waste-level", fillLevel),
+                },
+                Remaining: {
+                  label: "Remaining",
+                  color: getColor("waste-level", 0),
+                },
               }}
+              level={String(fillLevel.toFixed(0))}
               dataKey="count"
               nameKey="role"
               footerSubText={`${fillLevel}%`}
@@ -88,21 +98,28 @@ export default function CheckTrashbinStatus({ id }: Props) {
             <TrashbinRadialStatus
               title="Weight Level"
               description="Current Weight (kg)"
+              level={String(weightLevel.toFixed(0))}
               data={[
                 { role: "Weight", count: weightLevel },
                 { role: "Remaining", count: Math.max(0, 30 - weightLevel) },
               ]}
               config={{
-                Weight: { label: "Weight", color: "var(--chart-1)" },
-                Remaining: { label: "Remaining", color: "var(--chart-4)" },
+                Weight: {
+                  label: "Weight",
+                  color: getColor("weight-level", weightLevel),
+                },
+                Remaining: {
+                  label: "Remaining",
+                  color: getColor("weight-level", 0),
+                },
               }}
               dataKey="count"
               nameKey="role"
-              footerSubText={`${weightLevel.toFixed(2)} kg`}
+              footerSubText={`${weightLevel.toFixed(0)} kg`}
               badge={
                 <TrashbinStatus
                   label="Weight Level"
-                  value={weightLevel}
+                  value={Number(weightLevel.toFixed(0))}
                   unit="kg"
                   type="weight-level"
                   enabledColumn={true}
@@ -113,13 +130,17 @@ export default function CheckTrashbinStatus({ id }: Props) {
             <TrashbinRadialStatus
               title="Battery Level"
               description="Battery Percentage"
+              level={String(batteryLevel.toFixed(0))}
               data={[
                 { role: "Battery", count: batteryLevel },
                 { role: "Used", count: 100 - batteryLevel },
               ]}
               config={{
-                Battery: { label: "Battery", color: "var(--chart-1)" },
-                Used: { label: "Used", color: "var(--chart-4)" },
+                Battery: {
+                  label: "Battery",
+                  color: getColor("battery-level", batteryLevel),
+                },
+                Used: { label: "Used", color: getColor("battery-level", 0) },
               }}
               dataKey="count"
               nameKey="role"
@@ -127,7 +148,7 @@ export default function CheckTrashbinStatus({ id }: Props) {
               badge={
                 <TrashbinStatus
                   label="Battery Level"
-                  value={batteryLevel}
+                  value={Number(batteryLevel.toFixed(0))}
                   unit="%"
                   type="battery-level"
                   enabledColumn={true}
@@ -137,24 +158,28 @@ export default function CheckTrashbinStatus({ id }: Props) {
 
             <TrashbinRadialStatus
               title="Solar Power"
+              level={String(clampedSolarPower.toFixed(0))}
               description="Solar Power Percentage"
               data={[
-                { role: "Power", count: solarPowerLevel },
-                { role: "Used", count: 100 - solarPowerLevel },
+                { role: "Power", count: clampedSolarPower },
+                { role: "Used", count: 100 - clampedSolarPower },
               ]}
               config={{
-                Battery: { label: "Power", color: "var(--chart-1)" },
-                Used: { label: "Used", color: "var(--chart-4)" },
+                Power: {
+                  label: "Power",
+                  color: getColor("solar-power", clampedSolarPower),
+                },
+                Used: { label: "Used", color: getColor("solar-power", 0) },
               }}
               dataKey="count"
               nameKey="role"
-              footerSubText={`${solarPowerLevel}% power remaining`}
+              footerSubText={`${clampedSolarPower}% power remaining`}
               badge={
                 <TrashbinStatus
                   label="Solar Power Level"
-                  value={Number(solarPowerLevel.toFixed(0))}
+                  value={clampedSolarPower}
                   unit="%"
-                  type="battery-level"
+                  type="solar-power"
                   enabledColumn={true}
                 />
               }

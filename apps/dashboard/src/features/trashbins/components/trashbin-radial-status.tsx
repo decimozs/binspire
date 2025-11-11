@@ -30,6 +30,7 @@ interface Props<T extends Record<string, any>> {
   footerText?: string;
   footerSubText?: string;
   badge: ReactNode;
+  level?: string;
 }
 
 export function TrashbinRadialStatus<T extends Record<string, any>>({
@@ -41,6 +42,7 @@ export function TrashbinRadialStatus<T extends Record<string, any>>({
   nameKey,
   footerText,
   footerSubText,
+  level,
   badge,
 }: Props<T>) {
   const total = useMemo(() => {
@@ -92,14 +94,14 @@ export function TrashbinRadialStatus<T extends Record<string, any>>({
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {total.toLocaleString()}
+                          {level || total}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Total
+                          Level
                         </tspan>
                       </text>
                     );

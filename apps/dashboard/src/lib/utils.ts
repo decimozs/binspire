@@ -1,3 +1,4 @@
+import { TRASHBIN_CONFIG } from "@binspire/shared";
 import { nanoid } from "nanoid";
 
 type Actions = {
@@ -144,3 +145,59 @@ export const fileToBase64 = (file: File): Promise<string> => {
     reader.onerror = (error) => reject(error);
   });
 };
+
+function getWasteLevelKey(value: number) {
+  if (value >= TRASHBIN_CONFIG["waste-level"].overflowing.value)
+    return "overflowing";
+  if (value >= TRASHBIN_CONFIG["waste-level"].full.value) return "full";
+  if (value >= TRASHBIN_CONFIG["waste-level"]["almost-full"].value)
+    return "almost-full";
+  if (value >= TRASHBIN_CONFIG["waste-level"].low.value) return "low";
+  return "empty";
+}
+
+function getWeightLevelKey(value: number) {
+  if (value >= TRASHBIN_CONFIG["weight-level"].overloaded.value)
+    return "overloaded";
+  if (value >= TRASHBIN_CONFIG["weight-level"].heavy.value) return "heavy";
+  if (value >= TRASHBIN_CONFIG["weight-level"].medium.value) return "medium";
+  return "light";
+}
+
+function getBatteryLevelKey(value: number) {
+  if (value >= TRASHBIN_CONFIG["battery-level"].full.value) return "full";
+  if (value >= TRASHBIN_CONFIG["battery-level"].medium.value) return "medium";
+  if (value >= TRASHBIN_CONFIG["battery-level"].low.value) return "low";
+  return "critical";
+}
+
+function getSolarPowerLevelKey(value: number) {
+  if (value >= TRASHBIN_CONFIG["solar-power"].full.value) return "full";
+  if (value >= TRASHBIN_CONFIG["solar-power"].high.value) return "high";
+  if (value >= TRASHBIN_CONFIG["solar-power"].medium.value) return "medium";
+  if (value >= TRASHBIN_CONFIG["solar-power"].low.value) return "low";
+  return "none";
+}
+
+export function getColor(type: keyof typeof TRASHBIN_CONFIG, value: number) {
+  let levelKey: string;
+
+  switch (type) {
+    case "waste-level":
+      levelKey = getWasteLevelKey(value);
+      break;
+    case "weight-level":
+      levelKey = getWeightLevelKey(value);
+      break;
+    case "battery-level":
+      levelKey = getBatteryLevelKey(value);
+      break;
+    case "solar-power":
+      levelKey = getSolarPowerLevelKey(value);
+      break;
+    default:
+      levelKey = "empty";
+  }
+
+  return (TRASHBIN_CONFIG[type] as any)[levelKey].color;
+}

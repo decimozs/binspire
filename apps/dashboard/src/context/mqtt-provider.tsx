@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { MqttContext } from "./mqtt-context";
 import type { MqttClient } from "mqtt";
 import { createMqttClient } from "@/lib/mqtt_client";
@@ -27,6 +27,7 @@ export function MqttProvider({ children }: Props) {
   const [client, setClient] = useState<MqttClient | null>(null);
   const [messages, setMessages] = useState<Record<string, string>>({});
   const shownCollectionToasts = new Set<string>();
+  const shownTelemetryToast = useRef(false);
   const queryClient = useQueryClient();
   const { addUpdate } = useRealtimeUpdatesStore.getState();
 
@@ -60,10 +61,14 @@ export function MqttProvider({ children }: Props) {
             if (server === "offline") {
               setConnected(false);
               resetBins();
+              shownTelemetryToast.current = false;
               ShowToast("warning", "Telemetry disconnected.");
             } else {
               setConnected(true);
-              ShowToast("success", "Telemetry connected.");
+              if (!shownTelemetryToast.current) {
+                ShowToast("success", "Telemetry connected.");
+                shownTelemetryToast.current = true;
+              }
             }
             return;
           }

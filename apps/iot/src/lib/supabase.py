@@ -1,6 +1,8 @@
 import os
 from supabase import create_client, Client
 from dotenv import load_dotenv
+import uuid
+from datetime import datetime
 
 load_dotenv()
 
@@ -13,6 +15,10 @@ if not SUPABASE_URL or not SUPABASE_KEY:
     raise RuntimeError("Supabase credentials not set in environment (.env)")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+detection_id = (
+    f"detection-{datetime.now().strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:6]}"
+)
 
 
 def upload_detection_image(image_bytes, class_name, confidence, timestamp):
@@ -36,8 +42,6 @@ def upload_detection_image(image_bytes, class_name, confidence, timestamp):
         count_result = (
             supabase.table("detections_log").select("id", count="exact").execute()
         )
-        current_count = count_result.count or 0
-        detection_id = f"detection-{current_count + 1:04d}"
 
         # --- Insert metadata into detections_log table ---
         row = {

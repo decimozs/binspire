@@ -128,7 +128,7 @@ export default function TrashbinLogs({ id }: { id: string }) {
                         <img
                           src={log.imageUrl}
                           alt="object-detected"
-                          className="max-w-full max-h-[70vh] object-contain"
+                          className="w-full max-h-[70vh] object-contain"
                         />
                         <DialogFooter>
                           <a
