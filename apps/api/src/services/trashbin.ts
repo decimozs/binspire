@@ -23,11 +23,16 @@ export class TrashbinService
 {
   private repo = new TrashbinRepository();
   private auditLogger = new AuditService();
+  private trashbinStatus = new TrashbinStatusService();
 
   async create(data: InsertTrashbin, userId: string) {
     const [trashbin] = await this.repo.insert(data);
 
     if (!trashbin) throw new Error("Failed to create trashbin.");
+
+    await this.trashbinStatus.create({
+      trashbinId: trashbin.id,
+    });
 
     await this.auditLogger.create({
       orgId: trashbin.orgId,

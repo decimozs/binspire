@@ -127,6 +127,7 @@ export default function RegisterTrashbin() {
       if (!secret) throw new Error("Missing organization secret.");
 
       const decrypted = await decryptWithSecret(secret, decodedText);
+
       if (!decrypted) throw new Error("Invalid QR code.");
 
       const isSecretExisting = await QRCodeApi.getBySecret(decrypted);

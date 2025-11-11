@@ -69,10 +69,10 @@ export default function SelectProfile() {
         {loading === "driving-car" ? (
           <Loader2 className="animate-spin" />
         ) : (
-          <>
+          <div className="flex flex-col items-center">
             <Car />
             <p className="ml-2 font-bold">Drive Mode</p>
-          </>
+          </div>
         )}
       </Button>
 
@@ -84,10 +84,10 @@ export default function SelectProfile() {
         {loading === "foot-walking" ? (
           <Loader2 className="animate-spin" />
         ) : (
-          <>
+          <div className="flex flex-col items-center">
             <Footprints />
             <p className="ml-2 font-bold">Walk Mode</p>
-          </>
+          </div>
         )}
       </Button>
     </div>

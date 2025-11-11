@@ -28,9 +28,11 @@ import { useTrashbinRealtime } from "@/store/realtime-store";
 import { useMqtt } from "@/context/mqtt-provider";
 import { useMap } from "react-map-gl/maplibre";
 import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
+import { useRouteStore } from "@/store/route-store";
 
 export default function CollectTrashbin() {
   const [trashbinId, setTrashbinId] = useQueryState("trashbin_id");
+  const [markTrashbinId, setMarkTrashbinId] = useQueryState("mark_trashbin_id");
   const { data: trashbin } = useGetTrashbinById(trashbinId || "");
   const [, setLat] = useQueryState("lat");
   const [, setLng] = useQueryState("lng");
@@ -51,6 +53,7 @@ export default function CollectTrashbin() {
   const { client } = useMqtt();
   const { current: map } = useMap();
   const [isVerifying, setIsVerifying] = useState(false);
+  const { route, deleteRoute } = useRouteStore();
 
   const scannedQRCodes = useRef(new Set<string>());
 
@@ -175,9 +178,16 @@ export default function CollectTrashbin() {
       const decrypted = await decryptWithSecret(secret, decodedText);
       if (!decrypted) throw new Error("Invalid QR code.");
 
-      if (trashbinId !== decrypted) {
-        ShowToast("error", "QR Code does not match the trashbin ID.");
-        return;
+      if (!trashbinId) {
+        if (markTrashbinId !== decrypted) {
+          ShowToast("error", "QR Code does not match the trashbin ID.");
+          return;
+        }
+      } else {
+        if (trashbinId !== decrypted) {
+          ShowToast("error", "QR Code does not match the trashbin ID.");
+          return;
+        }
       }
 
       const isSecretExisting = await TrashbinApi.getById(decrypted);
@@ -200,7 +210,15 @@ export default function CollectTrashbin() {
 
       if (!newQuota) throw new Error("Failed to update user quota.");
 
-      ShowToast("success", "Trashbin collected successfully!");
+      client?.publish(
+        `trashbin/${trashbinId}/waste_level`,
+        JSON.stringify({ wasteLevel: 0, timestamp: new Date().toISOString() }),
+      );
+
+      client?.publish(
+        `trashbin/${trashbinId}/weight_level`,
+        JSON.stringify({ weightLevel: 0, timestamp: new Date().toISOString() }),
+      );
 
       client?.publish(
         "trashbin/collection",
@@ -223,6 +241,15 @@ export default function CollectTrashbin() {
       setOpen(false);
       resetLogs(decrypted);
 
+      if (route) {
+        deleteRoute();
+        setMarkTrashbinId(null);
+        ShowToast("success", "Trashbin collected successfully!");
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        ShowToast("info", "Cleaning up navigation session...");
+        window.location.reload();
+      }
+
       if (map && orgSettings.data?.settings?.general?.location) {
         map.flyTo({
           center: [
@@ -236,6 +263,8 @@ export default function CollectTrashbin() {
           essential: true,
         });
       }
+
+      ShowToast("success", "Trashbin collected successfully!");
     } catch (err: any) {
       ShowToast("error", err.message || "QR Code verification failed.");
     } finally {

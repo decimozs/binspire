@@ -2,14 +2,22 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
 import type { MqttClient } from "mqtt";
 import { createMqttClient } from "@/features/mqtt";
 import { setConnected } from "@/store/telemetry-store";
-import { resetBins, setBinData } from "@/store/realtime-store";
+import {
+  resetBins,
+  setBatteryLevel,
+  setSolarPower,
+  setWasteLevel,
+  setWeightLevel,
+} from "@/store/realtime-store";
 import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
+import { ShowToast } from "@/components/toast";
 
 interface MqttContextType {
   client: MqttClient | null;
@@ -27,6 +35,7 @@ interface Props {
 
 export function MqttProvider({ children }: Props) {
   const [client, setClient] = useState<MqttClient | null>(null);
+  const shownTelemetryToast = useRef(false);
   const [messages, setMessages] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -35,10 +44,13 @@ export function MqttProvider({ children }: Props) {
 
     mqttClient.on("connect", () => {
       setConnected(true);
-      mqttClient.subscribe("trashbin/+/status");
+      mqttClient.subscribe("trashbin/+/waste_level");
+      mqttClient.subscribe("trashbin/+/weight_level");
+      mqttClient.subscribe("trashbin/+/battery_level");
+      mqttClient.subscribe("trashbin/+/alerts");
+      mqttClient.subscribe("trashbin/+/detections");
       mqttClient.subscribe("trashbin/collection");
       mqttClient.subscribe("server/status");
-      mqttClient.subscribe("trashbin/detections");
     });
 
     mqttClient.on("message", (topic, payload) => {
@@ -51,39 +63,82 @@ export function MqttProvider({ children }: Props) {
           if (server === "offline") {
             setConnected(false);
             resetBins();
+            shownTelemetryToast.current = false;
+            ShowToast("warning", "Telemetry disconnected.");
           } else {
             setConnected(true);
+            if (!shownTelemetryToast.current) {
+              ShowToast("success", "Telemetry connected.");
+              shownTelemetryToast.current = true;
+            }
           }
           return;
         }
 
-        if (topic === "trashbin/detections") {
+        if (topic.match(/^trashbin\/([^/]+)\/battery_level$/)) {
+          const match = topic.match(/^trashbin\/([^/]+)\/battery_level$/);
+
+          if (!match) return;
+
+          const id = match[1];
           const {
-            bin_id,
-            event,
-            class: className,
-            confidence,
-            timestamp,
+            // voltage,
+            current_mA,
+            // power_W,
+            batteryLevel,
+            // timestamp,
           } = message;
-          useTrashbinLogsStore.getState().addLog(bin_id, {
-            event,
-            class: className,
-            confidence,
-            timestamp,
-          });
-          return;
+
+          setBatteryLevel(id, batteryLevel);
+          setSolarPower(id, current_mA);
+          setMessages(message);
         }
 
-        const match = topic.match(/^trashbin\/([^/]+)\/status$/);
+        if (topic.match(/^trashbin\/([^/]+)\/weight_level$/)) {
+          const match = topic.match(/^trashbin\/([^/]+)\/weight_level$/);
 
-        if (!match) return;
+          if (!match) return;
 
-        const id = match[1];
+          const id = match[1];
+          const {
+            weightLevel,
+            // timestamp,
+          } = message;
 
-        const { status } = message.trashbin;
+          setWeightLevel(id, weightLevel);
+          setMessages(message);
+        }
 
-        setBinData(id, status);
-        setMessages(message);
+        if (topic.match(/^trashbin\/([^/]+)\/detections$/)) {
+          const match = topic.match(/^trashbin\/([^/]+)\/detections$/);
+
+          if (!match) return;
+
+          const id = match[1];
+          const { class: className, confidence, timestamp, imageUrl } = message;
+
+          useTrashbinLogsStore.getState().addLog(id, {
+            class: className,
+            confidence,
+            timestamp,
+            imageUrl,
+          });
+        }
+
+        if (topic.match(/^trashbin\/([^/]+)\/waste_level$/)) {
+          const match = topic.match(/^trashbin\/([^/]+)\/waste_level$/);
+
+          if (!match) return;
+
+          const id = match[1];
+          const {
+            wasteLevel,
+            // timestamp,
+          } = message;
+
+          setWasteLevel(id, wasteLevel);
+          setMessages(message);
+        }
       } catch (e) {
         console.error("Invalid MQTT message:", e);
       }
