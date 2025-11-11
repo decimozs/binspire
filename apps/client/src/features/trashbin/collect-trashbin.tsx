@@ -214,12 +214,12 @@ export default function CollectTrashbin() {
       if (!newQuota) throw new Error("Failed to update user quota.");
 
       client?.publish(
-        `trashbin/${trashbinId}/waste_level`,
+        `trashbin/${decrypted}/waste_level`,
         JSON.stringify({ wasteLevel: 53, timestamp: new Date().toISOString() }),
       );
 
       client?.publish(
-        `trashbin/${trashbinId}/weight_level`,
+        `trashbin/${decrypted}/weight_level`,
         JSON.stringify({ weightLevel: 0, timestamp: new Date().toISOString() }),
       );
 
