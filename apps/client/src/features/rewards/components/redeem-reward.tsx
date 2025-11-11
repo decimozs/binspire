@@ -53,7 +53,8 @@ export default function RedeemReward({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          size="sm"
+          size="lg"
+          className="text-lg font-bold w-full"
           disabled={!isAvailable || isRedeemed}
           onClick={() => {
             if (isAvailable && !isRedeemed) setOpen(true);

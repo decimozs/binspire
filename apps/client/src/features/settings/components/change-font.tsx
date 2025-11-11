@@ -39,7 +39,7 @@ export default function ChangeFont() {
         />
       </DrawerTrigger>
 
-      <DrawerContent>
+      <DrawerContent className="font-bold">
         <DrawerHeader>
           <DrawerTitle className="text-4xl font-bold">Font</DrawerTitle>
           <DrawerDescription>
@@ -52,7 +52,7 @@ export default function ChangeFont() {
             value={selectedFont}
             onValueChange={(value: Font) => setSelectedFont(value)}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full min-h-12">
               <SelectValue placeholder="Select a font" />
             </SelectTrigger>
             <SelectContent>

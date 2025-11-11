@@ -103,20 +103,24 @@ export default function Welcome() {
           <span className="text-primary">{current.user.name}</span>!
         </p>
         <p className="text-3xl text-muted-foreground font-bold mt-8">
-          Smarter waste collection starts here. Binspire empowers maintenance
-          teams and waste collectors to track, manage, and optimize every
-          pickup, helping you keep communities cleaner, safer, and more
-          sustainable every day.
+          Smarter waste collection starts here. <br />
+          <br /> Binspire empowers maintenance teams and waste collectors to
+          track, manage, and optimize every pickup, helping you keep communities
+          cleaner, safer, and more sustainable every day.
         </p>
       </div>
       <div className="fixed bottom-4 right-4 flex flex-row items-center gap-2">
-        <Button variant="outline" onClick={handleDocs}>
+        <Button
+          variant="secondary"
+          onClick={handleDocs}
+          className="font-bold text-lg"
+        >
           Docs
         </Button>
 
         <Drawer open={enabled} onOpenChange={setEnabled}>
           <DrawerTrigger asChild>
-            <Button>Get Started</Button>
+            <Button className="font-bold text-lg">Get Started</Button>
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
@@ -127,12 +131,17 @@ export default function Welcome() {
               </DrawerDescription>
             </DrawerHeader>
             <DrawerFooter>
-              <Button onClick={handleClose} disabled={loading}>
+              <Button
+                onClick={handleClose}
+                disabled={loading}
+                className="font-bold text-lg"
+              >
                 {loading ? <Loader2 className="animate-spin" /> : "Enable"}
               </Button>
               <DrawerClose asChild>
                 <Button
                   variant="secondary"
+                  className="font-bold text-lg"
                   onClick={handleCancel}
                   disabled={loading}
                 >

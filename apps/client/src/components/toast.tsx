@@ -44,12 +44,12 @@ export function ShowToast(type: ToastType, message: string) {
 
   toast.custom(() => (
     <div
-      className={`z-100 bg-background text-foreground w-full rounded-md border-${color} border-[1px] px-4 py-3 shadow-lg sm:w-[var(--width)]`}
+      className={`z-100 bg-background text-foreground w-full rounded-md border-${color} border-[2px] px-4 py-3 shadow-lg sm:w-[var(--width)]`}
     >
       <div className="flex gap-2">
         <div className="flex grow gap-3">
           {icon}
-          <span>{message}</span>
+          <span className="font-md">{message}</span>
         </div>
       </div>
     </div>

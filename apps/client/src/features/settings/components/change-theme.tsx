@@ -34,7 +34,7 @@ export default function ChangeTheme() {
           icon={SunMoon}
         />
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="font-bold">
         <DrawerHeader>
           <DrawerTitle className="text-4xl font-bold">Theme</DrawerTitle>
           <DrawerDescription>This action cannot be undone.</DrawerDescription>

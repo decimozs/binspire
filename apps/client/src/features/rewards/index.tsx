@@ -23,7 +23,7 @@ export default function Rewards({ data }: { data: UserGreenHeart }) {
 
   return (
     <MainLayout>
-      <div className="grid grid-rows-1 gap-4">
+      <div className="grid grid-rows-1 gap-4 font-bold">
         <div className="font-bold text-2xl flex flex-row items-center justify-between rounded-full border-accent border-[1px] py-4 px-6">
           <p>Green Hearts</p>
           <p className="text-primary">+ {currentPoints}</p>

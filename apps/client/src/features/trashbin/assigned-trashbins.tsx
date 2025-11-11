@@ -75,7 +75,7 @@ export default function AssignedTrashbins() {
           </Button>
         )}
       </DrawerTrigger>
-      <DrawerContent className="h-[50%]">
+      <DrawerContent className="h-[60%] font-bold">
         <DrawerHeader>
           <DrawerTitle className="text-4xl font-bold">Assigments</DrawerTitle>
           <DrawerDescription>
@@ -127,7 +127,7 @@ export default function AssignedTrashbins() {
           <Empty className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/4 w-full">
             <EmptyHeader>
               <EmptyMedia variant="icon">
-                <Recycle />
+                <Recycle className="text-primary" />
               </EmptyMedia>
               <EmptyTitle>No Collection Assignments</EmptyTitle>
               <EmptyDescription>

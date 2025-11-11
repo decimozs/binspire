@@ -49,7 +49,7 @@ export default function TrashbinIssues() {
           </Button>
         )}
       </DrawerTrigger>
-      <DrawerContent className="h-[50%]">
+      <DrawerContent className="h-[60%] font-bold">
         <DrawerHeader>
           <DrawerTitle className="text-4xl font-bold">Issues</DrawerTitle>
           <DrawerDescription>
@@ -77,7 +77,7 @@ export default function TrashbinIssues() {
           <Empty className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/4 w-full">
             <EmptyHeader>
               <EmptyMedia variant="icon">
-                <Info />
+                <Info className="text-primary" />
               </EmptyMedia>
               <EmptyTitle>No Trashbin Issues Found</EmptyTitle>
               <EmptyDescription>

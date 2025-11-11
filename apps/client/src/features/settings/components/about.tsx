@@ -21,7 +21,7 @@ export default function About() {
           icon={Info}
         />
       </DrawerTrigger>
-      <DrawerContent className="px-4 pb-4">
+      <DrawerContent className="px-4 pb-4 font-bold">
         <DrawerHeader>
           <DrawerTitle className="text-4xl font-bold">About</DrawerTitle>
           <DrawerDescription>

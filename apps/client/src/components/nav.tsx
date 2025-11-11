@@ -31,7 +31,9 @@ function NavItem({ item }: { item: MenuItem }) {
       to={item.url}
       key={item.title}
       className={`flex flex-col items-center gap-1 transition-all duration-300 ease-in-out font-bold ${
-        isActive ? "text-primary scale-105" : "text-muted-foreground scale-100"
+        isActive
+          ? "text-primary font-extrabold scale-115"
+          : "text-muted-foreground scale-100"
       }`}
     >
       {Icon && <Icon className="h-5 w-5" />}

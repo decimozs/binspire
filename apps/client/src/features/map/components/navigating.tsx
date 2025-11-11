@@ -44,11 +44,11 @@ export default function Navigating() {
         {isPending || !data ? (
           <Skeleton className="w-full h-[92px]" />
         ) : (
-          <div className="bg-background/80 p-4 rounded-md w-full grid grid-cols-[1fr_50px]">
+          <div className="bg-background/80 p-4 rounded-md w-full grid grid-cols-[1fr_80px]">
             <div>
-              <p className="text-md font-bold text-primary">Navigating</p>
-              <p className="text-2xl font-bold">{data.name}</p>
-              <p className="text-xs font-bold text-muted-foreground ml-[2px]">
+              <p className="text-xl font-bold text-primary">Navigating</p>
+              <p className="text-4xl font-bold mt-1">{data.name}</p>
+              <p className="text-xl font-bold text-muted-foreground ml-[2px]">
                 {(distance / 1000).toFixed(2)} km
               </p>
             </div>
@@ -60,8 +60,8 @@ export default function Navigating() {
                 auto-rotate
                 interaction-prompt="none"
                 style={{
-                  width: "60px",
-                  height: "60px",
+                  width: "150px",
+                  height: "100px",
                   "--poster-color": "transparent",
                 }}
               />

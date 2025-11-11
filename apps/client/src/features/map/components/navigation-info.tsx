@@ -33,11 +33,11 @@ function TrashbinInfo() {
       <DrawerHeader>
         <div className="relative">
           <div>
-            <DrawerTitle className="font-bold text-xl text-left">
+            <DrawerTitle className="font-bold text-4xl text-left">
               Trashbin
             </DrawerTitle>
-            <DrawerDescription className="text-left">
-              ID: {data?.id}
+            <DrawerDescription className="text-left text-lg font-bold">
+              ID: {markTrashbin}
             </DrawerDescription>
           </div>
           <div className="absolute top-0 right-0">
@@ -93,10 +93,10 @@ function DirectionsInfo() {
       <DrawerHeader>
         <div className="relative">
           <div>
-            <DrawerTitle className="font-bold text-xl text-left">
+            <DrawerTitle className="font-bold text-4xl text-left">
               Directions
             </DrawerTitle>
-            <DrawerDescription className="text-left flex flex-row items-center gap-2">
+            <DrawerDescription className="flex flex-row items-center gap-2 text-left text-lg font-bold">
               <ProfileIcon className="w-5 h-5 text-primary" />
               {profileLabel}
             </DrawerDescription>

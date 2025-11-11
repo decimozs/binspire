@@ -44,17 +44,17 @@ export default function Home() {
       <div className="bg-accent/40 border-md p-4 rounded-md grid grid-cols-[200px_1fr]">
         <div className="flex flex-col">
           <div>
-            <p className="font-bold text-xl">Daily Collectives</p>
-            <p className="text-muted-foreground font-bold">
+            <p className="font-bold text-2xl">Daily Collectives</p>
+            <p className="text-muted-foreground font-bold text-lg">
               Trashbin Collection
             </p>
           </div>
           <div className="flex flex-row items-center gap-2 mt-auto">
-            <Database size={15} className="text-primary" />
+            <Database size={20} className="text-primary" />
             {userQuota !== 5 ? (
-              <p className="font-bold">{userQuota} / 5 bins</p>
+              <p className="font-bold text-lg">{userQuota} / 5 bins</p>
             ) : (
-              <p className="font-bold">Quota Reached</p>
+              <p className="font-bold text-lg">Quota Reached</p>
             )}
           </div>
         </div>
@@ -66,8 +66,8 @@ export default function Home() {
             auto-rotate
             interaction-prompt="none"
             style={{
-              width: "100px",
-              height: "100px",
+              width: "110px",
+              height: "110px",
               "--poster-color": "transparent",
             }}
           />
@@ -85,21 +85,21 @@ export default function Home() {
       </div>
       <div className="flex flex-row items-center justify-between">
         <div>
-          <p className="text-muted-foreground text-sm font-bold">
+          <p className="text-muted-foreground text-lg font-bold">
             Assigned Collections
           </p>
           <div className="flex flex-row items-center gap-2 font-bold">
-            <Trash size={15} className="text-primary" />
-            <p>{assignedCollections?.length} Bins</p>
+            <Trash size={20} className="text-primary" />
+            <p className="text-lg">{assignedCollections?.length} Bins</p>
           </div>
         </div>
         <div>
-          <p className="text-muted-foreground text-sm font-bold">
+          <p className="text-muted-foreground text-lg font-bold">
             Trashbin Issues
           </p>
           <div className="flex flex-row items-center gap-2 font-bold">
-            <Trash size={15} className="text-primary" />
-            <p>{trashbinIssues?.length} Issues</p>
+            <Trash size={20} className="text-primary" />
+            <p className="text-lg">{trashbinIssues?.length} Issues</p>
           </div>
         </div>
       </div>

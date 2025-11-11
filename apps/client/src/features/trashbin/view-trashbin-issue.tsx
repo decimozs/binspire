@@ -47,20 +47,22 @@ export default function ViewTrashbinIssue({ issue }: { issue: Issue }) {
       <SheetTrigger asChild>
         <div key={issue.id} className="bg-accent/20 rounded-md p-4">
           <div className="flex flex-row items-center justify-between">
-            <p className="font-semibold">Issue # {issue.no}</p>
+            <p className="font-bold text-3xl">Issue # {issue.no}</p>
             <IssuePriorityBadge priority={issue.priority} />
           </div>
-          <div className="text-sm text-muted-foreground">{issue.title}</div>
-          <p className="text-xs text-muted-foreground text-right">
+          <div className="text-sm text-muted-foreground">
+            <p className="max-w-md truncate">{issue.title}</p>
+          </div>
+          <p className="font-bold text-muted-foreground text-right">
             {formatDistanceToNow(new Date(issue.createdAt), {
               addSuffix: true,
             })}
           </p>
         </div>
       </SheetTrigger>
-      <SheetContent className="w-full">
+      <SheetContent className="w-full font-bold">
         <SheetHeader>
-          <SheetTitle className="text-2xl">Issue # {issue.no}</SheetTitle>
+          <SheetTitle className="text-4xl">Issue # {issue.no}</SheetTitle>
           <SheetDescription>
             Review the details of this trashbin issue below.
           </SheetDescription>
@@ -117,6 +119,7 @@ export default function ViewTrashbinIssue({ issue }: { issue: Issue }) {
           </div>
           <Button
             onClick={handleUpdateIssue}
+            className="w-full font-bold text-lg"
             disabled={isPending || issue.status === "resolved"}
           >
             {isPending ? <Loader2 className="animate-spin" /> : "Resolved"}

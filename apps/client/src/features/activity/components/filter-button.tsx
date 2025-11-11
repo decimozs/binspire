@@ -53,14 +53,16 @@ export default function FilterButton() {
 
         <div className="px-4 grid grid-cols-2 gap-2">
           <Button
-            size="sm"
+            size="lg"
+            className="font-bold"
             variant={selectedFilter === "collection" ? "default" : "secondary"}
             onClick={() => setSelectedFilter("collection")}
           >
             Collection
           </Button>
           <Button
-            size="sm"
+            size="lg"
+            className="font-bold"
             variant={selectedFilter === "register" ? "default" : "secondary"}
             onClick={() => setSelectedFilter("register")}
           >
@@ -70,11 +72,17 @@ export default function FilterButton() {
 
         <DrawerFooter>
           {filter ? (
-            <Button onClick={clearFilter} variant="destructive">
+            <Button
+              onClick={clearFilter}
+              variant="destructive"
+              className="w-full text-lg font-bold"
+            >
               Clear Filter
             </Button>
           ) : (
-            <Button onClick={applyFilter}>Apply</Button>
+            <Button onClick={applyFilter} className="w-full text-lg font-bold">
+              Apply
+            </Button>
           )}
         </DrawerFooter>
       </DrawerContent>

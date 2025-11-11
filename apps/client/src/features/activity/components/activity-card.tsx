@@ -47,9 +47,8 @@ export default function ActivityCard({ data }: Props) {
           <DrawerDescription>ID: {data.id}</DrawerDescription>
         </DrawerHeader>
         <div className="px-4 grid-cols-1 gap-2 pb-4">
-          <div className="text-xl font-bold mt-2">
-            <p>Type</p>
-            <p className="text-muted-foreground">
+          <div className="text-2xl font-bold mt-2">
+            <p className="text-center">
               {formatLabel(data.type).replace("-", " ")} #{data.no}
             </p>
           </div>
@@ -110,9 +109,14 @@ export default function ActivityCard({ data }: Props) {
 
           <div className="text-xl font-bold mt-4">
             <p>Created At</p>
-            <p className="text-muted-foreground">
-              {format(new Date(data.createdAt), "MMMM dd, yyyy - hh:mm a")}
-            </p>
+            <div className="flex flex-row items-center justify-between">
+              <p className="text-muted-foreground">
+                {format(new Date(data.createdAt), "MMMM dd, yyyy")}
+              </p>
+              <p className="text-muted-foreground">
+                {format(new Date(data.createdAt), "hh:mm a")}
+              </p>
+            </div>
           </div>
         </div>
       </DrawerContent>

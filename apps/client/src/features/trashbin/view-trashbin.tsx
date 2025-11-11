@@ -109,10 +109,10 @@ export default function ViewTrashbin() {
         <DrawerHeader>
           <div className="relative">
             <div>
-              <DrawerTitle className="font-bold text-xl text-left">
+              <DrawerTitle className="font-bold text-4xl text-left">
                 Trashbin
               </DrawerTitle>
-              <DrawerDescription className="text-left">
+              <DrawerDescription className="text-left text-lg font-bold">
                 ID: {trashbin}
               </DrawerDescription>
             </div>
@@ -162,7 +162,9 @@ export default function ViewTrashbin() {
             {selectProfileQuery ? (
               <SelectProfile />
             ) : isCollected ? (
-              <Button disabled>Collected</Button>
+              <Button className="w-full font-bold text-lg" disabled>
+                Collected
+              </Button>
             ) : (
               <CollectTrashbin />
             )}

@@ -150,7 +150,7 @@ export default function ReportIssue({
           e.stopPropagation();
         }}
       >
-        <SheetContent className="w-full">
+        <SheetContent className="w-full font-bold">
           <SheetHeader>
             <SheetTitle className="text-4xl">{label}</SheetTitle>
             <SheetDescription>
@@ -236,7 +236,7 @@ export default function ReportIssue({
           <SheetFooter>
             <Button
               type="submit"
-              className="w-full"
+              className="font-bold text-lg w-full"
               disabled={isPending}
               onClick={() => form.handleSubmit()}
             >

@@ -182,7 +182,11 @@ export default function LoginForm() {
         </p>
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button
+        type="submit"
+        className="w-full text-lg font-bold"
+        disabled={loading}
+      >
         {loading ? <Loader2 className="animate-spin" /> : "Login"}
       </Button>
 
