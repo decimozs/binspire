@@ -248,8 +248,9 @@ export default function CollectTrashbin() {
         deleteRoute();
         setMarkTrashbinId(null);
         ShowToast("success", "Trashbin collected successfully!");
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         ShowToast("info", "Cleaning up navigation session...");
+        await new Promise((resolve) => setTimeout(resolve, 3000));
         window.location.reload();
         return;
       }
