@@ -9,11 +9,15 @@ interface TrashbinRealtimeData {
 interface TrashbinRealtimeState {
   bins: Record<string, TrashbinRealtimeData>;
   setBinData: (id: string, data: TrashbinRealtimeData) => void;
+  setWasteLevel: (id: string, wasteLevel: number) => void;
+  setWeightLevel: (id: string, weightLevel: number) => void;
+  setBatteryLevel: (id: string, batteryLevel: number) => void;
   resetBins: () => void;
 }
 
 export const useTrashbinRealtime = create<TrashbinRealtimeState>((set) => ({
   bins: {},
+
   setBinData: (id, data) =>
     set((state) => ({
       bins: {
@@ -21,11 +25,54 @@ export const useTrashbinRealtime = create<TrashbinRealtimeState>((set) => ({
         [id]: data,
       },
     })),
+
+  setWasteLevel: (id, wasteLevel) =>
+    set((state) => ({
+      bins: {
+        ...state.bins,
+        [id]: {
+          ...state.bins[id],
+          wasteLevel,
+        },
+      },
+    })),
+
+  setWeightLevel: (id, weightLevel) =>
+    set((state) => ({
+      bins: {
+        ...state.bins,
+        [id]: {
+          ...state.bins[id],
+          weightLevel,
+        },
+      },
+    })),
+
+  setBatteryLevel: (id, batteryLevel) =>
+    set((state) => ({
+      bins: {
+        ...state.bins,
+        [id]: {
+          ...state.bins[id],
+          batteryLevel,
+        },
+      },
+    })),
+
   resetBins: () => set({ bins: {} }),
 }));
 
 export const setBinData = (id: string, data: TrashbinRealtimeData) =>
   useTrashbinRealtime.getState().setBinData(id, data);
+
+export const setWasteLevel = (id: string, wasteLevel: number) =>
+  useTrashbinRealtime.getState().setWasteLevel(id, wasteLevel);
+
+export const setWeightLevel = (id: string, weightLevel: number) =>
+  useTrashbinRealtime.getState().setWeightLevel(id, weightLevel);
+
+export const setBatteryLevel = (id: string, batteryLevel: number) =>
+  useTrashbinRealtime.getState().setBatteryLevel(id, batteryLevel);
 
 export const resetBins = () => useTrashbinRealtime.getState().resetBins();
 

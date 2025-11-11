@@ -30,12 +30,11 @@ async def simulate_trashbin(id, db: Database):
 
     client = MQTTClient(client_id=f"trashbin_{id}")
     client.connect()
-    status_topic = f"trashbin/{id}/status"
-    detections_topic = "trashbin/detections"
+    waste_level_topic = f"trashbin/{id}/waste_level"
+    weight_level_topic = f"trashbin/{id}/weight_level"
+    detections_topic = f"trashbin/{id}/detections"
+    battery_level_topic = f"trashbin/{id}/battery_level"
     alert_topic = f"trashbin/{id}/alerts"
-    logger.info(
-        f"{id}: MQTT client connected and publishing to topics '{status_topic}' and '{detections_topic}'"
-    )
 
     try:
         while True:
@@ -94,31 +93,45 @@ async def simulate_trashbin(id, db: Database):
                         f"{id}: Marked as scheduled (urgency={urgency_score:.2f})."
                     )
 
-            status_message = {
-                "trashbin": {
-                    "id": trashbin["id"],
-                    "name": trashbin["name"],
-                    "location": trashbin["location"],
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "latitude": (
-                        float(trashbin["latitude"]) if trashbin["latitude"] else None
-                    ),
-                    "longitude": (
-                        float(trashbin["longitude"]) if trashbin["longitude"] else None
-                    ),
-                    "status": {
-                        "wasteLevel": waste_level,
-                        "weightLevel": weight_level,
-                        "batteryLevel": battery_level,
-                        "urgencyScore": round(urgency_score, 2),
-                        "isScheduled": urgency_score >= 0.75,
-                        "levelType": level_type,
-                    },
-                },
+            waste_level_message = {
+                "wasteLevel": waste_level,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
-            client.publish(status_topic, json.dumps(status_message, indent=2))
-            logger.info(f"{id}: Published status message to topic '{status_topic}'")
+            client.publish(waste_level_topic, json.dumps(waste_level_message, indent=2))
+
+            logger.info(
+                f"{id}: Published status message to topic '{waste_level_topic}'"
+            )
+
+            weight_level_message = {
+                "weightLevel": weight_level,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+            client.publish(
+                weight_level_topic, json.dumps(weight_level_message, indent=2)
+            )
+
+            logger.info(
+                f"{id}: Published status message to topic '{weight_level_topic}'"
+            )
+
+            battery_level_message = {
+                "voltage": round(random.uniform(3.2, 4.2), 2),
+                "current_mA": round(random.uniform(-200, 500), 1),
+                "power_W": round(random.uniform(0.0, 2.5), 2),
+                "batteryLevel": battery_level,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+            client.publish(
+                battery_level_topic, json.dumps(battery_level_message, indent=2)
+            )
+
+            logger.info(
+                f"{id}: Published battery data to topic '{battery_level_topic}'"
+            )
 
             if battery_level <= BATTERY_LOW_THRESHOLD:
                 bin_name = trashbin["name"]
@@ -133,6 +146,7 @@ async def simulate_trashbin(id, db: Database):
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                     "message": f"Battery critical: {battery_level}% remaining",
                 }
+
                 client.publish(alert_topic, json.dumps(alert_message, indent=2))
                 logger.warning(
                     f"{id}: ⚠️ Battery critical ({battery_level}%) - alert sent"
@@ -160,11 +174,11 @@ async def simulate_trashbin(id, db: Database):
             detected_class = random.choice(WASTE_CLASSES)
             confidence = round(random.uniform(0.2, 0.99), 2)
             detection_message = {
-                "bin_id": id,
                 "event": "object_detected",
                 "class": detected_class,
                 "confidence": confidence,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
+                "imageUrl": "https://www.binspire.space/twitter-image.png",
             }
 
             client.publish(detections_topic, json.dumps(detection_message))

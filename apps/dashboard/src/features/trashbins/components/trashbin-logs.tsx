@@ -10,8 +10,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@binspire/ui/components/sheet";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Eye } from "lucide-react";
 import { ScrollArea } from "@binspire/ui/components/scroll-area";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@binspire/ui/components/dialog";
 
 export default function TrashbinLogs({ id }: { id: string }) {
   const logsRaw = useTrashbinLogsStore((state) => state.logs);
@@ -89,13 +98,50 @@ export default function TrashbinLogs({ id }: { id: string }) {
         <ScrollArea className="h-[85vh] px-4">
           <div className="space-y-2">
             {logs.length === 0 && <p className="text-gray-500">No logs yet.</p>}
-            {logs.map((log, index) => (
+            {logs.map((log) => (
               <div
-                key={index}
+                key={`${log.timestamp}-${log.class}`}
                 className="py-2 px-4 border rounded-md border-dashed flex justify-between items-center"
               >
-                <div>
-                  <p className="font-medium mb-2">{log.class}</p>
+                <div className="w-full">
+                  <div className="flex flex-row items-center justify-between relative w-full">
+                    <p className="font-medium mb-2">{log.class}</p>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="secondary"
+                          size="icon"
+                          className="absolute -right-1 top-0"
+                        >
+                          <Eye />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="min-w-[1200px]">
+                        <DialogHeader>
+                          <DialogTitle>Object Detected</DialogTitle>
+                          <DialogDescription>
+                            Image detected as <b>{log.class}</b> with{" "}
+                            <b>{(log.confidence * 100).toFixed(0)}%</b>{" "}
+                            confidence.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <img
+                          src={log.imageUrl}
+                          alt="object-detected"
+                          className="max-w-full max-h-[70vh] object-contain"
+                        />
+                        <DialogFooter>
+                          <a
+                            href={log.imageUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <Button size="sm">External View</Button>
+                          </a>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
                   <p className="orange-badge w-fit mb-2">
                     Confidence: {(log.confidence * 100).toFixed(0)}%
                   </p>

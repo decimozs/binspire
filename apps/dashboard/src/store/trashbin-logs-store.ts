@@ -1,26 +1,29 @@
 import { create } from "zustand";
 
-export interface TrashDetection {
-  event: string;
+interface TrashbinLog {
+  timestamp: string;
   class: string;
   confidence: number;
-  timestamp: string;
+  imageUrl: string;
 }
 
 interface TrashbinLogsState {
-  logs: Record<string, TrashDetection[]>;
-  addLog: (binId: string, log: TrashDetection) => void;
-  resetLogs: () => void;
+  logs: Record<string, TrashbinLog[]>;
+  addLog: (id: string, log: TrashbinLog) => void;
+  resetLogs: (id?: string) => void;
 }
 
 export const useTrashbinLogsStore = create<TrashbinLogsState>((set) => ({
   logs: {},
-  addLog: (binId, log) =>
+  addLog: (id, log) =>
     set((state) => ({
       logs: {
         ...state.logs,
-        [binId]: [...(state.logs[binId] || []), log],
+        [id]: [...(state.logs[id] || []), { ...log }],
       },
     })),
-  resetLogs: () => set({ logs: {} }),
+  resetLogs: (id) =>
+    set((state) => ({
+      logs: id ? { ...state.logs, [id]: [] } : {},
+    })),
 }));

@@ -4,7 +4,9 @@ import type { MqttClient } from "mqtt";
 import { createMqttClient } from "@/lib/mqtt_client";
 import {
   resetBins,
-  setBinData,
+  setBatteryLevel,
+  setWasteLevel,
+  setWeightLevel,
   useRealtimeUpdatesStore,
 } from "@/store/realtime-store";
 import { setConnected } from "@/store/telemetry-store";
@@ -34,12 +36,14 @@ export function MqttProvider({ children }: Props) {
     mqttClient.on("connect", () => {
       setConnected(true);
 
-      mqttClient.subscribe("trashbin/+/status");
+      mqttClient.subscribe("trashbin/+/waste_level");
+      mqttClient.subscribe("trashbin/+/weight_level");
+      mqttClient.subscribe("trashbin/+/battery_level");
       mqttClient.subscribe("trashbin/+/alerts");
+      mqttClient.subscribe("trashbin/+/detections");
       mqttClient.subscribe("trashbin/collection");
       mqttClient.subscribe("server/status");
       mqttClient.subscribe("user/permissions/update");
-      mqttClient.subscribe("trashbin/detections");
       mqttClient.subscribe("users-requests");
       mqttClient.subscribe("issues");
     });
@@ -60,23 +64,6 @@ export function MqttProvider({ children }: Props) {
               setConnected(true);
               ShowToast("success", "Telemetry connected.");
             }
-            return;
-          }
-
-          if (topic === "trashbin/detections") {
-            const {
-              bin_id,
-              event,
-              class: className,
-              confidence,
-              timestamp,
-            } = message;
-            useTrashbinLogsStore.getState().addLog(bin_id, {
-              event,
-              class: className,
-              confidence,
-              timestamp,
-            });
             return;
           }
 
@@ -189,43 +176,74 @@ export function MqttProvider({ children }: Props) {
             return;
           }
 
-          const match = topic.match(/^trashbin\/([^/]+)\/status$/);
+          if (topic.match(/^trashbin\/([^/]+)\/battery_level$/)) {
+            const match = topic.match(/^trashbin\/([^/]+)\/battery_level$/);
 
-          if (!match) return;
+            if (!match) return;
 
-          const id = match[1];
-          const { status, name, location, timestamp } = message.trashbin;
+            const id = match[1];
+            const {
+              // voltage,
+              // current_mA,
+              // power_W,
+              batteryLevel,
+              // timestamp,
+            } = message;
 
-          const MAX_DISTANCE = 53;
-          const fillLevel = Math.max(
-            0,
-            Math.min(
-              100,
-              ((MAX_DISTANCE - status.wasteLevel) / MAX_DISTANCE) * 100,
-            ),
-          ).toFixed(0);
-
-          let msg: string = "";
-
-          if (status.levelType === "empty") {
-            msg = `${name} is currently empty at ${location}. No collection needed.`;
-          } else if (status.levelType === "low") {
-            msg = `${name} has a low waste level (${fillLevel}%) at ${location}. Monitoring recommended.`;
-          } else if (status.levelType === "almost-full") {
-            msg = `${name} is almost full (${fillLevel}%) at ${location}. Schedule collection soon.`;
-          } else if (status.levelType === "full") {
-            msg = `${name} is full (${fillLevel}%) at ${location}. Immediate collection advised.`;
-          } else if (status.levelType === "overflowing") {
-            msg = `${name} is overflowing (${fillLevel}%) at ${location}. Urgent collection required!`;
+            setBatteryLevel(id, batteryLevel);
+            setMessages(message);
           }
 
-          if (status.weightLevel >= 25) {
-            msg += ` Current weight is ${status.weightLevel} kg, check for overload.`;
+          if (topic.match(/^trashbin\/([^/]+)\/weight_level$/)) {
+            const match = topic.match(/^trashbin\/([^/]+)\/weight_level$/);
+
+            if (!match) return;
+
+            const id = match[1];
+            const {
+              weightLevel,
+              // timestamp,
+            } = message;
+
+            setWeightLevel(id, weightLevel);
+            setMessages(message);
           }
 
-          addUpdate({ msg, timestamp });
-          setBinData(id, status);
-          setMessages(message);
+          if (topic.match(/^trashbin\/([^/]+)\/detections$/)) {
+            const match = topic.match(/^trashbin\/([^/]+)\/detections$/);
+
+            if (!match) return;
+
+            const id = match[1];
+            const {
+              class: className,
+              confidence,
+              timestamp,
+              imageUrl,
+            } = message;
+
+            useTrashbinLogsStore.getState().addLog(id, {
+              class: className,
+              confidence,
+              timestamp,
+              imageUrl,
+            });
+          }
+
+          if (topic.match(/^trashbin\/([^/]+)\/waste_level$/)) {
+            const match = topic.match(/^trashbin\/([^/]+)\/waste_level$/);
+
+            if (!match) return;
+
+            const id = match[1];
+            const {
+              wasteLevel,
+              // timestamp,
+            } = message;
+
+            setWasteLevel(id, wasteLevel);
+            setMessages(message);
+          }
         } catch (e) {
           console.error("Invalid MQTT message:", e);
         }

@@ -31,7 +31,9 @@ export default function CheckTrashbinStatus({ id }: Props) {
     );
   }
 
-  const { wasteLevel, weightLevel, batteryLevel } = bin;
+  const wasteLevel = bin.wasteLevel ?? 0;
+  const weightLevel = bin.weightLevel ?? 0;
+  const batteryLevel = bin.batteryLevel ?? 0;
 
   const MAX_DISTANCE = 53;
   const fillLevel = Math.max(
