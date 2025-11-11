@@ -7,6 +7,7 @@ import {
   MessagingApi,
   OrganizationApi,
   UserApi,
+  UserStatusApi,
 } from "@binspire/query";
 import { Loader2 } from "lucide-react";
 import { SubLogo } from "@/components/logo";
@@ -81,6 +82,10 @@ export default function LoginForm() {
           title: `User ${user.name} signed in`,
           entity: "authentication",
           userId,
+        });
+
+        await UserStatusApi.update(userId, {
+          isOnline: true,
         });
 
         if (user.status.role === "admin") {

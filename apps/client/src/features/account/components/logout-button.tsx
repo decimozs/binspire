@@ -1,15 +1,22 @@
 import { ShowToast } from "@/components/toast";
 import { authClient } from "@/features/auth";
+import { UserStatusApi } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
 export default function LogoutButton() {
   const [loading, setLoading] = useState(false);
+  const { data: current } = authClient.useSession();
+  const userId = current?.user.id;
 
   const handleLogout = async () => {
+    if (!userId) return;
+
     try {
       setLoading(true);
+
+      await UserStatusApi.update(userId, { isOnline: false });
 
       const { error } = await authClient.signOut();
 

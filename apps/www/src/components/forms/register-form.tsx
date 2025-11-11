@@ -70,6 +70,7 @@ export default function RegisterForm({ id, email }: UserInvitation) {
           userId: newUser.user.id,
           role: invitation.role,
           permission,
+          isOnline: true,
         });
 
         await UserQuotaApi.create({

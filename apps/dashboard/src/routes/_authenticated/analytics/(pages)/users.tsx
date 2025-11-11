@@ -39,10 +39,6 @@ function RouteComponent() {
   const inactiveUserCounts = users.filter(
     (user) => user.status.isOnline === false,
   ).length;
-  const verifiedUserCounts = users.filter((user) => user.emailVerified).length;
-  const unverifiedUserCounts = users.filter(
-    (user) => user.emailVerified === false,
-  ).length;
 
   return (
     <AnalyticsOverview<User>
@@ -84,20 +80,6 @@ function RouteComponent() {
             dataKey="count"
             nameKey="status"
             footerSubText="Distribution of active and inactive users"
-          />
-          <TotalPieChart
-            title="Email Verification"
-            description="Verified vs Unverified"
-            data={[
-              { status: "Verified", count: verifiedUserCounts },
-              { status: "Unverified", count: unverifiedUserCounts },
-            ]}
-            config={{
-              Verified: { label: "Verified", color: "var(--chart-1)" },
-              Unverified: { label: "Unverified", color: "var(--chart-5)" },
-            }}
-            dataKey="count"
-            nameKey="status"
           />
         </>
       )}
