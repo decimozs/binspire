@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@binspire/ui/components/select";
 import {
+  formatLabel,
   ISSUE_STATUSES,
   PRIORITY_SCORES,
   PRIORITY_SCORES_CONFIG,
@@ -33,6 +34,7 @@ import { useState } from "react";
 import { authClient } from "../auth";
 import { FormFieldError } from "@binspire/ui/forms";
 import z from "zod";
+import { useMqtt } from "@/context/mqtt-provider";
 
 const schema = insertIssueSchema
   .pick({
@@ -50,7 +52,7 @@ const schema = insertIssueSchema
   .extend({
     title: z
       .string()
-      .min(10, "Title must be at least 3 characters long.")
+      .min(10, "Title must be at least 10 characters long.")
       .max(100, "Title must not exceed 100 characters."),
     description: z
       .string()
@@ -70,6 +72,7 @@ export default function ReportIssue({
   const { data: currentSession } = authClient.useSession();
   const user = currentSession?.user;
   const [open, setOpen] = useState(false);
+  const { client } = useMqtt();
   const form = useForm({
     defaultValues: {
       title: "",
@@ -82,16 +85,41 @@ export default function ReportIssue({
       onSubmit: schema,
     },
     onSubmit: async ({ value, formApi }) => {
-      await mutateAsync({
-        data: {
-          userId: user?.id as string,
-          orgId: user?.orgId as string,
-          ...value,
-        },
-      });
-      formApi.reset();
-      setOpen(false);
-      ShowToast("success", "Issue created successfully");
+      try {
+        const issue = await mutateAsync({
+          data: {
+            userId: user?.id as string,
+            orgId: user?.orgId as string,
+            ...value,
+          },
+        });
+
+        client?.publish(
+          "issues",
+          JSON.stringify({
+            title: `Issue #${issue.no}`,
+            description: `You have new issue from ${formatLabel(issue.entity)} that has a priority score of ${issue.priority}.`,
+            timestamp: issue.createdAt,
+            userId: issue.userId,
+            key: "issueManagement_actionDialog",
+            url: {
+              type: "issueManagement",
+              id: issue.id,
+              action: ["view"],
+            },
+          }),
+        );
+
+        formApi.reset();
+        setOpen(false);
+        ShowToast("success", "Issue created successfully");
+      } catch (error) {
+        const err = error as Error;
+        ShowToast(
+          "error",
+          err.message || "Failed to create issue. Please try again.",
+        );
+      }
     },
   });
 
