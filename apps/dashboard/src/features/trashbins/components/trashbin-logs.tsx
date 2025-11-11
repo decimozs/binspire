@@ -95,7 +95,7 @@ export default function TrashbinLogs({ id }: { id: string }) {
           ))}
         </div>
 
-        <ScrollArea className="h-[85vh] px-4">
+        <ScrollArea className="h-[72vh] px-4">
           <div className="space-y-2">
             {logs.length === 0 && <p className="text-gray-500">No logs yet.</p>}
             {logs.map((log) => (

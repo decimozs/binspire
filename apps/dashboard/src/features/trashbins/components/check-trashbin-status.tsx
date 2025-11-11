@@ -34,6 +34,7 @@ export default function CheckTrashbinStatus({ id }: Props) {
   const wasteLevel = bin.wasteLevel ?? 0;
   const weightLevel = bin.weightLevel ?? 0;
   const batteryLevel = bin.batteryLevel ?? 0;
+  const solarPowerLevel = bin.solarPower ?? 0;
 
   const MAX_DISTANCE = 53;
   const fillLevel = Math.max(
@@ -127,6 +128,31 @@ export default function CheckTrashbinStatus({ id }: Props) {
                 <TrashbinStatus
                   label="Battery Level"
                   value={batteryLevel}
+                  unit="%"
+                  type="battery-level"
+                  enabledColumn={true}
+                />
+              }
+            />
+
+            <TrashbinRadialStatus
+              title="Solar Power"
+              description="Solar Power Percentage"
+              data={[
+                { role: "Power", count: solarPowerLevel },
+                { role: "Used", count: 100 - solarPowerLevel },
+              ]}
+              config={{
+                Battery: { label: "Power", color: "var(--chart-1)" },
+                Used: { label: "Used", color: "var(--chart-4)" },
+              }}
+              dataKey="count"
+              nameKey="role"
+              footerSubText={`${solarPowerLevel}% power remaining`}
+              badge={
+                <TrashbinStatus
+                  label="Solar Power Level"
+                  value={Number(solarPowerLevel.toFixed(0))}
                   unit="%"
                   type="battery-level"
                   enabledColumn={true}

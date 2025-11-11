@@ -5,6 +5,7 @@ import { createMqttClient } from "@/lib/mqtt_client";
 import {
   resetBins,
   setBatteryLevel,
+  setSolarPower,
   setWasteLevel,
   setWeightLevel,
   useRealtimeUpdatesStore,
@@ -184,13 +185,14 @@ export function MqttProvider({ children }: Props) {
             const id = match[1];
             const {
               // voltage,
-              // current_mA,
+              current_mA,
               // power_W,
               batteryLevel,
               // timestamp,
             } = message;
 
             setBatteryLevel(id, batteryLevel);
+            setSolarPower(id, current_mA);
             setMessages(message);
           }
 

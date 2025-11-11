@@ -4,6 +4,7 @@ interface TrashbinRealtimeData {
   wasteLevel: number;
   weightLevel: number;
   batteryLevel: number;
+  solarPower: number;
 }
 
 interface TrashbinRealtimeState {
@@ -12,6 +13,7 @@ interface TrashbinRealtimeState {
   setWasteLevel: (id: string, wasteLevel: number) => void;
   setWeightLevel: (id: string, weightLevel: number) => void;
   setBatteryLevel: (id: string, batteryLevel: number) => void;
+  setSolarPower: (id: string, solarPower: number) => void;
   resetBins: () => void;
 }
 
@@ -59,6 +61,17 @@ export const useTrashbinRealtime = create<TrashbinRealtimeState>((set) => ({
       },
     })),
 
+  setSolarPower: (id, solarPower) =>
+    set((state) => ({
+      bins: {
+        ...state.bins,
+        [id]: {
+          ...state.bins[id],
+          solarPower,
+        },
+      },
+    })),
+
   resetBins: () => set({ bins: {} }),
 }));
 
@@ -73,6 +86,9 @@ export const setWeightLevel = (id: string, weightLevel: number) =>
 
 export const setBatteryLevel = (id: string, batteryLevel: number) =>
   useTrashbinRealtime.getState().setBatteryLevel(id, batteryLevel);
+
+export const setSolarPower = (id: string, solarPower: number) =>
+  useTrashbinRealtime.getState().setSolarPower(id, solarPower);
 
 export const resetBins = () => useTrashbinRealtime.getState().resetBins();
 
