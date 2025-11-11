@@ -175,7 +175,9 @@ export default function CollectTrashbin() {
 
     try {
       if (!secret) throw new Error("Missing organization secret.");
+
       const decrypted = await decryptWithSecret(secret, decodedText);
+
       if (!decrypted) throw new Error("Invalid QR code.");
 
       if (!trashbinId) {
@@ -191,6 +193,7 @@ export default function CollectTrashbin() {
       }
 
       const isSecretExisting = await TrashbinApi.getById(decrypted);
+
       if (!isSecretExisting) {
         ShowToast("error", "QR code not found or already used.");
         return;
@@ -297,7 +300,7 @@ export default function CollectTrashbin() {
                 className="border-muted border-[1px] rounded-md p-4 cursor-pointer bg-muted text-left"
               >
                 <div className="grid grid-cols-[30px_1fr] gap-4">
-                  <Camera size={30} />
+                  <Camera size={30} className="text-primary" />
                   <p className="text-xl font-bold">Scan with Camera</p>
                 </div>
               </button>
@@ -314,7 +317,7 @@ export default function CollectTrashbin() {
                   className="hidden"
                 />
                 <div className="grid grid-cols-[30px_1fr] gap-4">
-                  <FileUpIcon size={30} />
+                  <FileUpIcon size={30} className="text-primary" />
                   <p className="text-xl font-bold">Upload QR</p>
                 </div>
               </button>
