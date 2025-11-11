@@ -262,13 +262,18 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
     >
       {MemoizedDeckOverlay}
       {!isFullScreen ? (
-        <Button
-          size="sm"
-          className="w-fit absolute right-6 bottom-6 hover:transition-transform duration-200 hover:scale-150"
-          onClick={() => navigate({ to: "/map" })}
-        >
-          <ArrowUpRight />
-        </Button>
+        <>
+          <div className="relative w-full h-[400px]">
+            <div className="w-full h-[650px] absolute top-0 left-0" />
+          </div>
+          <Button
+            size="sm"
+            className="w-fit absolute right-6 bottom-6 hover:transition-transform duration-200 hover:scale-150"
+            onClick={() => navigate({ to: "/map" })}
+          >
+            <ArrowUpRight />
+          </Button>
+        </>
       ) : (
         <>
           {!enabled && (
