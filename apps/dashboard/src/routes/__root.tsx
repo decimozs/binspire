@@ -9,15 +9,12 @@ import NavigationProgress from "@/components/core/navigation-progress";
 import { QueryClient } from "@binspire/query";
 import { useIsMobile } from "@binspire/ui/hooks/use-mobile";
 import { NotAvailable } from "@/features/errors/not-available";
-import { useFCMToken } from "@/hooks/use-fcm-token";
 
 interface RootContext {
   queryClient: QueryClient;
 }
 
 const RootLayout = () => {
-  useFCMToken();
-
   const isMobile = useIsMobile();
   const isTablet = useIsMobile(1024);
   const { pathname } = useLocation();

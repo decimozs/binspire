@@ -12,6 +12,7 @@ import { usePermissionStore } from "@/store/permission-store";
 import WarningSign from "@/components/sign/warnings";
 import DraggableMap from "@/features/map/components/draggable-map";
 import {
+  MessagingApi,
   useGetOrganizationById,
   useGetOrganizationSettingsById,
   useUpdateOrganization,
@@ -22,12 +23,16 @@ import { FormFieldError } from "@binspire/ui/forms";
 import MaintenanceMode from "@/features/maintenance";
 import GenerateQRCode from "@/features/qrcode";
 import GenerateKeySecretButton from "./button/key-secret-button";
+import { Switch } from "@binspire/ui/components/switch";
+import { getToken } from "firebase/messaging";
+import { messaging } from "@/features/firebase";
 
 const generalFormSchema = z.object({
   organizationName: z
     .string()
     .min(2, "Organization name must be at least 2 characters"),
   email: z.email("Invalid email address"),
+  notification: z.boolean(),
   wasteLevelThreshold: z
     .string()
     .refine((val) => !isNaN(Number(val)), { message: "Must be a number" })
@@ -42,6 +47,12 @@ export default function GeneralSettings() {
   const updateOrgSettings = useUpdateOrganizationSettings();
   const updateOrg = useUpdateOrganization();
 
+  const getDefaultNotificationValue = () => {
+    const saved = localStorage.getItem("notification_enabled");
+    if (saved !== null) return saved === "true";
+    return Notification.permission === "granted";
+  };
+
   const { data: org } = useGetOrganizationById(
     session.data?.user.orgId as string,
   );
@@ -50,6 +61,7 @@ export default function GeneralSettings() {
   const { data: settings, isPending } = useGetOrganizationSettingsById(
     session.data?.user.orgId as string,
   );
+  const [, setToken] = useState<string | null>(null);
 
   const currentUser = session.data?.user;
   const currentSettings = settings?.settings;
@@ -81,6 +93,7 @@ export default function GeneralSettings() {
     defaultValues: {
       organizationName: org?.name || "",
       email: org?.email || "",
+      notification: getDefaultNotificationValue(),
       wasteLevelThreshold:
         currentSettings?.general?.wasteLevelThreshold || "80",
     },
@@ -134,6 +147,103 @@ export default function GeneralSettings() {
           form.handleSubmit();
         }}
       >
+        <div className="flex flex-col gap-2 w-md">
+          <div className="flex items-center justify-between">
+            <p>Notification</p>
+            <form.Field name="notification">
+              {(field) => (
+                <>
+                  {isPending ? (
+                    <Skeleton className="h-[20px] w-16 rounded-full" />
+                  ) : (
+                    <div className="flex flex-row items-center gap-2">
+                      <p className="text-sm">
+                        {field.state.value ? "On" : "Off"}
+                      </p>
+                      <Switch
+                        checked={field.state.value}
+                        onCheckedChange={async (checked) => {
+                          field.setValue(checked);
+                          localStorage.setItem(
+                            "notification_enabled",
+                            checked ? "true" : "false",
+                          );
+
+                          if (!currentUser) return;
+                          const userId = currentUser.id;
+
+                          try {
+                            if (checked) {
+                              if (!("Notification" in window)) {
+                                ShowToast(
+                                  "error",
+                                  "This browser does not support notifications.",
+                                );
+                                field.setValue(false);
+                                return;
+                              }
+
+                              const permission =
+                                await Notification.requestPermission();
+                              if (permission !== "granted") {
+                                ShowToast(
+                                  "error",
+                                  "Notification permission denied.",
+                                );
+                                field.setValue(false);
+                                localStorage.setItem(
+                                  "notification_enabled",
+                                  "false",
+                                );
+                                return;
+                              }
+
+                              const currentToken = await getToken(messaging, {
+                                vapidKey: import.meta.env
+                                  .VITE_FIREBASE_VAPID_KEY,
+                              });
+
+                              if (currentToken) {
+                                await MessagingApi.register(
+                                  userId,
+                                  currentToken,
+                                );
+                                localStorage.setItem("fcm_token", currentToken);
+                                setToken(currentToken);
+                              }
+
+                              ShowToast("success", "Notifications enabled!");
+                            } else {
+                              localStorage.removeItem("fcm_token");
+                              ShowToast("info", "Notifications disabled.");
+                            }
+                          } catch (e) {
+                            console.error(e);
+                            ShowToast(
+                              "error",
+                              "Notification initialization failed.",
+                            );
+                            field.setValue(!checked);
+                            localStorage.setItem(
+                              "notification_enabled",
+                              (!checked).toString(),
+                            );
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+                  <FormFieldError field={field} />
+                </>
+              )}
+            </form.Field>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Enable or disable notifications for important system events and
+            alerts.
+          </p>
+        </div>
+
         <div className="flex flex-col gap-2 w-md">
           <p>Organization Name</p>
           <form.Field name="organizationName">

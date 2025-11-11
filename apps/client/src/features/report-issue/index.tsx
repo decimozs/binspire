@@ -25,7 +25,7 @@ import {
   SYSTEM_ENTITY,
   type PriorityScores,
 } from "@binspire/shared";
-import { Info, Loader2 } from "lucide-react";
+import { Info, Loader2, Ticket } from "lucide-react";
 import { insertIssueSchema } from "@binspire/db/schema";
 import { useCreateIssue } from "@binspire/query";
 import { useForm } from "@tanstack/react-form";
@@ -35,6 +35,7 @@ import { authClient } from "../auth";
 import { FormFieldError } from "@binspire/ui/forms";
 import z from "zod";
 import { useMqtt } from "@/context/mqtt-provider";
+import SettingsItem from "../settings/components/settings-item";
 
 const schema = insertIssueSchema
   .pick({
@@ -63,7 +64,9 @@ const schema = insertIssueSchema
 export default function ReportIssue({
   entity,
   label = "Report Issue",
+  settings,
 }: {
+  settings?: boolean;
   entity: (typeof SYSTEM_ENTITY)[number];
   label: string;
 }) {
@@ -126,9 +129,20 @@ export default function ReportIssue({
   return (
     <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
       <SheetTrigger asChild>
-        <Button variant="destructive">
-          <Info />
-        </Button>
+        {settings ? (
+          <div className="grid grid-cols-1 gap-4">
+            <p className="text-2xl font-bold">Report</p>
+            <SettingsItem
+              label="Submit a ticket"
+              description="Report a bug or issue you're experiencing."
+              icon={Ticket}
+            />
+          </div>
+        ) : (
+          <Button variant="destructive">
+            <Info />
+          </Button>
+        )}
       </SheetTrigger>
       <form
         onSubmit={(e) => {

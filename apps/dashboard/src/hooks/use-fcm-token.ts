@@ -15,12 +15,9 @@ export const useFCMToken = (askPermission = false) => {
     if (!("serviceWorker" in navigator)) return;
 
     const registerFCMToken = async () => {
-      try {
-        if (askPermission && "Notification" in window) {
-          const permission = await Notification.requestPermission();
-          if (permission !== "granted") return;
-        }
+      if (!askPermission && Notification.permission !== "granted") return;
 
+      try {
         const currentToken = await getToken(messaging, {
           vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
         });
