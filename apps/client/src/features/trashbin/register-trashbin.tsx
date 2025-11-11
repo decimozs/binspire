@@ -154,7 +154,7 @@ export default function RegisterTrashbin() {
               className="border-muted border-[1px] rounded-md p-4 cursor-pointer bg-muted text-left"
             >
               <div className="grid grid-cols-[30px_1fr] gap-4">
-                <Camera size={30} />
+                <Camera size={30} className="text-primary" />
                 <p className="text-xl font-bold">Scan with Camera</p>
               </div>
             </button>
@@ -171,7 +171,7 @@ export default function RegisterTrashbin() {
                 className="hidden"
               />
               <div className="grid grid-cols-[30px_1fr] gap-4">
-                <FileUpIcon size={30} />
+                <FileUpIcon size={30} className="text-primary" />
                 <p className="text-xl font-bold">Upload QR</p>
               </div>
             </button>
