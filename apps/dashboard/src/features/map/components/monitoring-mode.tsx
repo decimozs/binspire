@@ -41,7 +41,7 @@ export default function MonitoringMode() {
           currentSettings.general.location.lng,
           currentSettings.general.location.lat,
         ],
-        zoom: 19,
+        zoom: 17,
         pitch: 70,
         bearing: 10,
         essential: true,
