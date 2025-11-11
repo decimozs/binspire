@@ -4,7 +4,6 @@ import { useState } from "react";
 import { authClient } from "@/features/auth";
 import {
   HistoryApi,
-  MessagingApi,
   OrganizationApi,
   UserApi,
   UserStatusApi,
@@ -17,8 +16,6 @@ import { FormFieldError } from "@binspire/ui/forms";
 import { ShowToast } from "@/components/toast";
 import { Button } from "@binspire/ui/components/button";
 import Policy from "@/components/policy";
-import { messaging } from "@/features/firebase";
-import { getToken } from "firebase/messaging";
 
 const schema = z.object({
   email: z.email("Invalid email address"),
@@ -58,25 +55,6 @@ export default function LoginForm() {
         const user = await UserApi.getById(userId);
         const org = await OrganizationApi.getById(user.orgId);
 
-        try {
-          const permission = await Notification.requestPermission();
-
-          if (permission === "granted") {
-            const token = await getToken(messaging, {
-              vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
-            });
-
-            if (token) {
-              await MessagingApi.register(userId, token);
-              console.log("FCM Token registered:", token);
-            }
-          } else {
-            console.warn("Notification permission not granted");
-          }
-        } catch (fcmError) {
-          console.error("FCM registration failed:", fcmError);
-        }
-
         await HistoryApi.create({
           orgId: org.id,
           title: `User ${user.name} signed in`,
@@ -95,6 +73,16 @@ export default function LoginForm() {
         }
 
         formApi.reset();
+
+        const hasDismissed = localStorage.getItem(
+          "client_welcome_banner_dismissed",
+        );
+
+        if (!hasDismissed) {
+          window.location.href = "/welcome";
+          return;
+        }
+
         window.location.href = "/";
       } catch (err) {
         const error = err as Error;

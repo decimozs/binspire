@@ -1,11 +1,30 @@
 import { useSession } from "@/features/auth";
 import { Button } from "@binspire/ui/components/button";
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@binspire/ui/components/drawer";
+import { ShowToast } from "./toast";
+import { getToken } from "firebase/messaging";
+import { messaging } from "@/features/firebase";
+import { MessagingApi } from "@binspire/query";
+import { Loader2 } from "lucide-react";
 
 export default function Welcome() {
   const { data: current } = useSession();
+  const [enabled, setEnabled] = useState(false);
+  const [, setToken] = useState<string | null>(null);
   const navigate = useNavigate();
+  const userId = current?.user.id;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const hasDismissed = localStorage.getItem(
@@ -17,9 +36,51 @@ export default function Welcome() {
     }
   }, [navigate]);
 
-  const handleClose = () => {
-    localStorage.setItem("client_welcome_banner_dismissed", "true");
+  const handleCancel = () => {
+    setEnabled(false);
     navigate({ to: "/" });
+  };
+
+  const handleClose = async () => {
+    setLoading(true);
+
+    if (!userId) return;
+
+    if (!("Notification" in window)) {
+      ShowToast("error", "This browser does not support notifications.");
+      setEnabled(false);
+      return;
+    }
+
+    try {
+      const permission = await Notification.requestPermission();
+
+      if (permission !== "granted") {
+        ShowToast("error", "Notification permission denied.");
+        setEnabled(false);
+        localStorage.setItem("notification_enabled", "false");
+        return;
+      }
+
+      const currentToken = await getToken(messaging, {
+        vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
+      });
+
+      if (currentToken) {
+        await MessagingApi.register(userId, currentToken);
+        localStorage.setItem("fcm_token", currentToken);
+        setToken(currentToken);
+      }
+
+      localStorage.setItem("client_welcome_banner_dismissed", "true");
+      setLoading(false);
+      setEnabled(false);
+      navigate({ to: "/" });
+    } catch {
+      ShowToast("error", "Failed to enable notifications.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDocs = () => {
@@ -52,7 +113,35 @@ export default function Welcome() {
         <Button variant="outline" onClick={handleDocs}>
           Docs
         </Button>
-        <Button onClick={handleClose}>Get Started</Button>
+
+        <Drawer open={enabled} onOpenChange={setEnabled}>
+          <DrawerTrigger asChild>
+            <Button>Get Started</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle className="text-4xl">Ready to dive in?</DrawerTitle>
+              <DrawerDescription>
+                Make sure to enable your notifications to stay updated on your
+                waste collection tasks and alerts!
+              </DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter>
+              <Button onClick={handleClose} disabled={loading}>
+                {loading ? <Loader2 className="animate-spin" /> : "Enable"}
+              </Button>
+              <DrawerClose asChild>
+                <Button
+                  variant="secondary"
+                  onClick={handleCancel}
+                  disabled={loading}
+                >
+                  Cancel
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       </div>
     </main>
   );

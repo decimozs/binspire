@@ -4,14 +4,7 @@ import { authClient } from "@/features/auth";
 import { GeneralError } from "@/features/errors/general-error";
 import { NotFoundError } from "@/features/errors/not-found-error";
 import { MaintenanceApi, UserQuotaApi } from "@binspire/query";
-import {
-  createFileRoute,
-  Outlet,
-  redirect,
-  useNavigate,
-  useRouterState,
-} from "@tanstack/react-router";
-import { useEffect } from "react";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated")({
   component: RouteComponent,
@@ -43,20 +36,6 @@ export const Route = createFileRoute("/_authenticated")({
 });
 
 function RouteComponent() {
-  const navigate = useNavigate();
-  const route = useRouterState();
-
-  useEffect(() => {
-    const hasDismissed = localStorage.getItem(
-      "client_welcome_banner_dismissed",
-    );
-    const currentPath = route.location.pathname;
-
-    if (!hasDismissed && currentPath !== "/welcome") {
-      navigate({ to: "/welcome" });
-    }
-  }, [navigate, route.location.pathname]);
-
   return (
     <>
       <Header />
