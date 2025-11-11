@@ -248,6 +248,7 @@ export default function CollectTrashbin() {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         ShowToast("info", "Cleaning up navigation session...");
         window.location.reload();
+        return;
       }
 
       if (map && orgSettings.data?.settings?.general?.location) {
