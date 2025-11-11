@@ -24,8 +24,12 @@ export default function UserCard({
   const navigate = useNavigate();
   const location = useLocation();
 
+  const sortParam = encodeURIComponent(
+    JSON.stringify([{ id: "updatedAt", desc: true }]),
+  );
+
   const handleViewUser = () => {
-    navigate({ to: "/users/$userId", params: { userId: id } });
+    navigate({ to: `/users/${id}?sort=${sortParam}`, params: { userId: id } });
   };
 
   return (
