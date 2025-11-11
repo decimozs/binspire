@@ -107,10 +107,14 @@ export default function BinspireAI() {
   const [abortRequested, setAbortRequested] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const typeWriter = (text: string, delay = 20) => {
+  const typeWriter = (text: string) => {
     return new Promise<string>((resolve) => {
-      let i = 0;
       stopRef.current = false;
+
+      const chunkSize = text.length > 1000 ? 50 : 3;
+      const delay = text.length > 1000 ? 5 : 20;
+
+      let i = 0;
 
       const interval = setInterval(() => {
         if (stopRef.current) {
@@ -122,19 +126,22 @@ export default function BinspireAI() {
         setMessages((prev) => {
           const last = prev[prev.length - 1];
 
+          const nextChunk = text.slice(i, i + chunkSize);
+
           if (!last || last.role !== "assistant")
-            return [...prev, { role: "assistant", content: text[0] }];
+            return [...prev, { role: "assistant", content: nextChunk }];
 
           const updated = [...prev];
-
           updated[updated.length - 1] = {
             ...last,
-            content: last.content + text[i],
+            content: last.content + nextChunk,
           };
 
           return updated;
         });
-        i++;
+
+        i += chunkSize;
+
         if (i >= text.length) {
           clearInterval(interval);
           resolve(text);
