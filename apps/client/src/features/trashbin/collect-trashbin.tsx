@@ -212,7 +212,7 @@ export default function CollectTrashbin() {
 
       client?.publish(
         `trashbin/${trashbinId}/waste_level`,
-        JSON.stringify({ wasteLevel: 0, timestamp: new Date().toISOString() }),
+        JSON.stringify({ wasteLevel: 53, timestamp: new Date().toISOString() }),
       );
 
       client?.publish(
