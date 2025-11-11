@@ -18,16 +18,35 @@ import {
 } from "@binspire/ui/components/tooltip";
 import { useMonitoringStore } from "@/store/monitoring-store";
 import { useMap } from "react-map-gl/maplibre";
+import { useGetOrganizationSettingsById } from "@binspire/query";
+import { authClient } from "@/lib/auth-client";
 
 export default function MonitoringMode() {
   const { current: map } = useMap();
   const [open, setOpen] = useState(false);
   const { enabled, setEnabled } = useMonitoringStore();
+  const session = authClient.useSession();
+  const { data: settings } = useGetOrganizationSettingsById(
+    session.data?.user.orgId as string,
+  );
+
+  const currentSettings = settings?.settings;
 
   const handleEnable = () => {
     if (!map) return;
 
-    map.zoomOut({ essential: true });
+    if (currentSettings?.general?.location) {
+      map.flyTo({
+        center: [
+          currentSettings.general.location.lng,
+          currentSettings.general.location.lat,
+        ],
+        zoom: 19,
+        pitch: 70,
+        bearing: 10,
+        essential: true,
+      });
+    }
 
     setEnabled(true);
     setOpen(false);
@@ -36,7 +55,18 @@ export default function MonitoringMode() {
   const handleDisable = () => {
     if (!map) return;
 
-    map.zoomIn({ essential: true });
+    if (currentSettings?.general?.location) {
+      map.flyTo({
+        center: [
+          currentSettings.general.location.lng,
+          currentSettings.general.location.lat,
+        ],
+        zoom: 18,
+        pitch: 70,
+        bearing: 10,
+        essential: true,
+      });
+    }
 
     setEnabled(false);
     setOpen(false);
