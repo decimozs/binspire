@@ -28,12 +28,17 @@ export default function TrashbinIssues() {
   );
   const { data, isPending } = useGetAllIssues();
 
-  const trashbinIssues = data?.filter(
-    (i) =>
-      i.entity === "trashbinManagement" &&
-      i.status !== "resolved" &&
-      i.status !== "closed",
-  );
+  const trashbinIssues = data
+    ?.filter(
+      (i) =>
+        i.entity === "trashbinManagement" &&
+        i.status !== "resolved" &&
+        i.status !== "closed",
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
 
   return (
     <Drawer open={open} onOpenChange={setOpen} modal={false}>

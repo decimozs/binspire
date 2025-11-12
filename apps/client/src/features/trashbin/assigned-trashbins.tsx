@@ -35,7 +35,12 @@ export default function AssignedTrashbins() {
   const { data: currentSession } = authClient.useSession();
   const user = currentSession?.user;
   const { data, isPending } = useGetAllUserCollectionAssignment();
-  const assignedCollections = data?.filter((i) => i.userId === user?.id);
+  const assignedCollections = data
+    ?.filter((i) => i.userId === user?.id)
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
 
   const handleCollectionClick = (
     trashbinId: string,

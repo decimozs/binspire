@@ -25,8 +25,13 @@ export function useNotifications() {
 
         queryClient.invalidateQueries({
           queryKey: ["user-collection-assignment"],
+          refetchType: "all",
         });
-        queryClient.invalidateQueries({ queryKey: ["issues"] });
+
+        queryClient.invalidateQueries({
+          queryKey: ["issues"],
+          refetchType: "all",
+        });
       }
     });
 
