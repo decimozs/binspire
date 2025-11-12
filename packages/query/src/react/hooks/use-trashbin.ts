@@ -150,6 +150,9 @@ export function useCollectTrashbin() {
       >;
     }) => TrashbinApi.collect(id, data),
     onSuccess: ({ id }) => {
+      queryClient.invalidateQueries({
+        queryKey: ["user-collection-assignments"],
+      });
       queryClient.invalidateQueries({ queryKey: ["trashbins"] });
       queryClient.invalidateQueries({ queryKey: ["trashbin-collections"] });
       queryClient.invalidateQueries({ queryKey: ["trashbin", id] });
