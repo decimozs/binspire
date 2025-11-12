@@ -176,7 +176,7 @@ export default function RequestAccess({ actions }: RequestAccessProps) {
                   <Button
                     className="mt-4 w-full"
                     type="submit"
-                    size="lg"
+                    size="sm"
                     disabled={createRequest.isPending}
                   >
                     {createRequest.isPending ? (
@@ -326,7 +326,7 @@ export default function RequestAccess({ actions }: RequestAccessProps) {
                       <Button
                         className="mt-4 w-full"
                         type="submit"
-                        size="lg"
+                        size="sm"
                         disabled={createRequest.isPending}
                       >
                         {createRequest.isPending ? (
