@@ -230,6 +230,175 @@ function RouteComponent() {
             nameKey="name"
             footerSubText="Based on total collection records"
           />
+
+          <TotalPieChart
+            title="Total Detection Logs"
+            description="Total number of detections recorded across all collections"
+            data={[
+              {
+                role: "Total Logs",
+                count: collections.reduce(
+                  (sum, c) => sum + (c.logs ? c.logs.length : 0),
+                  0,
+                ),
+              },
+            ]}
+            config={{
+              "Total Logs": { label: "Total Logs", color: "var(--chart-1)" },
+            }}
+            dataKey="count"
+            nameKey="role"
+            footerSubText="Sum of all detection logs across every collection"
+          />
+
+          <TotalPieChart
+            title="Collected Waste by Category"
+            description="Breakdown of all waste types detected across collections"
+            data={(() => {
+              const allLogs =
+                collections.flatMap((c) => (c.logs ? c.logs : [])) ?? [];
+
+              const categoryCounts = allLogs.reduce<Record<string, number>>(
+                (acc, log) => {
+                  const wasteClass = log.class || "Unknown";
+                  acc[wasteClass] = (acc[wasteClass] || 0) + 1;
+                  return acc;
+                },
+                {},
+              );
+
+              return Object.entries(categoryCounts).map(([role, count]) => ({
+                role,
+                count,
+              }));
+            })()}
+            config={(() => {
+              const colorMap: Record<string, string> = {
+                Plastics: "var(--chart-1)",
+                Paper: "var(--chart-2)",
+                "Electronic Device": "var(--chart-3)",
+                Glass: "var(--chart-4)",
+                Metal: "var(--chart-5)",
+                Organic: "var(--chart-5)",
+                Unknown: "var(--chart-3)",
+              };
+
+              return Object.fromEntries(
+                Object.entries(colorMap).map(([label, color]) => [
+                  label,
+                  { label, color },
+                ]),
+              );
+            })()}
+            dataKey="count"
+            nameKey="role"
+            footerSubText="Distribution of all detected waste types across bins"
+          />
+
+          <TotalPieChart
+            title="Detection Confidence Levels"
+            description="Breakdown of AI detection confidence ranges"
+            data={(() => {
+              const allLogs = collections.flatMap((c) => c.logs ?? []);
+              const confidenceBuckets = { Low: 0, Medium: 0, High: 0 };
+
+              allLogs.forEach((log) => {
+                const conf = log.confidence ?? log.confidence ?? 0;
+                if (conf >= 0.8) confidenceBuckets.High++;
+                else if (conf >= 0.5) confidenceBuckets.Medium++;
+                else confidenceBuckets.Low++;
+              });
+
+              return Object.entries(confidenceBuckets).map(([role, count]) => ({
+                role,
+                count,
+              }));
+            })()}
+            config={{
+              High: { label: "High (≥ 0.8)", color: "var(--chart-1)" },
+              Medium: { label: "Medium (0.5–0.79)", color: "var(--chart-2)" },
+              Low: { label: "Low (< 0.5)", color: "var(--chart-3)" },
+            }}
+            dataKey="count"
+            nameKey="role"
+            footerSubText="Distribution of AI confidence levels in waste detection"
+          />
+
+          <MostBarChart
+            title="Most Active Collection Times"
+            description="Distribution of detections by time of day"
+            data={(() => {
+              const allLogs = collections.flatMap((c) => c.logs ?? []);
+              const timeBuckets = {
+                Morning: 0,
+                Afternoon: 0,
+                Evening: 0,
+                Night: 0,
+              };
+
+              allLogs.forEach((log) => {
+                const date = new Date(log.timestamp);
+                const hour = date.getHours();
+                if (hour >= 6 && hour < 12) timeBuckets.Morning++;
+                else if (hour >= 12 && hour < 18) timeBuckets.Afternoon++;
+                else if (hour >= 18 && hour < 24) timeBuckets.Evening++;
+                else timeBuckets.Night++;
+              });
+
+              return Object.entries(timeBuckets).map(([name, count]) => ({
+                name,
+                count,
+              }));
+            })()}
+            config={{
+              Morning: { label: "Morning", color: "var(--chart-1)" },
+              Afternoon: { label: "Afternoon", color: "var(--chart-2)" },
+              Evening: { label: "Evening", color: "var(--chart-3)" },
+              Night: { label: "Night", color: "var(--chart-4)" },
+            }}
+            dataKey="count"
+            nameKey="name"
+            footerSubText="Helps identify the busiest detection hours"
+          />
+
+          <TotalPieChart
+            title="Detections by Location"
+            description="Distribution of all detections grouped by bin location"
+            data={(() => {
+              const allLogs = collections.flatMap((c) =>
+                (c.logs ?? []).map(() => ({
+                  area: c.trashbin.location || "Unknown",
+                })),
+              );
+
+              const areaCounts = allLogs.reduce<Record<string, number>>(
+                (acc, log) => {
+                  acc[log.area] = (acc[log.area] || 0) + 1;
+                  return acc;
+                },
+                {},
+              );
+
+              return Object.entries(areaCounts).map(([role, count]) => ({
+                role,
+                count,
+              }));
+            })()}
+            config={(() => {
+              const areas = new Set(
+                collections.map((c) => c.trashbin.location || "Unknown"),
+              );
+              return Object.fromEntries(
+                Array.from(areas).map((a, idx) => [
+                  a,
+                  { label: a, color: `var(--chart-${(idx % 6) + 1})` },
+                ]),
+              );
+            })()}
+            dataKey="count"
+            nameKey="role"
+            footerSubText="Shows which locations generate the most detections"
+          />
         </>
       )}
       renderRecentChangesTable={(data) => (

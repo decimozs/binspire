@@ -8,6 +8,7 @@ import {
   useGetTrashbinCollectionsById,
   type TrashbinCollections,
 } from "@binspire/query";
+import CollectionLogs from "./collection-logs";
 
 const keys: { queryKey: ActionsTypeManagement; actionKey: ActionType } = {
   queryKey: "collectionsManagement",
@@ -35,7 +36,14 @@ export default function ViewTrashbinCollection() {
             label="Collected by"
           />
         )}
-        renderComponents={(data) => <TrashbinDetails data={data} />}
+        renderComponents={(data) => {
+          return (
+            <div className="flex flex-col gap-4">
+              <TrashbinDetails data={data} />
+              <CollectionLogs logsRaw={data.logs!} />
+            </div>
+          );
+        }}
       />
     </ActionDialogContainer>
   );
