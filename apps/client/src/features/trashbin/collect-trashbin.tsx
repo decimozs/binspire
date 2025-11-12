@@ -16,7 +16,6 @@ import {
   TrashbinApi,
   useCollectTrashbin,
   useGetOrganizationSettingsById,
-  useGetTrashbinById,
   useGetUserQuotaByUserId,
   useUpdateUserQuota,
 } from "@binspire/query";
@@ -33,7 +32,6 @@ import { useRouteStore } from "@/store/route-store";
 export default function CollectTrashbin() {
   const [trashbinId, setTrashbinId] = useQueryState("trashbin_id");
   const [markTrashbinId, setMarkTrashbinId] = useQueryState("mark_trashbin_id");
-  const { data: trashbin } = useGetTrashbinById(trashbinId || "");
   const [, setLat] = useQueryState("lat");
   const [, setLng] = useQueryState("lng");
   const { resetLogs } = useTrashbinLogsStore();
@@ -171,6 +169,7 @@ export default function CollectTrashbin() {
 
   const handleVerification = async (decodedText: string) => {
     if (isVerifying) return;
+
     setIsVerifying(true);
 
     try {
@@ -180,21 +179,14 @@ export default function CollectTrashbin() {
 
       if (!decrypted) throw new Error("Invalid QR code.");
 
-      if (!trashbinId) {
-        if (markTrashbinId !== decrypted) {
-          ShowToast("error", "QR Code does not match the trashbin ID.");
-          return;
-        }
-      } else {
-        if (trashbinId !== decrypted) {
-          ShowToast("error", "QR Code does not match the trashbin ID.");
-          return;
-        }
+      if (markTrashbinId !== decrypted) {
+        ShowToast("error", "QR Code does not match the trashbin ID.");
+        return;
       }
 
-      const isSecretExisting = await TrashbinApi.getById(decrypted);
+      const trashbin = await TrashbinApi.getById(decrypted);
 
-      if (!isSecretExisting) {
+      if (!trashbin) {
         ShowToast("error", "QR code not found or already used.");
         return;
       }
@@ -246,7 +238,7 @@ export default function CollectTrashbin() {
 
       if (route) {
         client?.publish(
-          `trashbin/${trashbinId}/tracking`,
+          `trashbin/${decrypted}/tracking`,
           JSON.stringify({
             status: "stop-navigating",
           }),
