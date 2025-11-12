@@ -6,9 +6,9 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/(auth)/login/")({
   component: RouteComponent,
   beforeLoad: async () => {
-    const { data: session } = await authClient.getSession();
+    const { data: current } = await authClient.getSession();
 
-    if (!session) return;
+    if (!current?.session) return;
 
     throw redirect({
       to: "/",
