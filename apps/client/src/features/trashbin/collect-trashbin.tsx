@@ -245,6 +245,13 @@ export default function CollectTrashbin() {
       resetLogs(decrypted);
 
       if (route) {
+        client?.publish(
+          `trashbin/${trashbinId}/tracking`,
+          JSON.stringify({
+            status: "stop-navigating",
+          }),
+        );
+
         deleteRoute();
         setMarkTrashbinId(null);
         ShowToast("success", "Trashbin collected successfully!");

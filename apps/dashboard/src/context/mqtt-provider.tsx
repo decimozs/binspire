@@ -16,6 +16,11 @@ import { authClient } from "@/lib/auth-client";
 import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
 import { useQueryClient } from "@binspire/query";
 import type { NotificationItem } from "@/features/notification";
+import {
+  deleteRoute,
+  setRoute,
+  setTrackingPosition,
+} from "@/store/route-store";
 
 interface Props {
   children: ReactNode;
@@ -43,6 +48,7 @@ export function MqttProvider({ children }: Props) {
       mqttClient.subscribe("trashbin/+/battery_level");
       mqttClient.subscribe("trashbin/+/alerts");
       mqttClient.subscribe("trashbin/+/detections");
+      mqttClient.subscribe("trashbin/+/tracking");
       mqttClient.subscribe("trashbin/collection");
       mqttClient.subscribe("server/status");
       mqttClient.subscribe("user/permissions/update");
@@ -250,6 +256,29 @@ export function MqttProvider({ children }: Props) {
 
             setWasteLevel(id, wasteLevel);
             setMessages(message);
+          }
+
+          if (topic.match(/^trashbin\/([^/]+)\/tracking$/)) {
+            const match = topic.match(/^trashbin\/([^/]+)\/tracking$/);
+            if (!match) return;
+
+            const id = match[1];
+            const { status, routes, userId, name, position } = message;
+
+            if (status === "navigating") {
+              setRoute(id, {
+                geojson: routes,
+                tracker: { userId, name, trashbinId: id },
+              });
+            }
+
+            if (status === "update-position" && position) {
+              setTrackingPosition(id, position);
+            }
+
+            if (status === "stop-navigating") {
+              deleteRoute(id);
+            }
           }
         } catch (e) {
           console.error("Invalid MQTT message:", e);

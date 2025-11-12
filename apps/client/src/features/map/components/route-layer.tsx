@@ -5,8 +5,14 @@ import bearing from "@turf/bearing";
 import { useRouteStore } from "@/store/route-store";
 import { useMapStore } from "@/store/map-store";
 import { useLocation } from "@tanstack/react-router";
+import { useMqtt } from "@/context/mqtt-provider";
+import { useSession } from "@/features/auth";
+import { useQueryState } from "nuqs";
 
 export default function RouteLayer() {
+  const { client } = useMqtt();
+  const session = useSession();
+  const [markTrashbinId] = useQueryState("mark_trashbin_id");
   const { pathname } = useLocation();
   const { route } = useRouteStore();
   const updateViewState = useMapStore((state) => state.updateViewState);
@@ -73,6 +79,19 @@ export default function RouteLayer() {
 
         setUserPosition([longitude, latitude]);
         setUserHeading(currentHeading);
+
+        if (client && session.data?.user) {
+          client.publish(
+            `trashbin/${markTrashbinId}/tracking`,
+            JSON.stringify({
+              userId: session.data.user.id,
+              name: session.data.user.name,
+              trashbinId: markTrashbinId,
+              status: "update-position",
+              position: [longitude, latitude],
+            }),
+          );
+        }
       },
       (error) => console.error("Error tracking location:", error),
       { enableHighAccuracy: true, maximumAge: 1000 },

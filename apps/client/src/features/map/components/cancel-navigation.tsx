@@ -1,4 +1,5 @@
 import { ShowToast } from "@/components/toast";
+import { useMqtt } from "@/context/mqtt-provider";
 import { useSession } from "@/features/auth";
 import { useRouteStore } from "@/store/route-store";
 import { useGetOrganizationSettingsById } from "@binspire/query";
@@ -22,16 +23,27 @@ export default function CancelNavigation() {
   const { data: settings } = useGetOrganizationSettingsById(
     session.data?.user.orgId as string,
   );
-  const [, setMarkTrashbinQuery] = useQueryState("mark_trashbin_id");
+  const [markTrashbinId, setMarkTrashbinQuery] =
+    useQueryState("mark_trashbin_id");
   const currentSettings = settings?.settings;
   const [isLoading, setIsLoading] = useState(false);
+  const { client } = useMqtt();
 
   const handleResetMapState = async () => {
     try {
       setIsLoading(true);
 
       if (currentSettings?.general?.location) {
+        if (!client) return;
+
         await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        client?.publish(
+          `trashbin/${markTrashbinId}/tracking`,
+          JSON.stringify({
+            status: "stop-navigating",
+          }),
+        );
 
         deleteRoute();
         setMarkTrashbinQuery(null);

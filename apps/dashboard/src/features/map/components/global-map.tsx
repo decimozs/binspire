@@ -24,6 +24,7 @@ import MapLegend from "./map-legend";
 import LiveUpdates from "./live-updates";
 import MonitoringMode from "./monitoring-mode";
 import { useMonitoringStore } from "@/store/monitoring-store";
+import RouteLayer from "./route-layer";
 
 interface Props {
   isFullScreen?: boolean;
@@ -261,6 +262,7 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
       mapStyle={mapStyle}
     >
       {MemoizedDeckOverlay}
+      <RouteLayer />
       {!isFullScreen ? (
         <>
           <div className="relative w-full h-[400px]">
