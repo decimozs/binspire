@@ -27,6 +27,8 @@ export default function IssuesDataTable({
       columns={issueColumns}
       facetedFilterColumns={["status", "priority", "entity"]}
       recentChangesMode={recentChangesMode}
+      analytics
+      analyticsLink="/analytics/issues"
       renderActions={(item) => (
         <>
           <DropdownMenu>

@@ -41,9 +41,11 @@ import { SortSchema } from "./components/sorting-button";
 import { debounce } from "lodash";
 import CreateIssueButton from "../issues/components/create-issue-button";
 import LeaderboardsButton from "../leaderboards/components/leaderboards-button";
-import { useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import InviteUserButton from "./components/invite-user-button";
 import CreateGreenHearts from "../green-hearts/components/create-green-hearts";
+import { Button } from "@binspire/ui/components/button";
+import { ChartSpline } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -52,6 +54,8 @@ interface DataTableProps<TData, TValue> {
   facetedFilterColumns?: string[];
   recentChangesMode?: boolean;
   renderBatchActions?: (data: TData[], table: ReactTable<TData>) => ReactNode;
+  analytics?: boolean;
+  analyticsLink?: string;
 }
 
 export default function DataTable<
@@ -64,6 +68,8 @@ export default function DataTable<
   facetedFilterColumns,
   recentChangesMode = false,
   renderBatchActions,
+  analytics = false,
+  analyticsLink,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useQueryState(
     "sort",
@@ -182,6 +188,14 @@ export default function DataTable<
           <ClearFilterButton table={table} />
         </div>
         <div className="flex flex-row items-center gap-2 justify-end">
+          {analytics && !recentChangesMode && (
+            <Link to={analyticsLink}>
+              <Button size="sm" variant="secondary">
+                <ChartSpline />
+                Analytics
+              </Button>
+            </Link>
+          )}
           {isTotalSizeEnough && !recentChangesMode && (
             <RangeCalendar
               column={table.getColumn("createdAt")}

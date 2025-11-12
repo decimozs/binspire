@@ -127,6 +127,13 @@
       "when": 1762747131489,
       "tag": "0017_harsh_venom",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1762935530448,
+      "tag": "0018_strange_firestar",
+      "breakpoints": true
     }
   ]
 }

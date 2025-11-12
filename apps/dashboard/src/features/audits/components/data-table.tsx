@@ -27,6 +27,8 @@ export default function AuditDataTable({
       columns={auditColumns}
       facetedFilterColumns={["entity", "action"]}
       recentChangesMode={recentChangesMode}
+      analytics
+      analyticsLink="/analytics/audits"
       renderActions={(item) => (
         <>
           <DropdownMenu>

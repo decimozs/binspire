@@ -27,6 +27,8 @@ export default function TrashbinsDataTable({
       columns={trashbinColumns}
       facetedFilterColumns={["wasteType"]}
       recentChangesMode={recentChangesMode}
+      analytics
+      analyticsLink="/analytics/trashbins"
       renderActions={(item) => (
         <>
           <DropdownMenu>

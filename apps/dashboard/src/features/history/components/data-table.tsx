@@ -27,6 +27,8 @@ export default function HistoryDataTable({
       columns={historyColumns}
       facetedFilterColumns={["entity"]}
       recentChangesMode={recentChangesMode}
+      analytics
+      analyticsLink="/analytics/history"
       renderActions={(item) => (
         <>
           <DropdownMenu>

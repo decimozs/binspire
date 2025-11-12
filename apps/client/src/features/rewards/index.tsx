@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import MainLayout from "@/components/layout/main-layout";
-import type { UserGreenHeart } from "@binspire/query";
+import { UserGreenHeartApi, type UserGreenHeart } from "@binspire/query";
 import { REWARDS } from "./lib/constants";
 import RewardCard from "./components/reward-card";
+import { ShowToast } from "@/components/toast";
 
 function getRedeemedRewards(): string[] {
   const stored = localStorage.getItem("greenhearts_rewards");
@@ -17,8 +18,30 @@ export default function Rewards({ data }: { data: UserGreenHeart }) {
     setRedeemed(getRedeemedRewards());
   }, []);
 
-  const handleRedeem = (id: string) => {
-    setRedeemed((prev) => [...prev, id]);
+  const handleRedeem = async (id: string) => {
+    const reward = REWARDS.find((r) => r.id === id);
+
+    if (!reward) return ShowToast("error", "Reward not found.");
+
+    try {
+      await UserGreenHeartApi.update(data.user.id, {
+        points: currentPoints - reward.requiredPoints,
+      });
+
+      setRedeemed((prev) => {
+        const updated = [...prev, id];
+        localStorage.setItem("greenhearts_rewards", JSON.stringify(updated));
+        return updated;
+      });
+
+      ShowToast("success", "Reward redeemed successfully!");
+    } catch (error) {
+      const err = error as Error;
+      ShowToast(
+        "error",
+        err.message || "An error occurred while redeeming the reward.",
+      );
+    }
   };
 
   return (

@@ -17,11 +17,17 @@ import {
   Trash,
   Database,
   ClipboardList,
+  HeartHandshake,
 } from "lucide-react";
 
 const generalMenus: MenuItem[] = [
   { title: "Issue", url: "/analytics/issues", icon: Info },
   { title: "Audit", url: "/analytics/audits", icon: ShieldQuestionMark },
+  {
+    title: "GreenHearts",
+    url: "/analytics/green-hearts",
+    icon: HeartHandshake,
+  },
   { title: "History", url: "/analytics/history", icon: History },
   { title: "Users", url: "/analytics/users", icon: Users },
   { title: "Requests", url: "/analytics/requests", icon: ClipboardList },

@@ -33,6 +33,8 @@ export default function GreenHeartsDataTable({
       columns={greenHeartColumns}
       facetedFilterColumns={[""]}
       recentChangesMode={recentChangesMode}
+      analytics
+      analyticsLink="/analytics/green-hearts"
       renderActions={(item) =>
         permission.greenHeartsManagement?.actions.delete && (
           <DropdownMenu>
@@ -43,7 +45,7 @@ export default function GreenHeartsDataTable({
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <PermittedActions
-                itemId={item.id}
+                itemId={item.userId}
                 type="greenHeartsManagement"
                 isUser={true}
                 actions={permission.greenHeartsManagement?.actions}

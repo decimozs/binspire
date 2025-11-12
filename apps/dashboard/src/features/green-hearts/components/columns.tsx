@@ -84,4 +84,100 @@ export const greenHeartColumns: ColumnDef<UserGreenHeart>[] = [
       </p>
     ),
   },
+  {
+    id: "plastic",
+    accessorKey: "plastic",
+    header: ({ column }) => (
+      <SortingButton
+        label="Plastic"
+        column={column}
+        icons={{
+          asc: <ArrowUp01 className="h-4 w-4" />,
+          desc: <ArrowDown10 className="h-4 w-4" />,
+          default: <ArrowUpDown className="h-4 w-4" />,
+        }}
+        menuLabels={{
+          asc: "A → Z",
+          desc: "Z → A",
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <p className="text-xs px-3 py-1 rounded-md w-fit border-[1px] border-muted">
+        + {row.getValue("plastic")}
+      </p>
+    ),
+  },
+  {
+    id: "paper",
+    accessorKey: "paper",
+    header: ({ column }) => (
+      <SortingButton
+        label="Paper"
+        column={column}
+        icons={{
+          asc: <ArrowUp01 className="h-4 w-4" />,
+          desc: <ArrowDown10 className="h-4 w-4" />,
+          default: <ArrowUpDown className="h-4 w-4" />,
+        }}
+        menuLabels={{
+          asc: "A → Z",
+          desc: "Z → A",
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <p className="text-xs px-3 py-1 rounded-md w-fit border-[1px] border-muted">
+        + {row.getValue("paper")}
+      </p>
+    ),
+  },
+  {
+    id: "metal",
+    accessorKey: "metal",
+    header: ({ column }) => (
+      <SortingButton
+        label="Metal"
+        column={column}
+        icons={{
+          asc: <ArrowUp01 className="h-4 w-4" />,
+          desc: <ArrowDown10 className="h-4 w-4" />,
+          default: <ArrowUpDown className="h-4 w-4" />,
+        }}
+        menuLabels={{
+          asc: "A → Z",
+          desc: "Z → A",
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <p className="text-xs px-3 py-1 rounded-md w-fit border-[1px] border-muted">
+        + {row.getValue("metal")}
+      </p>
+    ),
+  },
+  {
+    id: "glass",
+    accessorKey: "glass",
+    header: ({ column }) => (
+      <SortingButton
+        label="Glass"
+        column={column}
+        icons={{
+          asc: <ArrowUp01 className="h-4 w-4" />,
+          desc: <ArrowDown10 className="h-4 w-4" />,
+          default: <ArrowUpDown className="h-4 w-4" />,
+        }}
+        menuLabels={{
+          asc: "A → Z",
+          desc: "Z → A",
+        }}
+      />
+    ),
+    cell: ({ row }) => (
+      <p className="text-xs px-3 py-1 rounded-md w-fit border-[1px] border-muted">
+        + {row.getValue("glass")}
+      </p>
+    ),
+  },
 ];

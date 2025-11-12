@@ -42,6 +42,7 @@ import { Route as AuthenticatedAnalyticspagesRequestsRouteImport } from './route
 import { Route as AuthenticatedAnalyticspagesIssuesRouteImport } from './routes/_authenticated/analytics/(pages)/issues'
 import { Route as AuthenticatedAnalyticspagesInvitationsRouteImport } from './routes/_authenticated/analytics/(pages)/invitations'
 import { Route as AuthenticatedAnalyticspagesHistoryRouteImport } from './routes/_authenticated/analytics/(pages)/history'
+import { Route as AuthenticatedAnalyticspagesGreenHeartsRouteImport } from './routes/_authenticated/analytics/(pages)/green-hearts'
 import { Route as AuthenticatedAnalyticspagesAuditsRouteImport } from './routes/_authenticated/analytics/(pages)/audits'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -235,6 +236,12 @@ const AuthenticatedAnalyticspagesHistoryRoute =
     path: '/history',
     getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
   } as any)
+const AuthenticatedAnalyticspagesGreenHeartsRoute =
+  AuthenticatedAnalyticspagesGreenHeartsRouteImport.update({
+    id: '/(pages)/green-hearts',
+    path: '/green-hearts',
+    getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
+  } as any)
 const AuthenticatedAnalyticspagesAuditsRoute =
   AuthenticatedAnalyticspagesAuditsRouteImport.update({
     id: '/(pages)/audits',
@@ -265,6 +272,7 @@ export interface FileRoutesByFullPath {
   '/trashbins': typeof AuthenticatedTrashbinsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
   '/analytics/audits': typeof AuthenticatedAnalyticspagesAuditsRoute
+  '/analytics/green-hearts': typeof AuthenticatedAnalyticspagesGreenHeartsRoute
   '/analytics/history': typeof AuthenticatedAnalyticspagesHistoryRoute
   '/analytics/invitations': typeof AuthenticatedAnalyticspagesInvitationsRoute
   '/analytics/issues': typeof AuthenticatedAnalyticspagesIssuesRoute
@@ -297,6 +305,7 @@ export interface FileRoutesByTo {
   '/trashbins': typeof AuthenticatedTrashbinsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
   '/analytics/audits': typeof AuthenticatedAnalyticspagesAuditsRoute
+  '/analytics/green-hearts': typeof AuthenticatedAnalyticspagesGreenHeartsRoute
   '/analytics/history': typeof AuthenticatedAnalyticspagesHistoryRoute
   '/analytics/invitations': typeof AuthenticatedAnalyticspagesInvitationsRoute
   '/analytics/issues': typeof AuthenticatedAnalyticspagesIssuesRoute
@@ -334,6 +343,7 @@ export interface FileRoutesById {
   '/_authenticated/trashbins/': typeof AuthenticatedTrashbinsIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
   '/_authenticated/analytics/(pages)/audits': typeof AuthenticatedAnalyticspagesAuditsRoute
+  '/_authenticated/analytics/(pages)/green-hearts': typeof AuthenticatedAnalyticspagesGreenHeartsRoute
   '/_authenticated/analytics/(pages)/history': typeof AuthenticatedAnalyticspagesHistoryRoute
   '/_authenticated/analytics/(pages)/invitations': typeof AuthenticatedAnalyticspagesInvitationsRoute
   '/_authenticated/analytics/(pages)/issues': typeof AuthenticatedAnalyticspagesIssuesRoute
@@ -371,6 +381,7 @@ export interface FileRouteTypes {
     | '/trashbins'
     | '/users'
     | '/analytics/audits'
+    | '/analytics/green-hearts'
     | '/analytics/history'
     | '/analytics/invitations'
     | '/analytics/issues'
@@ -403,6 +414,7 @@ export interface FileRouteTypes {
     | '/trashbins'
     | '/users'
     | '/analytics/audits'
+    | '/analytics/green-hearts'
     | '/analytics/history'
     | '/analytics/invitations'
     | '/analytics/issues'
@@ -439,6 +451,7 @@ export interface FileRouteTypes {
     | '/_authenticated/trashbins/'
     | '/_authenticated/users/'
     | '/_authenticated/analytics/(pages)/audits'
+    | '/_authenticated/analytics/(pages)/green-hearts'
     | '/_authenticated/analytics/(pages)/history'
     | '/_authenticated/analytics/(pages)/invitations'
     | '/_authenticated/analytics/(pages)/issues'
@@ -691,6 +704,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnalyticspagesHistoryRouteImport
       parentRoute: typeof AuthenticatedAnalyticsRouteRoute
     }
+    '/_authenticated/analytics/(pages)/green-hearts': {
+      id: '/_authenticated/analytics/(pages)/green-hearts'
+      path: '/green-hearts'
+      fullPath: '/analytics/green-hearts'
+      preLoaderRoute: typeof AuthenticatedAnalyticspagesGreenHeartsRouteImport
+      parentRoute: typeof AuthenticatedAnalyticsRouteRoute
+    }
     '/_authenticated/analytics/(pages)/audits': {
       id: '/_authenticated/analytics/(pages)/audits'
       path: '/audits'
@@ -704,6 +724,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedAnalyticsRouteRouteChildren {
   AuthenticatedAnalyticsIndexRoute: typeof AuthenticatedAnalyticsIndexRoute
   AuthenticatedAnalyticspagesAuditsRoute: typeof AuthenticatedAnalyticspagesAuditsRoute
+  AuthenticatedAnalyticspagesGreenHeartsRoute: typeof AuthenticatedAnalyticspagesGreenHeartsRoute
   AuthenticatedAnalyticspagesHistoryRoute: typeof AuthenticatedAnalyticspagesHistoryRoute
   AuthenticatedAnalyticspagesInvitationsRoute: typeof AuthenticatedAnalyticspagesInvitationsRoute
   AuthenticatedAnalyticspagesIssuesRoute: typeof AuthenticatedAnalyticspagesIssuesRoute
@@ -717,6 +738,8 @@ const AuthenticatedAnalyticsRouteRouteChildren: AuthenticatedAnalyticsRouteRoute
     AuthenticatedAnalyticsIndexRoute: AuthenticatedAnalyticsIndexRoute,
     AuthenticatedAnalyticspagesAuditsRoute:
       AuthenticatedAnalyticspagesAuditsRoute,
+    AuthenticatedAnalyticspagesGreenHeartsRoute:
+      AuthenticatedAnalyticspagesGreenHeartsRoute,
     AuthenticatedAnalyticspagesHistoryRoute:
       AuthenticatedAnalyticspagesHistoryRoute,
     AuthenticatedAnalyticspagesInvitationsRoute:

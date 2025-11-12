@@ -30,6 +30,8 @@ export default function UserInvitationsDataTable({
       columns={userInvitationColumns}
       facetedFilterColumns={["status"]}
       recentChangesMode={recentChangesMode}
+      analytics
+      analyticsLink="/analytics/invitations"
       renderActions={(item) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -27,6 +27,8 @@ export default function UserRequestsDataTable({
       columns={userRequestColumns}
       facetedFilterColumns={["status", "type"]}
       recentChangesMode={recentChangesMode}
+      analytics
+      analyticsLink="/analytics/requests"
       renderActions={(item) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

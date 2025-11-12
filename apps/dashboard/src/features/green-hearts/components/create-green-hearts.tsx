@@ -97,6 +97,10 @@ export default function CreateGreenHearts() {
             data: {
               totalKg: newTotalKg,
               points: newPoints,
+              plastic: plasticKg,
+              paper: paperKg,
+              metal: metalKg,
+              glass: glassKg,
             },
           });
         }

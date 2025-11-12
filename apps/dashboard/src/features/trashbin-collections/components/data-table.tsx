@@ -29,6 +29,8 @@ export default function TrashbinCollectionsDataTable({
       data={data}
       columns={trashbinCollectionColumns}
       recentChangesMode={recentChangesMode}
+      analytics
+      analyticsLink="/analytics"
       renderActions={(item) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

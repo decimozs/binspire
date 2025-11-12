@@ -133,5 +133,9 @@ export const userGreenHeartsTable = pgTable("user_green_hearts", {
     .notNull(),
   totalKg: integer("total_kg").notNull().default(0),
   points: integer("points").notNull().default(0),
+  plastic: integer("plastic").notNull().default(0),
+  paper: integer("paper").notNull().default(0),
+  metal: integer("metal").notNull().default(0),
+  glass: integer("glass").notNull().default(0),
   ...timestamps,
 });
