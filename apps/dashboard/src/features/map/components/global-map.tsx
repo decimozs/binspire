@@ -287,6 +287,7 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
           )}
           {enabled ? (
             <div className="flex flex-col gap-4 fixed right-4 bottom-4">
+              <ResetMapStateButton zoomLevel={17} />
               <MonitoringMode />
             </div>
           ) : (

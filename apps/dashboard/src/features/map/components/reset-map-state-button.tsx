@@ -9,7 +9,11 @@ import {
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
 
-export default function ResetMapStateButton() {
+export default function ResetMapStateButton({
+  zoomLevel = 18,
+}: {
+  zoomLevel?: number;
+}) {
   const { current: map } = useMap();
   const session = authClient.useSession();
   const { data: settings } = useGetOrganizationSettingsById(
@@ -27,7 +31,7 @@ export default function ResetMapStateButton() {
           currentSettings.general.location.lng,
           currentSettings.general.location.lat,
         ],
-        zoom: 18,
+        zoom: zoomLevel,
         pitch: 70,
         bearing: 10,
       });
