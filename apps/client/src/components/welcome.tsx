@@ -72,12 +72,22 @@ export default function Welcome() {
         setToken(currentToken);
       }
 
+      if (!("geolocation" in navigator)) {
+        ShowToast("error", "This browser does not support location services.");
+      } else {
+        navigator.geolocation.getCurrentPosition(
+          () => {},
+          () => {},
+          { enableHighAccuracy: true },
+        );
+      }
+
       localStorage.setItem("client_welcome_banner_dismissed", "true");
       setLoading(false);
       setEnabled(false);
       navigate({ to: "/" });
     } catch {
-      ShowToast("error", "Failed to enable notifications.");
+      ShowToast("error", "Failed to enable notifications or location.");
     } finally {
       setLoading(false);
     }
@@ -126,8 +136,9 @@ export default function Welcome() {
             <DrawerHeader>
               <DrawerTitle className="text-4xl">Ready to dive in?</DrawerTitle>
               <DrawerDescription>
-                Make sure to enable your notifications to stay updated on your
-                waste collection tasks and alerts!
+                Enable notifications to stay updated on your tasks, and allow
+                location access so Binspire can track and optimize your routes
+                in real time!
               </DrawerDescription>
             </DrawerHeader>
             <DrawerFooter>
