@@ -49,7 +49,7 @@ export class TrashbinApi {
     id: string,
     data: Pick<
       InsertTrashbinCollection,
-      "wasteLevel" | "weightLevel" | "batteryLevel"
+      "wasteLevel" | "weightLevel" | "batteryLevel" | "logs"
     >,
   ) {
     const response = await rpc.api.trashbins.collect[":id"].$post({

@@ -34,7 +34,7 @@ export default function CollectTrashbin() {
   const [markTrashbinId, setMarkTrashbinId] = useQueryState("mark_trashbin_id");
   const [, setLat] = useQueryState("lat");
   const [, setLng] = useQueryState("lng");
-  const { resetLogs } = useTrashbinLogsStore();
+  const { logs, resetLogs } = useTrashbinLogsStore();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: session } = authClient.useSession();
   const orgSettings = useGetOrganizationSettingsById(session?.user.orgId!);
@@ -172,6 +172,14 @@ export default function CollectTrashbin() {
 
     setIsVerifying(true);
 
+    let binId = "";
+
+    if (!trashbinId) {
+      binId = markTrashbinId as string;
+    } else {
+      binId = trashbinId as string;
+    }
+
     try {
       if (!secret) throw new Error("Missing organization secret.");
 
@@ -179,7 +187,7 @@ export default function CollectTrashbin() {
 
       if (!decrypted) throw new Error("Invalid QR code.");
 
-      if (markTrashbinId !== decrypted) {
+      if (binId !== decrypted) {
         ShowToast("error", "QR Code does not match the trashbin ID.");
         return;
       }
@@ -193,7 +201,12 @@ export default function CollectTrashbin() {
 
       const collect = await collectAction.mutateAsync({
         id: decrypted,
-        data: { wasteLevel, weightLevel, batteryLevel },
+        data: {
+          wasteLevel,
+          weightLevel,
+          batteryLevel,
+          logs: logs[decrypted] || [],
+        },
       });
 
       if (!collect) throw new Error("Failed to collect trashbin data.");

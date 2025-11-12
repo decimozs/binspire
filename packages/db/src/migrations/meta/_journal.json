@@ -134,6 +134,13 @@
       "when": 1762935530448,
       "tag": "0018_strange_firestar",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1762938794608,
+      "tag": "0019_known_roxanne_simpson",
+      "breakpoints": true
     }
   ]
 }

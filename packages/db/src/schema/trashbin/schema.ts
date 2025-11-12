@@ -5,11 +5,13 @@ import {
   doublePrecision,
   text,
   timestamp,
+  jsonb,
 } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { timestamps } from "../../lib/base";
 import { usersTable } from "../user";
 import { organizationsTable } from "../org";
+import type { TrashbinLog } from "../../lib/types";
 
 export const trashbinsTable = pgTable("trashbin", {
   id: text("id")
@@ -62,5 +64,6 @@ export const trashbinsCollectionsTable = pgTable("trashbin_collections", {
   batteryLevel: integer("battery_level"),
   isFull: boolean("is_full").default(false),
   isArchive: boolean("is_archive").notNull().default(false),
+  logs: jsonb("logs").$type<TrashbinLog[]>().default([]),
   ...timestamps,
 });

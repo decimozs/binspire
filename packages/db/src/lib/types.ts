@@ -58,3 +58,10 @@ export interface OrganizationSettingsOpts {
   general?: GeneralOpts;
   backup?: BackupOpts;
 }
+
+export interface TrashbinLog {
+  timestamp: string;
+  class: string;
+  confidence: number;
+  imageUrl: string;
+}

@@ -38,6 +38,7 @@ export default function ViewTrashbin() {
   );
   const [open, setOpen] = useState(false);
   const { data, isPending } = useGetTrashbinById(trashbin || "");
+  const [, setMarkTrashbinQuery] = useQueryState("mark_trashbin_id");
   const isTelemetryConnected = useTelemetryStore((state) => state.isConnected);
   const { current: map } = useMap();
   const realtimeTrashbins = useTrashbinRealtime((state) => state.bins);
@@ -65,6 +66,7 @@ export default function ViewTrashbin() {
     if (!isOpen) {
       const timeout = setTimeout(() => {
         setTrashbinQuery(null);
+        setMarkTrashbinQuery(null);
         setLatQuery(null);
         setLngQuery(null);
 

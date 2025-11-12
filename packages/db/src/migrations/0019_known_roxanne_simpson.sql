@@ -1,0 +1,1 @@
+ALTER TABLE "trashbin_collections" ADD COLUMN "logs" jsonb DEFAULT '[]'::jsonb;

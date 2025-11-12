@@ -146,7 +146,7 @@ export function useCollectTrashbin() {
       id: string;
       data: Pick<
         InsertTrashbinCollection,
-        "wasteLevel" | "weightLevel" | "batteryLevel"
+        "wasteLevel" | "weightLevel" | "batteryLevel" | "logs"
       >;
     }) => TrashbinApi.collect(id, data),
     onSuccess: ({ id }) => {

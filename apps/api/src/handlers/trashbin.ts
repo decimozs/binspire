@@ -77,6 +77,7 @@ export class TrashbinHandler {
         wasteLevel: true,
         weightLevel: true,
         batteryLevel: true,
+        logs: true
       }),
     ),
     async (c) => {

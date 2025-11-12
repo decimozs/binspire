@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useRouteStore } from "@/store/route-store";
 import { useGetTrashbinById } from "@binspire/query";
 import "@google/model-viewer";
@@ -13,25 +12,8 @@ import Emergency from "./emergency";
 export default function Navigating() {
   const { pathname } = useLocation();
   const { route } = useRouteStore();
-  const [markTrashbinQuery, setMarkTrashbinQuery] =
-    useQueryState("mark_trashbin_id");
-  const [trashbinId, setTrashbinId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const localId = localStorage.getItem("mark_trashbin_id");
-
-    if (markTrashbinQuery) {
-      localStorage.setItem("mark_trashbin_id", markTrashbinQuery);
-      setTrashbinId(markTrashbinQuery);
-    } else if (localId) {
-      setTrashbinId(localId);
-      setMarkTrashbinQuery(localId);
-    } else {
-      setTrashbinId(null);
-    }
-  }, [markTrashbinQuery]);
-
-  const { data, isPending } = useGetTrashbinById(trashbinId || "");
+  const [trashbinQuery] = useQueryState("mark_trashbin_id");
+  const { data, isPending } = useGetTrashbinById(trashbinQuery || "");
 
   if (!route || pathname !== "/map") return null;
 
