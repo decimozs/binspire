@@ -35,6 +35,18 @@ export function MqttProvider({ children }: Props) {
   const shownTelemetryToast = useRef(false);
   const queryClient = useQueryClient();
   const { addUpdate } = useRealtimeUpdatesStore.getState();
+  const timeoutRefs = useRef<Record<string, NodeJS.Timeout>>({});
+
+  function refreshInactivityTimer(id: string) {
+    if (timeoutRefs.current[id]) {
+      clearTimeout(timeoutRefs.current[id]);
+    }
+
+    timeoutRefs.current[id] = setTimeout(() => {
+      deleteRoute(id);
+      delete timeoutRefs.current[id];
+    }, 60_000);
+  }
 
   useEffect(() => {
     const mqttClient = createMqttClient();
@@ -265,6 +277,8 @@ export function MqttProvider({ children }: Props) {
             const id = match[1];
             const { status, routes, userId, name, position } = message;
 
+            refreshInactivityTimer(id);
+
             if (status === "navigating") {
               setRoute(id, {
                 geojson: routes,
@@ -278,6 +292,11 @@ export function MqttProvider({ children }: Props) {
 
             if (status === "stop-navigating") {
               deleteRoute(id);
+
+              if (timeoutRefs.current[id]) {
+                clearTimeout(timeoutRefs.current[id]);
+                delete timeoutRefs.current[id];
+              }
             }
           }
         } catch (e) {
@@ -287,7 +306,7 @@ export function MqttProvider({ children }: Props) {
     });
 
     mqttClient.on("error", (err) => {
-      console.error("❌ MQTT connection error:", err);
+      console.error("MQTT connection error:", err);
       setConnected(false);
     });
 
@@ -295,6 +314,8 @@ export function MqttProvider({ children }: Props) {
       mqttClient.end(true);
       setConnected(false);
       resetBins();
+      Object.values(timeoutRefs.current).forEach(clearTimeout);
+      timeoutRefs.current = {};
     };
   }, []);
 

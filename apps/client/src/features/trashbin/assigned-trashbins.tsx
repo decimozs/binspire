@@ -51,7 +51,7 @@ export default function AssignedTrashbins() {
 
     map.flyTo({
       center: [longitude, latitude],
-      zoom: 18,
+      zoom: 19,
       padding: {
         bottom: 350,
       },
