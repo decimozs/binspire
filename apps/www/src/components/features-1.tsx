@@ -32,9 +32,9 @@ export default function Features1() {
 
             <CardContent>
               <p className="text-sm">
-                Built to adapt to your city or business from small communities
-                to large-scale operations. Configure routes, bin types, and data
-                views that fit your waste management needs.
+                Built to scale with your city or business from small communities
+                to enterprise operations. Customize routes, bin types, and data
+                views to match your unique waste management workflow.
               </p>
             </CardContent>
           </div>
@@ -51,8 +51,8 @@ export default function Features1() {
             <CardContent>
               <p className="mt-3 text-sm">
                 Monitor, manage, and optimize your entire waste collection
-                network in one place. Gain full visibility and take action in
-                real time anytime, anywhere.
+                network from a single dashboard. Gain full visibility and act in
+                real time, anytime, anywhere.
               </p>
             </CardContent>
           </div>
@@ -68,9 +68,9 @@ export default function Features1() {
 
             <CardContent>
               <p className="mt-3 text-sm">
-                Make smarter decisions with predictive analytics. Binspire’s AI
-                helps detect patterns, forecast waste trends, and suggest
-                efficient collection routes automatically.
+                Binspire AI delivers actionable insights through an MCP-style
+                interface. Analyze patterns, query data, and leverage multiple
+                LLMs for smarter operations.
               </p>
             </CardContent>
           </div>

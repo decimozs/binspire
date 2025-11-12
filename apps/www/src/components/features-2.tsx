@@ -1,6 +1,6 @@
 import { Card, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { type LucideIcon, MapIcon, BarChart } from "lucide-react";
+import { type LucideIcon, Sparkle, CalendarCheck } from "lucide-react";
 import { type ReactNode } from "react";
 
 export default function Features2() {
@@ -11,10 +11,9 @@ export default function Features2() {
           <FeatureCard>
             <CardHeader className="pb-3">
               <CardHeading
-                icon={MapIcon}
-                title="Real time bin monitoring"
-                description="Track waste levels, weight, and battery status of every bin in real time.
-Optimize collection schedules with instant insights from connected sensors."
+                icon={CalendarCheck}
+                title="Smart bin assignment"
+                description="Empower admins to seamlessly assign trashbins to collectors, optimize daily operations, and maintain clear accountability across the entire waste collection process with smart task automation."
               />
             </CardHeader>
 
@@ -25,10 +24,10 @@ Optimize collection schedules with instant insights from connected sensors."
               />
               <div className="aspect-76/59">
                 <DualModeImage
-                  darkSrc="/app-screen-3.png"
-                  lightSrc="/app-screen-3.png"
+                  darkSrc="/trashbin-assignment.png"
+                  lightSrc="/trashbin-assignment.png"
                   alt="payments illustration"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
                 />
               </div>
             </div>
@@ -37,10 +36,9 @@ Optimize collection schedules with instant insights from connected sensors."
           <FeatureCard>
             <CardHeader className="pb-3">
               <CardHeading
-                icon={BarChart}
-                title="Data Insights & Reports"
-                description="Visualize waste trends and performance metrics instantly.
-Generate detailed analytics to support sustainability goals and compliance."
+                icon={Sparkle}
+                title="Binspire AI — Insights & Assistant"
+                description="An AI analytics engine with an MCP-style chat assistant that analyzes bin data, answers operational questions, and lets you choose your preferred LLM model for a personalized experience."
               />
             </CardHeader>
 
@@ -51,10 +49,10 @@ Generate detailed analytics to support sustainability goals and compliance."
               />
               <div className="aspect-76/59">
                 <DualModeImage
-                  darkSrc="/app-screen-2.png"
-                  lightSrc="/app-screen-2.png"
+                  darkSrc="/binspire-ai.png"
+                  lightSrc="/binspire-ai.png"
                   alt="payments illustration"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
                 />
               </div>
             </div>

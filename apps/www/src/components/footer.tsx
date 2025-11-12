@@ -27,7 +27,7 @@ const links = [
       },
       {
         title: "Help",
-        href: "#",
+        href: "https://docs.binspire.space/",
       },
       {
         title: "About",
@@ -43,15 +43,7 @@ const links = [
         href: "#",
       },
       {
-        title: "Freelancers",
-        href: "#",
-      },
-      {
         title: "Organizations",
-        href: "#",
-      },
-      {
-        title: "Students",
         href: "#",
       },
       {
@@ -64,35 +56,6 @@ const links = [
       },
       {
         title: "Management",
-        href: "#",
-      },
-    ],
-  },
-  {
-    group: "Company",
-    items: [
-      {
-        title: "About",
-        href: "#",
-      },
-      {
-        title: "Careers",
-        href: "#",
-      },
-      {
-        title: "Blog",
-        href: "#",
-      },
-      {
-        title: "Press",
-        href: "#",
-      },
-      {
-        title: "Contact",
-        href: "#",
-      },
-      {
-        title: "Help",
         href: "#",
       },
     ],
