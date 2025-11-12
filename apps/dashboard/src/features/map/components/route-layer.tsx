@@ -2,29 +2,58 @@ import { useEffect, useState, useRef } from "react";
 import { Source, Layer, Marker, useMap } from "react-map-gl/maplibre";
 import { useRouteStore } from "@/store/route-store";
 import { useLocation } from "@tanstack/react-router";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@binspire/ui/components/avatar";
+import { getInitial } from "@binspire/shared";
+import { UserApi } from "@binspire/query";
+
+interface UserDetails {
+  id: string;
+  name: string;
+  avatarUrl?: string;
+}
 
 export default function RouteLayer() {
   const { pathname } = useLocation();
   const { routes } = useRouteStore();
-  const [, setUserPositions] = useState<Record<string, [number, number]>>({});
-  const [, setUserHeadings] = useState<Record<string, number>>({});
+  const [userDetails, setUserDetails] = useState<Record<string, UserDetails>>(
+    {},
+  );
   const { current: map } = useMap();
   const watchId = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!map) return;
+    Object.values(routes).forEach(async (routeData) => {
+      const userId = routeData.tracker?.userId;
+      if (!userId || userDetails[userId]) return;
 
-    if (watchId.current !== null) {
+      try {
+        const user = await UserApi.getById(userId);
+        setUserDetails((prev) => ({
+          ...prev,
+          [userId]: {
+            id: user.id,
+            name: user.name,
+            avatarUrl: user.image || undefined,
+          },
+        }));
+      } catch (err) {
+        console.error("Failed to fetch user details:", err);
+      }
+    });
+  }, [routes, userDetails]);
+
+  useEffect(() => {
+    if (!map) return;
+    if (watchId.current !== null)
       navigator.geolocation.clearWatch(watchId.current);
-    }
 
     watchId.current = navigator.geolocation.watchPosition(
-      (position) => {
-        const { latitude, longitude, heading } = position.coords;
-        setUserPositions((prev) => ({ ...prev, admin: [longitude, latitude] }));
-        setUserHeadings((prev) => ({ ...prev, admin: heading || 0 }));
-      },
-      (error) => console.error("Error tracking location:", error),
+      () => {},
+      (err) => console.error(err),
       { enableHighAccuracy: true, maximumAge: 1000 },
     );
 
@@ -40,41 +69,71 @@ export default function RouteLayer() {
 
   return (
     <>
-      {Object.entries(routes).map(([trashbinId, routeData]) => (
-        <div key={trashbinId}>
-          <Source
-            id={`ors-route-${trashbinId}`}
-            type="geojson"
-            data={routeData.geojson}
-          >
-            <Layer
-              id={`ors-route-line-${trashbinId}`}
-              type="line"
-              paint={{
-                "line-color": "#7BE1C9",
-                "line-width": 15,
-                "line-opacity": 0.8,
-              }}
-            />
-          </Source>
+      {Object.entries(routes).map(([trashbinId, routeData]) => {
+        const userId = routeData.tracker?.userId;
+        const user = userId ? userDetails[userId] : undefined;
+        const coordinates =
+          routeData.geojson.features?.[0]?.geometry.type === "LineString"
+            ? routeData.geojson.features[0].geometry.coordinates
+            : [];
+        const destination =
+          coordinates.length > 0 ? coordinates[coordinates.length - 1] : null;
 
-          {routeData.tracker?.position && (
-            <Marker
-              key={`marker-${trashbinId}`}
-              longitude={routeData.tracker.position[0]}
-              latitude={routeData.tracker.position[1]}
-              anchor="bottom"
+        return (
+          <div key={trashbinId}>
+            <Source
+              id={`ors-route-${trashbinId}`}
+              type="geojson"
+              data={routeData.geojson}
             >
-              <div className="flex flex-col items-center">
-                <div className="w-6 h-6 bg-primary border-2 border-white rounded-full" />
-                <p className="text-xl text-primary bg-background">
-                  {routeData.tracker.name}
-                </p>
-              </div>
-            </Marker>
-          )}
-        </div>
-      ))}
+              <Layer
+                id={`ors-route-line-${trashbinId}`}
+                type="line"
+                paint={{
+                  "line-color": "#7BE1C9",
+                  "line-width": 15,
+                  "line-opacity": 0.8,
+                }}
+              />
+            </Source>
+
+            {routeData.tracker?.position && user && (
+              <Marker
+                key={`marker-${trashbinId}`}
+                longitude={routeData.tracker.position[0]}
+                latitude={routeData.tracker.position[1]}
+                anchor="bottom"
+              >
+                <div className="flex flex-col items-center">
+                  <div className="flex flex-row items-center gap-4 backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 px-4 py-3 rounded-md mb-2 font-bold border-[2px] border-primary">
+                    <Avatar className="size-15">
+                      {user.avatarUrl && <AvatarImage src={user.avatarUrl} />}
+                      <AvatarFallback className="text-xl">
+                        {getInitial(user.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <p className="text-2xl text-primary">{user.name}</p>
+                  </div>
+                  <div className="w-6 h-6 bg-primary border-2 border-white rounded-full" />
+                </div>
+              </Marker>
+            )}
+
+            {destination && (
+              <Marker
+                key={`destination-${trashbinId}`}
+                longitude={destination[0]}
+                latitude={destination[1]}
+                anchor="bottom"
+              >
+                <div className="relative flex items-center justify-center">
+                  <span className="absolute inline-flex w-8 h-8 rounded-full bg-primary opacity-75 animate-ping"></span>
+                </div>
+              </Marker>
+            )}
+          </div>
+        );
+      })}
     </>
   );
 }

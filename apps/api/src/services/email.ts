@@ -98,10 +98,7 @@ export class EmailService implements IEmailService {
       userId,
     );
     const encryptedId = await encryptId(createUserInvitation.id);
-    const isDev = process.env.NODE_ENV === "development";
-    const newBaseUrl = isDev
-      ? "http://localhost:5173/invitation"
-      : "https://www.binspire.space/invitation";
+    const newBaseUrl = "https://www.binspire.space/invitation";
     const org = await this.orgService.findById(orgId);
 
     const info = await this.resend.emails.send({
