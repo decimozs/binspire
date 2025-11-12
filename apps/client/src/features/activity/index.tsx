@@ -27,10 +27,10 @@ export default function Activity({ collections, audits }: Props) {
         </div>
       )}
       {collections.length === 0 && audits.length === 0 ? (
-        <Empty className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/1">
+        <Empty className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/1 font-bold">
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <ActivityIcon />
+              <ActivityIcon className="text-primary"/>
             </EmptyMedia>
             <EmptyTitle>No Activity Found</EmptyTitle>
             <EmptyDescription className="w-[300px]">
