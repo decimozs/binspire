@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Source, Layer, Marker, useMap } from "react-map-gl/maplibre";
 import { point } from "@turf/helpers";
+import { distance as turfDistance } from "@turf/distance";
 import bearing from "@turf/bearing";
 import { useRouteStore } from "@/store/route-store";
 import { useMapStore } from "@/store/map-store";
@@ -22,18 +23,19 @@ export default function RouteLayer() {
   const [userHeading, setUserHeading] = useState<number>(0);
   const { current: map } = useMap();
   const watchId = useRef<number | null>(null);
+  const [remainingRoute, setRemainingRoute] = useState<[number, number][]>([]);
 
   useEffect(() => {
-    if (!route) {
-      setUserPosition(null);
-      if (watchId.current !== null) {
-        navigator.geolocation.clearWatch(watchId.current);
-        watchId.current = null;
-      }
-      return;
-    }
+    if (!route) return;
 
-    if (!map) return;
+    const feature = route.features?.[0];
+    if (!feature || feature.geometry.type !== "LineString") return;
+
+    setRemainingRoute([...feature.geometry.coordinates] as [number, number][]);
+  }, [route]);
+
+  useEffect(() => {
+    if (!route || !map) return;
 
     const feature = route.features?.[0];
     if (!feature || feature.geometry.type !== "LineString") return;
@@ -52,17 +54,14 @@ export default function RouteLayer() {
       zoom: 18,
       bearing: routeBearing,
       pitch: 70,
-      padding: {
-        top: 500,
-      },
+      padding: { top: 500 },
     });
 
     setUserPosition(startLocation);
     setUserHeading(routeBearing);
 
-    if (watchId.current !== null) {
+    if (watchId.current !== null)
       navigator.geolocation.clearWatch(watchId.current);
-    }
 
     watchId.current = navigator.geolocation.watchPosition(
       (position) => {
@@ -79,6 +78,18 @@ export default function RouteLayer() {
 
         setUserPosition([longitude, latitude]);
         setUserHeading(currentHeading);
+
+        setRemainingRoute((prevCoords) => {
+          if (!prevCoords.length) return prevCoords;
+          return prevCoords.filter(([lng, lat]) => {
+            const dist = turfDistance(
+              point([lng, lat]),
+              point([longitude, latitude]),
+              { units: "meters" },
+            );
+            return dist > 5;
+          });
+        });
 
         if (client && session.data?.user) {
           client.publish(
@@ -103,15 +114,21 @@ export default function RouteLayer() {
         watchId.current = null;
       }
     };
-  }, [route, map, updateViewState]);
+  }, [route, map, updateViewState, client, session, markTrashbinId]);
 
-  if (!route) return null;
-
-  if (pathname !== "/map") return null;
+  if (!route || pathname !== "/map") return null;
 
   return (
     <>
-      <Source id="ors-route" type="geojson" data={route}>
+      <Source
+        id="ors-route"
+        type="geojson"
+        data={{
+          type: "Feature",
+          properties: {},
+          geometry: { type: "LineString", coordinates: remainingRoute },
+        }}
+      >
         <Layer
           id="ors-route-line"
           type="line"
@@ -122,6 +139,7 @@ export default function RouteLayer() {
           }}
         />
       </Source>
+
       {userPosition && (
         <Marker
           longitude={userPosition[0]}
