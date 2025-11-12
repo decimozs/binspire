@@ -2,8 +2,11 @@ import { messaging } from "@/features/firebase";
 import { onMessage } from "firebase/messaging";
 import { useEffect } from "react";
 import { toast } from "@binspire/ui/toast";
+import { useQueryClient } from "@binspire/query";
 
 export function useNotifications() {
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     const unsubscribe = onMessage(messaging, (payload) => {
       const notification = payload.notification;
@@ -19,9 +22,14 @@ export function useNotifications() {
             </div>
           </div>
         ));
+
+        queryClient.invalidateQueries({
+          queryKey: ["user-collection-assignment"],
+        });
+        queryClient.invalidateQueries({ queryKey: ["issues"] });
       }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [queryClient]);
 }
