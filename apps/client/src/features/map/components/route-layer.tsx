@@ -70,6 +70,7 @@ export default function RouteLayer() {
 
         map.easeTo({
           center: [longitude, latitude],
+          duration: 500,
           zoom: 17,
           bearing: currentHeading,
           pitch: 70,
@@ -81,14 +82,19 @@ export default function RouteLayer() {
 
         setRemainingRoute((prevCoords) => {
           if (!prevCoords.length) return prevCoords;
-          return prevCoords.filter(([lng, lat]) => {
-            const dist = turfDistance(
-              point([lng, lat]),
-              point([longitude, latitude]),
-              { units: "meters" },
-            );
-            return dist > 5;
-          });
+
+          const [firstLng, firstLat] = prevCoords[0];
+          const dist = turfDistance(
+            point([firstLng, firstLat]),
+            point([longitude, latitude]),
+            { units: "meters" },
+          );
+
+          if (dist <= 5) {
+            return prevCoords.slice(1);
+          }
+
+          return prevCoords;
         });
 
         if (client && session.data?.user) {
@@ -134,7 +140,7 @@ export default function RouteLayer() {
           type="line"
           paint={{
             "line-color": "#7BE1C9",
-            "line-width": 5,
+            "line-width": 10,
             "line-opacity": 0.8,
           }}
         />
@@ -147,13 +153,7 @@ export default function RouteLayer() {
           anchor="center"
           rotation={userHeading}
         >
-          <div className="w-6 h-6 bg-primary border-2 border-white rounded-full relative">
-            <div
-              className="absolute -top-3 left-1/2 -translate-x-1/2 w-3 h-3
-              border-l-6 border-r-6 border-b-12
-              border-b-white border-l-transparent border-r-transparent"
-            />
-          </div>
+          <div className="w-6 h-6 bg-primary border-2 border-white rounded-full relative"></div>
         </Marker>
       )}
     </>

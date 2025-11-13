@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Source, Layer, Marker, useMap } from "react-map-gl/maplibre";
+import { point } from "@turf/helpers";
+import { distance as turfDistance } from "@turf/distance";
 import { useRouteStore } from "@/store/route-store";
 import { useLocation } from "@tanstack/react-router";
 import {
@@ -16,14 +18,21 @@ interface UserDetails {
   avatarUrl?: string;
 }
 
+interface TrackerState {
+  position: [number, number] | null;
+  remainingRoute: [number, number][];
+}
+
 export default function RouteLayer() {
   const { pathname } = useLocation();
   const { routes } = useRouteStore();
+  const { current: map } = useMap();
+  const watchId = useRef<number | null>(null);
+
   const [userDetails, setUserDetails] = useState<Record<string, UserDetails>>(
     {},
   );
-  const { current: map } = useMap();
-  const watchId = useRef<number | null>(null);
+  const [trackers, setTrackers] = useState<Record<string, TrackerState>>({});
 
   useEffect(() => {
     Object.values(routes).forEach(async (routeData) => {
@@ -47,6 +56,28 @@ export default function RouteLayer() {
   }, [routes, userDetails]);
 
   useEffect(() => {
+    Object.entries(routes).forEach(([trashbinId, routeData]) => {
+      if (!routeData.tracker?.position) return;
+
+      const coordinates =
+        routeData.geojson.features?.[0]?.geometry.type === "LineString"
+          ? ([...routeData.geojson.features[0].geometry.coordinates] as [
+              number,
+              number,
+            ][])
+          : [];
+
+      setTrackers((prev) => ({
+        ...prev,
+        [trashbinId]: {
+          position: routeData.tracker?.position || null,
+          remainingRoute: coordinates,
+        },
+      }));
+    });
+  }, [routes]);
+
+  useEffect(() => {
     if (!map) return;
     if (watchId.current !== null)
       navigator.geolocation.clearWatch(watchId.current);
@@ -65,26 +96,81 @@ export default function RouteLayer() {
     };
   }, [map]);
 
+  const animateMarker = (
+    trashbinId: string,
+    from: [number, number],
+    to: [number, number],
+    duration = 500,
+  ) => {
+    const startTime = performance.now();
+    const step = (time: number) => {
+      const t = Math.min((time - startTime) / duration, 1);
+      const lng = from[0] + (to[0] - from[0]) * t;
+      const lat = from[1] + (to[1] - from[1]) * t;
+
+      setTrackers((prev) => ({
+        ...prev,
+        [trashbinId]: { ...prev[trashbinId], position: [lng, lat] },
+      }));
+
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
   if (pathname !== "/map") return null;
 
   return (
     <>
       {Object.entries(routes).map(([trashbinId, routeData]) => {
+        const tracker = trackers[trashbinId];
         const userId = routeData.tracker?.userId;
         const user = userId ? userDetails[userId] : undefined;
-        const coordinates =
-          routeData.geojson.features?.[0]?.geometry.type === "LineString"
-            ? routeData.geojson.features[0].geometry.coordinates
-            : [];
+
+        if (!tracker) return null;
+
+        const updatedRemaining = tracker.remainingRoute.filter(([lng, lat]) => {
+          if (!tracker.position) return true;
+          const dist = turfDistance(
+            point([lng, lat]),
+            point(tracker.position),
+            { units: "meters" },
+          );
+          return dist > 5; // remove only points within 5 meters
+        });
+
+        if (updatedRemaining.length !== tracker.remainingRoute.length) {
+          setTrackers((prev) => ({
+            ...prev,
+            [trashbinId]: {
+              ...prev[trashbinId],
+              remainingRoute: updatedRemaining,
+            },
+          }));
+        }
+
         const destination =
-          coordinates.length > 0 ? coordinates[coordinates.length - 1] : null;
+          updatedRemaining[updatedRemaining.length - 1] || null;
+
+        if (routeData.tracker?.position && tracker.position) {
+          const from = tracker.position;
+          const to = routeData.tracker.position;
+          if (from[0] !== to[0] || from[1] !== to[1]) {
+            animateMarker(trashbinId, from, to);
+          }
+        }
 
         return (
           <div key={trashbinId}>
+            {/* Route line */}
             <Source
               id={`ors-route-${trashbinId}`}
               type="geojson"
-              data={routeData.geojson}
+              data={{
+                type: "Feature",
+                properties: {},
+                geometry: { type: "LineString", coordinates: updatedRemaining },
+              }}
             >
               <Layer
                 id={`ors-route-line-${trashbinId}`}
@@ -97,11 +183,11 @@ export default function RouteLayer() {
               />
             </Source>
 
-            {routeData.tracker?.position && user && (
+            {tracker.position && user && (
               <Marker
                 key={`marker-${trashbinId}`}
-                longitude={routeData.tracker.position[0]}
-                latitude={routeData.tracker.position[1]}
+                longitude={tracker.position[0]}
+                latitude={tracker.position[1]}
                 anchor="bottom"
               >
                 <div className="flex flex-col items-center">
