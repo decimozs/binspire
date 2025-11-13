@@ -28,11 +28,18 @@ export default function RouteLayer() {
   const { routes } = useRouteStore();
   const { current: map } = useMap();
   const watchId = useRef<number | null>(null);
-
   const [userDetails, setUserDetails] = useState<Record<string, UserDetails>>(
     {},
   );
   const [trackers, setTrackers] = useState<Record<string, TrackerState>>({});
+
+  const isValidCoord = ([lng, lat]: [number, number]) =>
+    typeof lng === "number" &&
+    typeof lat === "number" &&
+    lng >= -180 &&
+    lng <= 180 &&
+    lat >= -90 &&
+    lat <= 90;
 
   useEffect(() => {
     Object.values(routes).forEach(async (routeData) => {
@@ -57,7 +64,11 @@ export default function RouteLayer() {
 
   useEffect(() => {
     Object.entries(routes).forEach(([trashbinId, routeData]) => {
-      if (!routeData.tracker?.position) return;
+      if (
+        !routeData.tracker?.position ||
+        !isValidCoord(routeData.tracker.position)
+      )
+        return;
 
       const coordinates =
         routeData.geojson.features?.[0]?.geometry.type === "LineString"
@@ -96,28 +107,6 @@ export default function RouteLayer() {
     };
   }, [map]);
 
-  const animateMarker = (
-    trashbinId: string,
-    from: [number, number],
-    to: [number, number],
-    duration = 500,
-  ) => {
-    const startTime = performance.now();
-    const step = (time: number) => {
-      const t = Math.min((time - startTime) / duration, 1);
-      const lng = from[0] + (to[0] - from[0]) * t;
-      const lat = from[1] + (to[1] - from[1]) * t;
-
-      setTrackers((prev) => ({
-        ...prev,
-        [trashbinId]: { ...prev[trashbinId], position: [lng, lat] },
-      }));
-
-      if (t < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-
   if (pathname !== "/map") return null;
 
   return (
@@ -136,7 +125,7 @@ export default function RouteLayer() {
             point(tracker.position),
             { units: "meters" },
           );
-          return dist > 5; // remove only points within 5 meters
+          return dist > 5;
         });
 
         if (updatedRemaining.length !== tracker.remainingRoute.length) {
@@ -152,17 +141,8 @@ export default function RouteLayer() {
         const destination =
           updatedRemaining[updatedRemaining.length - 1] || null;
 
-        if (routeData.tracker?.position && tracker.position) {
-          const from = tracker.position;
-          const to = routeData.tracker.position;
-          if (from[0] !== to[0] || from[1] !== to[1]) {
-            animateMarker(trashbinId, from, to);
-          }
-        }
-
         return (
           <div key={trashbinId}>
-            {/* Route line */}
             <Source
               id={`ors-route-${trashbinId}`}
               type="geojson"
@@ -183,7 +163,7 @@ export default function RouteLayer() {
               />
             </Source>
 
-            {tracker.position && user && (
+            {tracker.position && user && isValidCoord(tracker.position) && (
               <Marker
                 key={`marker-${trashbinId}`}
                 longitude={tracker.position[0]}
@@ -205,7 +185,7 @@ export default function RouteLayer() {
               </Marker>
             )}
 
-            {destination && (
+            {destination && isValidCoord(destination) && (
               <Marker
                 key={`destination-${trashbinId}`}
                 longitude={destination[0]}
