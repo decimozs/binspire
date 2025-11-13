@@ -107,6 +107,27 @@ export default function RouteLayer() {
     };
   }, [map]);
 
+  useEffect(() => {
+    Object.entries(trackers).forEach(([trashbinId, tracker]) => {
+      if (!tracker.position) return;
+      const updatedRemaining = tracker.remainingRoute.filter(([lng, lat]) => {
+        const dist = turfDistance(point([lng, lat]), point(tracker.position!), {
+          units: "meters",
+        });
+        return dist > 1;
+      });
+      if (updatedRemaining.length !== tracker.remainingRoute.length) {
+        setTrackers((prev) => ({
+          ...prev,
+          [trashbinId]: {
+            ...prev[trashbinId],
+            remainingRoute: updatedRemaining,
+          },
+        }));
+      }
+    });
+  }, [trackers]);
+
   if (pathname !== "/map") return null;
 
   return (
@@ -125,7 +146,7 @@ export default function RouteLayer() {
             point(tracker.position),
             { units: "meters" },
           );
-          return dist > 5;
+          return dist > 1;
         });
 
         if (updatedRemaining.length !== tracker.remainingRoute.length) {

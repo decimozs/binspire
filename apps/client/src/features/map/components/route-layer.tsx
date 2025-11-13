@@ -90,7 +90,7 @@ export default function RouteLayer() {
             { units: "meters" },
           );
 
-          if (dist <= 5) {
+          if (dist <= 1) {
             return prevCoords.slice(1);
           }
 
