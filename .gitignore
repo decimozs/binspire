@@ -117,3 +117,30 @@ service-account.json
 # Android 
 my-release-key.jks
 *.jks
+android/
+ios/
+.idea/
+.vscode/
+*.apk
+*.ap_
+*.aab
+*.keystore
+*.jks
+
+# Gradle files
+.gradle/
+build/
+local.properties
+*.iml
+captures/
+.gradle/
+.idea/
+
+# Capacitor config backups
+capacitor.config.json.?
+capacitor.config.ts.?
+
+# Capacitor build outputs
+app/build/
+app-release.aab
+app-release.apk
