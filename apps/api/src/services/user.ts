@@ -436,16 +436,18 @@ export class UserCollectonAssignmentService
 
     const trashbin = await this.trashbin.findById(data.trashbinId);
 
-    await this.messaging.sendNotification(
-      userAccount.deviceToken!,
-      {
-        title: "♻️ New Collection Assignment!",
-        body: "A new trash bin has been assigned to you for collection. Please review it in your dashboard.",
-      },
-      {
-        url: `https://client.binspire.space/map?trashbin_id=${trashbin.id}&lat=${trashbin.latitude}&lng=${trashbin.longitude}`,
-      },
-    );
+    if (userAccount.deviceToken && userAccount.deviceToken.length > 0) {
+      await this.messaging.sendNotification(
+        userAccount.deviceToken!,
+        {
+          title: "♻️ New Collection Assignment!",
+          body: "A new trash bin has been assigned to you for collection. Please review it in your dashboard.",
+        },
+        {
+          url: `https://client.binspire.space/map?trashbin_id=${trashbin.id}&lat=${trashbin.latitude}&lng=${trashbin.longitude}`,
+        },
+      );
+    }
 
     return assignment;
   }
