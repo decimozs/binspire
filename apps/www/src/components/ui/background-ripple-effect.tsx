@@ -1,9 +1,7 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 export const BackgroundRippleEffect = ({
-  rows = 10,
-  cols = 50,
   cellSize = 90,
 }: {
   rows?: number;
@@ -15,18 +13,37 @@ export const BackgroundRippleEffect = ({
     col: number;
   } | null>(null);
   const [rippleKey, setRippleKey] = useState(0);
-  const ref = useRef<any>(null);
+  const [cols, setCols] = useState(50);
+  const [rows, setRows] = useState(10);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const calculateGrid = () => {
+      if (ref.current) {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const calculatedCols = Math.ceil(width / cellSize) + 2; // +2 for buffer
+        const calculatedRows = Math.ceil(height / cellSize) + 2; // +2 for buffer
+        setCols(calculatedCols);
+        setRows(calculatedRows);
+      }
+    };
+
+    calculateGrid();
+    window.addEventListener("resize", calculateGrid);
+    return () => window.removeEventListener("resize", calculateGrid);
+  }, [cellSize]);
 
   return (
     <div
       ref={ref}
       className={cn(
-        "absolute inset-0 h-full w-full",
+        "fixed inset-0 h-screen w-screen overflow-hidden",
         "[--cell-border-color:var(--color-neutral-300)] [--cell-fill-color:var(--color-neutral-100)] [--cell-shadow-color:var(--color-neutral-500)]",
         "dark:[--cell-border-color:var(--color-neutral-700)] dark:[--cell-fill-color:var(--color-neutral-900)] dark:[--cell-shadow-color:var(--color-neutral-800)]",
       )}
     >
-      <div className="relative h-auto w-auto overflow-hidden">
+      <div className="relative h-full w-full overflow-hidden">
         <div className="pointer-events-none absolute inset-0 z-[2] h-full w-full overflow-hidden" />
         <DivGrid
           key={`base-${rippleKey}`}
@@ -52,7 +69,7 @@ type DivGridProps = {
   className?: string;
   rows: number;
   cols: number;
-  cellSize: number; // in pixels
+  cellSize: number;
   borderColor: string;
   fillColor: string;
   clickedCell: { row: number; col: number } | null;
@@ -85,9 +102,10 @@ const DivGrid = ({
     display: "grid",
     gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
     gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
+    minWidth: "100vw",
+    minHeight: "100vh",
     width: cols * cellSize,
     height: rows * cellSize,
-    marginInline: "auto",
   };
 
   return (
@@ -98,8 +116,8 @@ const DivGrid = ({
         const distance = clickedCell
           ? Math.hypot(clickedCell.row - rowIdx, clickedCell.col - colIdx)
           : 0;
-        const delay = clickedCell ? Math.max(0, distance * 55) : 0; // ms
-        const duration = 200 + distance * 80; // ms
+        const delay = clickedCell ? Math.max(0, distance * 55) : 0;
+        const duration = 200 + distance * 80;
 
         const style: CellStyle = clickedCell
           ? {
