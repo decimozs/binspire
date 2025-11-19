@@ -6,12 +6,14 @@
 
 A modern SCWMS platform to optimize waste collection, improve sustainability, and enhance transparency within communities.
 
-[![CI](https://img.shields.io/github/actions/workflow/status/decimozs/binspire/ci.yml?style=for-the-badge&logo=github)](https://github.com/decimozs/binspire/actions/workflows/ci.yml)
-![GitHub Repo stars](https://img.shields.io/github/stars/decimozs/binspire?style=for-the-badge&logo=github)
-![Production](https://img.shields.io/badge/status-production-brightgreen?style=for-the-badge&logo=github)
-![GitHub release](https://img.shields.io/github/v/release/decimozs/binspire?style=for-the-badge)
+[![License](https://img.shields.io/github/license/decimozs/binspire)](./LICENSE)
+[![Release](https://img.shields.io/github/v/release/decimozs/binspire)](https://github.com/decimozs/binspire/releases)
+[![CI](https://img.shields.io/github/actions/workflow/status/decimozs/binspire/ci.yml)](https://github.com/decimozs/binspire/actions/workflows/ci.yml)
+[![Stars](https://img.shields.io/github/stars/decimozs/binspire)](https://github.com/decimozs/binspire/stargazers)
 
 </div>
+
+</br>
 
 ## Contributor List
 
