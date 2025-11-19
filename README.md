@@ -8,7 +8,6 @@ A modern SCWMS platform to optimize waste collection, improve sustainability, an
 
 [![CI](https://img.shields.io/github/actions/workflow/status/decimozs/binspire/ci.yml?style=for-the-badge&logo=github)](https://github.com/decimozs/binspire/actions/workflows/ci.yml)
 ![GitHub Repo stars](https://img.shields.io/github/stars/decimozs/binspire?style=for-the-badge&logo=github)
-![In Heavy Development](https://img.shields.io/badge/status-heavy%20development-orange?style=for-the-badge&logo=github)
 ![Production](https://img.shields.io/badge/status-production-brightgreen?style=for-the-badge&logo=github)
 ![GitHub release](https://img.shields.io/github/v/release/decimozs/binspire?style=for-the-badge)
 
