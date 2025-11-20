@@ -69,7 +69,7 @@ export default function GlobalMap({ isFullScreen = true }: Props) {
 
     return trashbins.map((bin) => {
       const realtime = bins[bin.id];
-      const MAX_DISTANCE = 53;
+      const MAX_DISTANCE = 16;
 
       const fillLevel =
         realtime?.wasteLevel !== undefined

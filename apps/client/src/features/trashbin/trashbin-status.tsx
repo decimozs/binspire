@@ -21,7 +21,7 @@ export default function TrashbinStatus() {
 
   const { wasteLevel, weightLevel, batteryLevel } = bin;
 
-  const MAX_DISTANCE = 53;
+  const MAX_DISTANCE = 16;
   const fillLevel = Math.max(
     0,
     Math.min(100, ((MAX_DISTANCE - wasteLevel) / MAX_DISTANCE) * 100),

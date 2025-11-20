@@ -37,7 +37,7 @@ export default function CheckTrashbinStatus({ id }: Props) {
   const batteryLevel = bin.batteryLevel ?? 0;
   const solarPowerLevel = bin.solarPower ?? 0;
 
-  const MAX_DISTANCE = 53;
+  const MAX_DISTANCE = 16;
   const fillLevel = Math.max(
     0,
     Math.min(100, ((MAX_DISTANCE - wasteLevel) / MAX_DISTANCE) * 100),

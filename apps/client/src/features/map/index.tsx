@@ -81,7 +81,7 @@ export default function GlobalMap({
 
     return trashbins.map((bin) => {
       const realtime = bins[bin.id];
-      const MAX_DISTANCE = 53;
+      const MAX_DISTANCE = 16;
 
       const fillLevel =
         realtime?.wasteLevel !== undefined
