@@ -15,7 +15,8 @@ A modern SCWMS platform to optimize waste collection, improve sustainability, an
 
 </div>
 
-</br>
+> [!NOTE]
+> **Beta Status:** Binspire is stable and used across multiple internal projects, but we’re labeling it as **beta** while the tooling, documentation, and developer experience continue to be refined. Binspire will exit beta once these areas are fully polished for open-source use.
 
 ## Contributor List
 
