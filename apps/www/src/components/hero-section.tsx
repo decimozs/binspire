@@ -224,7 +224,7 @@ export default function HeroSection() {
                 to="/"
                 className="block text-sm duration-150 hover:opacity-75"
               >
-                <span>Meet Our Customers</span>
+                <span>Meet the Communities</span>
 
                 <ChevronRight className="ml-1 inline-block size-3" />
               </Link>
@@ -245,24 +245,6 @@ export default function HeroSection() {
                   className="mx-auto h-25 w-fit"
                   src="/pasig-logo.png"
                   alt="Pasig Logo"
-                  height="50"
-                  width="auto"
-                />
-              </div>
-              <div className="flex">
-                <img
-                  className="mx-auto h-25 w-fit"
-                  src="/arcovia-logo.png"
-                  alt="Arcovia Logo"
-                  height="50"
-                  width="auto"
-                />
-              </div>
-              <div className="flex">
-                <img
-                  className="mx-auto h-25 w-fit"
-                  src="/megaworld-logo.png"
-                  alt="Megaworld Logo"
                   height="50"
                   width="auto"
                 />
