@@ -1,4 +1,5 @@
 import logging
+import os
 import ssl
 import paho.mqtt.client as paho
 
@@ -10,11 +11,11 @@ logging.basicConfig(
 class MQTTClient:
     def __init__(
         self,
-        broker="a0e0d83595024fddbb960e5184bc3dda.s1.eu.hivemq.cloud",
-        port=8883,
+        broker=os.getenv("MQTT_BROKER"),
+        port=os.getenv("MQTT_PORT"),
         client_id=None,
-        username="binspire",
-        password="@D!QsR.TGxb8PDy",
+        username=os.getenv("MQTT_USERNAME"),
+        password=os.getenv("MQTT_PASSWORD"),
     ):
         self.client = paho.Client(client_id=client_id, protocol=paho.MQTTv5)
         self.client.tls_set(tls_version=ssl.PROTOCOL_TLS)
