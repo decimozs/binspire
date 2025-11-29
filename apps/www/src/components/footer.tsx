@@ -9,7 +9,7 @@ const links = [
     items: [
       {
         title: "Features",
-        href: "#",
+        href: "#features",
       },
       {
         title: "Help",
@@ -17,7 +17,7 @@ const links = [
       },
       {
         title: "About",
-        href: "#",
+        href: "#about",
       },
     ],
   },
@@ -70,39 +70,45 @@ export default function FooterSection() {
       </div>
       <div className="mx-auto max-w-5xl px-3">
         <div className="grid gap-12 md:grid-cols-5 md:gap-0 lg:grid-cols-5">
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 md:col-span-5 md:row-start-1 lg:col-span-7">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 md:col-span-5 md:row-start-1 lg:col-span-5">
             {links.map((link, index) => (
               <div key={index} className="space-y-4 text-sm">
                 <span className="block font-medium">{link.group}</span>
                 {link.items.map((item, index) => (
-                  <Link
+                  <a
                     key={index}
-                    to={item.href}
+                    href={item.href}
                     className="text-muted-foreground hover:text-primary block duration-150"
+                    onClick={(e) => {
+                      if (item.href.startsWith('#')) {
+                        e.preventDefault();
+                        const element = document.querySelector(item.href);
+                        if (element) {
+                          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                      }
+                    }}
                   >
                     <span>{item.title}</span>
-                  </Link>
+                  </a>
                 ))}
               </div>
             ))}
           </div>
-          <div className="row-start-1 border-b pb-7 text-sm md:col-span-2 md:border-none lg:col-span-1">
+          <div className="row-start-1 border-b pb-7 text-sm md:col-span-3 md:border-none lg:col-span-3">
             <div className="space-y-4">
-              <Label htmlFor="mail" className="block text-primary font-black text-8xl lg:text-9xl">
+              <Label htmlFor="mail" className="block text-primary font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none tracking-tighter w-full">
                 BINSPIRE
               </Label>
             </div>
-            <form>
+            <form className="mt-4">
               <div className="space-y-4">
-                <Label htmlFor="mail" className="block font-bold">
-                  Newsletter
-                </Label>
-                <Link to="/newsletter">
-                  <Button size="sm" className="w-full py-6 font-bold">
+                <Link to="/newsletter" className="block">
+                  <Button size="lg" className="w-full py-6 font-bold text-base">
                     Notify to latest updates
                   </Button>
                 </Link>
-                <span className="text-muted-foreground block text-sm mt-4">
+                <span className="text-muted-foreground block text-sm">
                   {"Don't miss any update!"}
                 </span>
               </div>
