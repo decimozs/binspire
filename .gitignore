@@ -144,3 +144,6 @@ capacitor.config.ts.?
 app/build/
 app-release.aab
 app-release.apk
+
+# nginx 
+nginx.conf
