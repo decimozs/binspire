@@ -1,6 +1,5 @@
 {
   "name": "@binspire/docs",
-  "module": "index.ts",
   "type": "module",
   "private": true,
   "scripts": {
