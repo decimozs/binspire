@@ -1,7 +1,7 @@
-import * as React from "react";
+import { cn } from "@binspire/ui/lib/utils";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
-import { cn } from "@binspire/ui/lib/utils";
+import type * as React from "react";
 
 function Dialog({
   ...props

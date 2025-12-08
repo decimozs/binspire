@@ -1,7 +1,3 @@
-import TrashbinCollectionsDataTable from "./components/data-table";
-import MainLayout from "@/components/layout/main-layout";
-import RequestAccess from "../permissions/components/request-access";
-import { usePermissionStore } from "@/store/permission-store";
 import type { TrashbinCollections } from "@binspire/query";
 import {
   Empty,
@@ -13,6 +9,10 @@ import {
 } from "@binspire/ui/components/empty";
 import { Database } from "lucide-react";
 import RefreshButton from "@/components/core/refresh-button";
+import MainLayout from "@/components/layout/main-layout";
+import { usePermissionStore } from "@/store/permission-store";
+import RequestAccess from "../permissions/components/request-access";
+import TrashbinCollectionsDataTable from "./components/data-table";
 
 interface TrashbinCollectionsProps {
   data: TrashbinCollections[];

@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
-import { Skeleton } from "@binspire/ui/components/skeleton";
-import { useForm } from "@tanstack/react-form";
-import z from "zod";
-import { authClient } from "@/lib/auth-client";
+import {
+  useGetUserSettingsByUserId,
+  useUpdateUserSettings,
+} from "@binspire/query";
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@binspire/ui/components/radio-group";
 import {
   Select,
   SelectContent,
@@ -10,23 +13,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@binspire/ui/components/select";
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@binspire/ui/components/radio-group";
-import SaveChangesButton from "./button/save-changes";
+import { Skeleton } from "@binspire/ui/components/skeleton";
+import { Switch } from "@binspire/ui/components/switch";
+import { FormFieldError } from "@binspire/ui/forms";
+import { useForm } from "@tanstack/react-form";
+import { useEffect, useState } from "react";
+import z from "zod";
 import { ShowToast } from "@/components/core/toast-notification";
-import { useFont } from "@/context/font-provider";
 import SettingsLayout from "@/components/layout/settings-layout";
+import { useFont } from "@/context/font-provider";
+import { useTheme } from "@/hooks/use-theme";
+import { authClient } from "@/lib/auth-client";
 import { fonts, themes } from "../lib/constants";
 import type { Font, Theme } from "../lib/types";
-import {
-  useGetUserSettingsByUserId,
-  useUpdateUserSettings,
-} from "@binspire/query";
-import { FormFieldError } from "@binspire/ui/forms";
-import { useTheme } from "@/hooks/use-theme";
-import { Switch } from "@binspire/ui/components/switch";
+import SaveChangesButton from "./button/save-changes";
 
 const appearanceFormSchema = z.object({
   theme: z.enum(themes.map((t) => t.value)),

@@ -1,9 +1,9 @@
-import { type ZodSchema } from "zod/v4";
-import type { ValidationTargets } from "hono";
-import { zValidator as zv } from "@hono/zod-validator";
-import z from "zod";
-import { BadRequestError } from "@/features/error";
 import { logger } from "@binspire/logging";
+import { zValidator as zv } from "@hono/zod-validator";
+import type { ValidationTargets } from "hono";
+import z from "zod";
+import type { ZodSchema } from "zod/v4";
+import { BadRequestError } from "@/features/error";
 
 export const zValidator = <
   T extends ZodSchema,

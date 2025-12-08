@@ -1,7 +1,7 @@
+import { UserStatusApi } from "@binspire/query";
+import type { UserPermissionOpts, UserRole } from "@binspire/shared";
 import { create } from "zustand";
 import { authClient } from "@/lib/auth-client";
-import type { UserPermissionOpts, UserRole } from "@binspire/shared";
-import { UserStatusApi } from "@binspire/query";
 
 interface PermissionStore {
   permission: UserPermissionOpts;

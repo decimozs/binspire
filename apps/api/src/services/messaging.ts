@@ -1,7 +1,7 @@
+import type * as admin from "firebase-admin";
+import type { Notification } from "firebase-admin/messaging";
 import { messaging } from "@/features/firebase";
 import { MessagingRepository } from "@/repository";
-import * as admin from "firebase-admin";
-import type { Notification } from "firebase-admin/messaging";
 
 export class MessagingService {
   private repo = new MessagingRepository();

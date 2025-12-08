@@ -1,10 +1,10 @@
-import z from "zod";
 import { nanoid } from "nanoid";
+import z from "zod";
+import { resend } from "@/features/email";
+import { encryptId } from "@/features/encryption";
+import { OrganizationService } from "./org";
 import { UserInvitationService } from "./user";
 import { VerificationService } from "./verification";
-import { encryptId } from "@/features/encryption";
-import { resend } from "@/features/email";
-import { OrganizationService } from "./org";
 
 export const sendEmailSchema = z.object({
   to: z.string().email({ message: "Recipient email is invalid" }),

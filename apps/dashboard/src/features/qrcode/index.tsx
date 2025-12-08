@@ -1,4 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  useCreateQRCode,
+  useGetOrganizationSettingsById,
+} from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
@@ -8,16 +11,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
-import { QRCodeSVG } from "qrcode.react";
-import { authClient } from "@/lib/auth-client";
-import {
-  useCreateQRCode,
-  useGetOrganizationSettingsById,
-} from "@binspire/query";
 import { Skeleton } from "@binspire/ui/components/skeleton";
-import { encryptWithSecret, generateRandomValue } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
+import { useEffect, useRef, useState } from "react";
 import { ShowToast } from "@/components/core/toast-notification";
+import { authClient } from "@/lib/auth-client";
+import { encryptWithSecret, generateRandomValue } from "@/lib/utils";
 import { usePermissionStore } from "@/store/permission-store";
 
 interface Props {

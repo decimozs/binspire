@@ -1,8 +1,8 @@
+import { Button } from "@binspire/ui/components/button";
 import { cn } from "@binspire/ui/lib/utils";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Button } from "@binspire/ui/components/button";
 import { Logo } from "./logo";
 
 const menuItems = [

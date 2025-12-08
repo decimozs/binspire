@@ -1,4 +1,3 @@
-import type { Column } from "@tanstack/react-table";
 import { Button } from "@binspire/ui/components/button";
 import {
   DropdownMenu,
@@ -7,10 +6,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
-import { useQueryState, parseAsJson } from "nuqs";
-import z from "zod";
-import { useCallback, type ComponentProps } from "react";
+import type { Column } from "@tanstack/react-table";
 import { EyeOff } from "lucide-react";
+import { parseAsJson, useQueryState } from "nuqs";
+import { type ComponentProps, useCallback } from "react";
+import z from "zod";
 
 export const SortSchema = z.array(
   z.object({

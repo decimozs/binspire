@@ -1,8 +1,8 @@
+import { useIsMobile } from "@binspire/ui/hooks/use-mobile";
+import { useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { BackgroundRippleEffect } from "../ui/background-ripple-effect";
 import { Button } from "../ui/button";
-import { useNavigate } from "@tanstack/react-router";
-import { useIsMobile } from "@binspire/ui/hooks/use-mobile";
 
 interface Props {
   children: ReactNode;

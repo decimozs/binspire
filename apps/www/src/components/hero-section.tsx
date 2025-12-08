@@ -1,11 +1,11 @@
+import { Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronRight } from "lucide-react";
+import { AnimatedGroup } from "@/components/ui/animated-group";
 import { Button } from "@/components/ui/button";
 import { TextEffect } from "@/components/ui/text-effect";
-import { AnimatedGroup } from "@/components/ui/animated-group";
-import Header from "./header";
-import { Link } from "@tanstack/react-router";
-import { FlipWords } from "./ui/flip-words";
 import { cn } from "@/lib/utils";
+import Header from "./header";
+import { FlipWords } from "./ui/flip-words";
 
 const transitionVariants = {
   item: {

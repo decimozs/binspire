@@ -12,14 +12,14 @@ export const fonts = [
 ] as const;
 
 import {
-  Car,
   Bike,
   Bus,
+  Car,
   Footprints,
-  Ship,
-  Plane,
   Mountain,
+  Plane,
   Route,
+  Ship,
 } from "lucide-react";
 
 export const NAVIGATION_PROFILES = {

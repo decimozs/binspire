@@ -1,29 +1,16 @@
-import { Button } from "@binspire/ui/components/button";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@binspire/ui/components/sheet";
-import { Textarea } from "@binspire/ui/components/textarea";
-import {
-  Bot,
-  Brain,
-  CircleUserRound,
-  Send,
-  Sparkle,
-  Cpu,
-  Zap,
-  X,
-} from "lucide-react";
-import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { useEffect, useState } from "react";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
+import {
+  AuditApi,
+  HistoryApi,
+  IssueApi,
+  TrashbinApi,
+  TrashbinCollectionsApi,
+  UserApi,
+  UserInvitationsApi,
+  UserRequestApi,
+} from "@binspire/query";
+import { Button } from "@binspire/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,23 +34,35 @@ import {
   SelectValue,
 } from "@binspire/ui/components/select";
 import {
-  AuditApi,
-  HistoryApi,
-  IssueApi,
-  TrashbinApi,
-  TrashbinCollectionsApi,
-  UserApi,
-  UserInvitationsApi,
-  UserRequestApi,
-} from "@binspire/query";
-import { useRef } from "react";
-import { authClient } from "@/lib/auth-client";
-import { cn } from "@binspire/ui/lib/utils";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@binspire/ui/components/sheet";
+import { Textarea } from "@binspire/ui/components/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
+import { cn } from "@binspire/ui/lib/utils";
+import {
+  Bot,
+  Brain,
+  CircleUserRound,
+  Cpu,
+  Send,
+  Sparkle,
+  X,
+  Zap,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { authClient } from "@/lib/auth-client";
 
 const token = import.meta.env.VITE_GITHUB_TOKEN;
 const endpoint = "https://models.github.ai/inference";

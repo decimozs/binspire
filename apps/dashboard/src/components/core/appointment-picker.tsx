@@ -1,7 +1,7 @@
 import { Button } from "@binspire/ui/components/button";
 import { Calendar } from "@binspire/ui/components/calendar";
-import { Label } from "@binspire/ui/components/label";
 import { Input } from "@binspire/ui/components/input";
+import { Label } from "@binspire/ui/components/label";
 import {
   Popover,
   PopoverContent,

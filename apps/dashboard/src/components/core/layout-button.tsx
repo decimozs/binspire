@@ -1,12 +1,12 @@
 import { Button } from "@binspire/ui/components/button";
-import { Expand, Shrink } from "lucide-react";
-import { useLayout } from "@/store/layout-store";
-import { useLocation } from "@tanstack/react-router";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
+import { useLocation } from "@tanstack/react-router";
+import { Expand, Shrink } from "lucide-react";
+import { useLayout } from "@/store/layout-store";
 
 export default function LayoutButton() {
   const { layout, setLayout } = useLayout();

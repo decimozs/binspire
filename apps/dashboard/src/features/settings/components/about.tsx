@@ -1,6 +1,6 @@
+import { format } from "date-fns";
 import SettingsLayout from "@/components/layout/settings-layout";
 import lastUpdated from "@/last-updated.txt?raw";
-import { format } from "date-fns";
 
 export default function AboutSettings() {
   return (

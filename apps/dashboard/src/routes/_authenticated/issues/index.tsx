@@ -1,7 +1,7 @@
+import { IssueApi, queryOptions, useSuspenseQuery } from "@binspire/query";
 import { createFileRoute } from "@tanstack/react-router";
 import LoaderLayout from "@/components/layout/loader-layout";
 import Issues from "@/features/issues";
-import { IssueApi, queryOptions, useSuspenseQuery } from "@binspire/query";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["issues"],

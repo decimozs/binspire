@@ -1,9 +1,7 @@
-import { ShowToast } from "@/components/core/toast-notification";
-import { useMqtt } from "@/hooks/use-mqtt";
 import {
+  type UserStatus,
   useUpdateUserRequest,
   useUpdateUserStatus,
-  type UserStatus,
 } from "@binspire/query";
 import {
   formatLabel,
@@ -22,6 +20,8 @@ import {
 import { Switch } from "@binspire/ui/components/switch";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { ShowToast } from "@/components/core/toast-notification";
+import { useMqtt } from "@/hooks/use-mqtt";
 
 type PermissionEntry = {
   actions: Record<keyof ModuleActions, boolean>;

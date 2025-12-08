@@ -18,7 +18,6 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@binspire/eslint": "workspace:*",
     "@binspire/config": "workspace:*",
     "@binspire/tsconfig": "workspace:*",
     "hono-pino": "^0.10.2",

@@ -1,8 +1,8 @@
+import type { ActionsTypeManagement } from "@binspire/shared";
 import DeleteContentLayout from "@/components/layout/delete-content-layout";
 import ActionDialogContainer from "@/components/views/action-dialog-container";
-import { useActionDialog } from "@/hooks/use-action-dialog";
 import type { ActionType } from "@/hooks/use-action-dialog";
-import type { ActionsTypeManagement } from "@binspire/shared";
+import { useActionDialog } from "@/hooks/use-action-dialog";
 
 const ACTION_KEY: ActionType = "delete";
 

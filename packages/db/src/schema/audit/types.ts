@@ -1,6 +1,6 @@
-import { auditTable } from "./schema";
-import { insertAuditSchema, updateAuditSchema } from "./validators";
-import z from "zod";
+import type z from "zod";
+import type { auditTable } from "./schema";
+import type { insertAuditSchema, updateAuditSchema } from "./validators";
 
 export type Audit = typeof auditTable.$inferSelect;
 

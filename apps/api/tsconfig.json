@@ -1,9 +1,7 @@
 {
   "extends": "@binspire/tsconfig/base.json",
   "compilerOptions": {
-    "lib": [
-      "ESNext"
-    ],
+    "lib": ["ESNext"],
     "target": "ESNext",
     "module": "ESNext",
     "jsx": "react-jsx",
@@ -12,20 +10,13 @@
     "rootDir": "src",
     "outDir": "dist",
     "paths": {
-      "@/*": [
-        "*"
-      ]
+      "@/*": ["*"]
     },
     "declaration": true,
     "noEmit": false,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": false
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

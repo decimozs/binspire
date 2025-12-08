@@ -1,5 +1,5 @@
-import React, { type JSX, type ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
+import React, { type JSX, type ReactNode } from "react";
 
 export type PresetType =
   | "fade"

@@ -1,5 +1,3 @@
-import { ShowToast } from "@/components/core/toast-notification";
-import { authClient } from "@/lib/auth-client";
 import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
@@ -15,6 +13,8 @@ import { useForm } from "@tanstack/react-form";
 import { KeyRound, Loader2 } from "lucide-react";
 import { useState } from "react";
 import z from "zod";
+import { ShowToast } from "@/components/core/toast-notification";
+import { authClient } from "@/lib/auth-client";
 
 const schema = z
   .object({

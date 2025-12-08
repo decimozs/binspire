@@ -1,13 +1,13 @@
-import { pgTable, text, boolean, jsonb, integer } from "drizzle-orm/pg-core";
+import { boolean, integer, jsonb, pgTable, text } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { timestamps } from "../../lib/base";
 import {
   INVITATION_STATUSES_ENUM,
   REQUEST_STATUSES_ENUM,
 } from "../../lib/enum";
+import type { UserPermissionOpts, UserSettingsOpts } from "../../lib/types";
 import { organizationsTable } from "../org/schema";
 import { trashbinsTable } from "../trashbin";
-import type { UserPermissionOpts, UserSettingsOpts } from "../../lib/types";
 
 export const usersTable = pgTable("user", {
   id: text("id")

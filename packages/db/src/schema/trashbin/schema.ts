@@ -1,17 +1,17 @@
 import {
   boolean,
-  integer,
-  pgTable,
   doublePrecision,
+  integer,
+  jsonb,
+  pgTable,
   text,
   timestamp,
-  jsonb,
 } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { timestamps } from "../../lib/base";
-import { usersTable } from "../user";
-import { organizationsTable } from "../org";
 import type { TrashbinLog } from "../../lib/types";
+import { organizationsTable } from "../org";
+import { usersTable } from "../user";
 
 export const trashbinsTable = pgTable("trashbin", {
   id: text("id")

@@ -1,10 +1,10 @@
-import { useMemo, useCallback, useEffect, useState } from "react";
-import { ScenegraphLayer } from "@deck.gl/mesh-layers";
-import { ScatterplotLayer } from "@deck.gl/layers";
-import { type Trashbin } from "@binspire/query";
-import { useQueryState } from "nuqs";
-import { useMap } from "react-map-gl/maplibre";
+import type { Trashbin } from "@binspire/query";
 import { TRASHBIN_CONFIG } from "@binspire/shared";
+import { ScatterplotLayer } from "@deck.gl/layers";
+import { ScenegraphLayer } from "@deck.gl/mesh-layers";
+import { useQueryState } from "nuqs";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMap } from "react-map-gl/maplibre";
 
 export type TrashbinWithLevel = Trashbin & {
   wasteLevel: number;
@@ -67,7 +67,7 @@ export function useTrashbinLayer(trashbinsWithLevel: TrashbinWithLevel[]) {
 
   useEffect(() => {
     let frameId: number;
-    let start = performance.now();
+    const start = performance.now();
 
     const animate = (time: number) => {
       const t = ((time - start) / 1000) % 1;

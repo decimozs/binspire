@@ -16,7 +16,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@binspire/eslint": "workspace:*",
     "@binspire/shared": "workspace:*",
     "@binspire/tsconfig": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.12",

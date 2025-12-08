@@ -1,15 +1,15 @@
-import type { IBaseRepository } from "@/lib/types";
 import { db, eq } from "@binspire/db";
 import {
-  organizationSettingsTable,
-  organizationsTable,
   type InsertOrganization,
   type InsertOrganizationSettings,
   type Organization,
   type OrganizationSettings,
+  organizationSettingsTable,
+  organizationsTable,
   type UpdateOrganization,
   type UpdateOrganizationSettings,
 } from "@binspire/db/schema";
+import type { IBaseRepository } from "@/lib/types";
 
 export class OrganizationRepository
   implements

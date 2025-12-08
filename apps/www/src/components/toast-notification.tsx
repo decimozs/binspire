@@ -1,7 +1,7 @@
 import { toast } from "@binspire/ui/toast";
 import {
-  CircleCheckIcon,
   AlertTriangleIcon,
+  CircleCheckIcon,
   InfoIcon,
   XCircleIcon,
 } from "lucide-react";

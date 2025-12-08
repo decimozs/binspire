@@ -1,13 +1,13 @@
-import { authClient } from "@/features/auth";
 import { useForm } from "@tanstack/react-form";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import z from "zod";
+import { authClient } from "@/features/auth";
+import { SubLogo } from "../logo";
 import { ShowToast } from "../toast-notification";
+import { Button } from "../ui/button";
 import { PasswordInput } from "../ui/input";
 import { FormFieldError } from "./components/form-field-error";
-import { Button } from "../ui/button";
-import { Loader2 } from "lucide-react";
-import { SubLogo } from "../logo";
 
 const resetPasswordSchema = z
   .object({

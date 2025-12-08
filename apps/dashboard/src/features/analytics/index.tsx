@@ -1,4 +1,3 @@
-import MainLayout from "@/components/layout/main-layout";
 import type { MenuItem } from "@binspire/shared";
 import {
   Select,
@@ -9,16 +8,17 @@ import {
 } from "@binspire/ui/components/select";
 import { Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import {
-  Info,
-  ShieldQuestionMark,
-  Users,
-  History,
-  Mail,
-  Trash,
-  Database,
   ClipboardList,
+  Database,
   HeartHandshake,
+  History,
+  Info,
+  Mail,
+  ShieldQuestionMark,
+  Trash,
+  Users,
 } from "lucide-react";
+import MainLayout from "@/components/layout/main-layout";
 
 const generalMenus: MenuItem[] = [
   { title: "Issue", url: "/analytics/issues", icon: Info },

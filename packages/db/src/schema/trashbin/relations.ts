@@ -1,11 +1,11 @@
 import { relations } from "drizzle-orm";
+import { organizationsTable } from "../org";
+import { userCollectionAssignmentsTable, usersTable } from "../user";
 import {
   trashbinsCollectionsTable,
   trashbinsStatusTable,
   trashbinsTable,
 } from "./schema";
-import { userCollectionAssignmentsTable, usersTable } from "../user";
-import { organizationsTable } from "../org";
 
 export const trashbinRelations = relations(trashbinsTable, ({ one, many }) => ({
   status: one(trashbinsStatusTable, {

@@ -1,11 +1,11 @@
 import {
-  CircleCheckIcon,
   AlertTriangleIcon,
+  CircleCheckIcon,
   InfoIcon,
   XCircleIcon,
 } from "lucide-react";
-import { toast, Toaster } from "sonner";
 import type { ReactNode } from "react";
+import { Toaster, toast } from "sonner";
 
 type ToastType = "success" | "error" | "info" | "warning";
 

@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { MaintenanceApi, type Maintenance } from "../../core";
 import type { InsertMaintenance, UpdateMaintenance } from "@binspire/db/schema";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { type Maintenance, MaintenanceApi } from "../../core";
 
 export function useGetAllMaintenance() {
   return useQuery({

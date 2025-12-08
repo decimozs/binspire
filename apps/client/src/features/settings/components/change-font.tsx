@@ -1,5 +1,4 @@
-import { CaseSensitive } from "lucide-react";
-import SettingsItem from "./settings-item";
+import { Button } from "@binspire/ui/components/button";
 import {
   Drawer,
   DrawerContent,
@@ -16,10 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@binspire/ui/components/select";
-import { Button } from "@binspire/ui/components/button";
+import { CaseSensitive } from "lucide-react";
 import { useState } from "react";
-import { useFont, type Font } from "@/context/font-provider";
+import { type Font, useFont } from "@/context/font-provider";
 import { fonts } from "../lib/constants";
+import SettingsItem from "./settings-item";
 
 export default function ChangeFont() {
   const [selectedFont, setSelectedFont] = useState<Font>("manrope");

@@ -1,16 +1,5 @@
-import {
-  type ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  type RowSelectionState,
-  type Table as ReactTable,
-  type VisibilityState,
-} from "@tanstack/react-table";
+import { Button } from "@binspire/ui/components/button";
+import { Input } from "@binspire/ui/components/input";
 import {
   Table,
   TableBody,
@@ -19,33 +8,44 @@ import {
   TableHeader,
   TableRow,
 } from "@binspire/ui/components/table";
-import { Input } from "@binspire/ui/components/input";
+import { Link, useLocation } from "@tanstack/react-router";
+import {
+  type ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type Table as ReactTable,
+  type RowSelectionState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import { debounce } from "lodash";
+import { ChartSpline } from "lucide-react";
+import { parseAsInteger, parseAsJson, useQueryState } from "nuqs";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
+import CreateGreenHearts from "../green-hearts/components/create-green-hearts";
+import CreateIssueButton from "../issues/components/create-issue-button";
+import LeaderboardsButton from "../leaderboards/components/leaderboards-button";
+import ClearFilterButton from "./components/clear-filter-button";
+import ColumnsButton from "./components/columns-button";
+import ExportButton from "./components/export-button";
+import {
+  FacetedFilterButton,
+  FilterSchema,
+} from "./components/faceted-filter-button";
+import InviteUserButton from "./components/invite-user-button";
 import RangeCalendar from "./components/range-calendar";
+import { SortSchema } from "./components/sorting-button";
+import TablePagination from "./components/table-pagination";
 import {
   actionsColumn,
   createdAtColumn,
   selectColumn,
   updatedAtColumn,
 } from "./lib/base-column";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
-import ColumnsButton from "./components/columns-button";
-import ExportButton from "./components/export-button";
-import { parseAsInteger, parseAsJson, useQueryState } from "nuqs";
-import TablePagination from "./components/table-pagination";
-import {
-  FacetedFilterButton,
-  FilterSchema,
-} from "./components/faceted-filter-button";
-import ClearFilterButton from "./components/clear-filter-button";
-import { SortSchema } from "./components/sorting-button";
-import { debounce } from "lodash";
-import CreateIssueButton from "../issues/components/create-issue-button";
-import LeaderboardsButton from "../leaderboards/components/leaderboards-button";
-import { Link, useLocation } from "@tanstack/react-router";
-import InviteUserButton from "./components/invite-user-button";
-import CreateGreenHearts from "../green-hearts/components/create-green-hearts";
-import { Button } from "@binspire/ui/components/button";
-import { ChartSpline } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

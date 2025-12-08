@@ -1,13 +1,3 @@
-import { GeneralError } from "@/features/errors/general-error";
-import { NotFoundError } from "@/features/errors/not-found-error";
-import { authClient } from "@/lib/auth-client";
-import { typeOfACL } from "@/lib/utils";
-import { usePermissionStore } from "@/store/permission-store";
-import {
-  useRealtimeUpdatesStore,
-  useTrashbinRealtime,
-} from "@/store/realtime-store";
-import { useTelemetryStore } from "@/store/telemetry-store";
 import {
   MaintenanceApi,
   OrganizationApi,
@@ -26,6 +16,16 @@ import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { formatDistanceToNow } from "date-fns";
 import { Telescope } from "lucide-react";
+import { GeneralError } from "@/features/errors/general-error";
+import { NotFoundError } from "@/features/errors/not-found-error";
+import { authClient } from "@/lib/auth-client";
+import { typeOfACL } from "@/lib/utils";
+import { usePermissionStore } from "@/store/permission-store";
+import {
+  useRealtimeUpdatesStore,
+  useTrashbinRealtime,
+} from "@/store/realtime-store";
+import { useTelemetryStore } from "@/store/telemetry-store";
 
 export const Route = createFileRoute("/live-updates/")({
   component: RouteComponent,

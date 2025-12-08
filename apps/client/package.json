@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@binspire/db": "workspace:*",
-    "@binspire/eslint": "workspace:*",
     "@binspire/query": "workspace:*",
     "@binspire/shared": "workspace:*",
     "@binspire/ui": "workspace:*",

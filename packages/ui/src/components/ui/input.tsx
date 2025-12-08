@@ -1,7 +1,7 @@
-import * as React from "react";
-import type { AnyFieldApi } from "@tanstack/react-form";
 import { cn } from "@binspire/ui/lib/utils";
+import type { AnyFieldApi } from "@tanstack/react-form";
 import { Eye, EyeOff } from "lucide-react";
+import * as React from "react";
 
 interface InputProps extends React.ComponentProps<"input"> {
   field?: AnyFieldApi;

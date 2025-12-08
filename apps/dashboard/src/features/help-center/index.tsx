@@ -1,16 +1,16 @@
-import MainLayout from "@/components/layout/main-layout";
-import { Input } from "@binspire/ui/components/input";
-import HelpCard from "./components/help-card";
-import { Book, Rocket, Search } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@binspire/ui/components/accordion";
+import { Input } from "@binspire/ui/components/input";
+import { debounce } from "lodash";
+import { Book, Rocket, Search } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useEffect, useMemo, useState } from "react";
-import { debounce } from "lodash";
+import MainLayout from "@/components/layout/main-layout";
+import HelpCard from "./components/help-card";
 
 type SearchItem = {
   type: string;

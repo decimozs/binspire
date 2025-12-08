@@ -1,44 +1,44 @@
+import { db } from "@binspire/db";
+import type {
+  InsertUser,
+  InsertUserCollectionAssignment,
+  InsertUserGreenHeart,
+  InsertUserInvitation,
+  InsertUserQuota,
+  InsertUserRequest,
+  InsertUserSettings,
+  InsertUserStatus,
+  UpdateUser,
+  UpdateUserCollectionAssignment,
+  UpdateUserGreenHeart,
+  UpdateUserInvitation,
+  UpdateUserQuota,
+  UpdateUserRequest,
+  UpdateUserSettings,
+  UpdateUserStatus,
+  User,
+  UserCollectionAssignment,
+  UserGreenHeart,
+  UserInvitation,
+  UserQuota,
+  UserRequest,
+  UserSettings,
+  UserStatus,
+} from "@binspire/db/schema";
 import { NotFoundError } from "@/features/error";
 import type { IBaseService } from "@/lib/types";
 import {
+  UserCollectionAssignmentRepository,
   UserGreenHeartRepository,
   UserInvitationRepository,
+  UserQuotaRepository,
   UserRepository,
   UserRequestRepository,
   UserSettingsRepository,
   UserStatusRepository,
-  UserCollectionAssignmentRepository,
-  UserQuotaRepository,
 } from "@/repository";
-import type {
-  InsertUserGreenHeart,
-  InsertUser,
-  InsertUserQuota,
-  InsertUserInvitation,
-  InsertUserRequest,
-  InsertUserSettings,
-  InsertUserStatus,
-  InsertUserCollectionAssignment,
-  UpdateUserGreenHeart,
-  UpdateUser,
-  UpdateUserQuota,
-  UpdateUserInvitation,
-  UpdateUserRequest,
-  UpdateUserSettings,
-  UpdateUserStatus,
-  UpdateUserCollectionAssignment,
-  User,
-  UserGreenHeart,
-  UserInvitation,
-  UserRequest,
-  UserSettings,
-  UserStatus,
-  UserCollectionAssignment,
-  UserQuota,
-} from "@binspire/db/schema";
 import { AuditService } from "./audit";
 import { MessagingService } from "./messaging";
-import { db } from "@binspire/db";
 import { TrashbinService } from "./trashbin";
 
 export class UserService implements IBaseService<User, InsertUser, UpdateUser> {

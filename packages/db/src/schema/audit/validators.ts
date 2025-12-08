@@ -1,6 +1,6 @@
-import { auditTable } from "./schema";
 import { createInsertSchema } from "drizzle-zod";
 import { insertExcludedFields } from "../../lib/base";
+import { auditTable } from "./schema";
 
 export const insertAuditSchema = createInsertSchema(auditTable)
   .omit(insertExcludedFields)

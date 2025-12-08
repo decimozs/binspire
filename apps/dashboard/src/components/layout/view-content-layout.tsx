@@ -1,17 +1,11 @@
-import { useCallback, useState } from "react";
-import CopyToClipboardButton from "../core/copy-clipboard";
-import { Separator } from "@binspire/ui/components/separator";
-import { useActionDialog, type ActionType } from "@/hooks/use-action-dialog";
-import { usePermissionStore } from "@/store/permission-store";
-import { Button } from "@binspire/ui/components/button";
-import { Loader2 } from "lucide-react";
-import { parseAsBoolean, useQueryState } from "nuqs";
+import { useUpdateUserRequest } from "@binspire/query";
 import {
+  type ActionsTypeManagement,
   formatDate,
   formatRelativeDate,
-  type ActionsTypeManagement,
   type RequestStatus,
 } from "@binspire/shared";
+import { Button } from "@binspire/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +14,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
-import { useUpdateUserRequest } from "@binspire/query";
+import { Separator } from "@binspire/ui/components/separator";
+import { Loader2 } from "lucide-react";
+import { parseAsBoolean, useQueryState } from "nuqs";
+import { useCallback, useState } from "react";
+import { type ActionType, useActionDialog } from "@/hooks/use-action-dialog";
+import { usePermissionStore } from "@/store/permission-store";
+import CopyToClipboardButton from "../core/copy-clipboard";
 import ShowQrCode from "../core/show-qr-code";
 
 interface DataTimestamps {

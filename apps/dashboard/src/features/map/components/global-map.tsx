@@ -1,30 +1,30 @@
-import { Button } from "@binspire/ui/components/button";
-import { useNavigate } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
-import Map, { useControl, type ViewState } from "react-map-gl/maplibre";
-import ZoomControls from "./zoom-controls";
-import { useEffect, useMemo, useState } from "react";
-import { authClient } from "@/lib/auth-client";
-import ResetMapStateButton from "./reset-map-state-button";
-import { MapboxOverlay } from "@deck.gl/mapbox";
-import { type DeckProps } from "@deck.gl/core";
-import { useTrashbinLayer } from "@/hooks/use-trashbin-layer";
 import {
   useGetAllTrashbins,
   useGetOrganizationSettingsById,
 } from "@binspire/query";
-import { useMapLayer } from "@/hooks/use-map-layer";
-import { Skeleton } from "@binspire/ui/components/skeleton";
-import FilterTrashbin from "./filter-trashbin";
-import { useTrashbinRealtime } from "@/store/realtime-store";
-import { useFilterTrashbin } from "@/hooks/use-filter-trashbin";
 import { TRASHBIN_CONFIG } from "@binspire/shared";
-import AvailableCollectors from "./available-collectors";
-import MapLegend from "./map-legend";
-import LiveUpdates from "./live-updates";
-import MonitoringMode from "./monitoring-mode";
+import { Button } from "@binspire/ui/components/button";
+import { Skeleton } from "@binspire/ui/components/skeleton";
+import type { DeckProps } from "@deck.gl/core";
+import { MapboxOverlay } from "@deck.gl/mapbox";
+import { useNavigate } from "@tanstack/react-router";
+import { ArrowUpRight } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import Map, { useControl, type ViewState } from "react-map-gl/maplibre";
+import { useFilterTrashbin } from "@/hooks/use-filter-trashbin";
+import { useMapLayer } from "@/hooks/use-map-layer";
+import { useTrashbinLayer } from "@/hooks/use-trashbin-layer";
+import { authClient } from "@/lib/auth-client";
 import { useMonitoringStore } from "@/store/monitoring-store";
+import { useTrashbinRealtime } from "@/store/realtime-store";
+import AvailableCollectors from "./available-collectors";
+import FilterTrashbin from "./filter-trashbin";
+import LiveUpdates from "./live-updates";
+import MapLegend from "./map-legend";
+import MonitoringMode from "./monitoring-mode";
+import ResetMapStateButton from "./reset-map-state-button";
 import RouteLayer from "./route-layer";
+import ZoomControls from "./zoom-controls";
 
 interface Props {
   isFullScreen?: boolean;

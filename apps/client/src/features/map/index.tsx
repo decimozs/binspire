@@ -1,35 +1,35 @@
-import Map, { useControl } from "react-map-gl/maplibre";
-import ZoomControls from "./components/zoom-controls";
-import ResetMapState from "./components/reset-map-state";
-import { useEffect, useMemo } from "react";
-import { useSession } from "../auth";
 import {
   useGetAllTrashbins,
   useGetOrganizationSettingsById,
 } from "@binspire/query";
-import { MapboxOverlay } from "@deck.gl/mapbox";
-import { type DeckProps } from "@deck.gl/core";
-import { useTrashbinRealtime } from "@/store/realtime-store";
-import {
-  useTrashbinLayer,
-  type TrashbinWithLevel,
-} from "@/hooks/use-trashbin-layer";
-import { useFilterTrashbin } from "@/hooks/use-filter-trashbin";
 import { TRASHBIN_CONFIG } from "@binspire/shared";
+import { Button } from "@binspire/ui/components/button";
+import type { DeckProps } from "@deck.gl/core";
+import { MapboxOverlay } from "@deck.gl/mapbox";
+import { Link, useLocation } from "@tanstack/react-router";
+import { ArrowUpRight } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
-import Back from "./components/back-button";
-import ViewTrashbin from "../trashbin/view-trashbin";
+import { useEffect, useMemo } from "react";
+import Map, { useControl } from "react-map-gl/maplibre";
+import { useFilterTrashbin } from "@/hooks/use-filter-trashbin";
+import {
+  type TrashbinWithLevel,
+  useTrashbinLayer,
+} from "@/hooks/use-trashbin-layer";
+import { useMapStore } from "@/store/map-store";
+import { useTrashbinRealtime } from "@/store/realtime-store";
+import { useRouteStore } from "@/store/route-store";
+import { useSession } from "../auth";
+import ReportIssue from "../report-issue";
 import AssignedTrashbins from "../trashbin/assigned-trashbins";
 import TrashbinIssues from "../trashbin/trashbin-issues";
-import RouteLayer from "./components/route-layer";
-import { useRouteStore } from "@/store/route-store";
-import Navigating from "./components/navigating";
-import { useMapStore } from "@/store/map-store";
-import { Link, useLocation } from "@tanstack/react-router";
-import { Button } from "@binspire/ui/components/button";
-import { ArrowUpRight } from "lucide-react";
-import ReportIssue from "../report-issue";
+import ViewTrashbin from "../trashbin/view-trashbin";
+import Back from "./components/back-button";
 import MapLegend from "./components/map-legend";
+import Navigating from "./components/navigating";
+import ResetMapState from "./components/reset-map-state";
+import RouteLayer from "./components/route-layer";
+import ZoomControls from "./components/zoom-controls";
 
 function DeckGLOverlay(props: DeckProps) {
   const overlay = useControl<MapboxOverlay>(() => new MapboxOverlay(props));

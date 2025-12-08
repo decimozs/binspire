@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
-import { historyTable } from "./schema";
 import { usersTable } from "../user";
+import { historyTable } from "./schema";
 
 export const historyRelations = relations(historyTable, ({ one }) => ({
   user: one(usersTable, {

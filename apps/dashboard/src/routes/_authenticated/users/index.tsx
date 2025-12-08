@@ -1,7 +1,7 @@
-import LoaderLayout from "@/components/layout/loader-layout";
-import Users from "@/features/users";
 import { queryOptions, UserApi, useSuspenseQuery } from "@binspire/query";
 import { createFileRoute } from "@tanstack/react-router";
+import LoaderLayout from "@/components/layout/loader-layout";
+import Users from "@/features/users";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["users"],

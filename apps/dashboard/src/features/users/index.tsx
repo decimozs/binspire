@@ -1,8 +1,10 @@
-import MainLayout from "@/components/layout/main-layout";
-import UsersDataTable from "./components/data-table";
-import { usePermissionStore } from "@/store/permission-store";
-import RequestAccess from "../permissions/components/request-access";
 import type { User } from "@binspire/query";
+import { getInitial } from "@binspire/shared";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@binspire/ui/components/avatar";
 import {
   Empty,
   EmptyContent,
@@ -11,13 +13,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@binspire/ui/components/empty";
+import MainLayout from "@/components/layout/main-layout";
+import { usePermissionStore } from "@/store/permission-store";
 import InviteUserButton from "../data-table/components/invite-user-button";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@binspire/ui/components/avatar";
-import { getInitial } from "@binspire/shared";
+import RequestAccess from "../permissions/components/request-access";
+import UsersDataTable from "./components/data-table";
 
 interface UsersProps {
   data: User[];

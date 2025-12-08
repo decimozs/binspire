@@ -1,11 +1,11 @@
-import { Bell } from "lucide-react";
-import { useSession } from "@/features/auth";
-import { ShowToast } from "@/components/toast";
-import { getToken } from "firebase/messaging";
-import { messaging } from "@/features/firebase";
 import { MessagingApi } from "@binspire/query";
-import { useEffect, useState } from "react";
 import { Switch } from "@binspire/ui/components/switch";
+import { getToken } from "firebase/messaging";
+import { Bell } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ShowToast } from "@/components/toast";
+import { useSession } from "@/features/auth";
+import { messaging } from "@/features/firebase";
 
 export default function ToggleNotification() {
   const session = useSession();

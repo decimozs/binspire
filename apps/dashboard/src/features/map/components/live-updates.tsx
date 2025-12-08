@@ -1,7 +1,7 @@
-import { authClient } from "@/lib/auth-client";
-import { useRealtimeUpdatesStore } from "@/store/realtime-store";
 import { useGetUserSettingsByUserId } from "@binspire/query";
 import { ScrollArea } from "@binspire/ui/components/scroll-area";
+import { authClient } from "@/lib/auth-client";
+import { useRealtimeUpdatesStore } from "@/store/realtime-store";
 
 export default function LiveUpdates() {
   const session = authClient.useSession();

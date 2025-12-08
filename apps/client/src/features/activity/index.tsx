@@ -1,7 +1,3 @@
-import MainLayout from "@/components/layout/main-layout";
-import FilterButton from "./components/filter-button";
-import SearchActivity from "./components/search-activity";
-import ActivityList from "./components/activity-list";
 import type { Audit, TrashbinCollections } from "@binspire/query";
 import {
   Empty,
@@ -11,6 +7,10 @@ import {
   EmptyTitle,
 } from "@binspire/ui/components/empty";
 import { Activity as ActivityIcon } from "lucide-react";
+import MainLayout from "@/components/layout/main-layout";
+import ActivityList from "./components/activity-list";
+import FilterButton from "./components/filter-button";
+import SearchActivity from "./components/search-activity";
 
 interface Props {
   collections: TrashbinCollections[];
@@ -30,7 +30,7 @@ export default function Activity({ collections, audits }: Props) {
         <Empty className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/1 font-bold">
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <ActivityIcon className="text-primary"/>
+              <ActivityIcon className="text-primary" />
             </EmptyMedia>
             <EmptyTitle>No Activity Found</EmptyTitle>
             <EmptyDescription className="w-[300px]">

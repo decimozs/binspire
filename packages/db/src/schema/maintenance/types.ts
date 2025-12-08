@@ -1,5 +1,5 @@
 import type { z } from "zod/v4";
-import { maintenanceTable } from "./schema";
+import type { maintenanceTable } from "./schema";
 import type {
   insertMaintenanceSchema,
   updateMaintenanceSchema,

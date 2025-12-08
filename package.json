@@ -11,11 +11,11 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
+    "format": "bunx biome format --write",
+    "lint": "bunx biome lint --write",
+    "check": "bunx biome check --write",
+    "prepush": "bun run format && bun run lint && bun run check",
     "typecheck": "turbo run typecheck",
-    "prepare": "husky",
-    "act-check": "act push --pull=false --reuse --bind -P ubuntu-latest=catthehacker/ubuntu:act-22.04",
-    "pre-commit": "bun run typecheck && bun run lint && bun run build",
     "dev:api": "bun --filter @binspire/api dev",
     "prod:start": "bun --filter @binspire/api start",
     "dev:dashboard": "bun --filter @binspire/dashboard dev",
@@ -29,8 +29,9 @@
     "ui:add": "bun --filter @binspire/ui ui:add"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.8",
     "@types/bun": "latest",
-    "husky": "^9.1.7",
+    "lefthook": "^2.0.8",
     "turbo": "^2.5.8",
     "vitepress": "^2.0.0-alpha.12"
   },

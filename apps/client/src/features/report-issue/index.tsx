@@ -1,6 +1,22 @@
+import { insertIssueSchema } from "@binspire/db/schema";
+import { useCreateIssue } from "@binspire/query";
+import {
+  formatLabel,
+  type ISSUE_STATUSES,
+  type PRIORITY_SCORES,
+  PRIORITY_SCORES_CONFIG,
+  type PriorityScores,
+  type SYSTEM_ENTITY,
+} from "@binspire/shared";
 import { Button } from "@binspire/ui/components/button";
 import { Input } from "@binspire/ui/components/input";
-import { Textarea } from "@binspire/ui/components/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@binspire/ui/components/select";
 import {
   Sheet,
   SheetContent,
@@ -10,31 +26,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@binspire/ui/components/sheet";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@binspire/ui/components/select";
-import {
-  formatLabel,
-  ISSUE_STATUSES,
-  PRIORITY_SCORES,
-  PRIORITY_SCORES_CONFIG,
-  SYSTEM_ENTITY,
-  type PriorityScores,
-} from "@binspire/shared";
-import { Info, Loader2, Ticket } from "lucide-react";
-import { insertIssueSchema } from "@binspire/db/schema";
-import { useCreateIssue } from "@binspire/query";
-import { useForm } from "@tanstack/react-form";
-import { ShowToast } from "@/components/toast";
-import { useState } from "react";
-import { authClient } from "../auth";
+import { Textarea } from "@binspire/ui/components/textarea";
 import { FormFieldError } from "@binspire/ui/forms";
+import { useForm } from "@tanstack/react-form";
+import { Info, Loader2, Ticket } from "lucide-react";
+import { useState } from "react";
 import z from "zod";
+import { ShowToast } from "@/components/toast";
 import { useMqtt } from "@/context/mqtt-provider";
+import { authClient } from "../auth";
 import SettingsItem from "../settings/components/settings-item";
 
 const schema = insertIssueSchema

@@ -1,4 +1,3 @@
-import { authClient } from "@/lib/auth-client";
 import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
@@ -11,6 +10,7 @@ import {
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
 import { useEffect, useState } from "react";
+import { authClient } from "@/lib/auth-client";
 
 export default function Welcome() {
   const [open, setOpen] = useState(false);

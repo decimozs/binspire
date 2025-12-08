@@ -2,8 +2,8 @@ import { pgTable, text } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { timestamps } from "../../lib/base";
 import { SYSTEM_ENTITY_ENUM } from "../../lib/enum";
-import { usersTable } from "../user";
 import { organizationsTable } from "../org";
+import { usersTable } from "../user";
 
 export const historyTable = pgTable("history", {
   id: text("id")

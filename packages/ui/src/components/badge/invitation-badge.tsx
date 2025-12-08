@@ -1,6 +1,6 @@
 import {
-  USER_INVITATION_STATUS_CONFIG,
   type InvitationStatus,
+  USER_INVITATION_STATUS_CONFIG,
 } from "@binspire/shared";
 
 export function InvitationStatusBadge({

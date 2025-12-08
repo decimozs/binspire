@@ -1,7 +1,7 @@
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import AuthLayout from "@/components/layout/auth-layout";
 import { authClient } from "@/features/auth";
 import LoginForm from "@/features/auth/component/login-form";
-import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(auth)/login/")({
   component: RouteComponent,

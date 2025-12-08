@@ -1,8 +1,8 @@
+import type { ActionsTypeManagement } from "@binspire/shared";
 import UpdateContentLayout from "@/components/layout/update-content-layout";
 import ActionDialogContainer from "@/components/views/action-dialog-container";
-import { type ActionType } from "@/hooks/use-action-dialog";
+import type { ActionType } from "@/hooks/use-action-dialog";
 import { useReviewChangesStore } from "@/store/review-changes-store";
-import type { ActionsTypeManagement } from "@binspire/shared";
 
 const ACTION_KEY: ActionType = "update";
 

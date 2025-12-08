@@ -1,8 +1,4 @@
 import type { History } from "@binspire/query";
-import HistoryDataTable from "./components/data-table";
-import MainLayout from "@/components/layout/main-layout";
-import { usePermissionStore } from "@/store/permission-store";
-import RequestAccess from "@/features/permissions/components/request-access";
 import {
   Empty,
   EmptyContent,
@@ -13,6 +9,10 @@ import {
 } from "@binspire/ui/components/empty";
 import { History as HistoryIcon } from "lucide-react";
 import RefreshButton from "@/components/core/refresh-button";
+import MainLayout from "@/components/layout/main-layout";
+import RequestAccess from "@/features/permissions/components/request-access";
+import { usePermissionStore } from "@/store/permission-store";
+import HistoryDataTable from "./components/data-table";
 
 interface HistoryProps {
   data: History[];

@@ -1,3 +1,10 @@
+import { useGetMaintenanceById } from "@binspire/query";
+import { Separator } from "@binspire/ui/components/separator";
+import { SidebarTrigger } from "@binspire/ui/components/sidebar";
+import { Skeleton } from "@binspire/ui/components/skeleton";
+import { useLocation } from "@tanstack/react-router";
+import { format } from "date-fns";
+import { useEffect, useState } from "react";
 import LayoutButton from "@/components/core/layout-button";
 import { Search } from "@/components/core/search";
 import ThemeToggle from "@/components/core/toggle-theme";
@@ -8,13 +15,6 @@ import { authClient } from "@/lib/auth-client";
 import { useMonitoringStore } from "@/store/monitoring-store";
 import { useTrashbinRealtime } from "@/store/realtime-store";
 import { useTelemetryStore } from "@/store/telemetry-store";
-import { useGetMaintenanceById } from "@binspire/query";
-import { Separator } from "@binspire/ui/components/separator";
-import { SidebarTrigger } from "@binspire/ui/components/sidebar";
-import { Skeleton } from "@binspire/ui/components/skeleton";
-import { useLocation } from "@tanstack/react-router";
-import { format } from "date-fns";
-import { useEffect, useState } from "react";
 
 export default function DashboardHeader() {
   const location = useLocation();

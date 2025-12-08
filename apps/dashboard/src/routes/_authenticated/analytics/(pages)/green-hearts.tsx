@@ -1,14 +1,14 @@
-import LoaderLayout from "@/components/layout/loader-layout";
+import type { UserGreenHeart } from "@binspire/query";
 import {
   queryOptions,
   UserGreenHeartApi,
   useSuspenseQuery,
 } from "@binspire/query";
 import { createFileRoute } from "@tanstack/react-router";
-import GreenHeartsDataTable from "@/features/green-hearts/components/data-table";
-import { type UserGreenHeart } from "@binspire/query";
+import LoaderLayout from "@/components/layout/loader-layout";
 import AnalyticsOverview from "@/features/analytics/components/analytics-overview";
 import { TotalPieChart } from "@/features/analytics/components/total-pie-chart";
+import GreenHeartsDataTable from "@/features/green-hearts/components/data-table";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["user-green-hearts"],

@@ -1,5 +1,5 @@
 import type { ActionsTypeManagement } from "@binspire/shared";
-import { useQueryState, parseAsJson, parseAsBoolean } from "nuqs";
+import { parseAsBoolean, parseAsJson, useQueryState } from "nuqs";
 import { useCallback, useState } from "react";
 import z from "zod";
 

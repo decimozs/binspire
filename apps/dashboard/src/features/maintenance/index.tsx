@@ -1,7 +1,3 @@
-import { DateAndTimePicker } from "@/components/core/appointment-picker";
-import { ShowToast } from "@/components/core/toast-notification";
-import { authClient } from "@/lib/auth-client";
-import { usePermissionStore } from "@/store/permission-store";
 import { useGetMaintenanceById, useUpdateMaintenance } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import {
@@ -20,6 +16,10 @@ import { useForm } from "@tanstack/react-form";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import z from "zod";
+import { DateAndTimePicker } from "@/components/core/appointment-picker";
+import { ShowToast } from "@/components/core/toast-notification";
+import { authClient } from "@/lib/auth-client";
+import { usePermissionStore } from "@/store/permission-store";
 
 const schema = z.object({
   title: z.string().min(2).max(50),

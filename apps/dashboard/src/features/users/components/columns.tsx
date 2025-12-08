@@ -1,8 +1,8 @@
-import { authClient } from "@/lib/auth-client";
 import type { User } from "@binspire/query";
 import type { UserRole } from "@binspire/shared";
 import { UserRoleBadge } from "@binspire/ui/badges";
 import type { ColumnDef } from "@tanstack/react-table";
+import { authClient } from "@/lib/auth-client";
 
 export const userColumns: ColumnDef<User>[] = [
   {

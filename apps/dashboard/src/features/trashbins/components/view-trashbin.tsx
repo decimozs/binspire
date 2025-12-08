@@ -1,10 +1,10 @@
+import { type Trashbin, useGetTrashbinById } from "@binspire/query";
+import type { ActionsTypeManagement } from "@binspire/shared";
 import ViewContentLayout from "@/components/layout/view-content-layout";
 import ActionDialogContainer from "@/components/views/action-dialog-container";
-import TrashbinDetails from "./trashbin-details";
+import { type ActionType, useActionDialog } from "@/hooks/use-action-dialog";
 import EditTrashbin from "./edit-trashbin";
-import type { ActionsTypeManagement } from "@binspire/shared";
-import { useActionDialog, type ActionType } from "@/hooks/use-action-dialog";
-import { useGetTrashbinById, type Trashbin } from "@binspire/query";
+import TrashbinDetails from "./trashbin-details";
 
 const FORM_ID = "trashbin-edit-form";
 const keys: { queryKey: ActionsTypeManagement; actionKey: ActionType } = {

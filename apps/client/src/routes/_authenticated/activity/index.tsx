@@ -1,6 +1,3 @@
-import LoaderLayout from "@/components/layout/loader-layout";
-import Activity from "@/features/activity";
-import { useSession } from "@/features/auth";
 import {
   AuditApi,
   queryOptions,
@@ -8,6 +5,9 @@ import {
   useSuspenseQuery,
 } from "@binspire/query";
 import { createFileRoute } from "@tanstack/react-router";
+import LoaderLayout from "@/components/layout/loader-layout";
+import Activity from "@/features/activity";
+import { useSession } from "@/features/auth";
 
 const collectionsQueryOpts = queryOptions({
   queryKey: ["trashbin-collections"],

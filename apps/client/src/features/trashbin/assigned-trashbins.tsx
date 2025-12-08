@@ -8,13 +8,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@binspire/ui/components/drawer";
-import { Recycle } from "lucide-react";
-import { parseAsBoolean, useQueryState } from "nuqs";
-import { authClient } from "../auth";
-import { Skeleton } from "@binspire/ui/components/skeleton";
-import { ScrollArea } from "@binspire/ui/components/scroll-area";
-import { formatDistanceToNow } from "date-fns";
-import { useMap } from "react-map-gl/maplibre";
 import {
   Empty,
   EmptyDescription,
@@ -22,6 +15,13 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@binspire/ui/components/empty";
+import { ScrollArea } from "@binspire/ui/components/scroll-area";
+import { Skeleton } from "@binspire/ui/components/skeleton";
+import { formatDistanceToNow } from "date-fns";
+import { Recycle } from "lucide-react";
+import { parseAsBoolean, useQueryState } from "nuqs";
+import { useMap } from "react-map-gl/maplibre";
+import { authClient } from "../auth";
 
 export default function AssignedTrashbins() {
   const { current: map } = useMap();

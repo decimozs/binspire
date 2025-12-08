@@ -1,8 +1,4 @@
-import UserCard from "@/components/core/user-card";
-import ViewContentLayout from "@/components/layout/view-content-layout";
-import ActionDialogContainer from "@/components/views/action-dialog-container";
-import { useActionDialog, type ActionType } from "@/hooks/use-action-dialog";
-import { useGetUserInvitationById, type UserInvitation } from "@binspire/query";
+import { type UserInvitation, useGetUserInvitationById } from "@binspire/query";
 import type {
   ActionsTypeManagement,
   UserPermission,
@@ -13,6 +9,10 @@ import {
   UserPermissionBadge,
   UserRoleBadge,
 } from "@binspire/ui/badges";
+import UserCard from "@/components/core/user-card";
+import ViewContentLayout from "@/components/layout/view-content-layout";
+import ActionDialogContainer from "@/components/views/action-dialog-container";
+import { type ActionType, useActionDialog } from "@/hooks/use-action-dialog";
 
 const keys: { queryKey: ActionsTypeManagement; actionKey: ActionType } = {
   queryKey: "invitationsManagement",

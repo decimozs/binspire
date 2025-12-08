@@ -1,8 +1,8 @@
-import RankedName from "./ranked-name";
-import { UserRoleBadge } from "@binspire/ui/badges";
 import type { User, UserGreenHeart } from "@binspire/query";
 import type { UserRole } from "@binspire/shared";
+import { UserRoleBadge } from "@binspire/ui/badges";
 import type { ColumnDef } from "@tanstack/react-table";
+import RankedName from "./ranked-name";
 
 export const leaderboardColumns: ColumnDef<User>[] = [
   {

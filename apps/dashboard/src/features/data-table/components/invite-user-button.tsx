@@ -1,7 +1,7 @@
-import { usePermissionStore } from "@/store/permission-store";
 import { Button } from "@binspire/ui/components/button";
 import { Mail } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
+import { usePermissionStore } from "@/store/permission-store";
 
 export default function InviteUserButton() {
   const [, setInvitingUserQuery] = useQueryState(

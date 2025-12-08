@@ -1,8 +1,8 @@
+import type { InsertIssue, Issue, UpdateIssue } from "@binspire/db/schema";
+import { NotFoundError } from "@/features/error";
 import type { IBaseService } from "@/lib/types";
 import { IssueRepository } from "@/repository";
-import type { InsertIssue, Issue, UpdateIssue } from "@binspire/db/schema";
 import { AuditService } from "./audit";
-import { NotFoundError } from "@/features/error";
 
 export class IssueService
   implements IBaseService<Issue, InsertIssue, UpdateIssue>

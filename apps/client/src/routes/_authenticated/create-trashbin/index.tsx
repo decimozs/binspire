@@ -1,7 +1,7 @@
-import CreateTrashbin from "@/features/trashbin/create-trashbin";
 import { QRCodeApi } from "@binspire/query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import z from "zod";
+import CreateTrashbin from "@/features/trashbin/create-trashbin";
 
 const routeSchema = z.object({
   secret: z.string().min(1, "Secret is required"),

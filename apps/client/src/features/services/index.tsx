@@ -1,7 +1,7 @@
-import MainLayout from "@/components/layout/main-layout";
-import ServiceCard from "./components/service-card";
 import { Hammer, Recycle, Trash } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
+import MainLayout from "@/components/layout/main-layout";
+import ServiceCard from "./components/service-card";
 
 export default function Services() {
   const [, setAssignedTrashbinsQuery] = useQueryState(

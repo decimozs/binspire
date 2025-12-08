@@ -1,16 +1,16 @@
+import type z from "zod";
 import type {
   trashbinsCollectionsTable,
   trashbinsStatusTable,
   trashbinsTable,
 } from "./schema";
-import z from "zod";
 import type {
-  insertTrashbinSchema,
   insertTrashbinCollectionSchema,
-  updateTrashbinSchema,
+  insertTrashbinSchema,
   insertTrashbinStatusSchema,
-  updateTrashbinStatusSchema,
   updateTrashbinCollectionSchema,
+  updateTrashbinSchema,
+  updateTrashbinStatusSchema,
 } from "./validators";
 
 export type Trashbin = typeof trashbinsTable.$inferSelect;

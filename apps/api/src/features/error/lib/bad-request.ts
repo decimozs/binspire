@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { type ZodIssue } from "zod/v4";
+import type { ZodIssue } from "zod/v4";
 
 export class BadRequestError extends Error {
   status: number;

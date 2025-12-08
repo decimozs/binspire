@@ -1,4 +1,9 @@
-import { useEffect, useState } from "react";
+import {
+  useGetOrganizationSettingsById,
+  useGetTrashbinById,
+} from "@binspire/query";
+import { formatLabel } from "@binspire/shared";
+import { Button } from "@binspire/ui/components/button";
 import {
   Drawer,
   DrawerContent,
@@ -8,25 +13,20 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@binspire/ui/components/drawer";
+import { Loader2 } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
-import {
-  useGetOrganizationSettingsById,
-  useGetTrashbinById,
-} from "@binspire/query";
-import { formatLabel } from "@binspire/shared";
+import { useEffect, useState } from "react";
+import { useMap } from "react-map-gl/maplibre";
+import WarningSign from "@/components/warning-sign";
 import { useTrashbinRealtime } from "@/store/realtime-store";
 import { useTelemetryStore } from "@/store/telemetry-store";
-import WarningSign from "@/components/warning-sign";
-import { Button } from "@binspire/ui/components/button";
-import { Loader2 } from "lucide-react";
-import CollectTrashbin from "./collect-trashbin";
+import { useSession } from "../auth";
 import GetRoute from "../map/components/get-route";
 import SelectProfile from "../map/components/select-profile";
-import { useSession } from "../auth";
-import { useMap } from "react-map-gl/maplibre";
-import TrashbinStatus from "./trashbin-status";
 import ReportIssue from "../report-issue";
+import CollectTrashbin from "./collect-trashbin";
 import TrashbinLogs from "./trashbin-logs";
+import TrashbinStatus from "./trashbin-status";
 
 export default function ViewTrashbin() {
   const [trashbin, setTrashbinQuery] = useQueryState("trashbin_id");

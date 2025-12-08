@@ -1,12 +1,12 @@
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
+import { insertExcludedFields } from "../../lib/base";
 import {
   accountsTable,
   qrCodesTable,
   sessionsTable,
   verificationsTable,
 } from "./schema";
-import { insertExcludedFields } from "../../lib/base";
 
 export const insertSessionSchema = createInsertSchema(sessionsTable)
   .omit(insertExcludedFields)

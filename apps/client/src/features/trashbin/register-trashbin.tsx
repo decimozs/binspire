@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from "react";
-import { Html5Qrcode, Html5QrcodeSupportedFormats } from "html5-qrcode";
-import { useNavigate } from "@tanstack/react-router";
-import { Camera, FileUpIcon } from "lucide-react";
 import { QRCodeApi, useGetOrganizationSettingsById } from "@binspire/query";
-import { authClient } from "@/features/auth";
-import { ShowToast } from "@/components/toast";
-import { decryptWithSecret } from "@/lib/utils";
-import MainLayout from "@/components/layout/main-layout";
 import { Button } from "@binspire/ui/components/button";
+import { useNavigate } from "@tanstack/react-router";
+import { Html5Qrcode, Html5QrcodeSupportedFormats } from "html5-qrcode";
+import { Camera, FileUpIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import MainLayout from "@/components/layout/main-layout";
+import { ShowToast } from "@/components/toast";
+import { authClient } from "@/features/auth";
+import { decryptWithSecret } from "@/lib/utils";
 
 export default function RegisterTrashbin() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);

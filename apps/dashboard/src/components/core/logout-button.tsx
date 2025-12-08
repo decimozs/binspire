@@ -1,8 +1,8 @@
-import { authClient } from "@/lib/auth-client";
 import { UserStatusApi } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
 
 export default function LogoutButton() {
   const [pending, setPending] = useState(false);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useGetOrganizationSettingsById } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
@@ -10,16 +10,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
-import { Monitor, MonitorOff } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
-import { useMonitoringStore } from "@/store/monitoring-store";
+import { Monitor, MonitorOff } from "lucide-react";
+import { useState } from "react";
 import { useMap } from "react-map-gl/maplibre";
-import { useGetOrganizationSettingsById } from "@binspire/query";
 import { authClient } from "@/lib/auth-client";
+import { useMonitoringStore } from "@/store/monitoring-store";
 
 export default function MonitoringMode() {
   const { current: map } = useMap();

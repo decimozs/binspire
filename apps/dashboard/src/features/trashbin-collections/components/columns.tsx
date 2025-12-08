@@ -1,5 +1,6 @@
+import type { TrashbinCollections } from "@binspire/query";
+import { UserColumn } from "@binspire/ui/badges";
 import type { ColumnDef } from "@tanstack/react-table";
-import { SortingButton } from "@/features/data-table/components/sorting-button";
 import {
   ArrowDown10,
   ArrowDownAZ,
@@ -7,9 +8,8 @@ import {
   ArrowUpAZ,
   ArrowUpDown,
 } from "lucide-react";
+import { SortingButton } from "@/features/data-table/components/sorting-button";
 import { TrashbinStatus } from "./trashbin-details";
-import type { TrashbinCollections } from "@binspire/query";
-import { UserColumn } from "@binspire/ui/badges";
 
 export const trashbinCollectionColumns: ColumnDef<TrashbinCollections>[] = [
   {

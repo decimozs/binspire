@@ -26,7 +26,6 @@
   "dependencies": {
     "@binspire/config": "workspace:*",
     "@binspire/db": "workspace:*",
-    "@binspire/eslint": "workspace:*",
     "@binspire/logging": "workspace:*",
     "@binspire/tsconfig": "workspace:*",
     "@hono/zod-validator": "^0.7.3",

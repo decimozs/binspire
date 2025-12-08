@@ -1,6 +1,6 @@
+import type { InsertVerification, Verification } from "@binspire/db/schema";
 import { UnauthorizedError } from "@/features/error";
 import { VerificationRepository } from "@/repository";
-import type { InsertVerification, Verification } from "@binspire/db/schema";
 
 interface IVerificationService {
   verify(value: string): Promise<Verification>;

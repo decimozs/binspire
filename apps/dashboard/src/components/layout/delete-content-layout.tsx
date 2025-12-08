@@ -1,12 +1,12 @@
-import { useActionDialog } from "@/hooks/use-action-dialog";
-import z from "zod";
-import { ShowToast } from "../core/toast-notification";
-import { useForm } from "@tanstack/react-form";
-import { Input } from "@binspire/ui/components/input";
-import { Button } from "@binspire/ui/components/button";
-import { Loader2 } from "lucide-react";
 import type { ActionsTypeManagement } from "@binspire/shared";
+import { Button } from "@binspire/ui/components/button";
+import { Input } from "@binspire/ui/components/input";
 import { FormFieldError } from "@binspire/ui/forms";
+import { useForm } from "@tanstack/react-form";
+import { Loader2 } from "lucide-react";
+import z from "zod";
+import { useActionDialog } from "@/hooks/use-action-dialog";
+import { ShowToast } from "../core/toast-notification";
 
 interface DeleteContentLayoutProps {
   queryId: string;

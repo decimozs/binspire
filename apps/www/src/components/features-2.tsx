@@ -1,7 +1,7 @@
+import { CalendarCheck, type LucideIcon, Sparkle } from "lucide-react";
+import type { ReactNode } from "react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { type LucideIcon, Sparkle, CalendarCheck } from "lucide-react";
-import { type ReactNode } from "react";
 
 export default function Features2() {
   return (

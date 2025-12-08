@@ -1,9 +1,9 @@
 import { jsonb, pgTable, text } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
-import { usersTable } from "../user";
-import { AUDIT_ACTIONS_ENUM, SYSTEM_ENTITY_ENUM } from "../../lib/enum";
 import { timestamps } from "../../lib/base";
+import { AUDIT_ACTIONS_ENUM, SYSTEM_ENTITY_ENUM } from "../../lib/enum";
 import { organizationsTable } from "../org";
+import { usersTable } from "../user";
 
 export type AuditChange = {
   before: Record<string, unknown> | null;

@@ -1,7 +1,7 @@
 import type {
   InsertTrashbin,
-  UpdateTrashbin,
   InsertTrashbinCollection,
+  UpdateTrashbin,
 } from "@binspire/db/schema";
 import { rpc } from "../lib/api-client";
 

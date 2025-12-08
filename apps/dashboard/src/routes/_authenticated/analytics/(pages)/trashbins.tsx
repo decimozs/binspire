@@ -1,14 +1,14 @@
+import {
+  queryOptions,
+  type Trashbin,
+  TrashbinApi,
+  useSuspenseQuery,
+} from "@binspire/query";
+import { createFileRoute } from "@tanstack/react-router";
 import LoaderLayout from "@/components/layout/loader-layout";
 import AnalyticsOverview from "@/features/analytics/components/analytics-overview";
 import { TotalPieChart } from "@/features/analytics/components/total-pie-chart";
 import TrashbinsDataTable from "@/features/trashbins/components/data-table";
-import {
-  queryOptions,
-  TrashbinApi,
-  useSuspenseQuery,
-  type Trashbin,
-} from "@binspire/query";
-import { createFileRoute } from "@tanstack/react-router";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["trashbins"],

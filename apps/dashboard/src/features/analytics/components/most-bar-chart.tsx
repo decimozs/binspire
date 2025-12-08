@@ -1,13 +1,4 @@
-import { TrendingUp } from "lucide-react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  LabelList,
-  Rectangle,
-  XAxis,
-} from "@binspire/ui/components/chart";
+import { formatLabel } from "@binspire/shared";
 import {
   Card,
   CardContent,
@@ -17,13 +8,20 @@ import {
   CardTitle,
 } from "@binspire/ui/components/card";
 import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  LabelList,
+  Rectangle,
+  XAxis,
 } from "@binspire/ui/components/chart";
+import { TrendingUp } from "lucide-react";
 import { useMemo } from "react";
-import { formatLabel } from "@binspire/shared";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Props<T extends Record<string, any>> {

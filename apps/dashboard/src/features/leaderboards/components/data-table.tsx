@@ -1,19 +1,19 @@
-import DataTable from "@/features/data-table";
+import type { User, UserGreenHeart } from "@binspire/query";
+import { Button } from "@binspire/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
-import { Button } from "@binspire/ui/components/button";
 import { Ellipsis } from "lucide-react";
-import { usePermissionStore } from "@/store/permission-store";
+import DataTable from "@/features/data-table";
 import PermittedActions from "@/features/permissions/permitted-actions";
+import { usePermissionStore } from "@/store/permission-store";
 import {
   topAdminsColumns,
   topGreenHeartDonatorColumns,
   topMaintenanceColumns,
 } from "./columns";
-import { type User, type UserGreenHeart } from "@binspire/query";
 
 export function TopAdminsDataTable({
   data,

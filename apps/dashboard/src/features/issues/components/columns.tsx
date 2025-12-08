@@ -1,6 +1,3 @@
-import type { ColumnDef } from "@tanstack/react-table";
-import { SortingButton } from "@/features/data-table/components/sorting-button";
-import { ArrowDownAZ, ArrowUpAZ, ArrowUpDown } from "lucide-react";
 import type { Issue } from "@binspire/query";
 import { formatCamelCase } from "@binspire/shared";
 import {
@@ -8,6 +5,9 @@ import {
   IssueStatusBadge,
   UserColumn,
 } from "@binspire/ui/badges";
+import type { ColumnDef } from "@tanstack/react-table";
+import { ArrowDownAZ, ArrowUpAZ, ArrowUpDown } from "lucide-react";
+import { SortingButton } from "@/features/data-table/components/sorting-button";
 
 export const issueColumns: ColumnDef<Issue>[] = [
   {

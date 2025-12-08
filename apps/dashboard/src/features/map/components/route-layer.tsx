@@ -1,16 +1,16 @@
-import { useEffect, useState, useRef } from "react";
-import { Source, Layer, Marker, useMap } from "react-map-gl/maplibre";
-import { point } from "@turf/helpers";
-import { distance as turfDistance } from "@turf/distance";
-import { useRouteStore } from "@/store/route-store";
-import { useLocation } from "@tanstack/react-router";
+import { UserApi } from "@binspire/query";
+import { getInitial } from "@binspire/shared";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@binspire/ui/components/avatar";
-import { getInitial } from "@binspire/shared";
-import { UserApi } from "@binspire/query";
+import { useLocation } from "@tanstack/react-router";
+import { distance as turfDistance } from "@turf/distance";
+import { point } from "@turf/helpers";
+import { useEffect, useRef, useState } from "react";
+import { Layer, Marker, Source, useMap } from "react-map-gl/maplibre";
+import { useRouteStore } from "@/store/route-store";
 
 interface UserDetails {
   id: string;

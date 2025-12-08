@@ -1,14 +1,14 @@
+import {
+  type History,
+  HistoryApi,
+  queryOptions,
+  useSuspenseQuery,
+} from "@binspire/query";
+import { createFileRoute } from "@tanstack/react-router";
 import LoaderLayout from "@/components/layout/loader-layout";
 import AnalyticsOverview from "@/features/analytics/components/analytics-overview";
 import { TotalPieChart } from "@/features/analytics/components/total-pie-chart";
 import HistoryDataTable from "@/features/history/components/data-table";
-import {
-  HistoryApi,
-  queryOptions,
-  useSuspenseQuery,
-  type History,
-} from "@binspire/query";
-import { createFileRoute } from "@tanstack/react-router";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["histories"],

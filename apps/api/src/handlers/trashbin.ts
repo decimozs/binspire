@@ -1,10 +1,3 @@
-import { factory } from "@/lib/factory";
-import { idParamSchema, zValidator } from "@/lib/utils";
-import {
-  TrashbinCollectionService,
-  TrashbinService,
-  TrashbinStatusService,
-} from "@/services";
 import {
   insertTrashbinCollectionSchema,
   insertTrashbinSchema,
@@ -13,6 +6,13 @@ import {
   updateTrashbinSchema,
   updateTrashbinStatusSchema,
 } from "@binspire/db/schema";
+import { factory } from "@/lib/factory";
+import { idParamSchema, zValidator } from "@/lib/utils";
+import {
+  TrashbinCollectionService,
+  TrashbinService,
+  TrashbinStatusService,
+} from "@/services";
 
 export class TrashbinHandler {
   private service = new TrashbinService();
@@ -77,7 +77,7 @@ export class TrashbinHandler {
         wasteLevel: true,
         weightLevel: true,
         batteryLevel: true,
-        logs: true
+        logs: true,
       }),
     ),
     async (c) => {

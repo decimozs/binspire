@@ -1,7 +1,5 @@
-import { useSession } from "@/features/auth";
+import { MessagingApi } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
-import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -12,11 +10,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@binspire/ui/components/drawer";
-import { ShowToast } from "./toast";
+import { useNavigate } from "@tanstack/react-router";
 import { getToken } from "firebase/messaging";
-import { messaging } from "@/features/firebase";
-import { MessagingApi } from "@binspire/query";
 import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useSession } from "@/features/auth";
+import { messaging } from "@/features/firebase";
+import { ShowToast } from "./toast";
 
 export default function Welcome() {
   const { data: current } = useSession();

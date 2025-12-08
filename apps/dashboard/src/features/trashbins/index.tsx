@@ -1,9 +1,4 @@
-import TrashbinsDataTable from "./components/data-table";
-import MainLayout from "@/components/layout/main-layout";
-import { usePermissionStore } from "@/store/permission-store";
-import RequestAccess from "../permissions/components/request-access";
 import type { Trashbin } from "@binspire/query";
-import { Trash } from "lucide-react";
 import {
   Empty,
   EmptyContent,
@@ -12,6 +7,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@binspire/ui/components/empty";
+import { Trash } from "lucide-react";
+import MainLayout from "@/components/layout/main-layout";
+import { usePermissionStore } from "@/store/permission-store";
+import RequestAccess from "../permissions/components/request-access";
+import TrashbinsDataTable from "./components/data-table";
 import RegisterTrashbin from "./components/register-trashbin";
 
 interface TrashbinsProps {

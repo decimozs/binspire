@@ -1,7 +1,3 @@
-import UserInvitationsDataTable from "./components/data-table";
-import MainLayout from "@/components/layout/main-layout";
-import { usePermissionStore } from "@/store/permission-store";
-import RequestAccess from "../permissions/components/request-access";
 import type { UserInvitation } from "@binspire/query";
 import {
   Empty,
@@ -12,7 +8,11 @@ import {
   EmptyTitle,
 } from "@binspire/ui/components/empty";
 import { Mail } from "lucide-react";
+import MainLayout from "@/components/layout/main-layout";
+import { usePermissionStore } from "@/store/permission-store";
 import InviteUserButton from "../data-table/components/invite-user-button";
+import RequestAccess from "../permissions/components/request-access";
+import UserInvitationsDataTable from "./components/data-table";
 
 interface UserInvitationProps {
   data: UserInvitation[];

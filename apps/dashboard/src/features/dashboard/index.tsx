@@ -1,26 +1,26 @@
-import MainLayout from "@/components/layout/main-layout";
-import MetricCard from "./components/metric-card";
-import {
-  Database,
-  Info,
-  ShieldQuestionMark,
-  UserRound,
-  Trash,
-  Mail,
-  ClipboardList,
-  History as HistoryIcon,
-} from "lucide-react";
-import GlobalMap from "../map/components/global-map";
 import type {
   Audit,
+  History,
   Issue,
   Trashbin,
+  TrashbinCollections,
   User,
   UserInvitation,
   UserRequest,
-  History,
-  TrashbinCollections,
 } from "@binspire/query";
+import {
+  ClipboardList,
+  Database,
+  History as HistoryIcon,
+  Info,
+  Mail,
+  ShieldQuestionMark,
+  Trash,
+  UserRound,
+} from "lucide-react";
+import MainLayout from "@/components/layout/main-layout";
+import GlobalMap from "../map/components/global-map";
+import MetricCard from "./components/metric-card";
 
 interface DashboardData {
   users: User[];

@@ -1,10 +1,10 @@
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { NotFoundError } from "@/features/errors/not-found-error";
-import { GeneralError } from "@/features/errors/general-error";
-import { QueryClient } from "@binspire/query";
+import type { QueryClient } from "@binspire/query";
 import { useIsMobile } from "@binspire/ui/hooks/use-mobile";
-import { NotAvailable } from "@/features/errors/not-available";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import LoaderLayout from "@/components/layout/loader-layout";
+import { GeneralError } from "@/features/errors/general-error";
+import { NotAvailable } from "@/features/errors/not-available";
+import { NotFoundError } from "@/features/errors/not-found-error";
 import { useNotifications } from "@/hooks/use-notifications";
 
 interface RootContext {

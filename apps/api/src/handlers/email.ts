@@ -1,7 +1,7 @@
+import z from "zod";
 import { factory } from "@/lib/factory";
 import { zValidator } from "@/lib/utils";
 import { EmailService, sendEmailSchema } from "@/services";
-import z from "zod";
 
 export class EmailHandler {
   private service = new EmailService();

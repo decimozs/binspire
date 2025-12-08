@@ -1,5 +1,6 @@
+import { UserApi, useCreateUserRequest } from "@binspire/query";
+import { formatLabel, type ModuleActions } from "@binspire/shared";
 import { Button } from "@binspire/ui/components/button";
-import { Textarea } from "@binspire/ui/components/textarea";
 import {
   Dialog,
   DialogContent,
@@ -9,21 +10,20 @@ import {
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
 import { Input } from "@binspire/ui/components/input";
+import { Textarea } from "@binspire/ui/components/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
-import { Key, Loader2, Plus } from "lucide-react";
-import z from "zod";
-import { useForm } from "@tanstack/react-form";
-import { authClient } from "@/lib/auth-client";
-import { ShowToast } from "@/components/core/toast-notification";
-import { useState } from "react";
-import { formatLabel, type ModuleActions } from "@binspire/shared";
-import { useCreateUserRequest, UserApi } from "@binspire/query";
 import { FormFieldError } from "@binspire/ui/forms";
+import { useForm } from "@tanstack/react-form";
+import { Key, Loader2, Plus } from "lucide-react";
+import { useState } from "react";
+import z from "zod";
+import { ShowToast } from "@/components/core/toast-notification";
 import { useMqtt } from "@/hooks/use-mqtt";
+import { authClient } from "@/lib/auth-client";
 
 interface RequestAccessProps {
   actions?: ModuleActions;

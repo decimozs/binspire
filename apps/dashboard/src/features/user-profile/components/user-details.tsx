@@ -1,3 +1,6 @@
+import type { User } from "@binspire/query";
+import { getInitial, type UserRole } from "@binspire/shared";
+import { UserPermissionBadge, UserRoleBadge } from "@binspire/ui/badges";
 import {
   Avatar,
   AvatarFallback,
@@ -11,16 +14,13 @@ import {
   ShieldQuestionMark,
 } from "lucide-react";
 import { useState } from "react";
-import UserEditForm from "./edit";
-import { authClient } from "@/lib/auth-client";
-import MetricCard from "@/features/dashboard/components/metric-card";
-import type { User } from "@binspire/query";
-import { getInitial, type UserRole } from "@binspire/shared";
-import { UserPermissionBadge, UserRoleBadge } from "@binspire/ui/badges";
 import CopyToClipboardButton from "@/components/core/copy-clipboard";
-import ChangePassword from "./change-password";
-import ViewACL from "./view-acl";
+import MetricCard from "@/features/dashboard/components/metric-card";
+import { authClient } from "@/lib/auth-client";
 import { usePermissionStore } from "@/store/permission-store";
+import ChangePassword from "./change-password";
+import UserEditForm from "./edit";
+import ViewACL from "./view-acl";
 
 interface Props {
   data: User;

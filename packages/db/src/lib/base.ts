@@ -1,5 +1,5 @@
-import type { ZodObject } from "zod";
 import { serial, timestamp } from "drizzle-orm/pg-core";
+import type { ZodObject } from "zod";
 
 export const insertExcludedFields = {
   id: true,

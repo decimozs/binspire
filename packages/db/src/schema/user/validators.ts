@@ -1,14 +1,14 @@
 import { createInsertSchema } from "drizzle-zod";
 import { insertExcludedFields } from "../../lib/base";
 import {
+  userCollectionAssignmentsTable,
   userGreenHeartsTable,
-  userQuotaTable,
   userInvitationsTable,
+  userQuotaTable,
   userSettingsTable,
-  usersTable,
   userStatusTable,
   usersRequestsTable,
-  userCollectionAssignmentsTable,
+  usersTable,
 } from "./schema";
 
 export const insertUserSchema = createInsertSchema(usersTable)

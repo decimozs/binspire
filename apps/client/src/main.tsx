@@ -1,16 +1,16 @@
+import { QueryProvider, queryClient } from "@binspire/query";
+import { Toaster } from "@binspire/ui/toast";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { Toaster } from "@binspire/ui/toast";
-import { QueryProvider, queryClient } from "@binspire/query";
-import { routeTree } from "./routeTree.gen";
 import { MapProvider } from "react-map-gl/maplibre";
+import { routeTree } from "./routeTree.gen";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@binspire/ui/globals.css";
-import { ThemeProvider } from "./context/theme-provider";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { FontProvider } from "./context/font-provider";
 import { MqttProvider } from "./context/mqtt-provider";
+import { ThemeProvider } from "./context/theme-provider";
 
 const router = createRouter({
   routeTree,

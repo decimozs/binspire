@@ -1,8 +1,7 @@
-import {
-  useActionDialog,
-  type ActionType as ActionTypeKey,
-} from "@/hooks/use-action-dialog";
-import ComparedChanges from "../core/compared-changes";
+import { useGetAuditById } from "@binspire/query";
+import type { ActionsTypeManagement, AuditActions } from "@binspire/shared";
+import { AuditActionBadge } from "@binspire/ui/badges";
+import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -10,13 +9,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@binspire/ui/components/dialog";
-import { Button } from "@binspire/ui/components/button";
-import DeletedData from "@/features/audits/components/deleted-data";
-import CreatedData from "@/features/audits/components/created-data";
 import { parseAsBoolean, useQueryState } from "nuqs";
-import type { ActionsTypeManagement, AuditActions } from "@binspire/shared";
-import { useGetAuditById } from "@binspire/query";
-import { AuditActionBadge } from "@binspire/ui/badges";
+import CreatedData from "@/features/audits/components/created-data";
+import DeletedData from "@/features/audits/components/deleted-data";
+import {
+  type ActionType as ActionTypeKey,
+  useActionDialog,
+} from "@/hooks/use-action-dialog";
+import ComparedChanges from "../core/compared-changes";
 
 const keys: { queryKey: ActionsTypeManagement; actionKey: ActionTypeKey } = {
   queryKey: "activityManagement",

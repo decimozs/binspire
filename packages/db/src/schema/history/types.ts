@@ -1,5 +1,5 @@
-import { historyTable } from "./schema";
-import z from "zod";
+import type z from "zod";
+import type { historyTable } from "./schema";
 import type { insertHistorySchema, updateHistorySchema } from "./validators";
 
 export type History = typeof historyTable.$inferSelect;

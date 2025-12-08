@@ -1,5 +1,3 @@
-import { ShowToast } from "@/components/core/toast-notification";
-import WarningSign from "@/components/sign/warnings";
 import type { ModuleActions } from "@binspire/shared";
 import { Button } from "@binspire/ui/components/button";
 import {
@@ -18,6 +16,8 @@ import { useForm } from "@tanstack/react-form";
 import type { Table } from "@tanstack/react-table";
 import { Loader2, X } from "lucide-react";
 import z from "zod";
+import { ShowToast } from "@/components/core/toast-notification";
+import WarningSign from "@/components/sign/warnings";
 
 interface TDataWithId {
   id: string;

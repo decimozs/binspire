@@ -1,5 +1,5 @@
-import { useLayout } from "@/store/layout-store";
 import type { ComponentProps, ReactNode } from "react";
+import { useLayout } from "@/store/layout-store";
 
 interface MainLayoutProps {
   children: ReactNode;

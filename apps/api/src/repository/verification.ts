@@ -1,8 +1,8 @@
-import {
-  verificationsTable,
-  type InsertVerification,
-} from "@binspire/db/schema";
 import { db, eq } from "@binspire/db";
+import {
+  type InsertVerification,
+  verificationsTable,
+} from "@binspire/db/schema";
 
 export class VerificationRepository {
   private db = db;

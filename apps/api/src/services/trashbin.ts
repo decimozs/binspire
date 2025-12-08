@@ -1,9 +1,3 @@
-import type { IBaseService } from "@/lib/types";
-import {
-  TrashbinCollectionRepository,
-  TrashbinRepository,
-  TrashbinStatusRepository,
-} from "@/repository";
 import type {
   InsertTrashbin,
   InsertTrashbinCollection,
@@ -15,8 +9,14 @@ import type {
   UpdateTrashbinCollection,
   UpdateTrashbinStatus,
 } from "@binspire/db/schema";
-import { AuditService } from "./audit";
 import { NotFoundError } from "@/features/error";
+import type { IBaseService } from "@/lib/types";
+import {
+  TrashbinCollectionRepository,
+  TrashbinRepository,
+  TrashbinStatusRepository,
+} from "@/repository";
+import { AuditService } from "./audit";
 
 export class TrashbinService
   implements IBaseService<Trashbin, InsertTrashbin, UpdateTrashbin>

@@ -1,9 +1,9 @@
+import { MaintenanceApi, UserApi } from "@binspire/query";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { authClient } from "@/features/auth";
 import { GeneralError } from "@/features/errors/general-error";
 import { NotFoundError } from "@/features/errors/not-found-error";
 import GlobalMap from "@/features/map";
-import { MaintenanceApi, UserApi } from "@binspire/query";
-import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/map/")({
   component: GlobalMap,

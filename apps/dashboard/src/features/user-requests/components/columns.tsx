@@ -1,9 +1,9 @@
-import { SortingButton } from "@/features/data-table/components/sorting-button";
 import type { UserRequest } from "@binspire/query";
 import { formatLabel } from "@binspire/shared";
 import { RequestAccessStatusBadge, UserColumn } from "@binspire/ui/badges";
-import { type ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowDownAZ, ArrowUpAZ, ArrowUpDown } from "lucide-react";
+import { SortingButton } from "@/features/data-table/components/sorting-button";
 
 export const userRequestColumns: ColumnDef<UserRequest>[] = [
   {

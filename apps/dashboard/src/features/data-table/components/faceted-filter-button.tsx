@@ -1,18 +1,18 @@
+import { formatLabel, toTitleCase } from "@binspire/shared";
+import { Button } from "@binspire/ui/components/button";
+import { Checkbox } from "@binspire/ui/components/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuSeparator,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
-import { Button } from "@binspire/ui/components/button";
 import type { Column } from "@tanstack/react-table";
 import { Blend, X } from "lucide-react";
-import { Checkbox } from "@binspire/ui/components/checkbox";
 import { parseAsJson, useQueryState } from "nuqs";
-import z from "zod";
 import React, { useCallback, useMemo } from "react";
-import { formatLabel, toTitleCase } from "@binspire/shared";
+import z from "zod";
 
 interface FacetedFilterProps<T> {
   column: Column<T>;

@@ -1,6 +1,6 @@
 import type { Audit, TrashbinCollections } from "@binspire/query";
-import ActivityCard from "./activity-card";
 import { parseAsString, useQueryState } from "nuqs";
+import ActivityCard from "./activity-card";
 
 interface Props {
   collections: TrashbinCollections[];

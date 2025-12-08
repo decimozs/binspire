@@ -1,17 +1,17 @@
-import ActionDialogContainer from "@/components/views/action-dialog-container";
-import ViewContentLayout from "@/components/layout/view-content-layout";
-import { useActionDialog, type ActionType } from "@/hooks/use-action-dialog";
-import UserCard from "@/components/core/user-card";
-import RequestDetails from "./request-details";
-import UpdateOptions from "./update-options";
-import { Separator } from "@binspire/ui/components/separator";
-import type { ActionsTypeManagement } from "@binspire/shared";
 import {
+  type UserRequest,
   useGetUserRequestById,
   useGetUserStatusByUserId,
-  type UserRequest,
 } from "@binspire/query";
+import type { ActionsTypeManagement } from "@binspire/shared";
+import { Separator } from "@binspire/ui/components/separator";
+import UserCard from "@/components/core/user-card";
+import ViewContentLayout from "@/components/layout/view-content-layout";
+import ActionDialogContainer from "@/components/views/action-dialog-container";
+import { type ActionType, useActionDialog } from "@/hooks/use-action-dialog";
 import { usePermissionStore } from "@/store/permission-store";
+import RequestDetails from "./request-details";
+import UpdateOptions from "./update-options";
 
 const keys: { queryKey: ActionsTypeManagement; actionKey: ActionType } = {
   queryKey: "accessRequestsManagement",

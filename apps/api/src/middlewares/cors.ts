@@ -1,5 +1,5 @@
-import { TRUSTED_ORIGINS } from "@/lib/constants";
 import { cors } from "hono/cors";
+import { TRUSTED_ORIGINS } from "@/lib/constants";
 
 export const corsMiddleware = cors({
   origin: TRUSTED_ORIGINS,

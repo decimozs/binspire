@@ -1,10 +1,10 @@
-import MainLayout from "@/components/layout/main-layout";
-import { authClient } from "@/lib/auth-client";
+import type { User } from "@binspire/query";
 import { Separator } from "@binspire/ui/components/separator";
 import { Outlet } from "@tanstack/react-router";
+import MainLayout from "@/components/layout/main-layout";
+import { authClient } from "@/lib/auth-client";
 import RecentActivityTabs from "./components/recent-activity-tabs";
 import UserDetails from "./components/user-details";
-import type { User } from "@binspire/query";
 
 interface Props {
   data: User;

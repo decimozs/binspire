@@ -1,6 +1,6 @@
+import { insertQrCodeSchema, updateQrCodeSchema } from "@binspire/db/schema";
 import { auth } from "@/features/auth";
 import { factory } from "@/lib/factory";
-import { insertQrCodeSchema, updateQrCodeSchema } from "@binspire/db/schema";
 import { idParamSchema, zValidator } from "@/lib/utils";
 import { QrCodeService } from "@/services";
 

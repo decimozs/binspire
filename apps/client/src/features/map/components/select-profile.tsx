@@ -1,12 +1,12 @@
+import { Button } from "@binspire/ui/components/button";
+import { Car, Footprints, Loader2 } from "lucide-react";
+import { useQueryState } from "nuqs";
+import { useState } from "react";
 import { ShowToast } from "@/components/toast";
 import { useMqtt } from "@/context/mqtt-provider";
 import { useSession } from "@/features/auth";
 import { ors } from "@/features/directions";
 import { useRouteStore } from "@/store/route-store";
-import { Button } from "@binspire/ui/components/button";
-import { Car, Footprints, Loader2 } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { useState } from "react";
 
 export default function SelectProfile() {
   const [loading, setLoading] = useState<"driving-car" | "foot-walking" | null>(

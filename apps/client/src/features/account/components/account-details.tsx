@@ -1,6 +1,6 @@
-import { useSession } from "@/features/auth";
 import { useGetOrganizationById } from "@binspire/query";
 import { Skeleton } from "@binspire/ui/components/skeleton";
+import { useSession } from "@/features/auth";
 
 function AccountDetailsItem({
   label,

@@ -1,8 +1,8 @@
-import { useForm } from "@tanstack/react-form";
-import z from "zod";
+import {
+  useGetOrganizationSettingsById,
+  useUpdateOrganizationSettings,
+} from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
-import { Skeleton } from "@binspire/ui/components/skeleton";
-import { Switch } from "@binspire/ui/components/switch";
 import {
   Select,
   SelectContent,
@@ -10,21 +10,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@binspire/ui/components/select";
-import { authClient } from "@/lib/auth-client";
-import { useState } from "react";
-import { ShowToast } from "@/components/core/toast-notification";
-import SaveChangesButton from "./button/save-changes";
-import SettingsLayout from "@/components/layout/settings-layout";
-import { usePermissionStore } from "@/store/permission-store";
-import WarningSign from "@/components/sign/warnings";
-import { backupFrequencies } from "../lib/constants";
-import { CreateBackup, RestoreBackup } from "./button/create-backup";
-import type { BackupFrequency } from "../lib/types";
-import {
-  useGetOrganizationSettingsById,
-  useUpdateOrganizationSettings,
-} from "@binspire/query";
+import { Skeleton } from "@binspire/ui/components/skeleton";
+import { Switch } from "@binspire/ui/components/switch";
 import { FormFieldError } from "@binspire/ui/forms";
+import { useForm } from "@tanstack/react-form";
+import { useState } from "react";
+import z from "zod";
+import { ShowToast } from "@/components/core/toast-notification";
+import SettingsLayout from "@/components/layout/settings-layout";
+import WarningSign from "@/components/sign/warnings";
+import { authClient } from "@/lib/auth-client";
+import { usePermissionStore } from "@/store/permission-store";
+import { backupFrequencies } from "../lib/constants";
+import type { BackupFrequency } from "../lib/types";
+import { CreateBackup, RestoreBackup } from "./button/create-backup";
+import SaveChangesButton from "./button/save-changes";
 
 const backupFormSchema = z.object({
   automaticBackup: z.boolean(),

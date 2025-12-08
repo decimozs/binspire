@@ -1,4 +1,3 @@
-import { useActionDialog, type ActionType } from "@/hooks/use-action-dialog";
 import {
   ACTION_DIALOG_CONFIG,
   type ActionsTypeManagement,
@@ -11,6 +10,7 @@ import {
   DialogTitle,
 } from "@binspire/ui/components/dialog";
 import type { ReactNode } from "react";
+import { type ActionType, useActionDialog } from "@/hooks/use-action-dialog";
 
 interface Keys {
   queryKey: ActionsTypeManagement;

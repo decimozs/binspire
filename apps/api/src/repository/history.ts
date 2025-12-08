@@ -1,11 +1,11 @@
-import type { IBaseRepository } from "@/lib/types";
 import { db, eq } from "@binspire/db";
 import {
-  historyTable,
   type History,
+  historyTable,
   type InsertHistory,
   type UpdateHistory,
 } from "@binspire/db/schema";
+import type { IBaseRepository } from "@/lib/types";
 
 export class HistoryRepository
   implements IBaseRepository<History, InsertHistory, UpdateHistory>

@@ -1,7 +1,7 @@
+import { HistoryApi, queryOptions, useSuspenseQuery } from "@binspire/query";
 import { createFileRoute } from "@tanstack/react-router";
 import LoaderLayout from "@/components/layout/loader-layout";
 import History from "@/features/history";
-import { HistoryApi, queryOptions, useSuspenseQuery } from "@binspire/query";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["histories"],

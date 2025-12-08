@@ -7,10 +7,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@binspire/ui/components/drawer";
-import { format } from "date-fns";
-import type { AuditWithType, CollectionWithType } from "./activity-list";
-import { TrashbinStatus as TrashbinStatusBadge } from "@/components/badges";
 import { Separator } from "@binspire/ui/components/separator";
+import { format } from "date-fns";
+import { TrashbinStatus as TrashbinStatusBadge } from "@/components/badges";
+import type { AuditWithType, CollectionWithType } from "./activity-list";
 
 interface Props {
   data: CollectionWithType | AuditWithType;

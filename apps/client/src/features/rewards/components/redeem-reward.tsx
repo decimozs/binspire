@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
@@ -10,10 +9,11 @@ import {
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
 import { format } from "date-fns";
+import { useState } from "react";
+import { ShowToast } from "@/components/toast";
+import { useSession } from "@/features/auth";
 import { generateRandomCode } from "@/lib/utils";
 import type { RewardItem } from "../lib/types";
-import { useSession } from "@/features/auth";
-import { ShowToast } from "@/components/toast";
 
 function getRedeemedRewards(): string[] {
   const stored = localStorage.getItem("greenhearts_rewards");

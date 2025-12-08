@@ -1,4 +1,3 @@
-import { useMemo, useCallback } from "react";
 import { Button } from "@binspire/ui/components/button";
 import {
   Select,
@@ -15,6 +14,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { parseAsInteger, useQueryState } from "nuqs";
+import { useCallback, useMemo } from "react";
 
 interface TablePaginationProps<T> {
   table: Table<T>;

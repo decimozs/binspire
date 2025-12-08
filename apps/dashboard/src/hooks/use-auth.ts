@@ -1,7 +1,7 @@
-import { ShowToast } from "@/components/core/toast-notification";
-import { authClient } from "@/lib/auth-client";
 import { useMutation } from "@binspire/query";
 import { rpc } from "@binspire/query/api-client";
+import { ShowToast } from "@/components/core/toast-notification";
+import { authClient } from "@/lib/auth-client";
 
 export function useVerifyPassword() {
   return useMutation({

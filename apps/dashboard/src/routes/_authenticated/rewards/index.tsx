@@ -1,8 +1,8 @@
+import { useGetUserGreenHeartByUserId } from "@binspire/query";
+import { createFileRoute } from "@tanstack/react-router";
 import LoaderLayout from "@/components/layout/loader-layout";
 import Rewards from "@/features/rewards";
 import { authClient } from "@/lib/auth-client";
-import { useGetUserGreenHeartByUserId } from "@binspire/query";
-import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/rewards/")({
   component: RouteComponent,

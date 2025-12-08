@@ -1,4 +1,5 @@
-import ComparedChanges from "@/components/core/compared-changes";
+import type { Audit } from "@binspire/query";
+import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -8,8 +9,7 @@ import {
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
 import { ArrowRight, File, Trash } from "lucide-react";
-import { Button } from "@binspire/ui/components/button";
-import type { Audit } from "@binspire/query";
+import ComparedChanges from "@/components/core/compared-changes";
 
 function ViewDeletedData() {
   return (

@@ -1,33 +1,33 @@
-import {
-  UserQuotaApi,
-  UserGreenHeartApi,
-  UserInvitationsApi,
-  UserRequestApi,
-  UserSettingsApi,
-  UserStatusApi,
-  UserCollectionAssignmentApi,
-  type User,
-  type UserInvitation,
-  type UserRequest,
-  type UserCollectionAssignment,
-  type UserGreenHeart,
-} from "../../core";
 import type {
-  InsertUserGreenHeart,
-  InsertUserQuota,
   InsertUserCollectionAssignment,
+  InsertUserGreenHeart,
   InsertUserInvitation,
+  InsertUserQuota,
   InsertUserRequest,
   UpdateUser,
   UpdateUserGreenHeart,
-  UpdateUserQuota,
   UpdateUserInvitation,
+  UpdateUserQuota,
   UpdateUserRequest,
   UpdateUserSettings,
   UpdateUserStatus,
 } from "@binspire/db/schema";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { UserApi } from "../../core";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  type User,
+  UserApi,
+  type UserCollectionAssignment,
+  UserCollectionAssignmentApi,
+  type UserGreenHeart,
+  UserGreenHeartApi,
+  type UserInvitation,
+  UserInvitationsApi,
+  UserQuotaApi,
+  type UserRequest,
+  UserRequestApi,
+  UserSettingsApi,
+  UserStatusApi,
+} from "../../core";
 
 export function useGetAllUsers() {
   return useQuery({
@@ -294,9 +294,9 @@ export function useGetUserCollectionAssignmentById(id: string) {
     enabled: !!id,
     initialData: () => {
       return queryClient
-        .getQueryData<
-          UserCollectionAssignment[]
-        >(["user-collection-assignments"])
+        .getQueryData<UserCollectionAssignment[]>([
+          "user-collection-assignments",
+        ])
         ?.find((assignment) => assignment.id === id);
     },
   });

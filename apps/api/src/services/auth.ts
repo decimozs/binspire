@@ -1,7 +1,7 @@
+import type { InsertQrCode, QrCode, UpdateQrCode } from "@binspire/db/schema";
 import { NotFoundError } from "@/features/error";
 import type { IBaseService } from "@/lib/types";
 import { QrCodeRepository } from "@/repository/auth";
-import type { QrCode, InsertQrCode, UpdateQrCode } from "@binspire/db/schema";
 
 export class QrCodeService
   implements IBaseService<QrCode, InsertQrCode, UpdateQrCode>

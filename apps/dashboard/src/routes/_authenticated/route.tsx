@@ -1,9 +1,3 @@
-import DashboardLayout from "@/components/layout/dashboard-layout";
-import { GeneralError } from "@/features/errors/general-error";
-import { NotFoundError } from "@/features/errors/not-found-error";
-import { authClient } from "@/lib/auth-client";
-import { usePermissionStore } from "@/store/permission-store";
-import { createFileRoute, redirect } from "@tanstack/react-router";
 import {
   MaintenanceApi,
   OrganizationApi,
@@ -11,7 +5,13 @@ import {
   UserStatusApi,
 } from "@binspire/query";
 import type { UserRole } from "@binspire/shared";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import DashboardLayout from "@/components/layout/dashboard-layout";
+import { GeneralError } from "@/features/errors/general-error";
+import { NotFoundError } from "@/features/errors/not-found-error";
+import { authClient } from "@/lib/auth-client";
 import { typeOfACL } from "@/lib/utils";
+import { usePermissionStore } from "@/store/permission-store";
 
 export const Route = createFileRoute("/_authenticated")({
   component: RouteComponent,

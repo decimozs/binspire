@@ -1,6 +1,9 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { MqttContext } from "./mqtt-context";
+import { useQueryClient } from "@binspire/query";
 import type { MqttClient } from "mqtt";
+import { type ReactNode, useEffect, useRef, useState } from "react";
+import { ShowToast } from "@/components/core/toast-notification";
+import type { NotificationItem } from "@/features/notification";
+import { authClient } from "@/lib/auth-client";
 import { createMqttClient } from "@/lib/mqtt_client";
 import {
   resetBins,
@@ -10,17 +13,14 @@ import {
   setWeightLevel,
   useRealtimeUpdatesStore,
 } from "@/store/realtime-store";
-import { setConnected } from "@/store/telemetry-store";
-import { ShowToast } from "@/components/core/toast-notification";
-import { authClient } from "@/lib/auth-client";
-import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
-import { useQueryClient } from "@binspire/query";
-import type { NotificationItem } from "@/features/notification";
 import {
   deleteRoute,
   setRoute,
   setTrackingPosition,
 } from "@/store/route-store";
+import { setConnected } from "@/store/telemetry-store";
+import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
+import { MqttContext } from "./mqtt-context";
 
 interface Props {
   children: ReactNode;

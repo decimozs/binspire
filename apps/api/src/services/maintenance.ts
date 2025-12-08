@@ -1,11 +1,11 @@
+import type {
+  InsertMaintenance,
+  Maintenance,
+  UpdateMaintenance,
+} from "@binspire/db/schema";
 import { NotFoundError } from "@/features/error";
 import type { IBaseService } from "@/lib/types";
 import { MaintenanceRepository } from "@/repository/maintenance";
-import type {
-  Maintenance,
-  InsertMaintenance,
-  UpdateMaintenance,
-} from "@binspire/db/schema";
 import { AuditService } from "./audit";
 import { HistoryService } from "./history";
 

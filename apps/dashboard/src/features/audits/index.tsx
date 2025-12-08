@@ -1,7 +1,3 @@
-import MainLayout from "@/components/layout/main-layout";
-import { usePermissionStore } from "@/store/permission-store";
-import RequestAccess from "@/features/permissions/components/request-access";
-import AuditDataTable from "./components/data-table";
 import type { Audit } from "@binspire/query";
 import {
   Empty,
@@ -13,6 +9,10 @@ import {
 } from "@binspire/ui/components/empty";
 import { ShieldQuestionMark } from "lucide-react";
 import RefreshButton from "@/components/core/refresh-button";
+import MainLayout from "@/components/layout/main-layout";
+import RequestAccess from "@/features/permissions/components/request-access";
+import { usePermissionStore } from "@/store/permission-store";
+import AuditDataTable from "./components/data-table";
 
 interface AuditsProps {
   data: Audit[];

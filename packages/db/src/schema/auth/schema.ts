@@ -1,7 +1,7 @@
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
-import { usersTable } from "../user";
 import { timestamps } from "../../lib/base";
+import { usersTable } from "../user";
 
 export const sessionsTable = pgTable("session", {
   id: text("id")

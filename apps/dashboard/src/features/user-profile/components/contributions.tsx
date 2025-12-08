@@ -1,15 +1,4 @@
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@binspire/ui/components/chart";
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  XAxis,
-} from "@binspire/ui/components/chart";
+import type { Audit, History } from "@binspire/query";
 import {
   Card,
   CardContent,
@@ -17,7 +6,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@binspire/ui/components/card";
-import type { Audit, History } from "@binspire/query";
+import {
+  CartesianGrid,
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  Line,
+  LineChart,
+  XAxis,
+} from "@binspire/ui/components/chart";
 import { useMemo, useState } from "react";
 
 export const description = "Audit + History contributions chart";

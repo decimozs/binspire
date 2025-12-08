@@ -1,11 +1,11 @@
 import { Button } from "@binspire/ui/components/button";
-import { Minus, Plus } from "lucide-react";
-import { useMap } from "react-map-gl/maplibre";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
+import { Minus, Plus } from "lucide-react";
+import { useMap } from "react-map-gl/maplibre";
 
 export default function ZoomControls() {
   const { current: map } = useMap();
