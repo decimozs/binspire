@@ -17,6 +17,7 @@
     "act-check": "act push --pull=false --reuse --bind -P ubuntu-latest=catthehacker/ubuntu:act-22.04",
     "pre-commit": "bun run typecheck && bun run lint && bun run build",
     "dev:api": "bun --filter @binspire/api dev",
+    "prod:start": "bun --filter @binspire/api start",
     "dev:dashboard": "bun --filter @binspire/dashboard dev",
     "dev:client": "bun --filter @binspire/client dev",
     "dev:www": "bun --filter @binspire/www dev",

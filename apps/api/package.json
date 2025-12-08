@@ -16,6 +16,7 @@
     }
   },
   "scripts": {
+    "start": "bun run ./dist/index.js",
     "build": "tsc && tsc-alias",
     "dev": "bun --watch run src/index.ts && tsc --watch",
     "prod": "bun run dist/index.js",
