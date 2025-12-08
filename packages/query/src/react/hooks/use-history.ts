@@ -1,6 +1,6 @@
-import { HistoryApi, type History } from "../../core";
 import type { InsertHistory, UpdateHistory } from "@binspire/db/schema";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { type History, HistoryApi } from "../../core";
 
 export function useGetAllHistories() {
   return useQuery({

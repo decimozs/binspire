@@ -1,15 +1,15 @@
+import {
+  type Audit,
+  AuditApi,
+  queryOptions,
+  useSuspenseQuery,
+} from "@binspire/query";
+import { createFileRoute } from "@tanstack/react-router";
 import LoaderLayout from "@/components/layout/loader-layout";
 import AnalyticsOverview from "@/features/analytics/components/analytics-overview";
 import MostBarChart from "@/features/analytics/components/most-bar-chart";
 import { TotalPieChart } from "@/features/analytics/components/total-pie-chart";
 import AuditDataTable from "@/features/audits/components/data-table";
-import {
-  AuditApi,
-  queryOptions,
-  useSuspenseQuery,
-  type Audit,
-} from "@binspire/query";
-import { createFileRoute } from "@tanstack/react-router";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["audits"],

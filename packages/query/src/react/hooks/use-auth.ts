@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { QRCodeApi, type QRCode } from "../../core";
 import type { InsertQrCode, UpdateQrCode } from "@binspire/db/schema";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { type QRCode, QRCodeApi } from "../../core";
 
 export function useGetAllQRCodes() {
   return useQuery({

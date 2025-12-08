@@ -1,15 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import LoaderLayout from "@/components/layout/loader-layout";
-import AnalyticsOverview from "@/features/analytics/components/analytics-overview";
-import { TotalPieChart } from "@/features/analytics/components/total-pie-chart";
-import IssuesDataTable from "@/features/issues/components/data-table";
-import MostBarChart from "@/features/analytics/components/most-bar-chart";
 import {
+  type Issue,
   IssueApi,
   queryOptions,
   useSuspenseQuery,
-  type Issue,
 } from "@binspire/query";
+import { createFileRoute } from "@tanstack/react-router";
+import LoaderLayout from "@/components/layout/loader-layout";
+import AnalyticsOverview from "@/features/analytics/components/analytics-overview";
+import MostBarChart from "@/features/analytics/components/most-bar-chart";
+import { TotalPieChart } from "@/features/analytics/components/total-pie-chart";
+import IssuesDataTable from "@/features/issues/components/data-table";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["issues"],

@@ -2,10 +2,10 @@ import type { Trashbin } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
-import CheckTrashbinStatus from "./check-trashbin-status";
+import WarningSign from "@/components/sign/warnings";
 import { useTrashbinRealtime } from "@/store/realtime-store";
 import { useTelemetryStore } from "@/store/telemetry-store";
-import WarningSign from "@/components/sign/warnings";
+import CheckTrashbinStatus from "./check-trashbin-status";
 import TrashbinLogs from "./trashbin-logs";
 
 export default function TrashbinDetails({ data }: { data: Trashbin }) {

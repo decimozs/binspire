@@ -1,5 +1,11 @@
-import { useEffect, useState } from "react";
 import { Button } from "@binspire/ui/components/button";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@binspire/ui/components/empty";
 import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import {
   Sheet,
@@ -10,20 +16,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@binspire/ui/components/sheet";
-import { Bell } from "lucide-react";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@binspire/ui/components/empty";
-import { formatDistanceToNow } from "date-fns";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
+import { formatDistanceToNow } from "date-fns";
+import { Bell } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export interface NotificationItem {
   id: number;

@@ -1,12 +1,12 @@
 import "@google/model-viewer";
-import { Layers2 } from "lucide-react";
+import { Button } from "@binspire/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
-import { Button } from "@binspire/ui/components/button";
+import { Layers2 } from "lucide-react";
 
 export default function MapLegend() {
   return (

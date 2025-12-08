@@ -1,9 +1,9 @@
-import type { ComponentProps, ReactNode } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { motionVariants } from "@/lib/motion";
-import { useLocation, useRouterState } from "@tanstack/react-router";
 import { Skeleton } from "@binspire/ui/components/skeleton";
+import { useLocation, useRouterState } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import type { ComponentProps, ReactNode } from "react";
+import { motionVariants } from "@/lib/motion";
 
 export default function MainLayout({
   children,

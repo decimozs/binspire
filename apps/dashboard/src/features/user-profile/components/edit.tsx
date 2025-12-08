@@ -1,11 +1,11 @@
-import { ShowToast } from "@/components/core/toast-notification";
-import { useUpdateUser, type User } from "@binspire/query";
+import { type User, useUpdateUser } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import { Input } from "@binspire/ui/components/input";
 import { FormFieldError } from "@binspire/ui/forms";
 import { useForm } from "@tanstack/react-form";
 import { Loader2 } from "lucide-react";
 import z from "zod";
+import { ShowToast } from "@/components/core/toast-notification";
 
 interface Props {
   data: User;

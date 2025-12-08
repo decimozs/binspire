@@ -1,24 +1,24 @@
+import { cn } from "@binspire/ui/lib/utils";
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 import {
-  Label,
-  PolarGrid,
-  PolarRadiusAxis,
-  RadialBar,
-  RadialBarChart,
   Bar,
   BarChart,
   CartesianGrid,
   Cell,
+  Label,
   LabelList,
-  Rectangle,
-  XAxis,
   Line,
   LineChart,
   Pie,
   PieChart,
+  PolarGrid,
+  PolarRadiusAxis,
+  RadialBar,
+  RadialBarChart,
+  Rectangle,
+  XAxis,
 } from "recharts";
-import { cn } from "@binspire/ui/lib/utils";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;

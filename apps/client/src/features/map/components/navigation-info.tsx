@@ -1,8 +1,3 @@
-import WarningSign from "@/components/warning-sign";
-import { NAVIGATION_PROFILES } from "@/features/settings/lib/constants";
-import { useTrashbinRealtime } from "@/store/realtime-store";
-import { useRouteStore } from "@/store/route-store";
-import { useTelemetryStore } from "@/store/telemetry-store";
 import { useGetTrashbinById } from "@binspire/query";
 import { formatLabel } from "@binspire/shared";
 import { Button } from "@binspire/ui/components/button";
@@ -17,8 +12,13 @@ import {
 import { Info } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
-import RouteSegments from "./route-segments";
+import WarningSign from "@/components/warning-sign";
 import ReportIssue from "@/features/report-issue";
+import { NAVIGATION_PROFILES } from "@/features/settings/lib/constants";
+import { useTrashbinRealtime } from "@/store/realtime-store";
+import { useRouteStore } from "@/store/route-store";
+import { useTelemetryStore } from "@/store/telemetry-store";
+import RouteSegments from "./route-segments";
 
 function TrashbinInfo() {
   const [markTrashbin] = useQueryState("mark_trashbin_id");

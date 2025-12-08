@@ -1,4 +1,4 @@
-import { Loader2, LogOutIcon } from "lucide-react";
+import { getInitial } from "@binspire/shared";
 import {
   Avatar,
   AvatarFallback,
@@ -18,11 +18,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@binspire/ui/components/sidebar";
-import { authClient } from "@/lib/auth-client";
-import { useState } from "react";
 import { Skeleton } from "@binspire/ui/components/skeleton";
 import { useNavigate } from "@tanstack/react-router";
-import { getInitial } from "@binspire/shared";
+import { Loader2, LogOutIcon } from "lucide-react";
+import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
 import { ShowToast } from "../core/toast-notification";
 
 export function SidebarUser() {

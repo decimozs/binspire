@@ -1,38 +1,18 @@
 import {
-  useCollectionStore,
-  setAssignCollector,
-  resetAllCollectors,
-  resetAssignCollector,
-} from "@/store/collection-store";
-import {
-  useGetAllUsers,
-  useGetAllTrashbins,
-  useQueryClient,
   type User,
   useCreateUserCollectionAssignment,
+  useGetAllTrashbins,
   useGetAllUserCollectionAssignment,
+  useGetAllUsers,
+  useQueryClient,
 } from "@binspire/query";
-import { Button } from "@binspire/ui/components/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-  SheetFooter,
-  SheetTrigger,
-} from "@binspire/ui/components/sheet";
 import {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  AccordionContent,
 } from "@binspire/ui/components/accordion";
-import { ScrollArea } from "@binspire/ui/components/scroll-area";
-import { useMemo } from "react";
-import { useTrashbinMap } from "@/hooks/use-trashbin-map";
-import { ShowToast } from "@/components/core/toast-notification";
-import { CalendarPlus, Loader2 } from "lucide-react";
+import { Button } from "@binspire/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,12 +21,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
-import { usePermissionStore } from "@/store/permission-store";
+import { ScrollArea } from "@binspire/ui/components/scroll-area";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@binspire/ui/components/sheet";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
+import { CalendarPlus, Loader2 } from "lucide-react";
+import { useMemo } from "react";
+import { ShowToast } from "@/components/core/toast-notification";
+import { useTrashbinMap } from "@/hooks/use-trashbin-map";
+import {
+  resetAllCollectors,
+  resetAssignCollector,
+  setAssignCollector,
+  useCollectionStore,
+} from "@/store/collection-store";
+import { usePermissionStore } from "@/store/permission-store";
 
 export default function AvailableCollectors() {
   const { permission } = usePermissionStore();

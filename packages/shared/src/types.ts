@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import type {
   AUDIT_ACTIONS,
   INVITATION_STATUSES,
@@ -5,7 +6,6 @@ import type {
   PRIORITY_SCORES,
   REQUEST_STATUSES,
 } from "./constants";
-import type { LucideIcon } from "lucide-react";
 
 export interface AppearanceOpts {
   theme: string;

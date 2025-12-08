@@ -8,210 +8,210 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as RequestDemoIndexRouteImport } from './routes/request-demo/index'
-import { Route as NewsletterIndexRouteImport } from './routes/newsletter/index'
-import { Route as DownloadClientIndexRouteImport } from './routes/download-client/index'
-import { Route as authResetPasswordIndexRouteImport } from './routes/(auth)/reset-password/index'
-import { Route as authRegisterIndexRouteImport } from './routes/(auth)/register/index'
-import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
-import { Route as authInvitationIndexRouteImport } from './routes/(auth)/invitation/index'
-import { Route as authForgotPasswordIndexRouteImport } from './routes/(auth)/forgot-password/index'
+import { Route as rootRouteImport } from "./routes/__root";
+import { Route as IndexRouteImport } from "./routes/index";
+import { Route as RequestDemoIndexRouteImport } from "./routes/request-demo/index";
+import { Route as NewsletterIndexRouteImport } from "./routes/newsletter/index";
+import { Route as DownloadClientIndexRouteImport } from "./routes/download-client/index";
+import { Route as authResetPasswordIndexRouteImport } from "./routes/(auth)/reset-password/index";
+import { Route as authRegisterIndexRouteImport } from "./routes/(auth)/register/index";
+import { Route as authLoginIndexRouteImport } from "./routes/(auth)/login/index";
+import { Route as authInvitationIndexRouteImport } from "./routes/(auth)/invitation/index";
+import { Route as authForgotPasswordIndexRouteImport } from "./routes/(auth)/forgot-password/index";
 
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const RequestDemoIndexRoute = RequestDemoIndexRouteImport.update({
-  id: '/request-demo/',
-  path: '/request-demo/',
+  id: "/request-demo/",
+  path: "/request-demo/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const NewsletterIndexRoute = NewsletterIndexRouteImport.update({
-  id: '/newsletter/',
-  path: '/newsletter/',
+  id: "/newsletter/",
+  path: "/newsletter/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const DownloadClientIndexRoute = DownloadClientIndexRouteImport.update({
-  id: '/download-client/',
-  path: '/download-client/',
+  id: "/download-client/",
+  path: "/download-client/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const authResetPasswordIndexRoute = authResetPasswordIndexRouteImport.update({
-  id: '/(auth)/reset-password/',
-  path: '/reset-password/',
+  id: "/(auth)/reset-password/",
+  path: "/reset-password/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const authRegisterIndexRoute = authRegisterIndexRouteImport.update({
-  id: '/(auth)/register/',
-  path: '/register/',
+  id: "/(auth)/register/",
+  path: "/register/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const authLoginIndexRoute = authLoginIndexRouteImport.update({
-  id: '/(auth)/login/',
-  path: '/login/',
+  id: "/(auth)/login/",
+  path: "/login/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const authInvitationIndexRoute = authInvitationIndexRouteImport.update({
-  id: '/(auth)/invitation/',
-  path: '/invitation/',
+  id: "/(auth)/invitation/",
+  path: "/invitation/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const authForgotPasswordIndexRoute = authForgotPasswordIndexRouteImport.update({
-  id: '/(auth)/forgot-password/',
-  path: '/forgot-password/',
+  id: "/(auth)/forgot-password/",
+  path: "/forgot-password/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/download-client': typeof DownloadClientIndexRoute
-  '/newsletter': typeof NewsletterIndexRoute
-  '/request-demo': typeof RequestDemoIndexRoute
-  '/forgot-password': typeof authForgotPasswordIndexRoute
-  '/invitation': typeof authInvitationIndexRoute
-  '/login': typeof authLoginIndexRoute
-  '/register': typeof authRegisterIndexRoute
-  '/reset-password': typeof authResetPasswordIndexRoute
+  "/": typeof IndexRoute;
+  "/download-client": typeof DownloadClientIndexRoute;
+  "/newsletter": typeof NewsletterIndexRoute;
+  "/request-demo": typeof RequestDemoIndexRoute;
+  "/forgot-password": typeof authForgotPasswordIndexRoute;
+  "/invitation": typeof authInvitationIndexRoute;
+  "/login": typeof authLoginIndexRoute;
+  "/register": typeof authRegisterIndexRoute;
+  "/reset-password": typeof authResetPasswordIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/download-client': typeof DownloadClientIndexRoute
-  '/newsletter': typeof NewsletterIndexRoute
-  '/request-demo': typeof RequestDemoIndexRoute
-  '/forgot-password': typeof authForgotPasswordIndexRoute
-  '/invitation': typeof authInvitationIndexRoute
-  '/login': typeof authLoginIndexRoute
-  '/register': typeof authRegisterIndexRoute
-  '/reset-password': typeof authResetPasswordIndexRoute
+  "/": typeof IndexRoute;
+  "/download-client": typeof DownloadClientIndexRoute;
+  "/newsletter": typeof NewsletterIndexRoute;
+  "/request-demo": typeof RequestDemoIndexRoute;
+  "/forgot-password": typeof authForgotPasswordIndexRoute;
+  "/invitation": typeof authInvitationIndexRoute;
+  "/login": typeof authLoginIndexRoute;
+  "/register": typeof authRegisterIndexRoute;
+  "/reset-password": typeof authResetPasswordIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/download-client/': typeof DownloadClientIndexRoute
-  '/newsletter/': typeof NewsletterIndexRoute
-  '/request-demo/': typeof RequestDemoIndexRoute
-  '/(auth)/forgot-password/': typeof authForgotPasswordIndexRoute
-  '/(auth)/invitation/': typeof authInvitationIndexRoute
-  '/(auth)/login/': typeof authLoginIndexRoute
-  '/(auth)/register/': typeof authRegisterIndexRoute
-  '/(auth)/reset-password/': typeof authResetPasswordIndexRoute
+  __root__: typeof rootRouteImport;
+  "/": typeof IndexRoute;
+  "/download-client/": typeof DownloadClientIndexRoute;
+  "/newsletter/": typeof NewsletterIndexRoute;
+  "/request-demo/": typeof RequestDemoIndexRoute;
+  "/(auth)/forgot-password/": typeof authForgotPasswordIndexRoute;
+  "/(auth)/invitation/": typeof authInvitationIndexRoute;
+  "/(auth)/login/": typeof authLoginIndexRoute;
+  "/(auth)/register/": typeof authRegisterIndexRoute;
+  "/(auth)/reset-password/": typeof authResetPasswordIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
-    | '/'
-    | '/download-client'
-    | '/newsletter'
-    | '/request-demo'
-    | '/forgot-password'
-    | '/invitation'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-  fileRoutesByTo: FileRoutesByTo
+    | "/"
+    | "/download-client"
+    | "/newsletter"
+    | "/request-demo"
+    | "/forgot-password"
+    | "/invitation"
+    | "/login"
+    | "/register"
+    | "/reset-password";
+  fileRoutesByTo: FileRoutesByTo;
   to:
-    | '/'
-    | '/download-client'
-    | '/newsletter'
-    | '/request-demo'
-    | '/forgot-password'
-    | '/invitation'
-    | '/login'
-    | '/register'
-    | '/reset-password'
+    | "/"
+    | "/download-client"
+    | "/newsletter"
+    | "/request-demo"
+    | "/forgot-password"
+    | "/invitation"
+    | "/login"
+    | "/register"
+    | "/reset-password";
   id:
-    | '__root__'
-    | '/'
-    | '/download-client/'
-    | '/newsletter/'
-    | '/request-demo/'
-    | '/(auth)/forgot-password/'
-    | '/(auth)/invitation/'
-    | '/(auth)/login/'
-    | '/(auth)/register/'
-    | '/(auth)/reset-password/'
-  fileRoutesById: FileRoutesById
+    | "__root__"
+    | "/"
+    | "/download-client/"
+    | "/newsletter/"
+    | "/request-demo/"
+    | "/(auth)/forgot-password/"
+    | "/(auth)/invitation/"
+    | "/(auth)/login/"
+    | "/(auth)/register/"
+    | "/(auth)/reset-password/";
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  DownloadClientIndexRoute: typeof DownloadClientIndexRoute
-  NewsletterIndexRoute: typeof NewsletterIndexRoute
-  RequestDemoIndexRoute: typeof RequestDemoIndexRoute
-  authForgotPasswordIndexRoute: typeof authForgotPasswordIndexRoute
-  authInvitationIndexRoute: typeof authInvitationIndexRoute
-  authLoginIndexRoute: typeof authLoginIndexRoute
-  authRegisterIndexRoute: typeof authRegisterIndexRoute
-  authResetPasswordIndexRoute: typeof authResetPasswordIndexRoute
+  IndexRoute: typeof IndexRoute;
+  DownloadClientIndexRoute: typeof DownloadClientIndexRoute;
+  NewsletterIndexRoute: typeof NewsletterIndexRoute;
+  RequestDemoIndexRoute: typeof RequestDemoIndexRoute;
+  authForgotPasswordIndexRoute: typeof authForgotPasswordIndexRoute;
+  authInvitationIndexRoute: typeof authInvitationIndexRoute;
+  authLoginIndexRoute: typeof authLoginIndexRoute;
+  authRegisterIndexRoute: typeof authRegisterIndexRoute;
+  authResetPasswordIndexRoute: typeof authResetPasswordIndexRoute;
 }
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/request-demo/': {
-      id: '/request-demo/'
-      path: '/request-demo'
-      fullPath: '/request-demo'
-      preLoaderRoute: typeof RequestDemoIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/newsletter/': {
-      id: '/newsletter/'
-      path: '/newsletter'
-      fullPath: '/newsletter'
-      preLoaderRoute: typeof NewsletterIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/download-client/': {
-      id: '/download-client/'
-      path: '/download-client'
-      fullPath: '/download-client'
-      preLoaderRoute: typeof DownloadClientIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(auth)/reset-password/': {
-      id: '/(auth)/reset-password/'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof authResetPasswordIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(auth)/register/': {
-      id: '/(auth)/register/'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof authRegisterIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(auth)/login/': {
-      id: '/(auth)/login/'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(auth)/invitation/': {
-      id: '/(auth)/invitation/'
-      path: '/invitation'
-      fullPath: '/invitation'
-      preLoaderRoute: typeof authInvitationIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(auth)/forgot-password/': {
-      id: '/(auth)/forgot-password/'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof authForgotPasswordIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/request-demo/": {
+      id: "/request-demo/";
+      path: "/request-demo";
+      fullPath: "/request-demo";
+      preLoaderRoute: typeof RequestDemoIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/newsletter/": {
+      id: "/newsletter/";
+      path: "/newsletter";
+      fullPath: "/newsletter";
+      preLoaderRoute: typeof NewsletterIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/download-client/": {
+      id: "/download-client/";
+      path: "/download-client";
+      fullPath: "/download-client";
+      preLoaderRoute: typeof DownloadClientIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/(auth)/reset-password/": {
+      id: "/(auth)/reset-password/";
+      path: "/reset-password";
+      fullPath: "/reset-password";
+      preLoaderRoute: typeof authResetPasswordIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/(auth)/register/": {
+      id: "/(auth)/register/";
+      path: "/register";
+      fullPath: "/register";
+      preLoaderRoute: typeof authRegisterIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/(auth)/login/": {
+      id: "/(auth)/login/";
+      path: "/login";
+      fullPath: "/login";
+      preLoaderRoute: typeof authLoginIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/(auth)/invitation/": {
+      id: "/(auth)/invitation/";
+      path: "/invitation";
+      fullPath: "/invitation";
+      preLoaderRoute: typeof authInvitationIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/(auth)/forgot-password/": {
+      id: "/(auth)/forgot-password/";
+      path: "/forgot-password";
+      fullPath: "/forgot-password";
+      preLoaderRoute: typeof authForgotPasswordIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
   }
 }
 
@@ -225,7 +225,7 @@ const rootRouteChildren: RootRouteChildren = {
   authLoginIndexRoute: authLoginIndexRoute,
   authRegisterIndexRoute: authRegisterIndexRoute,
   authResetPasswordIndexRoute: authResetPasswordIndexRoute,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

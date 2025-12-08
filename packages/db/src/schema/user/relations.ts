@@ -1,17 +1,17 @@
 import { relations } from "drizzle-orm";
-import {
-  userSettingsTable,
-  usersTable,
-  userStatusTable,
-  usersRequestsTable,
-  userCollectionAssignmentsTable,
-  userInvitationsTable,
-  userGreenHeartsTable,
-} from "./schema";
 import { auditTable } from "../audit";
 import { historyTable } from "../history";
 import { issuesTable } from "../issue";
 import { trashbinsCollectionsTable, trashbinsTable } from "../trashbin";
+import {
+  userCollectionAssignmentsTable,
+  userGreenHeartsTable,
+  userInvitationsTable,
+  userSettingsTable,
+  userStatusTable,
+  usersRequestsTable,
+  usersTable,
+} from "./schema";
 
 export const userRelations = relations(usersTable, ({ one, many }) => ({
   status: one(userStatusTable, {

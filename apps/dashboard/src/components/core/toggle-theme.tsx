@@ -1,13 +1,13 @@
 import { Button } from "@binspire/ui/components/button";
-import { Sun, Moon } from "lucide-react";
-import { useTheme } from "@/hooks/use-theme";
-import { useMapLayer } from "@/hooks/use-map-layer";
-import { useState, useEffect } from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
+import { Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useMapLayer } from "@/hooks/use-map-layer";
+import { useTheme } from "@/hooks/use-theme";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();

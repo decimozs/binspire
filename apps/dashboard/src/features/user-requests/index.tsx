@@ -1,9 +1,4 @@
-import { usePermissionStore } from "@/store/permission-store";
-import RequestAccess from "../permissions/components/request-access";
-import MainLayout from "@/components/layout/main-layout";
-import UserRequestsDataTable from "./components/data-table";
-import { type UserRequest } from "@binspire/query";
-import { Key } from "lucide-react";
+import type { UserRequest } from "@binspire/query";
 import {
   Empty,
   EmptyContent,
@@ -12,6 +7,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@binspire/ui/components/empty";
+import { Key } from "lucide-react";
+import MainLayout from "@/components/layout/main-layout";
+import { usePermissionStore } from "@/store/permission-store";
+import RequestAccess from "../permissions/components/request-access";
+import UserRequestsDataTable from "./components/data-table";
 import RequestButton from "./components/request-button";
 
 interface UserRequestProps {

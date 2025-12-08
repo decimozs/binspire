@@ -1,13 +1,13 @@
-import { useRouteStore } from "@/store/route-store";
 import { useGetTrashbinById } from "@binspire/query";
+import { useRouteStore } from "@/store/route-store";
 import "@google/model-viewer";
-import CollectTrashbin from "@/features/trashbin/collect-trashbin";
-import { useQueryState } from "nuqs";
 import { Skeleton } from "@binspire/ui/components/skeleton";
-import NavigationInfo from "./navigation-info";
-import CancelNavigation from "./cancel-navigation";
 import { useLocation } from "@tanstack/react-router";
+import { useQueryState } from "nuqs";
+import CollectTrashbin from "@/features/trashbin/collect-trashbin";
+import CancelNavigation from "./cancel-navigation";
 import Emergency from "./emergency";
+import NavigationInfo from "./navigation-info";
 
 export default function Navigating() {
   const { pathname } = useLocation();

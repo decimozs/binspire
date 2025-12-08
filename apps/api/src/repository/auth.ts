@@ -1,11 +1,11 @@
-import type { IBaseRepository } from "@/lib/types";
 import { db, eq } from "@binspire/db";
 import {
-  qrCodesTable,
-  type QrCode,
   type InsertQrCode,
+  type QrCode,
+  qrCodesTable,
   type UpdateQrCode,
 } from "@binspire/db/schema";
+import type { IBaseRepository } from "@/lib/types";
 
 export class QrCodeRepository
   implements IBaseRepository<QrCode, InsertQrCode, UpdateQrCode>

@@ -1,13 +1,13 @@
 import { useForm } from "@tanstack/react-form";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import z from "zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Loader2 } from "lucide-react";
-import { ShowToast } from "../toast-notification";
 import { rpc } from "@/features/api-client";
-import { FormFieldError } from "./components/form-field-error";
 import { SubLogo } from "../logo";
+import { ShowToast } from "../toast-notification";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { FormFieldError } from "./components/form-field-error";
 
 export const emailVerificationSchema = z.object({
   email: z.email({ message: "Recipient email is invalid" }),

@@ -1,15 +1,15 @@
-import DataTable from "@/features/data-table";
+import type { Audit } from "@binspire/query";
+import { Button } from "@binspire/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
-import { Button } from "@binspire/ui/components/button";
 import { Ellipsis } from "lucide-react";
-import { usePermissionStore } from "@/store/permission-store";
+import DataTable from "@/features/data-table";
 import PermittedActions from "@/features/permissions/permitted-actions";
+import { usePermissionStore } from "@/store/permission-store";
 import { userAuditColumns } from "./columns";
-import type { Audit } from "@binspire/query";
 
 export default function UserAuditLogsDataTable({
   data,

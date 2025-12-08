@@ -1,6 +1,6 @@
-import { useLayout } from "@/store/layout-store";
 import { Skeleton } from "@binspire/ui/components/skeleton";
 import type { ComponentProps } from "react";
+import { useLayout } from "@/store/layout-store";
 
 export default function LoaderLayout({ ...props }: ComponentProps<"div">) {
   const { layout } = useLayout();

@@ -1,12 +1,12 @@
 import {
+  UserCollectionAssignmentHandler,
+  UserGreenHeartHandler,
   UserHandler,
   UserInvitationHandler,
+  UserQuotaHandler,
   UserRequestHandler,
   UserSettingsHandler,
   UserStatusHandler,
-  UserCollectionAssignmentHandler,
-  UserQuotaHandler,
-  UserGreenHeartHandler,
 } from "@/handlers";
 import { factory } from "@/lib/factory";
 

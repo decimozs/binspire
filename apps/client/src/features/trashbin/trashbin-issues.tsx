@@ -8,11 +8,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@binspire/ui/components/drawer";
-import { Skeleton } from "@binspire/ui/components/skeleton";
-import { Hammer, Info } from "lucide-react";
-import { parseAsBoolean, useQueryState } from "nuqs";
-import { ScrollArea } from "@binspire/ui/components/scroll-area";
-import ViewTrashbinIssue from "./view-trashbin-issue";
 import {
   Empty,
   EmptyDescription,
@@ -20,6 +15,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@binspire/ui/components/empty";
+import { ScrollArea } from "@binspire/ui/components/scroll-area";
+import { Skeleton } from "@binspire/ui/components/skeleton";
+import { Hammer, Info } from "lucide-react";
+import { parseAsBoolean, useQueryState } from "nuqs";
+import ViewTrashbinIssue from "./view-trashbin-issue";
 
 export default function TrashbinIssues() {
   const [open, setOpen] = useQueryState(

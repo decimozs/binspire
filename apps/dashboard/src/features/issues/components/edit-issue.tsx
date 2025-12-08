@@ -1,13 +1,11 @@
-import { ShowToast } from "@/components/core/toast-notification";
-import { useEditDialog } from "@/hooks/use-edit-dialog";
-import { useUpdateIssue, type Issue } from "@binspire/query";
+import { type Issue, useUpdateIssue } from "@binspire/query";
 import {
   formatCamelCase,
   ISSUE_STATUS_CONFIG,
   ISSUE_STATUSES,
+  type IssueStatus,
   PRIORITY_SCORES,
   PRIORITY_SCORES_CONFIG,
-  type IssueStatus,
   type PriorityScores,
 } from "@binspire/shared";
 import {
@@ -20,6 +18,8 @@ import {
 import { FormFieldError } from "@binspire/ui/forms";
 import { useForm, useStore } from "@tanstack/react-form";
 import z from "zod";
+import { ShowToast } from "@/components/core/toast-notification";
+import { useEditDialog } from "@/hooks/use-edit-dialog";
 
 const editModeSchema = z.object({
   status: z.enum(ISSUE_STATUSES),

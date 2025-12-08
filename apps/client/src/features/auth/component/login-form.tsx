@@ -1,21 +1,21 @@
-import z from "zod";
-import { useForm } from "@tanstack/react-form";
-import { useState } from "react";
-import { authClient } from "@/features/auth";
 import {
   HistoryApi,
   OrganizationApi,
   UserApi,
   UserStatusApi,
 } from "@binspire/query";
-import { Loader2 } from "lucide-react";
-import { SubLogo } from "@/components/logo";
-import { Input, PasswordInput } from "@binspire/ui/components/input";
-import { Checkbox } from "@binspire/ui/components/checkbox";
-import { FormFieldError } from "@binspire/ui/forms";
-import { ShowToast } from "@/components/toast";
 import { Button } from "@binspire/ui/components/button";
+import { Checkbox } from "@binspire/ui/components/checkbox";
+import { Input, PasswordInput } from "@binspire/ui/components/input";
+import { FormFieldError } from "@binspire/ui/forms";
+import { useForm } from "@tanstack/react-form";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import z from "zod";
+import { SubLogo } from "@/components/logo";
 import Policy from "@/components/policy";
+import { ShowToast } from "@/components/toast";
+import { authClient } from "@/features/auth";
 
 const schema = z.object({
   email: z.email("Invalid email address"),

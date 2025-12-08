@@ -1,4 +1,3 @@
-import { useSearch } from "@/context/search-provider";
 import type { MenuItem } from "@binspire/shared";
 import {
   CommandDialog,
@@ -9,27 +8,28 @@ import {
   CommandList,
 } from "@binspire/ui/components/command";
 import { useNavigate } from "@tanstack/react-router";
+import type { LucideIcon } from "lucide-react";
 import {
   ChartLine,
+  CircleQuestionMark,
   Database,
+  DatabaseBackup,
+  Gift,
+  HeartHandshake,
+  History,
   Info,
   Key,
   LayoutDashboard,
   Mail,
+  Map,
+  Palette,
+  Settings2,
   ShieldQuestionMark,
   Trash,
   Trophy,
   Users,
-  History,
-  Map,
-  Settings2,
-  Palette,
-  DatabaseBackup,
-  CircleQuestionMark,
-  HeartHandshake,
-  Gift,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { useSearch } from "@/context/search-provider";
 
 const generalMenus: MenuItem[] & { icon: LucideIcon }[] = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },

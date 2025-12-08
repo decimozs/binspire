@@ -1,6 +1,6 @@
-import { usePermissionStore } from "@/store/permission-store";
 import { Button } from "@binspire/ui/components/button";
 import { parseAsBoolean, useQueryState } from "nuqs";
+import { usePermissionStore } from "@/store/permission-store";
 
 export default function GenerateKeySecretButton() {
   const { permission } = usePermissionStore();

@@ -1,11 +1,11 @@
-import ActionDialogContainer from "@/components/views/action-dialog-container";
-import ViewContentLayout from "@/components/layout/view-content-layout";
 import type { History } from "@binspire/query";
-import { useActionDialog, type ActionType } from "@/hooks/use-action-dialog";
-import HistoryDetails from "./history-details";
-import UserCard from "@/components/core/user-card";
-import type { ActionsTypeManagement } from "@binspire/shared";
 import { useGetHistoryById } from "@binspire/query";
+import type { ActionsTypeManagement } from "@binspire/shared";
+import UserCard from "@/components/core/user-card";
+import ViewContentLayout from "@/components/layout/view-content-layout";
+import ActionDialogContainer from "@/components/views/action-dialog-container";
+import { type ActionType, useActionDialog } from "@/hooks/use-action-dialog";
+import HistoryDetails from "./history-details";
 
 const keys: { queryKey: ActionsTypeManagement; actionKey: ActionType } = {
   queryKey: "historyManagement",

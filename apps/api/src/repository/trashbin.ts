@@ -1,20 +1,20 @@
-import type { IBaseRepository } from "@/lib/types";
 import { db, eq } from "@binspire/db";
 import {
-  trashbinsCollectionsTable,
-  trashbinsStatusTable,
-  trashbinsTable,
-  userCollectionAssignmentsTable,
   type InsertTrashbin,
   type InsertTrashbinCollection,
   type InsertTrashbinStatus,
   type Trashbin,
   type TrashbinCollection,
   type TrashbinStatus,
+  trashbinsCollectionsTable,
+  trashbinsStatusTable,
+  trashbinsTable,
   type UpdateTrashbin,
   type UpdateTrashbinCollection,
   type UpdateTrashbinStatus,
+  userCollectionAssignmentsTable,
 } from "@binspire/db/schema";
+import type { IBaseRepository } from "@/lib/types";
 
 export class TrashbinRepository
   implements IBaseRepository<Trashbin, InsertTrashbin, UpdateTrashbin>

@@ -1,6 +1,4 @@
-import { ShowToast } from "@/components/core/toast-notification";
-import { usePermissionStore } from "@/store/permission-store";
-import { useUpdateUserStatus, type UserStatus } from "@binspire/query";
+import { type UserStatus, useUpdateUserStatus } from "@binspire/query";
 import {
   formatLabel,
   type ModuleActions,
@@ -18,6 +16,8 @@ import {
 import { Switch } from "@binspire/ui/components/switch";
 import { Key, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { ShowToast } from "@/components/core/toast-notification";
+import { usePermissionStore } from "@/store/permission-store";
 
 type PermissionEntry = {
   actions: Record<keyof ModuleActions, boolean>;

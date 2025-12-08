@@ -1,16 +1,5 @@
-import { useMemo, useState } from "react";
+import type { TrashbinLog } from "@binspire/db/types";
 import { Button } from "@binspire/ui/components/button";
-import { format } from "date-fns";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@binspire/ui/components/sheet";
-import { ArrowUpRight, Eye, Shredder } from "lucide-react";
-import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
-import type { TrashbinLog } from "@binspire/db/types";
 import {
   Empty,
   EmptyDescription,
@@ -28,6 +16,18 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@binspire/ui/components/empty";
+import { ScrollArea } from "@binspire/ui/components/scroll-area";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@binspire/ui/components/sheet";
+import { format } from "date-fns";
+import { ArrowUpRight, Eye, Shredder } from "lucide-react";
+import { useMemo, useState } from "react";
 
 export default function CollectionLogs({
   logsRaw,

@@ -1,5 +1,3 @@
-import LoaderLayout from "@/components/layout/loader-layout";
-import Leaderboards from "@/features/leaderboards";
 import {
   queryOptions,
   UserApi,
@@ -7,6 +5,8 @@ import {
   useSuspenseQuery,
 } from "@binspire/query";
 import { createFileRoute } from "@tanstack/react-router";
+import LoaderLayout from "@/components/layout/loader-layout";
+import Leaderboards from "@/features/leaderboards";
 
 const usersQueryOpts = queryOptions({
   queryKey: ["users"],

@@ -1,7 +1,7 @@
-import { factory } from "@/lib/factory";
-import { HistoryService } from "@/services";
-import { idParamSchema, zValidator } from "@/lib/utils";
 import { insertHistorySchema, updateHistorySchema } from "@binspire/db/schema";
+import { factory } from "@/lib/factory";
+import { idParamSchema, zValidator } from "@/lib/utils";
+import { HistoryService } from "@/services";
 
 export class HistoryHandler {
   private service = new HistoryService();

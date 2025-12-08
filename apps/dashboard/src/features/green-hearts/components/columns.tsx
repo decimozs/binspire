@@ -1,4 +1,3 @@
-import { SortingButton } from "@/features/data-table/components/sorting-button";
 import type { UserGreenHeart } from "@binspire/query";
 import { UserColumn } from "@binspire/ui/badges";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -9,6 +8,7 @@ import {
   ArrowUpAZ,
   ArrowUpDown,
 } from "lucide-react";
+import { SortingButton } from "@/features/data-table/components/sorting-button";
 
 export const greenHeartColumns: ColumnDef<UserGreenHeart>[] = [
   {

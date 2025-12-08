@@ -1,9 +1,3 @@
-import * as React from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@binspire/ui/components/tooltip";
 import {
   Sidebar,
   SidebarContent,
@@ -14,13 +8,19 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@binspire/ui/components/sidebar";
-import { GeneralMenu } from "./general-menu";
-import { OtherMenu } from "./other-menu";
-import { SidebarUser } from "./sidebar-user";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@binspire/ui/components/tooltip";
 import { useLocation } from "@tanstack/react-router";
-import OrgHeader from "./org-header";
 import { Ticket } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
+import type * as React from "react";
+import { GeneralMenu } from "./general-menu";
+import OrgHeader from "./org-header";
+import { OtherMenu } from "./other-menu";
+import { SidebarUser } from "./sidebar-user";
 
 export default function AppSidebar({
   ...props

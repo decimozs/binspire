@@ -1,14 +1,14 @@
-import ActionDialogContainer from "@/components/views/action-dialog-container";
-import ViewContentLayout from "@/components/layout/view-content-layout";
-import { useActionDialog, type ActionType } from "@/hooks/use-action-dialog";
-import TrashbinDetails from "./trashbin-details";
-import UserCard from "@/components/core/user-card";
-import type { ActionsTypeManagement } from "@binspire/shared";
 import {
-  useGetTrashbinCollectionsById,
   type TrashbinCollections,
+  useGetTrashbinCollectionsById,
 } from "@binspire/query";
+import type { ActionsTypeManagement } from "@binspire/shared";
+import UserCard from "@/components/core/user-card";
+import ViewContentLayout from "@/components/layout/view-content-layout";
+import ActionDialogContainer from "@/components/views/action-dialog-container";
+import { type ActionType, useActionDialog } from "@/hooks/use-action-dialog";
 import CollectionLogs from "./collection-logs";
+import TrashbinDetails from "./trashbin-details";
 
 const keys: { queryKey: ActionsTypeManagement; actionKey: ActionType } = {
   queryKey: "collectionsManagement",

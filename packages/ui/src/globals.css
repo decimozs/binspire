@@ -295,13 +295,13 @@
     @apply bg-primary text-primary-foreground;
   }
   .red-badge {
-    @apply text-sm px-2 py-0.5 rounded-md  bg-red-400/10 text-red-600;
+    @apply text-sm px-2 py-0.5 rounded-md bg-red-400/10 text-red-600;
   }
   .blue-badge {
     @apply text-sm px-2 py-0.5 rounded-md bg-blue-400/10 text-blue-600;
   }
   .green-badge {
-    @apply text-sm px-2 py-0.5 rounded-md  bg-green-400/10 text-green-600;
+    @apply text-sm px-2 py-0.5 rounded-md bg-green-400/10 text-green-600;
   }
   .yellow-badge {
     @apply text-sm px-2 py-0.5 rounded-md bg-yellow-400/10 text-yellow-600;

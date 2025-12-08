@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function ContentSection() {
   return (

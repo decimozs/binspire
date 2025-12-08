@@ -1,8 +1,4 @@
-import type { ReactNode } from "react";
-import OverviewDataChart from "./overview-data-chart";
-import { Separator } from "@binspire/ui/components/separator";
 import { Button } from "@binspire/ui/components/button";
-import { useNavigate } from "@tanstack/react-router";
 import {
   Empty,
   EmptyContent,
@@ -11,8 +7,12 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@binspire/ui/components/empty";
+import { Separator } from "@binspire/ui/components/separator";
+import { useNavigate } from "@tanstack/react-router";
 import { BarChart } from "lucide-react";
+import type { ReactNode } from "react";
 import RefreshButton from "@/components/core/refresh-button";
+import OverviewDataChart from "./overview-data-chart";
 
 interface Props<T extends { createdAt: Date | string }> {
   data: T[];

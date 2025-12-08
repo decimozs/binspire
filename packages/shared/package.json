@@ -15,18 +15,15 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint . "
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.23",
-    "eslint": "^9.37.0"
+    "@types/bun": "^1.2.23"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
-    "@binspire/eslint": "workspace:*",
     "@binspire/tsconfig": "workspace:*",
     "date-fns": "^4.1.0",
     "jose": "^6.1.0",

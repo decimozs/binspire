@@ -1,11 +1,11 @@
-import ActionDialogContainer from "@/components/views/action-dialog-container";
-import ViewContentLayout from "@/components/layout/view-content-layout";
-import { useActionDialog, type ActionType } from "@/hooks/use-action-dialog";
-import AuditDetails from "./audit-details";
-import UserCard from "@/components/core/user-card";
-import type { ActionsTypeManagement } from "@binspire/shared";
-import { useGetAuditById } from "@binspire/query";
 import type { Audit } from "@binspire/query";
+import { useGetAuditById } from "@binspire/query";
+import type { ActionsTypeManagement } from "@binspire/shared";
+import UserCard from "@/components/core/user-card";
+import ViewContentLayout from "@/components/layout/view-content-layout";
+import ActionDialogContainer from "@/components/views/action-dialog-container";
+import { type ActionType, useActionDialog } from "@/hooks/use-action-dialog";
+import AuditDetails from "./audit-details";
 
 const keys: { queryKey: ActionsTypeManagement; actionKey: ActionType } = {
   queryKey: "activityManagement",

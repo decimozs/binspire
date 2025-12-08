@@ -1,7 +1,7 @@
-import LoaderLayout from "@/components/layout/loader-layout";
-import { createFileRoute } from "@tanstack/react-router";
-import Trashbins from "@/features/trashbins";
 import { queryOptions, TrashbinApi, useSuspenseQuery } from "@binspire/query";
+import { createFileRoute } from "@tanstack/react-router";
+import LoaderLayout from "@/components/layout/loader-layout";
+import Trashbins from "@/features/trashbins";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["trashbins"],

@@ -1,14 +1,14 @@
-import { useEffect, useState, useRef } from "react";
-import { Source, Layer, Marker, useMap } from "react-map-gl/maplibre";
-import { point } from "@turf/helpers";
-import { distance as turfDistance } from "@turf/distance";
-import bearing from "@turf/bearing";
-import { useRouteStore } from "@/store/route-store";
-import { useMapStore } from "@/store/map-store";
 import { useLocation } from "@tanstack/react-router";
+import bearing from "@turf/bearing";
+import { distance as turfDistance } from "@turf/distance";
+import { point } from "@turf/helpers";
+import { useQueryState } from "nuqs";
+import { useEffect, useRef, useState } from "react";
+import { Layer, Marker, Source, useMap } from "react-map-gl/maplibre";
 import { useMqtt } from "@/context/mqtt-provider";
 import { useSession } from "@/features/auth";
-import { useQueryState } from "nuqs";
+import { useMapStore } from "@/store/map-store";
+import { useRouteStore } from "@/store/route-store";
 
 export default function RouteLayer() {
   const { client } = useMqtt();

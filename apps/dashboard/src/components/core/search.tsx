@@ -1,6 +1,6 @@
-import { useSearch } from "@/context/search-provider";
 import { Button } from "@binspire/ui/components/button";
 import { cn } from "@binspire/ui/lib/utils";
+import { useSearch } from "@/context/search-provider";
 
 type SearchProps = {
   className?: string;

@@ -1,14 +1,17 @@
+import type { MenuItem } from "@binspire/shared";
 import {
-  ChevronRight,
-  CircleQuestionMark,
-  DatabaseBackup,
-  Gift,
-  HeartHandshake,
-  Info,
-  Palette,
-  Settings,
-  Settings2,
-} from "lucide-react";
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@binspire/ui/components/collapsible";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@binspire/ui/components/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -22,19 +25,16 @@ import {
 } from "@binspire/ui/components/sidebar";
 import { Link, useLocation } from "@tanstack/react-router";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@binspire/ui/components/collapsible";
-import type { MenuItem } from "@binspire/shared";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@binspire/ui/components/dropdown-menu";
+  ChevronRight,
+  CircleQuestionMark,
+  DatabaseBackup,
+  Gift,
+  HeartHandshake,
+  Info,
+  Palette,
+  Settings,
+  Settings2,
+} from "lucide-react";
 
 const otherMenus: MenuItem[] = [
   {

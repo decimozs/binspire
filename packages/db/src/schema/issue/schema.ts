@@ -1,13 +1,13 @@
 import { pgTable, text } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 import { timestamps } from "../../lib/base";
-import { usersTable } from "../user";
 import {
   ISSUE_STATUSES_ENUM,
   PRIORITY_SCORES_ENUM,
   SYSTEM_ENTITY_ENUM,
 } from "../../lib/enum";
 import { organizationsTable } from "../org";
+import { usersTable } from "../user";
 
 export const issuesTable = pgTable("issues", {
   id: text("id")

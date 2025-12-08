@@ -1,5 +1,5 @@
-import z from "zod";
-import { useForm, useStore } from "@tanstack/react-form";
+import { type Trashbin, useUpdateTrashbin } from "@binspire/query";
+import { WASTE_TYPE_CONFIG } from "@binspire/shared";
 import { Input } from "@binspire/ui/components/input";
 import {
   Select,
@@ -8,11 +8,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@binspire/ui/components/select";
-import { useEditDialog } from "@/hooks/use-edit-dialog";
-import { ShowToast } from "@/components/core/toast-notification";
 import { FormFieldError } from "@binspire/ui/forms";
-import { WASTE_TYPE_CONFIG } from "@binspire/shared";
-import { useUpdateTrashbin, type Trashbin } from "@binspire/query";
+import { useForm, useStore } from "@tanstack/react-form";
+import z from "zod";
+import { ShowToast } from "@/components/core/toast-notification";
+import { useEditDialog } from "@/hooks/use-edit-dialog";
 
 const editModeSchema = z.object({
   name: z.string().min(1, "Name is required"),

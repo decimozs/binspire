@@ -1,7 +1,7 @@
 import {
   ISSUE_STATUS_CONFIG,
-  PRIORITY_SCORES_CONFIG,
   type IssueStatus,
+  PRIORITY_SCORES_CONFIG,
   type PriorityScores,
 } from "@binspire/shared";
 

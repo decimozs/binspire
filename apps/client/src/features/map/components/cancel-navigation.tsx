@@ -1,7 +1,3 @@
-import { ShowToast } from "@/components/toast";
-import { useMqtt } from "@/context/mqtt-provider";
-import { useSession } from "@/features/auth";
-import { useRouteStore } from "@/store/route-store";
 import { useGetOrganizationSettingsById } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import {
@@ -16,6 +12,10 @@ import {
 import { Loader2, RouteOff } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
+import { ShowToast } from "@/components/toast";
+import { useMqtt } from "@/context/mqtt-provider";
+import { useSession } from "@/features/auth";
+import { useRouteStore } from "@/store/route-store";
 
 export default function CancelNavigation() {
   const { deleteRoute } = useRouteStore();

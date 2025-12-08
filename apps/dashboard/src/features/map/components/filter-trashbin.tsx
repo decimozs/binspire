@@ -1,7 +1,3 @@
-import WarningSign from "@/components/sign/warnings";
-import { useFilterTrashbin } from "@/hooks/use-filter-trashbin";
-import { useTrashbinRealtime } from "@/store/realtime-store";
-import { useTelemetryStore } from "@/store/telemetry-store";
 import { useGetAllTrashbins } from "@binspire/query";
 import { formatLabel, TRASHBIN_CONFIG } from "@binspire/shared";
 import { Button } from "@binspire/ui/components/button";
@@ -23,12 +19,16 @@ import {
   SheetTrigger,
 } from "@binspire/ui/components/sheet";
 import { Skeleton } from "@binspire/ui/components/skeleton";
-import { Blend } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
+import { Blend } from "lucide-react";
+import WarningSign from "@/components/sign/warnings";
+import { useFilterTrashbin } from "@/hooks/use-filter-trashbin";
+import { useTrashbinRealtime } from "@/store/realtime-store";
+import { useTelemetryStore } from "@/store/telemetry-store";
 
 export default function FilterTrashbin() {
   const { data, isPending } = useGetAllTrashbins();

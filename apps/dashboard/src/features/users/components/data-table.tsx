@@ -1,16 +1,16 @@
-import DataTable from "@/features/data-table";
+import { type User, useDeleteBatchUsers } from "@binspire/query";
+import { Button } from "@binspire/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
-import { userColumns } from "./columns";
-import { Button } from "@binspire/ui/components/button";
 import { Ellipsis } from "lucide-react";
-import { usePermissionStore } from "@/store/permission-store";
-import PermittedActions from "@/features/permissions/permitted-actions";
-import { useDeleteBatchUsers, type User } from "@binspire/query";
+import DataTable from "@/features/data-table";
 import SelectedDataActions from "@/features/data-table/components/selected-data-actions";
+import PermittedActions from "@/features/permissions/permitted-actions";
+import { usePermissionStore } from "@/store/permission-store";
+import { userColumns } from "./columns";
 
 export default function UsersDataTable({
   data,

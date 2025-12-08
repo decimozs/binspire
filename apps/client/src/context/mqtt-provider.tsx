@@ -1,14 +1,14 @@
+import type { MqttClient } from "mqtt";
 import {
   createContext,
+  type ReactNode,
   useContext,
   useEffect,
   useRef,
   useState,
-  type ReactNode,
 } from "react";
-import type { MqttClient } from "mqtt";
+import { ShowToast } from "@/components/toast";
 import { createMqttClient } from "@/features/mqtt";
-import { setConnected } from "@/store/telemetry-store";
 import {
   resetBins,
   setBatteryLevel,
@@ -16,8 +16,8 @@ import {
   setWasteLevel,
   setWeightLevel,
 } from "@/store/realtime-store";
+import { setConnected } from "@/store/telemetry-store";
 import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
-import { ShowToast } from "@/components/toast";
 
 interface MqttContextType {
   client: MqttClient | null;

@@ -1,7 +1,7 @@
+import type { Audit, InsertAudit, UpdateAudit } from "@binspire/db/schema";
 import { NotFoundError } from "@/features/error";
 import type { IBaseService } from "@/lib/types";
 import { AuditRepository } from "@/repository/audit";
-import type { Audit, InsertAudit, UpdateAudit } from "@binspire/db/schema";
 
 export class AuditService
   implements IBaseService<Audit, InsertAudit, UpdateAudit>

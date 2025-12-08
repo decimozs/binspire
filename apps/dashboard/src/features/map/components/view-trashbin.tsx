@@ -1,10 +1,9 @@
-import CopyToClipboardButton from "@/components/core/copy-clipboard";
-import TrashbinDetails from "@/features/trashbins/components/trashbin-details";
-import { useTrashbinMap } from "@/hooks/use-trashbin-map";
 import {
   useCreateUserCollectionAssignment,
   useGetTrashbinById,
 } from "@binspire/query";
+import { UserColumn } from "@binspire/ui/badges";
+import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -13,17 +12,18 @@ import {
   DialogTitle,
 } from "@binspire/ui/components/dialog";
 import { Separator } from "@binspire/ui/components/separator";
+import { Loader2 } from "lucide-react";
+import CopyToClipboardButton from "@/components/core/copy-clipboard";
+import ShowQrCode from "@/components/core/show-qr-code";
+import { ShowToast } from "@/components/core/toast-notification";
+import TrashbinDetails from "@/features/trashbins/components/trashbin-details";
+import { useTrashbinMap } from "@/hooks/use-trashbin-map";
 import {
   removeAssignCollector,
   resetTrashbinCollectors,
   useCollectionStore,
 } from "@/store/collection-store";
-import { UserColumn } from "@binspire/ui/badges";
-import { Button } from "@binspire/ui/components/button";
-import { Loader2 } from "lucide-react";
-import { ShowToast } from "@/components/core/toast-notification";
 import { usePermissionStore } from "@/store/permission-store";
-import ShowQrCode from "@/components/core/show-qr-code";
 
 export default function ViewTrashbin() {
   const { permission } = usePermissionStore();

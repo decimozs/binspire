@@ -1,5 +1,5 @@
-import { create } from "zustand";
 import type { ViewState } from "react-map-gl/maplibre";
+import { create } from "zustand";
 
 interface MapState {
   viewState: Partial<ViewState>;

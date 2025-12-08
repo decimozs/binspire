@@ -1,6 +1,5 @@
-import { AuthHandler } from "@/handlers";
+import { AuthHandler, QrCodeHandler } from "@/handlers";
 import { factory } from "@/lib/factory";
-import { QrCodeHandler } from "@/handlers";
 
 export const authRoutes = factory
   .createApp()

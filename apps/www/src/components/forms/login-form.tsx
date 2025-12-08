@@ -1,14 +1,3 @@
-import z from "zod";
-import { useForm } from "@tanstack/react-form";
-import { SubLogo } from "@/components/logo";
-import { Link } from "@tanstack/react-router";
-import { Input, PasswordInput } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { ShowToast } from "@/components/toast-notification";
-import { useState } from "react";
-import { authClient } from "@/features/auth";
-import { FormFieldError } from "./components/form-field-error";
 import {
   HistoryApi,
   MessagingApi,
@@ -16,10 +5,21 @@ import {
   UserApi,
   UserStatusApi,
 } from "@binspire/query";
-import Policy from "../policy";
-import { Loader2 } from "lucide-react";
-import { messaging } from "@/features/firebase";
+import { useForm } from "@tanstack/react-form";
+import { Link } from "@tanstack/react-router";
 import { getToken } from "firebase/messaging";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import z from "zod";
+import { SubLogo } from "@/components/logo";
+import { ShowToast } from "@/components/toast-notification";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input, PasswordInput } from "@/components/ui/input";
+import { authClient } from "@/features/auth";
+import { messaging } from "@/features/firebase";
+import Policy from "../policy";
+import { FormFieldError } from "./components/form-field-error";
 
 const loginFormSchema = z.object({
   email: z.email("Invalid email address"),

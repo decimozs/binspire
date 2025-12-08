@@ -1,4 +1,3 @@
-import { useCollectionStore } from "@/store/collection-store";
 import { useGetTrashbinById } from "@binspire/query";
 import { getInitial } from "@binspire/shared";
 import {
@@ -20,6 +19,7 @@ import {
 import { Trash } from "lucide-react";
 import { useMemo } from "react";
 import { ArcherContainer, ArcherElement } from "react-archer";
+import { useCollectionStore } from "@/store/collection-store";
 
 export default function AssignCollectors({
   trashbinId,

@@ -1,6 +1,6 @@
-import { useReviewChangesStore } from "@/store/review-changes-store";
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { useEffect } from "react";
+import { useReviewChangesStore } from "@/store/review-changes-store";
 
 interface UseEditDialogProps<T> {
   defaultValues: T;

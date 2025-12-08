@@ -1,14 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type {
   InsertTrashbin,
   InsertTrashbinCollection,
   UpdateTrashbin,
 } from "@binspire/db/schema";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  TrashbinApi,
-  TrashbinCollectionsApi,
   type Trashbin,
+  TrashbinApi,
   type TrashbinCollections,
+  TrashbinCollectionsApi,
 } from "../../core";
 
 export function useGetAllTrashbins() {

@@ -1,5 +1,5 @@
-import { MapLayerContext } from "@/context/map-layer-context";
 import { useContext } from "react";
+import { MapLayerContext } from "@/context/map-layer-context";
 
 export const useMapLayer = () => {
   const context = useContext(MapLayerContext);

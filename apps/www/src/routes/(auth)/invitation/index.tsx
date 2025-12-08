@@ -1,8 +1,8 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import AuthLayout from "@/components/layout/auth-layout";
-import z from "zod";
 import { UserInvitationsApi } from "@binspire/query";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import z from "zod";
 import InvitationForm from "@/components/forms/invitation-form";
+import AuthLayout from "@/components/layout/auth-layout";
 import { decryptId } from "@/features/encryption";
 
 const routeSchema = z.object({

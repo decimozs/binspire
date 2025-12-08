@@ -1,10 +1,10 @@
-import { authClient } from "@/lib/auth-client";
 import { useGetOrganizationById } from "@binspire/query";
 import { formatLabel } from "@binspire/shared";
 import { SidebarMenu, SidebarMenuItem } from "@binspire/ui/components/sidebar";
 import { Skeleton } from "@binspire/ui/components/skeleton";
 import { useLocation } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 export default function OrgHeader() {
   const session = authClient.useSession();

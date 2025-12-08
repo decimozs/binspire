@@ -1,9 +1,7 @@
-import MainLayout from "@/components/layout/main-layout";
-import { Input } from "@binspire/ui/components/input";
-import { useForm } from "@tanstack/react-form";
-import z from "zod";
+import { QRCodeApi, useCreateTrashbin, useDeleteQRCode } from "@binspire/query";
 import { WASTE_TYPE_CONFIG } from "@binspire/shared";
-import { FormFieldError } from "@binspire/ui/forms";
+import { Button } from "@binspire/ui/components/button";
+import { Input } from "@binspire/ui/components/input";
 import {
   Select,
   SelectContent,
@@ -11,12 +9,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@binspire/ui/components/select";
-import { Button } from "@binspire/ui/components/button";
-import { QRCodeApi, useCreateTrashbin, useDeleteQRCode } from "@binspire/query";
-import { useSession } from "../auth";
-import { Loader2 } from "lucide-react";
-import { ShowToast } from "@/components/toast";
+import { FormFieldError } from "@binspire/ui/forms";
+import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
+import { Loader2 } from "lucide-react";
+import z from "zod";
+import MainLayout from "@/components/layout/main-layout";
+import { ShowToast } from "@/components/toast";
+import { useSession } from "../auth";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),

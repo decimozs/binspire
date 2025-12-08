@@ -20,13 +20,11 @@
     "build": "tsc && tsc-alias",
     "dev": "bun --watch run src/index.ts && tsc --watch",
     "prod": "bun run dist/index.js",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint ."
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@binspire/config": "workspace:*",
     "@binspire/db": "workspace:*",
-    "@binspire/eslint": "workspace:*",
     "@binspire/logging": "workspace:*",
     "@binspire/tsconfig": "workspace:*",
     "@hono/zod-validator": "^0.7.3",

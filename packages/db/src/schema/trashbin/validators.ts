@@ -1,10 +1,10 @@
 import { createInsertSchema } from "drizzle-zod";
+import { insertExcludedFields } from "../../lib/base";
 import {
   trashbinsCollectionsTable,
   trashbinsStatusTable,
   trashbinsTable,
 } from "./schema";
-import { insertExcludedFields } from "../../lib/base";
 
 export const insertTrashbinSchema = createInsertSchema(trashbinsTable)
   .omit(insertExcludedFields)

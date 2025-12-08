@@ -1,9 +1,9 @@
-import { SortingButton } from "@/features/data-table/components/sorting-button";
 import type { Audit, History as HistoryType } from "@binspire/query";
 import { formatCamelCase } from "@binspire/shared";
 import { AuditActionBadge } from "@binspire/ui/badges";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowDownAZ, ArrowUpAZ, ArrowUpDown } from "lucide-react";
+import { SortingButton } from "@/features/data-table/components/sorting-button";
 
 export const userAuditColumns: ColumnDef<Omit<Audit, "user">>[] = [
   {

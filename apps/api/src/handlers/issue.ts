@@ -1,7 +1,7 @@
-import { factory } from "@/lib/factory";
-import { IssueService } from "@/services";
-import { idParamSchema, zValidator } from "@/lib/utils";
 import { insertIssueSchema, updateIssueSchema } from "@binspire/db/schema";
+import { factory } from "@/lib/factory";
+import { idParamSchema, zValidator } from "@/lib/utils";
+import { IssueService } from "@/services";
 
 export class IssueHandler {
   private service = new IssueService();

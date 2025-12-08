@@ -1,8 +1,8 @@
-import ResetPasswordForm from "@/components/forms/reset-password-form";
-import AuthLayout from "@/components/layout/auth-layout";
 import { VerificationApi } from "@binspire/query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import z from "zod";
+import ResetPasswordForm from "@/components/forms/reset-password-form";
+import AuthLayout from "@/components/layout/auth-layout";
 
 const routeSchema = z.object({
   token: z.string().min(1, "Token is required"),

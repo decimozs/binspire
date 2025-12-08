@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useUpdateOrgSecret } from "@binspire/query";
+import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -7,12 +8,11 @@ import {
   DialogTitle,
 } from "@binspire/ui/components/dialog";
 import { Input } from "@binspire/ui/components/input";
-import { Copy, Check, Loader2 } from "lucide-react";
+import { Check, Copy, Loader2 } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
-import { Button } from "@binspire/ui/components/button";
+import { useEffect, useState } from "react";
 import { ShowToast } from "@/components/core/toast-notification";
 import { authClient } from "@/lib/auth-client";
-import { useUpdateOrgSecret } from "@binspire/query";
 
 function generateSecureSecret(length = 48) {
   const array = new Uint8Array(length);

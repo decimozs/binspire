@@ -1,8 +1,8 @@
+import { insertVerificationSchema } from "@binspire/db/schema";
+import z from "zod";
 import { factory } from "@/lib/factory";
 import { idParamSchema, zValidator } from "@/lib/utils";
 import { VerificationService } from "@/services";
-import { insertVerificationSchema } from "@binspire/db/schema";
-import z from "zod";
 
 export default class VerificationHandler {
   private service = new VerificationService();

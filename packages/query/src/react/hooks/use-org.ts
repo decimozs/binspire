@@ -2,9 +2,9 @@ import type { UpdateOrganization } from "@binspire/db/schema";
 import type { OrganizationSettingsOpts } from "@binspire/shared";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  type Organization,
   OrganizationApi,
   OrganizationSettingsApi,
-  type Organization,
 } from "../../core";
 
 export function useGetAllOrganizations() {

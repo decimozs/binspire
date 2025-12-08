@@ -1,4 +1,3 @@
-import { exportToCSV } from "@/lib/export";
 import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
@@ -13,6 +12,7 @@ import {
 import { Input } from "@binspire/ui/components/input";
 import { Download, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { exportToCSV } from "@/lib/export";
 
 interface ChartExportButtonProps<T> {
   data: T[];

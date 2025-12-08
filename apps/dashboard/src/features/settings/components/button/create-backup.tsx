@@ -1,3 +1,5 @@
+import { useCreateBackup, useRestoreData } from "@binspire/query";
+import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
   DialogClose,
@@ -8,18 +10,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
+import { Input } from "@binspire/ui/components/input";
+import { FormFieldError } from "@binspire/ui/forms";
+import { useForm } from "@tanstack/react-form";
 import { CircleCheckIcon, Loader2 } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@binspire/ui/components/button";
-import { Input } from "@binspire/ui/components/input";
 import z from "zod";
-import { useForm } from "@tanstack/react-form";
 import { ShowToast } from "@/components/core/toast-notification";
-import { usePermissionStore } from "@/store/permission-store";
-import { useCreateBackup, useRestoreData } from "@binspire/query";
 import { useVerifyPassword } from "@/hooks/use-auth";
-import { FormFieldError } from "@binspire/ui/forms";
 import { fileToBase64 } from "@/lib/utils";
+import { usePermissionStore } from "@/store/permission-store";
 
 const backupFormSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long"),

@@ -1,19 +1,19 @@
-import DataTable from "@/features/data-table";
+import {
+  type UserInvitation,
+  useDeleteBatchUserInvitations,
+} from "@binspire/query";
+import { Button } from "@binspire/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
-import { userInvitationColumns } from "./columns";
-import { Button } from "@binspire/ui/components/button";
 import { Ellipsis } from "lucide-react";
-import { usePermissionStore } from "@/store/permission-store";
-import PermittedActions from "@/features/permissions/permitted-actions";
-import {
-  useDeleteBatchUserInvitations,
-  type UserInvitation,
-} from "@binspire/query";
+import DataTable from "@/features/data-table";
 import SelectedDataActions from "@/features/data-table/components/selected-data-actions";
+import PermittedActions from "@/features/permissions/permitted-actions";
+import { usePermissionStore } from "@/store/permission-store";
+import { userInvitationColumns } from "./columns";
 
 export default function UserInvitationsDataTable({
   data,

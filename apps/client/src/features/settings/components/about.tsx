@@ -1,7 +1,3 @@
-import { Info } from "lucide-react";
-import SettingsItem from "./settings-item";
-import lastUpdated from "@/last-updated.txt?raw";
-import { format } from "date-fns";
 import {
   Drawer,
   DrawerContent,
@@ -10,6 +6,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@binspire/ui/components/drawer";
+import { format } from "date-fns";
+import { Info } from "lucide-react";
+import lastUpdated from "@/last-updated.txt?raw";
+import SettingsItem from "./settings-item";
 
 export default function About() {
   return (

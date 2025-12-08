@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { messaging } from "@/features/firebase";
-import { getToken } from "firebase/messaging";
 import { MessagingApi } from "@binspire/query";
-import { authClient } from "@/features/auth";
+import { getToken } from "firebase/messaging";
+import { useEffect, useState } from "react";
 import { ShowToast } from "@/components/toast";
+import { authClient } from "@/features/auth";
+import { messaging } from "@/features/firebase";
 
 export const useFCMToken = (askPermission = false) => {
   const [token, setToken] = useState<string | null>(null);

@@ -1,4 +1,3 @@
-import { TrendingUp } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -8,16 +7,17 @@ import {
   CardTitle,
 } from "@binspire/ui/components/card";
 import {
+  Cell,
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  PieChart,
-  Cell,
-  Pie,
   Label,
+  Pie,
+  PieChart,
 } from "@binspire/ui/components/chart";
-import { useMemo, type ReactNode } from "react";
+import { TrendingUp } from "lucide-react";
+import { type ReactNode, useMemo } from "react";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface Props<T extends Record<string, any>> {

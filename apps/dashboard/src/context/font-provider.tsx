@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getCookie, setCookie, removeCookie } from "@/lib/cookies";
-import type { Font } from "@/features/settings/lib/types";
 import { fonts } from "@/features/settings/lib/constants";
+import type { Font } from "@/features/settings/lib/types";
+import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
 
 const FONT_COOKIE_NAME = "font";
 const FONT_COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 year

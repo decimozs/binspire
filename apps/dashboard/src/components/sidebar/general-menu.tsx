@@ -1,17 +1,4 @@
-import {
-  ChartLine,
-  History,
-  LayoutDashboard,
-  Map,
-  Users,
-  Trash,
-  Database,
-  Mail,
-  ShieldQuestionMark,
-  Trophy,
-  ClipboardList,
-  Ticket,
-} from "lucide-react";
+import type { MenuItem } from "@binspire/shared";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -21,7 +8,20 @@ import {
   useSidebar,
 } from "@binspire/ui/components/sidebar";
 import { Link, useLocation } from "@tanstack/react-router";
-import type { MenuItem } from "@binspire/shared";
+import {
+  ChartLine,
+  ClipboardList,
+  Database,
+  History,
+  LayoutDashboard,
+  Mail,
+  Map,
+  ShieldQuestionMark,
+  Ticket,
+  Trash,
+  Trophy,
+  Users,
+} from "lucide-react";
 
 const generalMenus: MenuItem[] = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },

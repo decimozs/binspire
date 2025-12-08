@@ -1,9 +1,3 @@
-import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
-import { PanelLeftIcon } from "lucide-react";
-import { useIsMobile } from "@binspire/ui/hooks/use-mobile";
-import { cn } from "@binspire/ui/lib/utils";
 import { Button } from "@binspire/ui/components/button";
 import { Input } from "@binspire/ui/components/input";
 import { Separator } from "@binspire/ui/components/separator";
@@ -21,6 +15,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
+import { useIsMobile } from "@binspire/ui/hooks/use-mobile";
+import { cn } from "@binspire/ui/lib/utils";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+import { PanelLeftIcon } from "lucide-react";
+import * as React from "react";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;

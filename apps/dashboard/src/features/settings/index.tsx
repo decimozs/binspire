@@ -1,3 +1,4 @@
+import { Button } from "@binspire/ui/components/button";
 import {
   Select,
   SelectContent,
@@ -6,12 +7,11 @@ import {
   SelectValue,
 } from "@binspire/ui/components/select";
 import { Separator } from "@binspire/ui/components/separator";
-import { Button } from "@binspire/ui/components/button";
 import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import MainLayout from "@/components/layout/main-layout";
-import type { SettingType } from "./lib/types";
 import { settingsConfig } from "./lib/constants";
+import type { SettingType } from "./lib/types";
 
 export default function Settings() {
   const location = useLocation();

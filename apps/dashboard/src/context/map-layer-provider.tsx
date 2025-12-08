@@ -1,11 +1,11 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { MapLayerContext, type MapLayer } from "./map-layer-context";
+import { type ReactNode, useEffect, useState } from "react";
 import {
   darkStyle,
   lightStyle,
   settingsDarkStyle,
   settingsLightStyle,
 } from "@/features/settings/lib/constants";
+import { type MapLayer, MapLayerContext } from "./map-layer-context";
 
 interface Props {
   children: ReactNode;

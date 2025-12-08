@@ -1,7 +1,7 @@
+import { UserInvitationsApi } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import z from "zod";
-import { UserInvitationsApi } from "@binspire/query";
 import AuthLayout from "@/components/layout/auth-layout";
 import { SubLogo } from "@/components/logo";
 

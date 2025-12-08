@@ -1,5 +1,5 @@
 import type { Audit } from "@binspire/query";
-import { formatCamelCase, type AuditActions } from "@binspire/shared";
+import { type AuditActions, formatCamelCase } from "@binspire/shared";
 import { AuditActionBadge } from "@binspire/ui/badges";
 
 export default function AuditDetails({ data }: { data: Audit }) {

@@ -1,13 +1,13 @@
-import { authClient } from "@/lib/auth-client";
 import { useGetOrganizationSettingsById } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
-import { ScanEye } from "lucide-react";
-import { useMap } from "react-map-gl/maplibre";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
+import { ScanEye } from "lucide-react";
+import { useMap } from "react-map-gl/maplibre";
+import { authClient } from "@/lib/auth-client";
 
 export default function ResetMapStateButton({
   zoomLevel = 18,

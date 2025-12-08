@@ -1,5 +1,3 @@
-import { useState } from "react";
-import type { RewardItem } from "@/features/settings/lib/constants";
 import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
@@ -10,9 +8,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
-import { ShowToast } from "@/components/core/toast-notification";
-import { authClient } from "@/lib/auth-client";
 import { format } from "date-fns";
+import { useState } from "react";
+import { ShowToast } from "@/components/core/toast-notification";
+import type { RewardItem } from "@/features/settings/lib/constants";
+import { authClient } from "@/lib/auth-client";
 import { generateRandomCode } from "@/lib/utils";
 
 function getRedeemedRewards(): string[] {

@@ -8,729 +8,729 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as MaintenanceIndexRouteImport } from './routes/maintenance/index'
-import { Route as LiveUpdatesIndexRouteImport } from './routes/live-updates/index'
-import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
-import { Route as AuthenticatedAnalyticsRouteRouteImport } from './routes/_authenticated/analytics/route'
-import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
-import { Route as AuthenticatedTrashbinsIndexRouteImport } from './routes/_authenticated/trashbins/index'
-import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
-import { Route as AuthenticatedRewardsIndexRouteImport } from './routes/_authenticated/rewards/index'
-import { Route as AuthenticatedRequestsIndexRouteImport } from './routes/_authenticated/requests/index'
-import { Route as AuthenticatedMapIndexRouteImport } from './routes/_authenticated/map/index'
-import { Route as AuthenticatedLeaderboardsIndexRouteImport } from './routes/_authenticated/leaderboards/index'
-import { Route as AuthenticatedIssuesIndexRouteImport } from './routes/_authenticated/issues/index'
-import { Route as AuthenticatedInvitationsIndexRouteImport } from './routes/_authenticated/invitations/index'
-import { Route as AuthenticatedHistoryIndexRouteImport } from './routes/_authenticated/history/index'
-import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
-import { Route as AuthenticatedGreenHeartsIndexRouteImport } from './routes/_authenticated/green-hearts/index'
-import { Route as AuthenticatedCollectionsIndexRouteImport } from './routes/_authenticated/collections/index'
-import { Route as AuthenticatedAuditsIndexRouteImport } from './routes/_authenticated/audits/index'
-import { Route as AuthenticatedAnalyticsIndexRouteImport } from './routes/_authenticated/analytics/index'
-import { Route as AuthenticatedUsersUserIdRouteRouteImport } from './routes/_authenticated/users/$userId/route'
-import { Route as AuthenticatedUsersUserIdIndexRouteImport } from './routes/_authenticated/users/$userId/index'
-import { Route as AuthenticatedUsersUserIdUserAuditLogsRouteImport } from './routes/_authenticated/users/$userId/user-audit-logs'
-import { Route as AuthenticatedSettingspagesBackupRouteImport } from './routes/_authenticated/settings/(pages)/backup'
-import { Route as AuthenticatedSettingspagesAppearanceRouteImport } from './routes/_authenticated/settings/(pages)/appearance'
-import { Route as AuthenticatedSettingspagesAboutRouteImport } from './routes/_authenticated/settings/(pages)/about'
-import { Route as AuthenticatedAnalyticspagesUsersRouteImport } from './routes/_authenticated/analytics/(pages)/users'
-import { Route as AuthenticatedAnalyticspagesTrashbinsRouteImport } from './routes/_authenticated/analytics/(pages)/trashbins'
-import { Route as AuthenticatedAnalyticspagesRequestsRouteImport } from './routes/_authenticated/analytics/(pages)/requests'
-import { Route as AuthenticatedAnalyticspagesIssuesRouteImport } from './routes/_authenticated/analytics/(pages)/issues'
-import { Route as AuthenticatedAnalyticspagesInvitationsRouteImport } from './routes/_authenticated/analytics/(pages)/invitations'
-import { Route as AuthenticatedAnalyticspagesHistoryRouteImport } from './routes/_authenticated/analytics/(pages)/history'
-import { Route as AuthenticatedAnalyticspagesGreenHeartsRouteImport } from './routes/_authenticated/analytics/(pages)/green-hearts'
-import { Route as AuthenticatedAnalyticspagesAuditsRouteImport } from './routes/_authenticated/analytics/(pages)/audits'
+import { Route as rootRouteImport } from "./routes/__root";
+import { Route as AuthenticatedRouteRouteImport } from "./routes/_authenticated/route";
+import { Route as MaintenanceIndexRouteImport } from "./routes/maintenance/index";
+import { Route as LiveUpdatesIndexRouteImport } from "./routes/live-updates/index";
+import { Route as AuthenticatedIndexRouteImport } from "./routes/_authenticated/index";
+import { Route as AuthenticatedSettingsRouteRouteImport } from "./routes/_authenticated/settings/route";
+import { Route as AuthenticatedAnalyticsRouteRouteImport } from "./routes/_authenticated/analytics/route";
+import { Route as AuthenticatedUsersIndexRouteImport } from "./routes/_authenticated/users/index";
+import { Route as AuthenticatedTrashbinsIndexRouteImport } from "./routes/_authenticated/trashbins/index";
+import { Route as AuthenticatedSettingsIndexRouteImport } from "./routes/_authenticated/settings/index";
+import { Route as AuthenticatedRewardsIndexRouteImport } from "./routes/_authenticated/rewards/index";
+import { Route as AuthenticatedRequestsIndexRouteImport } from "./routes/_authenticated/requests/index";
+import { Route as AuthenticatedMapIndexRouteImport } from "./routes/_authenticated/map/index";
+import { Route as AuthenticatedLeaderboardsIndexRouteImport } from "./routes/_authenticated/leaderboards/index";
+import { Route as AuthenticatedIssuesIndexRouteImport } from "./routes/_authenticated/issues/index";
+import { Route as AuthenticatedInvitationsIndexRouteImport } from "./routes/_authenticated/invitations/index";
+import { Route as AuthenticatedHistoryIndexRouteImport } from "./routes/_authenticated/history/index";
+import { Route as AuthenticatedHelpCenterIndexRouteImport } from "./routes/_authenticated/help-center/index";
+import { Route as AuthenticatedGreenHeartsIndexRouteImport } from "./routes/_authenticated/green-hearts/index";
+import { Route as AuthenticatedCollectionsIndexRouteImport } from "./routes/_authenticated/collections/index";
+import { Route as AuthenticatedAuditsIndexRouteImport } from "./routes/_authenticated/audits/index";
+import { Route as AuthenticatedAnalyticsIndexRouteImport } from "./routes/_authenticated/analytics/index";
+import { Route as AuthenticatedUsersUserIdRouteRouteImport } from "./routes/_authenticated/users/$userId/route";
+import { Route as AuthenticatedUsersUserIdIndexRouteImport } from "./routes/_authenticated/users/$userId/index";
+import { Route as AuthenticatedUsersUserIdUserAuditLogsRouteImport } from "./routes/_authenticated/users/$userId/user-audit-logs";
+import { Route as AuthenticatedSettingspagesBackupRouteImport } from "./routes/_authenticated/settings/(pages)/backup";
+import { Route as AuthenticatedSettingspagesAppearanceRouteImport } from "./routes/_authenticated/settings/(pages)/appearance";
+import { Route as AuthenticatedSettingspagesAboutRouteImport } from "./routes/_authenticated/settings/(pages)/about";
+import { Route as AuthenticatedAnalyticspagesUsersRouteImport } from "./routes/_authenticated/analytics/(pages)/users";
+import { Route as AuthenticatedAnalyticspagesTrashbinsRouteImport } from "./routes/_authenticated/analytics/(pages)/trashbins";
+import { Route as AuthenticatedAnalyticspagesRequestsRouteImport } from "./routes/_authenticated/analytics/(pages)/requests";
+import { Route as AuthenticatedAnalyticspagesIssuesRouteImport } from "./routes/_authenticated/analytics/(pages)/issues";
+import { Route as AuthenticatedAnalyticspagesInvitationsRouteImport } from "./routes/_authenticated/analytics/(pages)/invitations";
+import { Route as AuthenticatedAnalyticspagesHistoryRouteImport } from "./routes/_authenticated/analytics/(pages)/history";
+import { Route as AuthenticatedAnalyticspagesGreenHeartsRouteImport } from "./routes/_authenticated/analytics/(pages)/green-hearts";
+import { Route as AuthenticatedAnalyticspagesAuditsRouteImport } from "./routes/_authenticated/analytics/(pages)/audits";
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+  id: "/_authenticated",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const MaintenanceIndexRoute = MaintenanceIndexRouteImport.update({
-  id: '/maintenance/',
-  path: '/maintenance/',
+  id: "/maintenance/",
+  path: "/maintenance/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const LiveUpdatesIndexRoute = LiveUpdatesIndexRouteImport.update({
-  id: '/live-updates/',
-  path: '/live-updates/',
+  id: "/live-updates/",
+  path: "/live-updates/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+} as any);
 const AuthenticatedSettingsRouteRoute =
   AuthenticatedSettingsRouteRouteImport.update({
-    id: '/settings',
-    path: '/settings',
+    id: "/settings",
+    path: "/settings",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAnalyticsRouteRoute =
   AuthenticatedAnalyticsRouteRouteImport.update({
-    id: '/analytics',
-    path: '/analytics',
+    id: "/analytics",
+    path: "/analytics",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
-  id: '/users/',
-  path: '/users/',
+  id: "/users/",
+  path: "/users/",
   getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+} as any);
 const AuthenticatedTrashbinsIndexRoute =
   AuthenticatedTrashbinsIndexRouteImport.update({
-    id: '/trashbins/',
-    path: '/trashbins/',
+    id: "/trashbins/",
+    path: "/trashbins/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedSettingsIndexRoute =
   AuthenticatedSettingsIndexRouteImport.update({
-    id: '/',
-    path: '/',
+    id: "/",
+    path: "/",
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedRewardsIndexRoute =
   AuthenticatedRewardsIndexRouteImport.update({
-    id: '/rewards/',
-    path: '/rewards/',
+    id: "/rewards/",
+    path: "/rewards/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedRequestsIndexRoute =
   AuthenticatedRequestsIndexRouteImport.update({
-    id: '/requests/',
-    path: '/requests/',
+    id: "/requests/",
+    path: "/requests/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedMapIndexRoute = AuthenticatedMapIndexRouteImport.update({
-  id: '/map/',
-  path: '/map/',
+  id: "/map/",
+  path: "/map/",
   getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+} as any);
 const AuthenticatedLeaderboardsIndexRoute =
   AuthenticatedLeaderboardsIndexRouteImport.update({
-    id: '/leaderboards/',
-    path: '/leaderboards/',
+    id: "/leaderboards/",
+    path: "/leaderboards/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedIssuesIndexRoute =
   AuthenticatedIssuesIndexRouteImport.update({
-    id: '/issues/',
-    path: '/issues/',
+    id: "/issues/",
+    path: "/issues/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedInvitationsIndexRoute =
   AuthenticatedInvitationsIndexRouteImport.update({
-    id: '/invitations/',
-    path: '/invitations/',
+    id: "/invitations/",
+    path: "/invitations/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedHistoryIndexRoute =
   AuthenticatedHistoryIndexRouteImport.update({
-    id: '/history/',
-    path: '/history/',
+    id: "/history/",
+    path: "/history/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedHelpCenterIndexRoute =
   AuthenticatedHelpCenterIndexRouteImport.update({
-    id: '/help-center/',
-    path: '/help-center/',
+    id: "/help-center/",
+    path: "/help-center/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedGreenHeartsIndexRoute =
   AuthenticatedGreenHeartsIndexRouteImport.update({
-    id: '/green-hearts/',
-    path: '/green-hearts/',
+    id: "/green-hearts/",
+    path: "/green-hearts/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedCollectionsIndexRoute =
   AuthenticatedCollectionsIndexRouteImport.update({
-    id: '/collections/',
-    path: '/collections/',
+    id: "/collections/",
+    path: "/collections/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAuditsIndexRoute =
   AuthenticatedAuditsIndexRouteImport.update({
-    id: '/audits/',
-    path: '/audits/',
+    id: "/audits/",
+    path: "/audits/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAnalyticsIndexRoute =
   AuthenticatedAnalyticsIndexRouteImport.update({
-    id: '/',
-    path: '/',
+    id: "/",
+    path: "/",
     getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedUsersUserIdRouteRoute =
   AuthenticatedUsersUserIdRouteRouteImport.update({
-    id: '/users/$userId',
-    path: '/users/$userId',
+    id: "/users/$userId",
+    path: "/users/$userId",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedUsersUserIdIndexRoute =
   AuthenticatedUsersUserIdIndexRouteImport.update({
-    id: '/',
-    path: '/',
+    id: "/",
+    path: "/",
     getParentRoute: () => AuthenticatedUsersUserIdRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedUsersUserIdUserAuditLogsRoute =
   AuthenticatedUsersUserIdUserAuditLogsRouteImport.update({
-    id: '/user-audit-logs',
-    path: '/user-audit-logs',
+    id: "/user-audit-logs",
+    path: "/user-audit-logs",
     getParentRoute: () => AuthenticatedUsersUserIdRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedSettingspagesBackupRoute =
   AuthenticatedSettingspagesBackupRouteImport.update({
-    id: '/(pages)/backup',
-    path: '/backup',
+    id: "/(pages)/backup",
+    path: "/backup",
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedSettingspagesAppearanceRoute =
   AuthenticatedSettingspagesAppearanceRouteImport.update({
-    id: '/(pages)/appearance',
-    path: '/appearance',
+    id: "/(pages)/appearance",
+    path: "/appearance",
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedSettingspagesAboutRoute =
   AuthenticatedSettingspagesAboutRouteImport.update({
-    id: '/(pages)/about',
-    path: '/about',
+    id: "/(pages)/about",
+    path: "/about",
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAnalyticspagesUsersRoute =
   AuthenticatedAnalyticspagesUsersRouteImport.update({
-    id: '/(pages)/users',
-    path: '/users',
+    id: "/(pages)/users",
+    path: "/users",
     getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAnalyticspagesTrashbinsRoute =
   AuthenticatedAnalyticspagesTrashbinsRouteImport.update({
-    id: '/(pages)/trashbins',
-    path: '/trashbins',
+    id: "/(pages)/trashbins",
+    path: "/trashbins",
     getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAnalyticspagesRequestsRoute =
   AuthenticatedAnalyticspagesRequestsRouteImport.update({
-    id: '/(pages)/requests',
-    path: '/requests',
+    id: "/(pages)/requests",
+    path: "/requests",
     getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAnalyticspagesIssuesRoute =
   AuthenticatedAnalyticspagesIssuesRouteImport.update({
-    id: '/(pages)/issues',
-    path: '/issues',
+    id: "/(pages)/issues",
+    path: "/issues",
     getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAnalyticspagesInvitationsRoute =
   AuthenticatedAnalyticspagesInvitationsRouteImport.update({
-    id: '/(pages)/invitations',
-    path: '/invitations',
+    id: "/(pages)/invitations",
+    path: "/invitations",
     getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAnalyticspagesHistoryRoute =
   AuthenticatedAnalyticspagesHistoryRouteImport.update({
-    id: '/(pages)/history',
-    path: '/history',
+    id: "/(pages)/history",
+    path: "/history",
     getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAnalyticspagesGreenHeartsRoute =
   AuthenticatedAnalyticspagesGreenHeartsRouteImport.update({
-    id: '/(pages)/green-hearts',
-    path: '/green-hearts',
+    id: "/(pages)/green-hearts",
+    path: "/green-hearts",
     getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAnalyticspagesAuditsRoute =
   AuthenticatedAnalyticspagesAuditsRouteImport.update({
-    id: '/(pages)/audits',
-    path: '/audits',
+    id: "/(pages)/audits",
+    path: "/audits",
     getParentRoute: () => AuthenticatedAnalyticsRouteRoute,
-  } as any)
+  } as any);
 
 export interface FileRoutesByFullPath {
-  '/analytics': typeof AuthenticatedAnalyticsRouteRouteWithChildren
-  '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
-  '/': typeof AuthenticatedIndexRoute
-  '/live-updates': typeof LiveUpdatesIndexRoute
-  '/maintenance': typeof MaintenanceIndexRoute
-  '/users/$userId': typeof AuthenticatedUsersUserIdRouteRouteWithChildren
-  '/analytics/': typeof AuthenticatedAnalyticsIndexRoute
-  '/audits': typeof AuthenticatedAuditsIndexRoute
-  '/collections': typeof AuthenticatedCollectionsIndexRoute
-  '/green-hearts': typeof AuthenticatedGreenHeartsIndexRoute
-  '/help-center': typeof AuthenticatedHelpCenterIndexRoute
-  '/history': typeof AuthenticatedHistoryIndexRoute
-  '/invitations': typeof AuthenticatedInvitationsIndexRoute
-  '/issues': typeof AuthenticatedIssuesIndexRoute
-  '/leaderboards': typeof AuthenticatedLeaderboardsIndexRoute
-  '/map': typeof AuthenticatedMapIndexRoute
-  '/requests': typeof AuthenticatedRequestsIndexRoute
-  '/rewards': typeof AuthenticatedRewardsIndexRoute
-  '/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/trashbins': typeof AuthenticatedTrashbinsIndexRoute
-  '/users': typeof AuthenticatedUsersIndexRoute
-  '/analytics/audits': typeof AuthenticatedAnalyticspagesAuditsRoute
-  '/analytics/green-hearts': typeof AuthenticatedAnalyticspagesGreenHeartsRoute
-  '/analytics/history': typeof AuthenticatedAnalyticspagesHistoryRoute
-  '/analytics/invitations': typeof AuthenticatedAnalyticspagesInvitationsRoute
-  '/analytics/issues': typeof AuthenticatedAnalyticspagesIssuesRoute
-  '/analytics/requests': typeof AuthenticatedAnalyticspagesRequestsRoute
-  '/analytics/trashbins': typeof AuthenticatedAnalyticspagesTrashbinsRoute
-  '/analytics/users': typeof AuthenticatedAnalyticspagesUsersRoute
-  '/settings/about': typeof AuthenticatedSettingspagesAboutRoute
-  '/settings/appearance': typeof AuthenticatedSettingspagesAppearanceRoute
-  '/settings/backup': typeof AuthenticatedSettingspagesBackupRoute
-  '/users/$userId/user-audit-logs': typeof AuthenticatedUsersUserIdUserAuditLogsRoute
-  '/users/$userId/': typeof AuthenticatedUsersUserIdIndexRoute
+  "/analytics": typeof AuthenticatedAnalyticsRouteRouteWithChildren;
+  "/settings": typeof AuthenticatedSettingsRouteRouteWithChildren;
+  "/": typeof AuthenticatedIndexRoute;
+  "/live-updates": typeof LiveUpdatesIndexRoute;
+  "/maintenance": typeof MaintenanceIndexRoute;
+  "/users/$userId": typeof AuthenticatedUsersUserIdRouteRouteWithChildren;
+  "/analytics/": typeof AuthenticatedAnalyticsIndexRoute;
+  "/audits": typeof AuthenticatedAuditsIndexRoute;
+  "/collections": typeof AuthenticatedCollectionsIndexRoute;
+  "/green-hearts": typeof AuthenticatedGreenHeartsIndexRoute;
+  "/help-center": typeof AuthenticatedHelpCenterIndexRoute;
+  "/history": typeof AuthenticatedHistoryIndexRoute;
+  "/invitations": typeof AuthenticatedInvitationsIndexRoute;
+  "/issues": typeof AuthenticatedIssuesIndexRoute;
+  "/leaderboards": typeof AuthenticatedLeaderboardsIndexRoute;
+  "/map": typeof AuthenticatedMapIndexRoute;
+  "/requests": typeof AuthenticatedRequestsIndexRoute;
+  "/rewards": typeof AuthenticatedRewardsIndexRoute;
+  "/settings/": typeof AuthenticatedSettingsIndexRoute;
+  "/trashbins": typeof AuthenticatedTrashbinsIndexRoute;
+  "/users": typeof AuthenticatedUsersIndexRoute;
+  "/analytics/audits": typeof AuthenticatedAnalyticspagesAuditsRoute;
+  "/analytics/green-hearts": typeof AuthenticatedAnalyticspagesGreenHeartsRoute;
+  "/analytics/history": typeof AuthenticatedAnalyticspagesHistoryRoute;
+  "/analytics/invitations": typeof AuthenticatedAnalyticspagesInvitationsRoute;
+  "/analytics/issues": typeof AuthenticatedAnalyticspagesIssuesRoute;
+  "/analytics/requests": typeof AuthenticatedAnalyticspagesRequestsRoute;
+  "/analytics/trashbins": typeof AuthenticatedAnalyticspagesTrashbinsRoute;
+  "/analytics/users": typeof AuthenticatedAnalyticspagesUsersRoute;
+  "/settings/about": typeof AuthenticatedSettingspagesAboutRoute;
+  "/settings/appearance": typeof AuthenticatedSettingspagesAppearanceRoute;
+  "/settings/backup": typeof AuthenticatedSettingspagesBackupRoute;
+  "/users/$userId/user-audit-logs": typeof AuthenticatedUsersUserIdUserAuditLogsRoute;
+  "/users/$userId/": typeof AuthenticatedUsersUserIdIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof AuthenticatedIndexRoute
-  '/live-updates': typeof LiveUpdatesIndexRoute
-  '/maintenance': typeof MaintenanceIndexRoute
-  '/analytics': typeof AuthenticatedAnalyticsIndexRoute
-  '/audits': typeof AuthenticatedAuditsIndexRoute
-  '/collections': typeof AuthenticatedCollectionsIndexRoute
-  '/green-hearts': typeof AuthenticatedGreenHeartsIndexRoute
-  '/help-center': typeof AuthenticatedHelpCenterIndexRoute
-  '/history': typeof AuthenticatedHistoryIndexRoute
-  '/invitations': typeof AuthenticatedInvitationsIndexRoute
-  '/issues': typeof AuthenticatedIssuesIndexRoute
-  '/leaderboards': typeof AuthenticatedLeaderboardsIndexRoute
-  '/map': typeof AuthenticatedMapIndexRoute
-  '/requests': typeof AuthenticatedRequestsIndexRoute
-  '/rewards': typeof AuthenticatedRewardsIndexRoute
-  '/settings': typeof AuthenticatedSettingsIndexRoute
-  '/trashbins': typeof AuthenticatedTrashbinsIndexRoute
-  '/users': typeof AuthenticatedUsersIndexRoute
-  '/analytics/audits': typeof AuthenticatedAnalyticspagesAuditsRoute
-  '/analytics/green-hearts': typeof AuthenticatedAnalyticspagesGreenHeartsRoute
-  '/analytics/history': typeof AuthenticatedAnalyticspagesHistoryRoute
-  '/analytics/invitations': typeof AuthenticatedAnalyticspagesInvitationsRoute
-  '/analytics/issues': typeof AuthenticatedAnalyticspagesIssuesRoute
-  '/analytics/requests': typeof AuthenticatedAnalyticspagesRequestsRoute
-  '/analytics/trashbins': typeof AuthenticatedAnalyticspagesTrashbinsRoute
-  '/analytics/users': typeof AuthenticatedAnalyticspagesUsersRoute
-  '/settings/about': typeof AuthenticatedSettingspagesAboutRoute
-  '/settings/appearance': typeof AuthenticatedSettingspagesAppearanceRoute
-  '/settings/backup': typeof AuthenticatedSettingspagesBackupRoute
-  '/users/$userId/user-audit-logs': typeof AuthenticatedUsersUserIdUserAuditLogsRoute
-  '/users/$userId': typeof AuthenticatedUsersUserIdIndexRoute
+  "/": typeof AuthenticatedIndexRoute;
+  "/live-updates": typeof LiveUpdatesIndexRoute;
+  "/maintenance": typeof MaintenanceIndexRoute;
+  "/analytics": typeof AuthenticatedAnalyticsIndexRoute;
+  "/audits": typeof AuthenticatedAuditsIndexRoute;
+  "/collections": typeof AuthenticatedCollectionsIndexRoute;
+  "/green-hearts": typeof AuthenticatedGreenHeartsIndexRoute;
+  "/help-center": typeof AuthenticatedHelpCenterIndexRoute;
+  "/history": typeof AuthenticatedHistoryIndexRoute;
+  "/invitations": typeof AuthenticatedInvitationsIndexRoute;
+  "/issues": typeof AuthenticatedIssuesIndexRoute;
+  "/leaderboards": typeof AuthenticatedLeaderboardsIndexRoute;
+  "/map": typeof AuthenticatedMapIndexRoute;
+  "/requests": typeof AuthenticatedRequestsIndexRoute;
+  "/rewards": typeof AuthenticatedRewardsIndexRoute;
+  "/settings": typeof AuthenticatedSettingsIndexRoute;
+  "/trashbins": typeof AuthenticatedTrashbinsIndexRoute;
+  "/users": typeof AuthenticatedUsersIndexRoute;
+  "/analytics/audits": typeof AuthenticatedAnalyticspagesAuditsRoute;
+  "/analytics/green-hearts": typeof AuthenticatedAnalyticspagesGreenHeartsRoute;
+  "/analytics/history": typeof AuthenticatedAnalyticspagesHistoryRoute;
+  "/analytics/invitations": typeof AuthenticatedAnalyticspagesInvitationsRoute;
+  "/analytics/issues": typeof AuthenticatedAnalyticspagesIssuesRoute;
+  "/analytics/requests": typeof AuthenticatedAnalyticspagesRequestsRoute;
+  "/analytics/trashbins": typeof AuthenticatedAnalyticspagesTrashbinsRoute;
+  "/analytics/users": typeof AuthenticatedAnalyticspagesUsersRoute;
+  "/settings/about": typeof AuthenticatedSettingspagesAboutRoute;
+  "/settings/appearance": typeof AuthenticatedSettingspagesAppearanceRoute;
+  "/settings/backup": typeof AuthenticatedSettingspagesBackupRoute;
+  "/users/$userId/user-audit-logs": typeof AuthenticatedUsersUserIdUserAuditLogsRoute;
+  "/users/$userId": typeof AuthenticatedUsersUserIdIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRouteRouteWithChildren
-  '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
-  '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/live-updates/': typeof LiveUpdatesIndexRoute
-  '/maintenance/': typeof MaintenanceIndexRoute
-  '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRouteRouteWithChildren
-  '/_authenticated/analytics/': typeof AuthenticatedAnalyticsIndexRoute
-  '/_authenticated/audits/': typeof AuthenticatedAuditsIndexRoute
-  '/_authenticated/collections/': typeof AuthenticatedCollectionsIndexRoute
-  '/_authenticated/green-hearts/': typeof AuthenticatedGreenHeartsIndexRoute
-  '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
-  '/_authenticated/history/': typeof AuthenticatedHistoryIndexRoute
-  '/_authenticated/invitations/': typeof AuthenticatedInvitationsIndexRoute
-  '/_authenticated/issues/': typeof AuthenticatedIssuesIndexRoute
-  '/_authenticated/leaderboards/': typeof AuthenticatedLeaderboardsIndexRoute
-  '/_authenticated/map/': typeof AuthenticatedMapIndexRoute
-  '/_authenticated/requests/': typeof AuthenticatedRequestsIndexRoute
-  '/_authenticated/rewards/': typeof AuthenticatedRewardsIndexRoute
-  '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/_authenticated/trashbins/': typeof AuthenticatedTrashbinsIndexRoute
-  '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
-  '/_authenticated/analytics/(pages)/audits': typeof AuthenticatedAnalyticspagesAuditsRoute
-  '/_authenticated/analytics/(pages)/green-hearts': typeof AuthenticatedAnalyticspagesGreenHeartsRoute
-  '/_authenticated/analytics/(pages)/history': typeof AuthenticatedAnalyticspagesHistoryRoute
-  '/_authenticated/analytics/(pages)/invitations': typeof AuthenticatedAnalyticspagesInvitationsRoute
-  '/_authenticated/analytics/(pages)/issues': typeof AuthenticatedAnalyticspagesIssuesRoute
-  '/_authenticated/analytics/(pages)/requests': typeof AuthenticatedAnalyticspagesRequestsRoute
-  '/_authenticated/analytics/(pages)/trashbins': typeof AuthenticatedAnalyticspagesTrashbinsRoute
-  '/_authenticated/analytics/(pages)/users': typeof AuthenticatedAnalyticspagesUsersRoute
-  '/_authenticated/settings/(pages)/about': typeof AuthenticatedSettingspagesAboutRoute
-  '/_authenticated/settings/(pages)/appearance': typeof AuthenticatedSettingspagesAppearanceRoute
-  '/_authenticated/settings/(pages)/backup': typeof AuthenticatedSettingspagesBackupRoute
-  '/_authenticated/users/$userId/user-audit-logs': typeof AuthenticatedUsersUserIdUserAuditLogsRoute
-  '/_authenticated/users/$userId/': typeof AuthenticatedUsersUserIdIndexRoute
+  __root__: typeof rootRouteImport;
+  "/_authenticated": typeof AuthenticatedRouteRouteWithChildren;
+  "/_authenticated/analytics": typeof AuthenticatedAnalyticsRouteRouteWithChildren;
+  "/_authenticated/settings": typeof AuthenticatedSettingsRouteRouteWithChildren;
+  "/_authenticated/": typeof AuthenticatedIndexRoute;
+  "/live-updates/": typeof LiveUpdatesIndexRoute;
+  "/maintenance/": typeof MaintenanceIndexRoute;
+  "/_authenticated/users/$userId": typeof AuthenticatedUsersUserIdRouteRouteWithChildren;
+  "/_authenticated/analytics/": typeof AuthenticatedAnalyticsIndexRoute;
+  "/_authenticated/audits/": typeof AuthenticatedAuditsIndexRoute;
+  "/_authenticated/collections/": typeof AuthenticatedCollectionsIndexRoute;
+  "/_authenticated/green-hearts/": typeof AuthenticatedGreenHeartsIndexRoute;
+  "/_authenticated/help-center/": typeof AuthenticatedHelpCenterIndexRoute;
+  "/_authenticated/history/": typeof AuthenticatedHistoryIndexRoute;
+  "/_authenticated/invitations/": typeof AuthenticatedInvitationsIndexRoute;
+  "/_authenticated/issues/": typeof AuthenticatedIssuesIndexRoute;
+  "/_authenticated/leaderboards/": typeof AuthenticatedLeaderboardsIndexRoute;
+  "/_authenticated/map/": typeof AuthenticatedMapIndexRoute;
+  "/_authenticated/requests/": typeof AuthenticatedRequestsIndexRoute;
+  "/_authenticated/rewards/": typeof AuthenticatedRewardsIndexRoute;
+  "/_authenticated/settings/": typeof AuthenticatedSettingsIndexRoute;
+  "/_authenticated/trashbins/": typeof AuthenticatedTrashbinsIndexRoute;
+  "/_authenticated/users/": typeof AuthenticatedUsersIndexRoute;
+  "/_authenticated/analytics/(pages)/audits": typeof AuthenticatedAnalyticspagesAuditsRoute;
+  "/_authenticated/analytics/(pages)/green-hearts": typeof AuthenticatedAnalyticspagesGreenHeartsRoute;
+  "/_authenticated/analytics/(pages)/history": typeof AuthenticatedAnalyticspagesHistoryRoute;
+  "/_authenticated/analytics/(pages)/invitations": typeof AuthenticatedAnalyticspagesInvitationsRoute;
+  "/_authenticated/analytics/(pages)/issues": typeof AuthenticatedAnalyticspagesIssuesRoute;
+  "/_authenticated/analytics/(pages)/requests": typeof AuthenticatedAnalyticspagesRequestsRoute;
+  "/_authenticated/analytics/(pages)/trashbins": typeof AuthenticatedAnalyticspagesTrashbinsRoute;
+  "/_authenticated/analytics/(pages)/users": typeof AuthenticatedAnalyticspagesUsersRoute;
+  "/_authenticated/settings/(pages)/about": typeof AuthenticatedSettingspagesAboutRoute;
+  "/_authenticated/settings/(pages)/appearance": typeof AuthenticatedSettingspagesAppearanceRoute;
+  "/_authenticated/settings/(pages)/backup": typeof AuthenticatedSettingspagesBackupRoute;
+  "/_authenticated/users/$userId/user-audit-logs": typeof AuthenticatedUsersUserIdUserAuditLogsRoute;
+  "/_authenticated/users/$userId/": typeof AuthenticatedUsersUserIdIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
-    | '/analytics'
-    | '/settings'
-    | '/'
-    | '/live-updates'
-    | '/maintenance'
-    | '/users/$userId'
-    | '/analytics/'
-    | '/audits'
-    | '/collections'
-    | '/green-hearts'
-    | '/help-center'
-    | '/history'
-    | '/invitations'
-    | '/issues'
-    | '/leaderboards'
-    | '/map'
-    | '/requests'
-    | '/rewards'
-    | '/settings/'
-    | '/trashbins'
-    | '/users'
-    | '/analytics/audits'
-    | '/analytics/green-hearts'
-    | '/analytics/history'
-    | '/analytics/invitations'
-    | '/analytics/issues'
-    | '/analytics/requests'
-    | '/analytics/trashbins'
-    | '/analytics/users'
-    | '/settings/about'
-    | '/settings/appearance'
-    | '/settings/backup'
-    | '/users/$userId/user-audit-logs'
-    | '/users/$userId/'
-  fileRoutesByTo: FileRoutesByTo
+    | "/analytics"
+    | "/settings"
+    | "/"
+    | "/live-updates"
+    | "/maintenance"
+    | "/users/$userId"
+    | "/analytics/"
+    | "/audits"
+    | "/collections"
+    | "/green-hearts"
+    | "/help-center"
+    | "/history"
+    | "/invitations"
+    | "/issues"
+    | "/leaderboards"
+    | "/map"
+    | "/requests"
+    | "/rewards"
+    | "/settings/"
+    | "/trashbins"
+    | "/users"
+    | "/analytics/audits"
+    | "/analytics/green-hearts"
+    | "/analytics/history"
+    | "/analytics/invitations"
+    | "/analytics/issues"
+    | "/analytics/requests"
+    | "/analytics/trashbins"
+    | "/analytics/users"
+    | "/settings/about"
+    | "/settings/appearance"
+    | "/settings/backup"
+    | "/users/$userId/user-audit-logs"
+    | "/users/$userId/";
+  fileRoutesByTo: FileRoutesByTo;
   to:
-    | '/'
-    | '/live-updates'
-    | '/maintenance'
-    | '/analytics'
-    | '/audits'
-    | '/collections'
-    | '/green-hearts'
-    | '/help-center'
-    | '/history'
-    | '/invitations'
-    | '/issues'
-    | '/leaderboards'
-    | '/map'
-    | '/requests'
-    | '/rewards'
-    | '/settings'
-    | '/trashbins'
-    | '/users'
-    | '/analytics/audits'
-    | '/analytics/green-hearts'
-    | '/analytics/history'
-    | '/analytics/invitations'
-    | '/analytics/issues'
-    | '/analytics/requests'
-    | '/analytics/trashbins'
-    | '/analytics/users'
-    | '/settings/about'
-    | '/settings/appearance'
-    | '/settings/backup'
-    | '/users/$userId/user-audit-logs'
-    | '/users/$userId'
+    | "/"
+    | "/live-updates"
+    | "/maintenance"
+    | "/analytics"
+    | "/audits"
+    | "/collections"
+    | "/green-hearts"
+    | "/help-center"
+    | "/history"
+    | "/invitations"
+    | "/issues"
+    | "/leaderboards"
+    | "/map"
+    | "/requests"
+    | "/rewards"
+    | "/settings"
+    | "/trashbins"
+    | "/users"
+    | "/analytics/audits"
+    | "/analytics/green-hearts"
+    | "/analytics/history"
+    | "/analytics/invitations"
+    | "/analytics/issues"
+    | "/analytics/requests"
+    | "/analytics/trashbins"
+    | "/analytics/users"
+    | "/settings/about"
+    | "/settings/appearance"
+    | "/settings/backup"
+    | "/users/$userId/user-audit-logs"
+    | "/users/$userId";
   id:
-    | '__root__'
-    | '/_authenticated'
-    | '/_authenticated/analytics'
-    | '/_authenticated/settings'
-    | '/_authenticated/'
-    | '/live-updates/'
-    | '/maintenance/'
-    | '/_authenticated/users/$userId'
-    | '/_authenticated/analytics/'
-    | '/_authenticated/audits/'
-    | '/_authenticated/collections/'
-    | '/_authenticated/green-hearts/'
-    | '/_authenticated/help-center/'
-    | '/_authenticated/history/'
-    | '/_authenticated/invitations/'
-    | '/_authenticated/issues/'
-    | '/_authenticated/leaderboards/'
-    | '/_authenticated/map/'
-    | '/_authenticated/requests/'
-    | '/_authenticated/rewards/'
-    | '/_authenticated/settings/'
-    | '/_authenticated/trashbins/'
-    | '/_authenticated/users/'
-    | '/_authenticated/analytics/(pages)/audits'
-    | '/_authenticated/analytics/(pages)/green-hearts'
-    | '/_authenticated/analytics/(pages)/history'
-    | '/_authenticated/analytics/(pages)/invitations'
-    | '/_authenticated/analytics/(pages)/issues'
-    | '/_authenticated/analytics/(pages)/requests'
-    | '/_authenticated/analytics/(pages)/trashbins'
-    | '/_authenticated/analytics/(pages)/users'
-    | '/_authenticated/settings/(pages)/about'
-    | '/_authenticated/settings/(pages)/appearance'
-    | '/_authenticated/settings/(pages)/backup'
-    | '/_authenticated/users/$userId/user-audit-logs'
-    | '/_authenticated/users/$userId/'
-  fileRoutesById: FileRoutesById
+    | "__root__"
+    | "/_authenticated"
+    | "/_authenticated/analytics"
+    | "/_authenticated/settings"
+    | "/_authenticated/"
+    | "/live-updates/"
+    | "/maintenance/"
+    | "/_authenticated/users/$userId"
+    | "/_authenticated/analytics/"
+    | "/_authenticated/audits/"
+    | "/_authenticated/collections/"
+    | "/_authenticated/green-hearts/"
+    | "/_authenticated/help-center/"
+    | "/_authenticated/history/"
+    | "/_authenticated/invitations/"
+    | "/_authenticated/issues/"
+    | "/_authenticated/leaderboards/"
+    | "/_authenticated/map/"
+    | "/_authenticated/requests/"
+    | "/_authenticated/rewards/"
+    | "/_authenticated/settings/"
+    | "/_authenticated/trashbins/"
+    | "/_authenticated/users/"
+    | "/_authenticated/analytics/(pages)/audits"
+    | "/_authenticated/analytics/(pages)/green-hearts"
+    | "/_authenticated/analytics/(pages)/history"
+    | "/_authenticated/analytics/(pages)/invitations"
+    | "/_authenticated/analytics/(pages)/issues"
+    | "/_authenticated/analytics/(pages)/requests"
+    | "/_authenticated/analytics/(pages)/trashbins"
+    | "/_authenticated/analytics/(pages)/users"
+    | "/_authenticated/settings/(pages)/about"
+    | "/_authenticated/settings/(pages)/appearance"
+    | "/_authenticated/settings/(pages)/backup"
+    | "/_authenticated/users/$userId/user-audit-logs"
+    | "/_authenticated/users/$userId/";
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  LiveUpdatesIndexRoute: typeof LiveUpdatesIndexRoute
-  MaintenanceIndexRoute: typeof MaintenanceIndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren;
+  LiveUpdatesIndexRoute: typeof LiveUpdatesIndexRoute;
+  MaintenanceIndexRoute: typeof MaintenanceIndexRoute;
 }
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/maintenance/': {
-      id: '/maintenance/'
-      path: '/maintenance'
-      fullPath: '/maintenance'
-      preLoaderRoute: typeof MaintenanceIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/live-updates/': {
-      id: '/live-updates/'
-      path: '/live-updates'
-      fullPath: '/live-updates'
-      preLoaderRoute: typeof LiveUpdatesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/analytics': {
-      id: '/_authenticated/analytics'
-      path: '/analytics'
-      fullPath: '/analytics'
-      preLoaderRoute: typeof AuthenticatedAnalyticsRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/users/': {
-      id: '/_authenticated/users/'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof AuthenticatedUsersIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/trashbins/': {
-      id: '/_authenticated/trashbins/'
-      path: '/trashbins'
-      fullPath: '/trashbins'
-      preLoaderRoute: typeof AuthenticatedTrashbinsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/settings/': {
-      id: '/_authenticated/settings/'
-      path: '/'
-      fullPath: '/settings/'
-      preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
-      parentRoute: typeof AuthenticatedSettingsRouteRoute
-    }
-    '/_authenticated/rewards/': {
-      id: '/_authenticated/rewards/'
-      path: '/rewards'
-      fullPath: '/rewards'
-      preLoaderRoute: typeof AuthenticatedRewardsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/requests/': {
-      id: '/_authenticated/requests/'
-      path: '/requests'
-      fullPath: '/requests'
-      preLoaderRoute: typeof AuthenticatedRequestsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/map/': {
-      id: '/_authenticated/map/'
-      path: '/map'
-      fullPath: '/map'
-      preLoaderRoute: typeof AuthenticatedMapIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/leaderboards/': {
-      id: '/_authenticated/leaderboards/'
-      path: '/leaderboards'
-      fullPath: '/leaderboards'
-      preLoaderRoute: typeof AuthenticatedLeaderboardsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/issues/': {
-      id: '/_authenticated/issues/'
-      path: '/issues'
-      fullPath: '/issues'
-      preLoaderRoute: typeof AuthenticatedIssuesIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/invitations/': {
-      id: '/_authenticated/invitations/'
-      path: '/invitations'
-      fullPath: '/invitations'
-      preLoaderRoute: typeof AuthenticatedInvitationsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/history/': {
-      id: '/_authenticated/history/'
-      path: '/history'
-      fullPath: '/history'
-      preLoaderRoute: typeof AuthenticatedHistoryIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/help-center/': {
-      id: '/_authenticated/help-center/'
-      path: '/help-center'
-      fullPath: '/help-center'
-      preLoaderRoute: typeof AuthenticatedHelpCenterIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/green-hearts/': {
-      id: '/_authenticated/green-hearts/'
-      path: '/green-hearts'
-      fullPath: '/green-hearts'
-      preLoaderRoute: typeof AuthenticatedGreenHeartsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/collections/': {
-      id: '/_authenticated/collections/'
-      path: '/collections'
-      fullPath: '/collections'
-      preLoaderRoute: typeof AuthenticatedCollectionsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/audits/': {
-      id: '/_authenticated/audits/'
-      path: '/audits'
-      fullPath: '/audits'
-      preLoaderRoute: typeof AuthenticatedAuditsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/analytics/': {
-      id: '/_authenticated/analytics/'
-      path: '/'
-      fullPath: '/analytics/'
-      preLoaderRoute: typeof AuthenticatedAnalyticsIndexRouteImport
-      parentRoute: typeof AuthenticatedAnalyticsRouteRoute
-    }
-    '/_authenticated/users/$userId': {
-      id: '/_authenticated/users/$userId'
-      path: '/users/$userId'
-      fullPath: '/users/$userId'
-      preLoaderRoute: typeof AuthenticatedUsersUserIdRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/users/$userId/': {
-      id: '/_authenticated/users/$userId/'
-      path: '/'
-      fullPath: '/users/$userId/'
-      preLoaderRoute: typeof AuthenticatedUsersUserIdIndexRouteImport
-      parentRoute: typeof AuthenticatedUsersUserIdRouteRoute
-    }
-    '/_authenticated/users/$userId/user-audit-logs': {
-      id: '/_authenticated/users/$userId/user-audit-logs'
-      path: '/user-audit-logs'
-      fullPath: '/users/$userId/user-audit-logs'
-      preLoaderRoute: typeof AuthenticatedUsersUserIdUserAuditLogsRouteImport
-      parentRoute: typeof AuthenticatedUsersUserIdRouteRoute
-    }
-    '/_authenticated/settings/(pages)/backup': {
-      id: '/_authenticated/settings/(pages)/backup'
-      path: '/backup'
-      fullPath: '/settings/backup'
-      preLoaderRoute: typeof AuthenticatedSettingspagesBackupRouteImport
-      parentRoute: typeof AuthenticatedSettingsRouteRoute
-    }
-    '/_authenticated/settings/(pages)/appearance': {
-      id: '/_authenticated/settings/(pages)/appearance'
-      path: '/appearance'
-      fullPath: '/settings/appearance'
-      preLoaderRoute: typeof AuthenticatedSettingspagesAppearanceRouteImport
-      parentRoute: typeof AuthenticatedSettingsRouteRoute
-    }
-    '/_authenticated/settings/(pages)/about': {
-      id: '/_authenticated/settings/(pages)/about'
-      path: '/about'
-      fullPath: '/settings/about'
-      preLoaderRoute: typeof AuthenticatedSettingspagesAboutRouteImport
-      parentRoute: typeof AuthenticatedSettingsRouteRoute
-    }
-    '/_authenticated/analytics/(pages)/users': {
-      id: '/_authenticated/analytics/(pages)/users'
-      path: '/users'
-      fullPath: '/analytics/users'
-      preLoaderRoute: typeof AuthenticatedAnalyticspagesUsersRouteImport
-      parentRoute: typeof AuthenticatedAnalyticsRouteRoute
-    }
-    '/_authenticated/analytics/(pages)/trashbins': {
-      id: '/_authenticated/analytics/(pages)/trashbins'
-      path: '/trashbins'
-      fullPath: '/analytics/trashbins'
-      preLoaderRoute: typeof AuthenticatedAnalyticspagesTrashbinsRouteImport
-      parentRoute: typeof AuthenticatedAnalyticsRouteRoute
-    }
-    '/_authenticated/analytics/(pages)/requests': {
-      id: '/_authenticated/analytics/(pages)/requests'
-      path: '/requests'
-      fullPath: '/analytics/requests'
-      preLoaderRoute: typeof AuthenticatedAnalyticspagesRequestsRouteImport
-      parentRoute: typeof AuthenticatedAnalyticsRouteRoute
-    }
-    '/_authenticated/analytics/(pages)/issues': {
-      id: '/_authenticated/analytics/(pages)/issues'
-      path: '/issues'
-      fullPath: '/analytics/issues'
-      preLoaderRoute: typeof AuthenticatedAnalyticspagesIssuesRouteImport
-      parentRoute: typeof AuthenticatedAnalyticsRouteRoute
-    }
-    '/_authenticated/analytics/(pages)/invitations': {
-      id: '/_authenticated/analytics/(pages)/invitations'
-      path: '/invitations'
-      fullPath: '/analytics/invitations'
-      preLoaderRoute: typeof AuthenticatedAnalyticspagesInvitationsRouteImport
-      parentRoute: typeof AuthenticatedAnalyticsRouteRoute
-    }
-    '/_authenticated/analytics/(pages)/history': {
-      id: '/_authenticated/analytics/(pages)/history'
-      path: '/history'
-      fullPath: '/analytics/history'
-      preLoaderRoute: typeof AuthenticatedAnalyticspagesHistoryRouteImport
-      parentRoute: typeof AuthenticatedAnalyticsRouteRoute
-    }
-    '/_authenticated/analytics/(pages)/green-hearts': {
-      id: '/_authenticated/analytics/(pages)/green-hearts'
-      path: '/green-hearts'
-      fullPath: '/analytics/green-hearts'
-      preLoaderRoute: typeof AuthenticatedAnalyticspagesGreenHeartsRouteImport
-      parentRoute: typeof AuthenticatedAnalyticsRouteRoute
-    }
-    '/_authenticated/analytics/(pages)/audits': {
-      id: '/_authenticated/analytics/(pages)/audits'
-      path: '/audits'
-      fullPath: '/analytics/audits'
-      preLoaderRoute: typeof AuthenticatedAnalyticspagesAuditsRouteImport
-      parentRoute: typeof AuthenticatedAnalyticsRouteRoute
-    }
+    "/_authenticated": {
+      id: "/_authenticated";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/maintenance/": {
+      id: "/maintenance/";
+      path: "/maintenance";
+      fullPath: "/maintenance";
+      preLoaderRoute: typeof MaintenanceIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/live-updates/": {
+      id: "/live-updates/";
+      path: "/live-updates";
+      fullPath: "/live-updates";
+      preLoaderRoute: typeof LiveUpdatesIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/_authenticated/": {
+      id: "/_authenticated/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/settings": {
+      id: "/_authenticated/settings";
+      path: "/settings";
+      fullPath: "/settings";
+      preLoaderRoute: typeof AuthenticatedSettingsRouteRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/analytics": {
+      id: "/_authenticated/analytics";
+      path: "/analytics";
+      fullPath: "/analytics";
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/users/": {
+      id: "/_authenticated/users/";
+      path: "/users";
+      fullPath: "/users";
+      preLoaderRoute: typeof AuthenticatedUsersIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/trashbins/": {
+      id: "/_authenticated/trashbins/";
+      path: "/trashbins";
+      fullPath: "/trashbins";
+      preLoaderRoute: typeof AuthenticatedTrashbinsIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/settings/": {
+      id: "/_authenticated/settings/";
+      path: "/";
+      fullPath: "/settings/";
+      preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport;
+      parentRoute: typeof AuthenticatedSettingsRouteRoute;
+    };
+    "/_authenticated/rewards/": {
+      id: "/_authenticated/rewards/";
+      path: "/rewards";
+      fullPath: "/rewards";
+      preLoaderRoute: typeof AuthenticatedRewardsIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/requests/": {
+      id: "/_authenticated/requests/";
+      path: "/requests";
+      fullPath: "/requests";
+      preLoaderRoute: typeof AuthenticatedRequestsIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/map/": {
+      id: "/_authenticated/map/";
+      path: "/map";
+      fullPath: "/map";
+      preLoaderRoute: typeof AuthenticatedMapIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/leaderboards/": {
+      id: "/_authenticated/leaderboards/";
+      path: "/leaderboards";
+      fullPath: "/leaderboards";
+      preLoaderRoute: typeof AuthenticatedLeaderboardsIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/issues/": {
+      id: "/_authenticated/issues/";
+      path: "/issues";
+      fullPath: "/issues";
+      preLoaderRoute: typeof AuthenticatedIssuesIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/invitations/": {
+      id: "/_authenticated/invitations/";
+      path: "/invitations";
+      fullPath: "/invitations";
+      preLoaderRoute: typeof AuthenticatedInvitationsIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/history/": {
+      id: "/_authenticated/history/";
+      path: "/history";
+      fullPath: "/history";
+      preLoaderRoute: typeof AuthenticatedHistoryIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/help-center/": {
+      id: "/_authenticated/help-center/";
+      path: "/help-center";
+      fullPath: "/help-center";
+      preLoaderRoute: typeof AuthenticatedHelpCenterIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/green-hearts/": {
+      id: "/_authenticated/green-hearts/";
+      path: "/green-hearts";
+      fullPath: "/green-hearts";
+      preLoaderRoute: typeof AuthenticatedGreenHeartsIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/collections/": {
+      id: "/_authenticated/collections/";
+      path: "/collections";
+      fullPath: "/collections";
+      preLoaderRoute: typeof AuthenticatedCollectionsIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/audits/": {
+      id: "/_authenticated/audits/";
+      path: "/audits";
+      fullPath: "/audits";
+      preLoaderRoute: typeof AuthenticatedAuditsIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/analytics/": {
+      id: "/_authenticated/analytics/";
+      path: "/";
+      fullPath: "/analytics/";
+      preLoaderRoute: typeof AuthenticatedAnalyticsIndexRouteImport;
+      parentRoute: typeof AuthenticatedAnalyticsRouteRoute;
+    };
+    "/_authenticated/users/$userId": {
+      id: "/_authenticated/users/$userId";
+      path: "/users/$userId";
+      fullPath: "/users/$userId";
+      preLoaderRoute: typeof AuthenticatedUsersUserIdRouteRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/users/$userId/": {
+      id: "/_authenticated/users/$userId/";
+      path: "/";
+      fullPath: "/users/$userId/";
+      preLoaderRoute: typeof AuthenticatedUsersUserIdIndexRouteImport;
+      parentRoute: typeof AuthenticatedUsersUserIdRouteRoute;
+    };
+    "/_authenticated/users/$userId/user-audit-logs": {
+      id: "/_authenticated/users/$userId/user-audit-logs";
+      path: "/user-audit-logs";
+      fullPath: "/users/$userId/user-audit-logs";
+      preLoaderRoute: typeof AuthenticatedUsersUserIdUserAuditLogsRouteImport;
+      parentRoute: typeof AuthenticatedUsersUserIdRouteRoute;
+    };
+    "/_authenticated/settings/(pages)/backup": {
+      id: "/_authenticated/settings/(pages)/backup";
+      path: "/backup";
+      fullPath: "/settings/backup";
+      preLoaderRoute: typeof AuthenticatedSettingspagesBackupRouteImport;
+      parentRoute: typeof AuthenticatedSettingsRouteRoute;
+    };
+    "/_authenticated/settings/(pages)/appearance": {
+      id: "/_authenticated/settings/(pages)/appearance";
+      path: "/appearance";
+      fullPath: "/settings/appearance";
+      preLoaderRoute: typeof AuthenticatedSettingspagesAppearanceRouteImport;
+      parentRoute: typeof AuthenticatedSettingsRouteRoute;
+    };
+    "/_authenticated/settings/(pages)/about": {
+      id: "/_authenticated/settings/(pages)/about";
+      path: "/about";
+      fullPath: "/settings/about";
+      preLoaderRoute: typeof AuthenticatedSettingspagesAboutRouteImport;
+      parentRoute: typeof AuthenticatedSettingsRouteRoute;
+    };
+    "/_authenticated/analytics/(pages)/users": {
+      id: "/_authenticated/analytics/(pages)/users";
+      path: "/users";
+      fullPath: "/analytics/users";
+      preLoaderRoute: typeof AuthenticatedAnalyticspagesUsersRouteImport;
+      parentRoute: typeof AuthenticatedAnalyticsRouteRoute;
+    };
+    "/_authenticated/analytics/(pages)/trashbins": {
+      id: "/_authenticated/analytics/(pages)/trashbins";
+      path: "/trashbins";
+      fullPath: "/analytics/trashbins";
+      preLoaderRoute: typeof AuthenticatedAnalyticspagesTrashbinsRouteImport;
+      parentRoute: typeof AuthenticatedAnalyticsRouteRoute;
+    };
+    "/_authenticated/analytics/(pages)/requests": {
+      id: "/_authenticated/analytics/(pages)/requests";
+      path: "/requests";
+      fullPath: "/analytics/requests";
+      preLoaderRoute: typeof AuthenticatedAnalyticspagesRequestsRouteImport;
+      parentRoute: typeof AuthenticatedAnalyticsRouteRoute;
+    };
+    "/_authenticated/analytics/(pages)/issues": {
+      id: "/_authenticated/analytics/(pages)/issues";
+      path: "/issues";
+      fullPath: "/analytics/issues";
+      preLoaderRoute: typeof AuthenticatedAnalyticspagesIssuesRouteImport;
+      parentRoute: typeof AuthenticatedAnalyticsRouteRoute;
+    };
+    "/_authenticated/analytics/(pages)/invitations": {
+      id: "/_authenticated/analytics/(pages)/invitations";
+      path: "/invitations";
+      fullPath: "/analytics/invitations";
+      preLoaderRoute: typeof AuthenticatedAnalyticspagesInvitationsRouteImport;
+      parentRoute: typeof AuthenticatedAnalyticsRouteRoute;
+    };
+    "/_authenticated/analytics/(pages)/history": {
+      id: "/_authenticated/analytics/(pages)/history";
+      path: "/history";
+      fullPath: "/analytics/history";
+      preLoaderRoute: typeof AuthenticatedAnalyticspagesHistoryRouteImport;
+      parentRoute: typeof AuthenticatedAnalyticsRouteRoute;
+    };
+    "/_authenticated/analytics/(pages)/green-hearts": {
+      id: "/_authenticated/analytics/(pages)/green-hearts";
+      path: "/green-hearts";
+      fullPath: "/analytics/green-hearts";
+      preLoaderRoute: typeof AuthenticatedAnalyticspagesGreenHeartsRouteImport;
+      parentRoute: typeof AuthenticatedAnalyticsRouteRoute;
+    };
+    "/_authenticated/analytics/(pages)/audits": {
+      id: "/_authenticated/analytics/(pages)/audits";
+      path: "/audits";
+      fullPath: "/analytics/audits";
+      preLoaderRoute: typeof AuthenticatedAnalyticspagesAuditsRouteImport;
+      parentRoute: typeof AuthenticatedAnalyticsRouteRoute;
+    };
   }
 }
 
 interface AuthenticatedAnalyticsRouteRouteChildren {
-  AuthenticatedAnalyticsIndexRoute: typeof AuthenticatedAnalyticsIndexRoute
-  AuthenticatedAnalyticspagesAuditsRoute: typeof AuthenticatedAnalyticspagesAuditsRoute
-  AuthenticatedAnalyticspagesGreenHeartsRoute: typeof AuthenticatedAnalyticspagesGreenHeartsRoute
-  AuthenticatedAnalyticspagesHistoryRoute: typeof AuthenticatedAnalyticspagesHistoryRoute
-  AuthenticatedAnalyticspagesInvitationsRoute: typeof AuthenticatedAnalyticspagesInvitationsRoute
-  AuthenticatedAnalyticspagesIssuesRoute: typeof AuthenticatedAnalyticspagesIssuesRoute
-  AuthenticatedAnalyticspagesRequestsRoute: typeof AuthenticatedAnalyticspagesRequestsRoute
-  AuthenticatedAnalyticspagesTrashbinsRoute: typeof AuthenticatedAnalyticspagesTrashbinsRoute
-  AuthenticatedAnalyticspagesUsersRoute: typeof AuthenticatedAnalyticspagesUsersRoute
+  AuthenticatedAnalyticsIndexRoute: typeof AuthenticatedAnalyticsIndexRoute;
+  AuthenticatedAnalyticspagesAuditsRoute: typeof AuthenticatedAnalyticspagesAuditsRoute;
+  AuthenticatedAnalyticspagesGreenHeartsRoute: typeof AuthenticatedAnalyticspagesGreenHeartsRoute;
+  AuthenticatedAnalyticspagesHistoryRoute: typeof AuthenticatedAnalyticspagesHistoryRoute;
+  AuthenticatedAnalyticspagesInvitationsRoute: typeof AuthenticatedAnalyticspagesInvitationsRoute;
+  AuthenticatedAnalyticspagesIssuesRoute: typeof AuthenticatedAnalyticspagesIssuesRoute;
+  AuthenticatedAnalyticspagesRequestsRoute: typeof AuthenticatedAnalyticspagesRequestsRoute;
+  AuthenticatedAnalyticspagesTrashbinsRoute: typeof AuthenticatedAnalyticspagesTrashbinsRoute;
+  AuthenticatedAnalyticspagesUsersRoute: typeof AuthenticatedAnalyticspagesUsersRoute;
 }
 
 const AuthenticatedAnalyticsRouteRouteChildren: AuthenticatedAnalyticsRouteRouteChildren =
@@ -752,18 +752,18 @@ const AuthenticatedAnalyticsRouteRouteChildren: AuthenticatedAnalyticsRouteRoute
       AuthenticatedAnalyticspagesTrashbinsRoute,
     AuthenticatedAnalyticspagesUsersRoute:
       AuthenticatedAnalyticspagesUsersRoute,
-  }
+  };
 
 const AuthenticatedAnalyticsRouteRouteWithChildren =
   AuthenticatedAnalyticsRouteRoute._addFileChildren(
     AuthenticatedAnalyticsRouteRouteChildren,
-  )
+  );
 
 interface AuthenticatedSettingsRouteRouteChildren {
-  AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
-  AuthenticatedSettingspagesAboutRoute: typeof AuthenticatedSettingspagesAboutRoute
-  AuthenticatedSettingspagesAppearanceRoute: typeof AuthenticatedSettingspagesAppearanceRoute
-  AuthenticatedSettingspagesBackupRoute: typeof AuthenticatedSettingspagesBackupRoute
+  AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute;
+  AuthenticatedSettingspagesAboutRoute: typeof AuthenticatedSettingspagesAboutRoute;
+  AuthenticatedSettingspagesAppearanceRoute: typeof AuthenticatedSettingspagesAppearanceRoute;
+  AuthenticatedSettingspagesBackupRoute: typeof AuthenticatedSettingspagesBackupRoute;
 }
 
 const AuthenticatedSettingsRouteRouteChildren: AuthenticatedSettingsRouteRouteChildren =
@@ -774,16 +774,16 @@ const AuthenticatedSettingsRouteRouteChildren: AuthenticatedSettingsRouteRouteCh
       AuthenticatedSettingspagesAppearanceRoute,
     AuthenticatedSettingspagesBackupRoute:
       AuthenticatedSettingspagesBackupRoute,
-  }
+  };
 
 const AuthenticatedSettingsRouteRouteWithChildren =
   AuthenticatedSettingsRouteRoute._addFileChildren(
     AuthenticatedSettingsRouteRouteChildren,
-  )
+  );
 
 interface AuthenticatedUsersUserIdRouteRouteChildren {
-  AuthenticatedUsersUserIdUserAuditLogsRoute: typeof AuthenticatedUsersUserIdUserAuditLogsRoute
-  AuthenticatedUsersUserIdIndexRoute: typeof AuthenticatedUsersUserIdIndexRoute
+  AuthenticatedUsersUserIdUserAuditLogsRoute: typeof AuthenticatedUsersUserIdUserAuditLogsRoute;
+  AuthenticatedUsersUserIdIndexRoute: typeof AuthenticatedUsersUserIdIndexRoute;
 }
 
 const AuthenticatedUsersUserIdRouteRouteChildren: AuthenticatedUsersUserIdRouteRouteChildren =
@@ -791,31 +791,31 @@ const AuthenticatedUsersUserIdRouteRouteChildren: AuthenticatedUsersUserIdRouteR
     AuthenticatedUsersUserIdUserAuditLogsRoute:
       AuthenticatedUsersUserIdUserAuditLogsRoute,
     AuthenticatedUsersUserIdIndexRoute: AuthenticatedUsersUserIdIndexRoute,
-  }
+  };
 
 const AuthenticatedUsersUserIdRouteRouteWithChildren =
   AuthenticatedUsersUserIdRouteRoute._addFileChildren(
     AuthenticatedUsersUserIdRouteRouteChildren,
-  )
+  );
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAnalyticsRouteRoute: typeof AuthenticatedAnalyticsRouteRouteWithChildren
-  AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedUsersUserIdRouteRoute: typeof AuthenticatedUsersUserIdRouteRouteWithChildren
-  AuthenticatedAuditsIndexRoute: typeof AuthenticatedAuditsIndexRoute
-  AuthenticatedCollectionsIndexRoute: typeof AuthenticatedCollectionsIndexRoute
-  AuthenticatedGreenHeartsIndexRoute: typeof AuthenticatedGreenHeartsIndexRoute
-  AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
-  AuthenticatedHistoryIndexRoute: typeof AuthenticatedHistoryIndexRoute
-  AuthenticatedInvitationsIndexRoute: typeof AuthenticatedInvitationsIndexRoute
-  AuthenticatedIssuesIndexRoute: typeof AuthenticatedIssuesIndexRoute
-  AuthenticatedLeaderboardsIndexRoute: typeof AuthenticatedLeaderboardsIndexRoute
-  AuthenticatedMapIndexRoute: typeof AuthenticatedMapIndexRoute
-  AuthenticatedRequestsIndexRoute: typeof AuthenticatedRequestsIndexRoute
-  AuthenticatedRewardsIndexRoute: typeof AuthenticatedRewardsIndexRoute
-  AuthenticatedTrashbinsIndexRoute: typeof AuthenticatedTrashbinsIndexRoute
-  AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedAnalyticsRouteRoute: typeof AuthenticatedAnalyticsRouteRouteWithChildren;
+  AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren;
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute;
+  AuthenticatedUsersUserIdRouteRoute: typeof AuthenticatedUsersUserIdRouteRouteWithChildren;
+  AuthenticatedAuditsIndexRoute: typeof AuthenticatedAuditsIndexRoute;
+  AuthenticatedCollectionsIndexRoute: typeof AuthenticatedCollectionsIndexRoute;
+  AuthenticatedGreenHeartsIndexRoute: typeof AuthenticatedGreenHeartsIndexRoute;
+  AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute;
+  AuthenticatedHistoryIndexRoute: typeof AuthenticatedHistoryIndexRoute;
+  AuthenticatedInvitationsIndexRoute: typeof AuthenticatedInvitationsIndexRoute;
+  AuthenticatedIssuesIndexRoute: typeof AuthenticatedIssuesIndexRoute;
+  AuthenticatedLeaderboardsIndexRoute: typeof AuthenticatedLeaderboardsIndexRoute;
+  AuthenticatedMapIndexRoute: typeof AuthenticatedMapIndexRoute;
+  AuthenticatedRequestsIndexRoute: typeof AuthenticatedRequestsIndexRoute;
+  AuthenticatedRewardsIndexRoute: typeof AuthenticatedRewardsIndexRoute;
+  AuthenticatedTrashbinsIndexRoute: typeof AuthenticatedTrashbinsIndexRoute;
+  AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute;
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -838,16 +838,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedRewardsIndexRoute: AuthenticatedRewardsIndexRoute,
   AuthenticatedTrashbinsIndexRoute: AuthenticatedTrashbinsIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
-}
+};
 
 const AuthenticatedRouteRouteWithChildren =
-  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren);
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   LiveUpdatesIndexRoute: LiveUpdatesIndexRoute,
   MaintenanceIndexRoute: MaintenanceIndexRoute,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

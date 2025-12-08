@@ -1,14 +1,14 @@
-import { rpc } from "@/features/api-client";
+import { UserInvitationsApi, VerificationApi } from "@binspire/query";
 import { useForm } from "@tanstack/react-form";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import z from "zod";
-import { Button } from "../ui/button";
-import { Loader2 } from "lucide-react";
-import { FormFieldError } from "./components/form-field-error";
-import { Input } from "../ui/input";
-import { ShowToast } from "../toast-notification";
+import { rpc } from "@/features/api-client";
 import { SubLogo } from "../logo";
-import { UserInvitationsApi, VerificationApi } from "@binspire/query";
+import { ShowToast } from "../toast-notification";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { FormFieldError } from "./components/form-field-error";
 
 export interface InvitationFormProps {
   invitationId: string;

@@ -1,13 +1,13 @@
-import { useActionDialog } from "@/hooks/use-action-dialog";
-import { useForm } from "@tanstack/react-form";
-import z from "zod";
-import { Input } from "@binspire/ui/components/input";
+import type { ActionsTypeManagement } from "@binspire/shared";
 import { Button } from "@binspire/ui/components/button";
+import { Input } from "@binspire/ui/components/input";
+import { FormFieldError } from "@binspire/ui/forms";
+import { useForm } from "@tanstack/react-form";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import z from "zod";
+import { useActionDialog } from "@/hooks/use-action-dialog";
 import ComparedChanges from "../core/compared-changes";
-import type { ActionsTypeManagement } from "@binspire/shared";
-import { FormFieldError } from "@binspire/ui/forms";
 
 interface UpdateContentLayoutProps<T> {
   queryKey: ActionsTypeManagement;

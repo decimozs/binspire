@@ -1,4 +1,3 @@
-import DeleteEntity from "@/components/entity/delete-entity";
 import {
   useDeleteAudit,
   useDeleteHistory,
@@ -10,6 +9,7 @@ import {
   useDeleteUserInvitation,
   useDeleteUserRequest,
 } from "@binspire/query";
+import DeleteEntity from "@/components/entity/delete-entity";
 
 export default function DeleteDialogRegistry() {
   return (

@@ -1,16 +1,16 @@
-import DataTable from "@/features/data-table";
+import { type Trashbin, useDeleteBatchTrashbins } from "@binspire/query";
+import { Button } from "@binspire/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@binspire/ui/components/dropdown-menu";
-import { trashbinColumns } from "./columns";
-import { Button } from "@binspire/ui/components/button";
 import { Ellipsis } from "lucide-react";
+import DataTable from "@/features/data-table";
+import SelectedDataActions from "@/features/data-table/components/selected-data-actions";
 import PermittedActions from "@/features/permissions/permitted-actions";
 import { usePermissionStore } from "@/store/permission-store";
-import { useDeleteBatchTrashbins, type Trashbin } from "@binspire/query";
-import SelectedDataActions from "@/features/data-table/components/selected-data-actions";
+import { trashbinColumns } from "./columns";
 
 export default function TrashbinsDataTable({
   data,

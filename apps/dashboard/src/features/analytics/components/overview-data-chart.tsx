@@ -1,11 +1,4 @@
 import {
-  CartesianGrid,
-  LabelList,
-  Line,
-  LineChart,
-  XAxis,
-} from "@binspire/ui/components/chart";
-import {
   Card,
   CardContent,
   CardDescription,
@@ -14,10 +7,15 @@ import {
   CardTitle,
 } from "@binspire/ui/components/card";
 import {
+  CartesianGrid,
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  LabelList,
+  Line,
+  LineChart,
+  XAxis,
 } from "@binspire/ui/components/chart";
 import {
   Select,
@@ -26,8 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@binspire/ui/components/select";
-import ChartExportButton from "./chart-export-buttont";
 import { useQueryState } from "nuqs";
+import ChartExportButton from "./chart-export-buttont";
 
 interface Props<T extends { createdAt: string | Date }> {
   title: string;

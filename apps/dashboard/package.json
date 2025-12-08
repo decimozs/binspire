@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },
@@ -15,7 +14,6 @@
     "@azure/core-auth": "latest",
     "@azure/core-sse": "latest",
     "@binspire/db": "workspace:*",
-    "@binspire/eslint": "workspace:*",
     "@binspire/query": "workspace:*",
     "@binspire/shared": "workspace:*",
     "@binspire/ui": "workspace:*",

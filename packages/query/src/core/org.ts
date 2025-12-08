@@ -1,6 +1,6 @@
 import type { UpdateOrganization } from "@binspire/db/schema";
-import { rpc } from "../lib/api-client";
 import type { OrganizationSettingsOpts } from "@binspire/shared";
+import { rpc } from "../lib/api-client";
 
 export class OrganizationApi {
   static async getAll() {

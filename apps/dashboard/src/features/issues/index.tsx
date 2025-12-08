@@ -1,7 +1,3 @@
-import IssuesDataTable from "./components/data-table";
-import MainLayout from "@/components/layout/main-layout";
-import { usePermissionStore } from "@/store/permission-store";
-import RequestAccess from "../permissions/components/request-access";
 import type { Issue } from "@binspire/query";
 import {
   Empty,
@@ -11,8 +7,12 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@binspire/ui/components/empty";
-import CreateIssueButton from "./components/create-issue-button";
 import { Info } from "lucide-react";
+import MainLayout from "@/components/layout/main-layout";
+import { usePermissionStore } from "@/store/permission-store";
+import RequestAccess from "../permissions/components/request-access";
+import CreateIssueButton from "./components/create-issue-button";
+import IssuesDataTable from "./components/data-table";
 
 interface IssuesProps {
   data: Issue[];

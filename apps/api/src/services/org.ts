@@ -1,9 +1,3 @@
-import { NotFoundError } from "@/features/error";
-import type { IBaseService } from "@/lib/types";
-import {
-  OrganizationRepository,
-  OrganizationSettingsRepository,
-} from "@/repository";
 import type {
   InsertOrganization,
   InsertOrganizationSettings,
@@ -12,6 +6,12 @@ import type {
   UpdateOrganization,
   UpdateOrganizationSettings,
 } from "@binspire/db/schema";
+import { NotFoundError } from "@/features/error";
+import type { IBaseService } from "@/lib/types";
+import {
+  OrganizationRepository,
+  OrganizationSettingsRepository,
+} from "@/repository";
 
 export class OrganizationService
   implements IBaseService<Organization, InsertOrganization, UpdateOrganization>

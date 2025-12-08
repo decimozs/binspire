@@ -1,7 +1,7 @@
-import { MessagingService } from "@/services";
-import { factory } from "@/lib/factory";
 import z from "zod";
+import { factory } from "@/lib/factory";
 import { zValidator } from "@/lib/utils";
+import { MessagingService } from "@/services";
 
 export class MessagingHandler {
   private service = new MessagingService();

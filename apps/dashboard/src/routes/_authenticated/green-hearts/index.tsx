@@ -1,11 +1,11 @@
-import LoaderLayout from "@/components/layout/loader-layout";
-import GreenHearts from "@/features/green-hearts";
 import {
   queryOptions,
   UserGreenHeartApi,
   useSuspenseQuery,
 } from "@binspire/query";
 import { createFileRoute } from "@tanstack/react-router";
+import LoaderLayout from "@/components/layout/loader-layout";
+import GreenHearts from "@/features/green-hearts";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["user-green-hearts"],

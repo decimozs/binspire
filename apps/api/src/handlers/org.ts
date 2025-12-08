@@ -1,12 +1,12 @@
-import { factory } from "@/lib/factory";
-import { idParamSchema, zValidator } from "@/lib/utils";
-import { OrganizationService, OrganizationSettingsService } from "@/services";
 import {
   insertOrganizationSchema,
   insertOrganizationSettingsSchema,
   updateOrganizationSchema,
   updateOrganizationSettingsSchema,
 } from "@binspire/db/schema";
+import { factory } from "@/lib/factory";
+import { idParamSchema, zValidator } from "@/lib/utils";
+import { OrganizationService, OrganizationSettingsService } from "@/services";
 
 export class OrganizationHandler {
   private service = new OrganizationService();

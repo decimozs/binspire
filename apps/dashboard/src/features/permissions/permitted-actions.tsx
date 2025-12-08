@@ -1,11 +1,11 @@
-import { PermissionGuard } from "./components/permission-guard";
+import type { ActionsTypeManagement, ModuleActions } from "@binspire/shared";
 import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@binspire/ui/components/dropdown-menu";
-import { useActionDialog } from "@/hooks/use-action-dialog";
 import { useNavigate } from "@tanstack/react-router";
-import type { ActionsTypeManagement, ModuleActions } from "@binspire/shared";
+import { useActionDialog } from "@/hooks/use-action-dialog";
+import { PermissionGuard } from "./components/permission-guard";
 
 interface PermittedActionsProps {
   actions?: ModuleActions;

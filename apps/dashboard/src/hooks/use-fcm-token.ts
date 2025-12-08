@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { messaging } from "@/features/firebase";
-import { getToken } from "firebase/messaging";
-import { ShowToast } from "@/components/core/toast-notification";
 import { MessagingApi } from "@binspire/query";
+import { getToken } from "firebase/messaging";
+import { useEffect, useState } from "react";
+import { ShowToast } from "@/components/core/toast-notification";
+import { messaging } from "@/features/firebase";
 import { authClient } from "@/lib/auth-client";
 
 export const useFCMToken = (askPermission = false) => {

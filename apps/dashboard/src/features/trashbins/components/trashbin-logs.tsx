@@ -1,17 +1,4 @@
-import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
-import { useMemo, useState } from "react";
 import { Button } from "@binspire/ui/components/button";
-import { format } from "date-fns";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@binspire/ui/components/sheet";
-import { ArrowUpRight, Eye } from "lucide-react";
-import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import {
   Dialog,
   DialogContent,
@@ -21,6 +8,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
+import { ScrollArea } from "@binspire/ui/components/scroll-area";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@binspire/ui/components/sheet";
+import { format } from "date-fns";
+import { ArrowUpRight, Eye } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useTrashbinLogsStore } from "@/store/trashbin-logs-store";
 
 export default function TrashbinLogs({ id }: { id: string }) {
   const logsRaw = useTrashbinLogsStore((state) => state.logs);

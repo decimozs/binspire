@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
 import { Button } from "@binspire/ui/components/button";
 import { Navigation, NavigationOff } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Marker, useMap } from "react-map-gl/maplibre";
 
 export default function LocateButton() {

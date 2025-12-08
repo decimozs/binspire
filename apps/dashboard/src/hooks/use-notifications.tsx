@@ -1,6 +1,6 @@
+import { toast } from "@binspire/ui/toast";
 import { onMessage } from "firebase/messaging";
 import { useEffect } from "react";
-import { toast } from "@binspire/ui/toast";
 import { messaging } from "@/features/firebase";
 
 export function useNotifications() {

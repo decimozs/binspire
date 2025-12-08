@@ -1,5 +1,5 @@
+import { useGetOrganizationSettingsById } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
-import { QrCode } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@binspire/ui/components/dialog";
+import { QrCode } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useRef, useState } from "react";
 import { authClient } from "@/lib/auth-client";
-import { useGetOrganizationSettingsById } from "@binspire/query";
 import { encryptWithSecret } from "@/lib/utils";
 import { ShowToast } from "./toast-notification";
 

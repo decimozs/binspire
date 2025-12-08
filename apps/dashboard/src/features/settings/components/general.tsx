@@ -1,16 +1,3 @@
-import { Skeleton } from "@binspire/ui/components/skeleton";
-import { Input } from "@binspire/ui/components/input";
-import { useForm } from "@tanstack/react-form";
-import z from "zod";
-import { authClient } from "@/lib/auth-client";
-import { useEffect, useState } from "react";
-import { ShowToast } from "@/components/core/toast-notification";
-import SaveChangesButton from "./button/save-changes";
-import SettingsLayout from "@/components/layout/settings-layout";
-import { Slider } from "@binspire/ui/components/slider";
-import { usePermissionStore } from "@/store/permission-store";
-import WarningSign from "@/components/sign/warnings";
-import DraggableMap from "@/features/map/components/draggable-map";
 import {
   MessagingApi,
   useGetOrganizationById,
@@ -19,13 +6,26 @@ import {
   useUpdateOrganizationSettings,
 } from "@binspire/query";
 import { generateSlug } from "@binspire/shared";
-import { FormFieldError } from "@binspire/ui/forms";
-import MaintenanceMode from "@/features/maintenance";
-import GenerateQRCode from "@/features/qrcode";
-import GenerateKeySecretButton from "./button/key-secret-button";
+import { Input } from "@binspire/ui/components/input";
+import { Skeleton } from "@binspire/ui/components/skeleton";
+import { Slider } from "@binspire/ui/components/slider";
 import { Switch } from "@binspire/ui/components/switch";
+import { FormFieldError } from "@binspire/ui/forms";
+import { useForm } from "@tanstack/react-form";
 import { getToken } from "firebase/messaging";
+import { useEffect, useState } from "react";
+import z from "zod";
+import { ShowToast } from "@/components/core/toast-notification";
+import SettingsLayout from "@/components/layout/settings-layout";
+import WarningSign from "@/components/sign/warnings";
 import { messaging } from "@/features/firebase";
+import MaintenanceMode from "@/features/maintenance";
+import DraggableMap from "@/features/map/components/draggable-map";
+import GenerateQRCode from "@/features/qrcode";
+import { authClient } from "@/lib/auth-client";
+import { usePermissionStore } from "@/store/permission-store";
+import GenerateKeySecretButton from "./button/key-secret-button";
+import SaveChangesButton from "./button/save-changes";
 
 const generalFormSchema = z.object({
   organizationName: z

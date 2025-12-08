@@ -1,14 +1,14 @@
+import {
+  queryOptions,
+  type UserRequest,
+  UserRequestApi,
+  useSuspenseQuery,
+} from "@binspire/query";
+import { createFileRoute } from "@tanstack/react-router";
 import LoaderLayout from "@/components/layout/loader-layout";
 import AnalyticsOverview from "@/features/analytics/components/analytics-overview";
 import { TotalPieChart } from "@/features/analytics/components/total-pie-chart";
 import UserRequestsDataTable from "@/features/user-requests/components/data-table";
-import {
-  queryOptions,
-  UserRequestApi,
-  useSuspenseQuery,
-  type UserRequest,
-} from "@binspire/query";
-import { createFileRoute } from "@tanstack/react-router";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["user-requests"],

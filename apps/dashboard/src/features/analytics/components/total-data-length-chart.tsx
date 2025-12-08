@@ -1,11 +1,4 @@
 import {
-  Label,
-  PolarGrid,
-  PolarRadiusAxis,
-  RadialBar,
-  RadialBarChart,
-} from "@binspire/ui/components/chart";
-import {
   Card,
   CardContent,
   CardDescription,
@@ -16,6 +9,11 @@ import {
 import {
   type ChartConfig,
   ChartContainer,
+  Label,
+  PolarGrid,
+  PolarRadiusAxis,
+  RadialBar,
+  RadialBarChart,
 } from "@binspire/ui/components/chart";
 
 interface Props<T> {

@@ -1,10 +1,10 @@
+import type { DateRange } from "@binspire/ui/components/calendar";
 import { Checkbox } from "@binspire/ui/components/checkbox";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format, formatDistanceToNow } from "date-fns";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import type { ReactNode } from "react";
 import { SortingButton } from "../components/sorting-button";
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
-import type { DateRange } from "@binspire/ui/components/calendar";
 
 export function createdAtColumn<T>(columnName?: string): ColumnDef<T> {
   return {

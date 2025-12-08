@@ -1,10 +1,12 @@
+import { Button } from "@binspire/ui/components/button";
 import {
-  useRealtimeUpdatesStore,
-  useTrashbinRealtime,
-} from "@/store/realtime-store";
-import { useTelemetryStore } from "@/store/telemetry-store";
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@binspire/ui/components/empty";
 import { ScrollArea } from "@binspire/ui/components/scroll-area";
-import { formatDistanceToNow } from "date-fns";
 import {
   Sheet,
   SheetContent,
@@ -13,20 +15,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@binspire/ui/components/sheet";
-import { Button } from "@binspire/ui/components/button";
-import { ExternalLink, Telescope } from "lucide-react";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@binspire/ui/components/empty";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@binspire/ui/components/tooltip";
+import { formatDistanceToNow } from "date-fns";
+import { ExternalLink, Telescope } from "lucide-react";
+import {
+  useRealtimeUpdatesStore,
+  useTrashbinRealtime,
+} from "@/store/realtime-store";
+import { useTelemetryStore } from "@/store/telemetry-store";
 
 export default function Telemetry() {
   const updates = useRealtimeUpdatesStore((state) => state.updates);

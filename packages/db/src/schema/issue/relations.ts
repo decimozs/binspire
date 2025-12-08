@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
-import { issuesTable } from "./schema";
 import { usersTable } from "../user";
+import { issuesTable } from "./schema";
 
 export const issueRelations = relations(issuesTable, ({ one }) => ({
   user: one(usersTable, {

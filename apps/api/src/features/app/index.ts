@@ -1,7 +1,7 @@
-import { Hono } from "hono";
-import type { AppBindings } from "@/lib/types";
 import { logging } from "@binspire/logging";
-import { errorResponse } from "../error";
+import { Hono } from "hono";
+import { except } from "hono/combine";
+import type { AppBindings } from "@/lib/types";
 import { corsMiddleware, sessionMiddleware } from "@/middlewares";
 import {
   auditRoutes,
@@ -11,6 +11,7 @@ import {
   historyRoutes,
   issueRoutes,
   maintenanceRoutes,
+  messagingRoutes,
   organizationRoutes,
   organizationSettingsRoutes,
   qrCodeRoutes,
@@ -19,17 +20,16 @@ import {
   trashbinRoutes,
   trashbinStatusRoutes,
   userCollectionAssignmentRoutes,
+  userGreenHeartRoutes,
   userInvitationRoutes,
+  userQuotaRoutes,
   userRequestRoutes,
   userRoutes,
   userSettingsRoutes,
   userStatusRoutes,
-  userQuotaRoutes,
-  userGreenHeartRoutes,
   verificationRoutes,
-  messagingRoutes,
 } from "@/routes";
-import { except } from "hono/combine";
+import { errorResponse } from "../error";
 
 const app = new Hono<AppBindings>({ strict: false })
   .basePath("/v1/api")

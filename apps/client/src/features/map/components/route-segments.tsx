@@ -1,4 +1,5 @@
 import { Button } from "@binspire/ui/components/button";
+import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import {
   Sheet,
   SheetContent,
@@ -8,7 +9,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@binspire/ui/components/sheet";
-import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import { useRouteStore } from "@/store/route-store";
 
 export default function RouteSegments({ steps }: { steps: any }) {

@@ -1,11 +1,11 @@
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@binspire/db";
 import * as schema from "@binspire/db/schema";
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { openAPI } from "better-auth/plugins";
 import { TRUSTED_ORIGINS } from "@/lib/constants";
-import { EmailService } from "@/services";
 import { rewriteURL } from "@/lib/utils";
+import { EmailService } from "@/services";
 
 const emailService = new EmailService();
 

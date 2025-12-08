@@ -1,22 +1,22 @@
-import z from "zod";
-import { useState } from "react";
-import { useForm } from "@tanstack/react-form";
-import { authClient } from "@/features/auth";
-import { Button } from "../ui/button";
-import { Loader2 } from "lucide-react";
-import { FormFieldError } from "./components/form-field-error";
-import { Input, PasswordInput } from "../ui/input";
-import { ShowToast } from "../toast-notification";
-import { DEFAULT_PERMISSIONS } from "@binspire/shared";
 import {
+  type UserInvitation,
   UserInvitationsApi,
   UserQuotaApi,
   UserSettingsApi,
   UserStatusApi,
-  type UserInvitation,
 } from "@binspire/query";
+import { DEFAULT_PERMISSIONS } from "@binspire/shared";
+import { useForm } from "@tanstack/react-form";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import z from "zod";
+import { authClient } from "@/features/auth";
 import { SubLogo } from "../logo";
 import Policy from "../policy";
+import { ShowToast } from "../toast-notification";
+import { Button } from "../ui/button";
+import { Input, PasswordInput } from "../ui/input";
+import { FormFieldError } from "./components/form-field-error";
 
 const registerFormSchema = z
   .object({

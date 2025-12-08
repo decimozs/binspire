@@ -1,12 +1,12 @@
-import { useSession } from "@/features/auth";
+import { getInitial } from "@binspire/shared";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@binspire/ui/components/avatar";
-import { useLocation, useRouterState } from "@tanstack/react-router";
 import { Skeleton } from "@binspire/ui/components/skeleton";
-import { getInitial } from "@binspire/shared";
+import { useLocation, useRouterState } from "@tanstack/react-router";
+import { useSession } from "@/features/auth";
 
 function UserAvatar() {
   const { data: currentSession, isPending } = useSession();

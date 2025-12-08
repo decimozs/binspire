@@ -1,11 +1,11 @@
-import ActionDialogContainer from "@/components/views/action-dialog-container";
-import ViewContentLayout from "@/components/layout/view-content-layout";
-import IssueDetails from "./issue-details";
-import EditIssue from "./edit-issue";
+import { type Issue, useGetIssueById } from "@binspire/query";
 import type { ActionsTypeManagement } from "@binspire/shared";
-import { useActionDialog, type ActionType } from "@/hooks/use-action-dialog";
-import { useGetIssueById, type Issue } from "@binspire/query";
 import UserCard from "@/components/core/user-card";
+import ViewContentLayout from "@/components/layout/view-content-layout";
+import ActionDialogContainer from "@/components/views/action-dialog-container";
+import { type ActionType, useActionDialog } from "@/hooks/use-action-dialog";
+import EditIssue from "./edit-issue";
+import IssueDetails from "./issue-details";
 
 const FORM_ID = "issue-edit-form";
 const keys: { queryKey: ActionsTypeManagement; actionKey: ActionType } = {

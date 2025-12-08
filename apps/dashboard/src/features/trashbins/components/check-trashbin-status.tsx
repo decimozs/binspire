@@ -1,4 +1,5 @@
 import { Button } from "@binspire/ui/components/button";
+import { ScrollArea } from "@binspire/ui/components/scroll-area";
 import {
   Sheet,
   SheetContent,
@@ -8,12 +9,11 @@ import {
   SheetTrigger,
 } from "@binspire/ui/components/sheet";
 import { ArrowUpRight } from "lucide-react";
-import { TrashbinRadialStatus } from "./trashbin-radial-status";
-import { ScrollArea } from "@binspire/ui/components/scroll-area";
-import { useTrashbinRealtime } from "@/store/realtime-store";
-import { TrashbinStatus } from "@/features/trashbin-collections/components/trashbin-details";
 import { useState } from "react";
+import { TrashbinStatus } from "@/features/trashbin-collections/components/trashbin-details";
 import { getColor } from "@/lib/utils";
+import { useTrashbinRealtime } from "@/store/realtime-store";
+import { TrashbinRadialStatus } from "./trashbin-radial-status";
 
 interface Props {
   id: string;

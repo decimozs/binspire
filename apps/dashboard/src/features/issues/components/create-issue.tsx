@@ -1,5 +1,25 @@
 import { insertIssueSchema } from "@binspire/db/schema";
+import { useCreateIssue } from "@binspire/query";
+import {
+  ENTITY_DATA_VALUE,
+  formatLabel,
+  ISSUE_STATUS_CONFIG,
+  type ISSUE_STATUSES,
+  type IssueStatus,
+  type PRIORITY_SCORES,
+  PRIORITY_SCORES_CONFIG,
+  type PriorityScores,
+  type SYSTEM_ENTITY,
+} from "@binspire/shared";
 import { Button } from "@binspire/ui/components/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@binspire/ui/components/command";
 import {
   Dialog,
   DialogContent,
@@ -14,43 +34,23 @@ import {
   PopoverTrigger,
 } from "@binspire/ui/components/popover";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@binspire/ui/components/command";
-import { Textarea } from "@binspire/ui/components/textarea";
-import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@binspire/ui/components/select";
+import { Textarea } from "@binspire/ui/components/textarea";
+import { FormFieldError } from "@binspire/ui/forms";
+import { cn } from "@binspire/ui/lib/utils";
 import { useForm } from "@tanstack/react-form";
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
-import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
-import { cn } from "@binspire/ui/lib/utils";
-import { ShowToast } from "@/components/core/toast-notification";
-import { useCreateIssue } from "@binspire/query";
-import {
-  ENTITY_DATA_VALUE,
-  formatLabel,
-  ISSUE_STATUS_CONFIG,
-  PRIORITY_SCORES_CONFIG,
-  type ISSUE_STATUSES,
-  type IssueStatus,
-  type PRIORITY_SCORES,
-  type PriorityScores,
-  type SYSTEM_ENTITY,
-} from "@binspire/shared";
-import { FormFieldError } from "@binspire/ui/forms";
 import z from "zod";
+import { ShowToast } from "@/components/core/toast-notification";
 import { useMqtt } from "@/hooks/use-mqtt";
+import { authClient } from "@/lib/auth-client";
 
 export const issueFormSchema = insertIssueSchema
   .pick({

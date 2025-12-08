@@ -1,9 +1,9 @@
-import RegisterForm from "@/components/forms/register-form";
-import AuthLayout from "@/components/layout/auth-layout";
-import { decryptId } from "@/features/encryption";
 import { UserInvitationsApi } from "@binspire/query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import z from "zod";
+import RegisterForm from "@/components/forms/register-form";
+import AuthLayout from "@/components/layout/auth-layout";
+import { decryptId } from "@/features/encryption";
 
 const routeSchema = z.object({
   id: z.string().min(1, "Invitation ID is required"),

@@ -1,14 +1,14 @@
+import {
+  queryOptions,
+  type User,
+  UserApi,
+  useSuspenseQuery,
+} from "@binspire/query";
+import { createFileRoute } from "@tanstack/react-router";
 import LoaderLayout from "@/components/layout/loader-layout";
 import AnalyticsOverview from "@/features/analytics/components/analytics-overview";
 import { TotalPieChart } from "@/features/analytics/components/total-pie-chart";
 import UsersDataTable from "@/features/users/components/data-table";
-import {
-  queryOptions,
-  UserApi,
-  useSuspenseQuery,
-  type User,
-} from "@binspire/query";
-import { createFileRoute } from "@tanstack/react-router";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["users"],

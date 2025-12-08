@@ -1,5 +1,5 @@
+import type z from "zod";
 import type { organizationSettingsTable, organizationsTable } from "./schema";
-import z from "zod";
 import type {
   insertOrganizationSchema,
   insertOrganizationSettingsSchema,

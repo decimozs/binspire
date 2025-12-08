@@ -1,8 +1,4 @@
-import MainLayout from "@/components/layout/main-layout";
 import type { UserGreenHeart } from "@binspire/query";
-import GreenHeartsDataTable from "./components/data-table";
-import RequestAccess from "../permissions/components/request-access";
-import { usePermissionStore } from "@/store/permission-store";
 import {
   Empty,
   EmptyContent,
@@ -12,7 +8,11 @@ import {
   EmptyTitle,
 } from "@binspire/ui/components/empty";
 import { HeartHandshake } from "lucide-react";
+import MainLayout from "@/components/layout/main-layout";
+import { usePermissionStore } from "@/store/permission-store";
+import RequestAccess from "../permissions/components/request-access";
 import CreateGreenHearts from "./components/create-green-hearts";
+import GreenHeartsDataTable from "./components/data-table";
 
 export default function GreenHearts({ data }: { data: UserGreenHeart[] }) {
   const { permission } = usePermissionStore();

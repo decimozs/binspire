@@ -1,8 +1,8 @@
+import { OrganizationApi, UserApi } from "@binspire/query";
+import { createFileRoute } from "@tanstack/react-router";
 import LoginForm from "@/components/forms/login-form";
 import AuthLayout from "@/components/layout/auth-layout";
 import { authClient } from "@/features/auth";
-import { OrganizationApi, UserApi } from "@binspire/query";
-import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(auth)/login/")({
   component: RouteComponent,

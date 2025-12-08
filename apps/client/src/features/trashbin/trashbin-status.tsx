@@ -1,7 +1,7 @@
-import { useTrashbinRealtime } from "@/store/realtime-store";
 import { useQueryState } from "nuqs";
 import { TrashbinStatus as TrashbinStatusBadge } from "@/components/badges";
 import WarningSign from "@/components/warning-sign";
+import { useTrashbinRealtime } from "@/store/realtime-store";
 
 export default function TrashbinStatus() {
   const [trashbinId] = useQueryState("trashbin_id");

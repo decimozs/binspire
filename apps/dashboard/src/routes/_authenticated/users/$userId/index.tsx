@@ -1,7 +1,7 @@
-import LoaderLayout from "@/components/layout/loader-layout";
-import UserHistoryDataTable from "@/features/user-profile/components/user-history-data-table";
 import { queryOptions, UserApi, useSuspenseQuery } from "@binspire/query";
 import { createFileRoute } from "@tanstack/react-router";
+import LoaderLayout from "@/components/layout/loader-layout";
+import UserHistoryDataTable from "@/features/user-profile/components/user-history-data-table";
 
 export const Route = createFileRoute("/_authenticated/users/$userId/")({
   component: RouteComponent,

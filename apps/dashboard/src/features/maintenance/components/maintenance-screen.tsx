@@ -1,5 +1,3 @@
-import { authClient } from "@/lib/auth-client";
-import { differenceInSeconds, format } from "date-fns";
 import { useGetMaintenanceById, useQueryClient } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import {
@@ -10,9 +8,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@binspire/ui/components/empty";
+import { Skeleton } from "@binspire/ui/components/skeleton";
+import { differenceInSeconds, format } from "date-fns";
 import { Construction, Loader2, RefreshCcw } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Skeleton } from "@binspire/ui/components/skeleton";
+import { authClient } from "@/lib/auth-client";
 
 export default function MaintenanceScreen() {
   const queryClient = useQueryClient();

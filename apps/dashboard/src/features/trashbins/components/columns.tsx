@@ -1,9 +1,9 @@
-import type { ColumnDef } from "@tanstack/react-table";
-import { SortingButton } from "@/features/data-table/components/sorting-button";
-import { ArrowDownAZ, ArrowUpAZ, ArrowUpDown } from "lucide-react";
 import type { Trashbin } from "@binspire/query";
-import { TrashbinWasteTypeBadge } from "@binspire/ui/badges";
 import { formatLabel } from "@binspire/shared";
+import { TrashbinWasteTypeBadge } from "@binspire/ui/badges";
+import type { ColumnDef } from "@tanstack/react-table";
+import { ArrowDownAZ, ArrowUpAZ, ArrowUpDown } from "lucide-react";
+import { SortingButton } from "@/features/data-table/components/sorting-button";
 
 export const trashbinColumns: ColumnDef<Trashbin>[] = [
   {

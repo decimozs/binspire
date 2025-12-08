@@ -1,10 +1,11 @@
-import { useUpdateIssue, type Issue } from "@binspire/query";
+import { type Issue, useUpdateIssue } from "@binspire/query";
+import { getInitial } from "@binspire/shared";
+import { IssuePriorityBadge, IssueStatusBadge } from "@binspire/ui/badges";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@binspire/ui/components/avatar";
-import { IssuePriorityBadge, IssueStatusBadge } from "@binspire/ui/badges";
 import { Button } from "@binspire/ui/components/button";
 import {
   Sheet,
@@ -16,9 +17,8 @@ import {
   SheetTrigger,
 } from "@binspire/ui/components/sheet";
 import { format, formatDistanceToNow } from "date-fns";
-import { getInitial } from "@binspire/shared";
-import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 import { ShowToast } from "@/components/toast";
 
 export default function ViewTrashbinIssue({ issue }: { issue: Issue }) {

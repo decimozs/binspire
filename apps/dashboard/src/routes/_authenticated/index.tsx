@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import Dashboard from "@/features/dashboard";
-import { createFileRoute } from "@tanstack/react-router";
 import {
   AuditApi,
   HistoryApi,
@@ -13,10 +10,13 @@ import {
   UserRequestApi,
   useSuspenseQuery,
 } from "@binspire/query";
-import LoaderLayout from "@/components/layout/loader-layout";
-import { Bot, X } from "lucide-react";
-import Welcome from "@/components/core/welcome";
 import { cn } from "@binspire/ui/lib/utils";
+import { createFileRoute } from "@tanstack/react-router";
+import { Bot, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import Welcome from "@/components/core/welcome";
+import LoaderLayout from "@/components/layout/loader-layout";
+import Dashboard from "@/features/dashboard";
 
 const routeQueryOpts = queryOptions({
   queryKey: ["dashboard"],

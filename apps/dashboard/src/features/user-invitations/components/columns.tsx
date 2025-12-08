@@ -1,8 +1,8 @@
-import { SortingButton } from "@/features/data-table/components/sorting-button";
 import type { UserInvitation } from "@binspire/query";
 import { InvitationStatusBadge, UserColumn } from "@binspire/ui/badges";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowDownAZ, ArrowUpAZ, ArrowUpDown } from "lucide-react";
+import { SortingButton } from "@/features/data-table/components/sorting-button";
 
 export const userInvitationColumns: ColumnDef<UserInvitation>[] = [
   {

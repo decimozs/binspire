@@ -1,3 +1,4 @@
+import { useSendInvitationEmail } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import {
   Dialog,
@@ -7,11 +8,6 @@ import {
   DialogTitle,
 } from "@binspire/ui/components/dialog";
 import { Input } from "@binspire/ui/components/input";
-import { CircleCheckIcon, Loader2, Mail, X } from "lucide-react";
-import z from "zod";
-import { useForm } from "@tanstack/react-form";
-import { useState } from "react";
-import { ShowToast } from "@/components/core/toast-notification";
 import {
   Select,
   SelectContent,
@@ -19,9 +15,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@binspire/ui/components/select";
-import { usePermissionStore } from "@/store/permission-store";
-import { useSendInvitationEmail } from "@binspire/query";
+import { useForm } from "@tanstack/react-form";
+import { CircleCheckIcon, Loader2, Mail, X } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
+import { useState } from "react";
+import z from "zod";
+import { ShowToast } from "@/components/core/toast-notification";
+import { usePermissionStore } from "@/store/permission-store";
 
 type Invite = {
   email: string;

@@ -1,5 +1,4 @@
-import { SunMoon } from "lucide-react";
-import SettingsItem from "./settings-item";
+import { Button } from "@binspire/ui/components/button";
 import {
   Drawer,
   DrawerContent,
@@ -13,9 +12,10 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@binspire/ui/components/radio-group";
-import { Button } from "@binspire/ui/components/button";
-import { useTheme, type Theme } from "@/context/theme-provider";
+import { SunMoon } from "lucide-react";
 import { useState } from "react";
+import { type Theme, useTheme } from "@/context/theme-provider";
+import SettingsItem from "./settings-item";
 
 export default function ChangeTheme() {
   const [selectedTheme, setSelectedTheme] = useState<Theme>("system");

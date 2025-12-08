@@ -1,5 +1,5 @@
-import { issuesTable } from "./schema";
-import z from "zod";
+import type z from "zod";
+import type { issuesTable } from "./schema";
 import type { insertIssueSchema, updateIssueSchema } from "./validators";
 
 export type Issue = typeof issuesTable.$inferSelect;

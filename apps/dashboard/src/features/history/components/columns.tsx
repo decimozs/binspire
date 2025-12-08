@@ -1,8 +1,8 @@
-import { SortingButton } from "@/features/data-table/components/sorting-button";
+import type { History } from "@binspire/query";
 import { formatCamelCase } from "@binspire/shared";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowDownAZ, ArrowUpAZ, ArrowUpDown } from "lucide-react";
-import { type History } from "@binspire/query";
+import { SortingButton } from "@/features/data-table/components/sorting-button";
 
 export const historyColumns: ColumnDef<History>[] = [
   {

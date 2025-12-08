@@ -1,11 +1,11 @@
-import type { IBaseRepository } from "@/lib/types";
 import { db, eq } from "@binspire/db";
 import {
-  issuesTable,
   type InsertIssue,
   type Issue,
+  issuesTable,
   type UpdateIssue,
 } from "@binspire/db/schema";
+import type { IBaseRepository } from "@/lib/types";
 
 export class IssueRepository
   implements IBaseRepository<Issue, InsertIssue, UpdateIssue>

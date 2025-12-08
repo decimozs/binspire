@@ -1,13 +1,13 @@
 import { SidebarInset, SidebarProvider } from "@binspire/ui/components/sidebar";
 import { Outlet } from "@tanstack/react-router";
-import { SearchProvider } from "@/context/search-provider";
-import { useLayout } from "@/store/layout-store";
-import AppSidebar from "../sidebar/app-sidebar";
 import type { ReactNode } from "react";
-import ViewsContainer from "../views/views-container";
+import { SearchProvider } from "@/context/search-provider";
+import DashboardHeader from "@/features/dashboard/components/header";
 import DeleteDialogRegistry from "@/registry/delete-dialog-registry";
 import UpdateDialogRegistry from "@/registry/update-dialog-registry";
-import DashboardHeader from "@/features/dashboard/components/header";
+import { useLayout } from "@/store/layout-store";
+import AppSidebar from "../sidebar/app-sidebar";
+import ViewsContainer from "../views/views-container";
 
 interface DashboardLayoutProps {
   children?: ReactNode;

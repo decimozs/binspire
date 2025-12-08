@@ -1,6 +1,6 @@
-import SettingsItem from "@/features/settings/components/settings-item";
 import { Link } from "@tanstack/react-router";
 import { Gift } from "lucide-react";
+import SettingsItem from "@/features/settings/components/settings-item";
 
 export default function CheckRewards() {
   return (

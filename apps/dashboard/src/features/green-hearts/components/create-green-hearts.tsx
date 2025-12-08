@@ -1,10 +1,15 @@
-import { ShowToast } from "@/components/core/toast-notification";
 import { updateUserGreenHeartSchema } from "@binspire/db/schema";
 import {
-  useGetAllUsers,
   UserGreenHeartApi,
+  useGetAllUsers,
   useUpdateUserGreenHeart,
 } from "@binspire/query";
+import { formatLabel, getInitial } from "@binspire/shared";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@binspire/ui/components/avatar";
 import { Button } from "@binspire/ui/components/button";
 import {
   Command,
@@ -33,12 +38,7 @@ import { cn } from "@binspire/ui/lib/utils";
 import { useForm } from "@tanstack/react-form";
 import { Check, ChevronsUpDown, HeartPlus, Loader2 } from "lucide-react";
 import { useState } from "react";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@binspire/ui/components/avatar";
-import { formatLabel, getInitial } from "@binspire/shared";
+import { ShowToast } from "@/components/core/toast-notification";
 
 const schema = updateUserGreenHeartSchema
   .pick({ totalKg: true, userId: true })

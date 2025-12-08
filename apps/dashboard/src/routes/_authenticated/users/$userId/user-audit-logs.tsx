@@ -1,7 +1,7 @@
-import LoaderLayout from "@/components/layout/loader-layout";
-import UserAuditLogsDataTable from "@/features/user-profile/components/user-audit-logs-data-table";
 import { queryOptions, UserApi, useSuspenseQuery } from "@binspire/query";
 import { createFileRoute } from "@tanstack/react-router";
+import LoaderLayout from "@/components/layout/loader-layout";
+import UserAuditLogsDataTable from "@/features/user-profile/components/user-audit-logs-data-table";
 
 export const Route = createFileRoute(
   "/_authenticated/users/$userId/user-audit-logs",

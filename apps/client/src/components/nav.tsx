@@ -1,6 +1,6 @@
 import type { MenuItem } from "@binspire/shared";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, Activity, Briefcase, UserCircle, Map } from "lucide-react";
+import { Activity, Briefcase, Home, Map, UserCircle } from "lucide-react";
 
 const menuItems: MenuItem[] = [
   { title: "Home", url: "/", icon: Home },

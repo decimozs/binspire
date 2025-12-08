@@ -1,11 +1,11 @@
-import { NotFoundError } from "@/features/error";
-import type { IBaseService } from "@/lib/types";
-import { HistoryRepository } from "@/repository";
 import type {
   History,
   InsertHistory,
   UpdateHistory,
 } from "@binspire/db/schema";
+import { NotFoundError } from "@/features/error";
+import type { IBaseService } from "@/lib/types";
+import { HistoryRepository } from "@/repository";
 
 export class HistoryService
   implements IBaseService<History, InsertHistory, UpdateHistory>

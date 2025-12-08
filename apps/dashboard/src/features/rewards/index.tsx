@@ -1,9 +1,9 @@
+import { type UserGreenHeart, UserGreenHeartApi } from "@binspire/query";
 import { useEffect, useState } from "react";
+import { ShowToast } from "@/components/core/toast-notification";
 import MainLayout from "@/components/layout/main-layout";
-import { UserGreenHeartApi, type UserGreenHeart } from "@binspire/query";
 import { REWARDS } from "../settings/lib/constants";
 import RewardCard from "./components/reward-card";
-import { ShowToast } from "@/components/core/toast-notification";
 
 function getRedeemedRewards(): string[] {
   const stored = localStorage.getItem("greenhearts_rewards");

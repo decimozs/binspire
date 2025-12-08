@@ -1,8 +1,8 @@
-import { useSession } from "@/features/auth";
 import { useGetOrganizationSettingsById } from "@binspire/query";
 import { Button } from "@binspire/ui/components/button";
 import { ScanEye } from "lucide-react";
 import { useMap } from "react-map-gl/maplibre";
+import { useSession } from "@/features/auth";
 
 export default function ResetMapState() {
   const { current: map } = useMap();

@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Copy, Check } from "lucide-react";
 import { Button } from "@binspire/ui/components/button";
+import { Check, Copy } from "lucide-react";
+import { useState } from "react";
 
 interface CopyToClipboardButtonProps {
   text: string;

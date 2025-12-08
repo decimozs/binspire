@@ -1,5 +1,5 @@
-import { factory } from "@/lib/factory";
 import { MaintenanceHandler } from "@/handlers";
+import { factory } from "@/lib/factory";
 
 export const maintenanceRoutes = factory
   .createApp()
