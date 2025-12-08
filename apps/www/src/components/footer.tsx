@@ -88,7 +88,10 @@ export default function FooterSection() {
           </div>
           <div className="row-start-1 border-b pb-7 text-sm md:col-span-2 md:border-none lg:col-span-1">
             <div className="space-y-4">
-              <Label htmlFor="mail" className="block text-primary font-black text-8xl lg:text-9xl">
+              <Label
+                htmlFor="mail"
+                className="block text-primary font-black text-5xl mb-2 lg:text-9xl"
+              >
                 BINSPIRE
               </Label>
             </div>

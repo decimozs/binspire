@@ -346,3 +346,36 @@
 .maplibregl-ctrl {
   display: none;
 }
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee {
+  display: inline-flex;
+  width: max-content;
+  animation: scroll 50s linear infinite;
+}
+
+.marquee-text {
+  padding-right: 2rem;
+  font-weight: bold;
+  color: black;
+  font-size: 16px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

@@ -5,6 +5,7 @@ import FooterSection from "@/components/footer";
 import Features1 from "@/components/features-1";
 import Features2 from "@/components/features-2";
 import ContentSection from "@/components/content-4";
+import Recognition from "@/components/recognition";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -12,13 +13,16 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="w-full flex flex-col">
-      <Header />
-      <HeroSection />
-      <Features1 />
-      <Features2 />
-      <ContentSection />
-      <FooterSection />
-    </main>
+    <>
+      <Recognition />
+      <main className="w-full flex flex-col">
+        <Header />
+        <HeroSection />
+        <Features1 />
+        <Features2 />
+        <ContentSection />
+        <FooterSection />
+      </main>
+    </>
   );
 }
