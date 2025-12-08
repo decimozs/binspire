@@ -50,20 +50,7 @@
       "env": ["NODE_ENV", "PORT", "VITE_*", "NEXT_PUBLIC_*", "DATABASE_URL"]
     },
     "lint": {
-      "dependsOn": ["^build"],
-      "inputs": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "src/**/*.js",
-        "src/**/*.jsx",
-        "eslint.config.js",
-        ".eslintrc*",
-        "package.json",
-        "tsconfig.json",
-        "tsconfig.*.json"
-      ],
-      "outputs": [".eslintcache"],
-      "env": ["NODE_ENV"]
+      "dependsOn": ["^lint"]
     },
     "typecheck": {
       "dependsOn": ["^build"],

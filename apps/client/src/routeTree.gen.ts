@@ -8,315 +8,315 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as WelcomeIndexRouteImport } from './routes/welcome/index'
-import { Route as TermsOfServiceIndexRouteImport } from './routes/terms-of-service/index'
-import { Route as PrivacyPolicyIndexRouteImport } from './routes/privacy-policy/index'
-import { Route as MapIndexRouteImport } from './routes/map/index'
-import { Route as MaintenanceIndexRouteImport } from './routes/maintenance/index'
-import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as AuthenticatedServicesIndexRouteImport } from './routes/_authenticated/services/index'
-import { Route as AuthenticatedRewardsIndexRouteImport } from './routes/_authenticated/rewards/index'
-import { Route as AuthenticatedRegisterTrashbinIndexRouteImport } from './routes/_authenticated/register-trashbin/index'
-import { Route as AuthenticatedCreateTrashbinIndexRouteImport } from './routes/_authenticated/create-trashbin/index'
-import { Route as AuthenticatedActivityIndexRouteImport } from './routes/_authenticated/activity/index'
-import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account/index'
-import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
+import { Route as rootRouteImport } from "./routes/__root";
+import { Route as AuthenticatedRouteRouteImport } from "./routes/_authenticated/route";
+import { Route as WelcomeIndexRouteImport } from "./routes/welcome/index";
+import { Route as TermsOfServiceIndexRouteImport } from "./routes/terms-of-service/index";
+import { Route as PrivacyPolicyIndexRouteImport } from "./routes/privacy-policy/index";
+import { Route as MapIndexRouteImport } from "./routes/map/index";
+import { Route as MaintenanceIndexRouteImport } from "./routes/maintenance/index";
+import { Route as AuthenticatedIndexRouteImport } from "./routes/_authenticated/index";
+import { Route as AuthenticatedServicesIndexRouteImport } from "./routes/_authenticated/services/index";
+import { Route as AuthenticatedRewardsIndexRouteImport } from "./routes/_authenticated/rewards/index";
+import { Route as AuthenticatedRegisterTrashbinIndexRouteImport } from "./routes/_authenticated/register-trashbin/index";
+import { Route as AuthenticatedCreateTrashbinIndexRouteImport } from "./routes/_authenticated/create-trashbin/index";
+import { Route as AuthenticatedActivityIndexRouteImport } from "./routes/_authenticated/activity/index";
+import { Route as AuthenticatedAccountIndexRouteImport } from "./routes/_authenticated/account/index";
+import { Route as authLoginIndexRouteImport } from "./routes/(auth)/login/index";
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+  id: "/_authenticated",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const WelcomeIndexRoute = WelcomeIndexRouteImport.update({
-  id: '/welcome/',
-  path: '/welcome/',
+  id: "/welcome/",
+  path: "/welcome/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const TermsOfServiceIndexRoute = TermsOfServiceIndexRouteImport.update({
-  id: '/terms-of-service/',
-  path: '/terms-of-service/',
+  id: "/terms-of-service/",
+  path: "/terms-of-service/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const PrivacyPolicyIndexRoute = PrivacyPolicyIndexRouteImport.update({
-  id: '/privacy-policy/',
-  path: '/privacy-policy/',
+  id: "/privacy-policy/",
+  path: "/privacy-policy/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const MapIndexRoute = MapIndexRouteImport.update({
-  id: '/map/',
-  path: '/map/',
+  id: "/map/",
+  path: "/map/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const MaintenanceIndexRoute = MaintenanceIndexRouteImport.update({
-  id: '/maintenance/',
-  path: '/maintenance/',
+  id: "/maintenance/",
+  path: "/maintenance/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+} as any);
 const AuthenticatedServicesIndexRoute =
   AuthenticatedServicesIndexRouteImport.update({
-    id: '/services/',
-    path: '/services/',
+    id: "/services/",
+    path: "/services/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedRewardsIndexRoute =
   AuthenticatedRewardsIndexRouteImport.update({
-    id: '/rewards/',
-    path: '/rewards/',
+    id: "/rewards/",
+    path: "/rewards/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedRegisterTrashbinIndexRoute =
   AuthenticatedRegisterTrashbinIndexRouteImport.update({
-    id: '/register-trashbin/',
-    path: '/register-trashbin/',
+    id: "/register-trashbin/",
+    path: "/register-trashbin/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedCreateTrashbinIndexRoute =
   AuthenticatedCreateTrashbinIndexRouteImport.update({
-    id: '/create-trashbin/',
-    path: '/create-trashbin/',
+    id: "/create-trashbin/",
+    path: "/create-trashbin/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedActivityIndexRoute =
   AuthenticatedActivityIndexRouteImport.update({
-    id: '/activity/',
-    path: '/activity/',
+    id: "/activity/",
+    path: "/activity/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const AuthenticatedAccountIndexRoute =
   AuthenticatedAccountIndexRouteImport.update({
-    id: '/account/',
-    path: '/account/',
+    id: "/account/",
+    path: "/account/",
     getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+  } as any);
 const authLoginIndexRoute = authLoginIndexRouteImport.update({
-  id: '/(auth)/login/',
-  path: '/login/',
+  id: "/(auth)/login/",
+  path: "/login/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof AuthenticatedIndexRoute
-  '/maintenance': typeof MaintenanceIndexRoute
-  '/map': typeof MapIndexRoute
-  '/privacy-policy': typeof PrivacyPolicyIndexRoute
-  '/terms-of-service': typeof TermsOfServiceIndexRoute
-  '/welcome': typeof WelcomeIndexRoute
-  '/login': typeof authLoginIndexRoute
-  '/account': typeof AuthenticatedAccountIndexRoute
-  '/activity': typeof AuthenticatedActivityIndexRoute
-  '/create-trashbin': typeof AuthenticatedCreateTrashbinIndexRoute
-  '/register-trashbin': typeof AuthenticatedRegisterTrashbinIndexRoute
-  '/rewards': typeof AuthenticatedRewardsIndexRoute
-  '/services': typeof AuthenticatedServicesIndexRoute
+  "/": typeof AuthenticatedIndexRoute;
+  "/maintenance": typeof MaintenanceIndexRoute;
+  "/map": typeof MapIndexRoute;
+  "/privacy-policy": typeof PrivacyPolicyIndexRoute;
+  "/terms-of-service": typeof TermsOfServiceIndexRoute;
+  "/welcome": typeof WelcomeIndexRoute;
+  "/login": typeof authLoginIndexRoute;
+  "/account": typeof AuthenticatedAccountIndexRoute;
+  "/activity": typeof AuthenticatedActivityIndexRoute;
+  "/create-trashbin": typeof AuthenticatedCreateTrashbinIndexRoute;
+  "/register-trashbin": typeof AuthenticatedRegisterTrashbinIndexRoute;
+  "/rewards": typeof AuthenticatedRewardsIndexRoute;
+  "/services": typeof AuthenticatedServicesIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof AuthenticatedIndexRoute
-  '/maintenance': typeof MaintenanceIndexRoute
-  '/map': typeof MapIndexRoute
-  '/privacy-policy': typeof PrivacyPolicyIndexRoute
-  '/terms-of-service': typeof TermsOfServiceIndexRoute
-  '/welcome': typeof WelcomeIndexRoute
-  '/login': typeof authLoginIndexRoute
-  '/account': typeof AuthenticatedAccountIndexRoute
-  '/activity': typeof AuthenticatedActivityIndexRoute
-  '/create-trashbin': typeof AuthenticatedCreateTrashbinIndexRoute
-  '/register-trashbin': typeof AuthenticatedRegisterTrashbinIndexRoute
-  '/rewards': typeof AuthenticatedRewardsIndexRoute
-  '/services': typeof AuthenticatedServicesIndexRoute
+  "/": typeof AuthenticatedIndexRoute;
+  "/maintenance": typeof MaintenanceIndexRoute;
+  "/map": typeof MapIndexRoute;
+  "/privacy-policy": typeof PrivacyPolicyIndexRoute;
+  "/terms-of-service": typeof TermsOfServiceIndexRoute;
+  "/welcome": typeof WelcomeIndexRoute;
+  "/login": typeof authLoginIndexRoute;
+  "/account": typeof AuthenticatedAccountIndexRoute;
+  "/activity": typeof AuthenticatedActivityIndexRoute;
+  "/create-trashbin": typeof AuthenticatedCreateTrashbinIndexRoute;
+  "/register-trashbin": typeof AuthenticatedRegisterTrashbinIndexRoute;
+  "/rewards": typeof AuthenticatedRewardsIndexRoute;
+  "/services": typeof AuthenticatedServicesIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/maintenance/': typeof MaintenanceIndexRoute
-  '/map/': typeof MapIndexRoute
-  '/privacy-policy/': typeof PrivacyPolicyIndexRoute
-  '/terms-of-service/': typeof TermsOfServiceIndexRoute
-  '/welcome/': typeof WelcomeIndexRoute
-  '/(auth)/login/': typeof authLoginIndexRoute
-  '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
-  '/_authenticated/activity/': typeof AuthenticatedActivityIndexRoute
-  '/_authenticated/create-trashbin/': typeof AuthenticatedCreateTrashbinIndexRoute
-  '/_authenticated/register-trashbin/': typeof AuthenticatedRegisterTrashbinIndexRoute
-  '/_authenticated/rewards/': typeof AuthenticatedRewardsIndexRoute
-  '/_authenticated/services/': typeof AuthenticatedServicesIndexRoute
+  __root__: typeof rootRouteImport;
+  "/_authenticated": typeof AuthenticatedRouteRouteWithChildren;
+  "/_authenticated/": typeof AuthenticatedIndexRoute;
+  "/maintenance/": typeof MaintenanceIndexRoute;
+  "/map/": typeof MapIndexRoute;
+  "/privacy-policy/": typeof PrivacyPolicyIndexRoute;
+  "/terms-of-service/": typeof TermsOfServiceIndexRoute;
+  "/welcome/": typeof WelcomeIndexRoute;
+  "/(auth)/login/": typeof authLoginIndexRoute;
+  "/_authenticated/account/": typeof AuthenticatedAccountIndexRoute;
+  "/_authenticated/activity/": typeof AuthenticatedActivityIndexRoute;
+  "/_authenticated/create-trashbin/": typeof AuthenticatedCreateTrashbinIndexRoute;
+  "/_authenticated/register-trashbin/": typeof AuthenticatedRegisterTrashbinIndexRoute;
+  "/_authenticated/rewards/": typeof AuthenticatedRewardsIndexRoute;
+  "/_authenticated/services/": typeof AuthenticatedServicesIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
-    | '/'
-    | '/maintenance'
-    | '/map'
-    | '/privacy-policy'
-    | '/terms-of-service'
-    | '/welcome'
-    | '/login'
-    | '/account'
-    | '/activity'
-    | '/create-trashbin'
-    | '/register-trashbin'
-    | '/rewards'
-    | '/services'
-  fileRoutesByTo: FileRoutesByTo
+    | "/"
+    | "/maintenance"
+    | "/map"
+    | "/privacy-policy"
+    | "/terms-of-service"
+    | "/welcome"
+    | "/login"
+    | "/account"
+    | "/activity"
+    | "/create-trashbin"
+    | "/register-trashbin"
+    | "/rewards"
+    | "/services";
+  fileRoutesByTo: FileRoutesByTo;
   to:
-    | '/'
-    | '/maintenance'
-    | '/map'
-    | '/privacy-policy'
-    | '/terms-of-service'
-    | '/welcome'
-    | '/login'
-    | '/account'
-    | '/activity'
-    | '/create-trashbin'
-    | '/register-trashbin'
-    | '/rewards'
-    | '/services'
+    | "/"
+    | "/maintenance"
+    | "/map"
+    | "/privacy-policy"
+    | "/terms-of-service"
+    | "/welcome"
+    | "/login"
+    | "/account"
+    | "/activity"
+    | "/create-trashbin"
+    | "/register-trashbin"
+    | "/rewards"
+    | "/services";
   id:
-    | '__root__'
-    | '/_authenticated'
-    | '/_authenticated/'
-    | '/maintenance/'
-    | '/map/'
-    | '/privacy-policy/'
-    | '/terms-of-service/'
-    | '/welcome/'
-    | '/(auth)/login/'
-    | '/_authenticated/account/'
-    | '/_authenticated/activity/'
-    | '/_authenticated/create-trashbin/'
-    | '/_authenticated/register-trashbin/'
-    | '/_authenticated/rewards/'
-    | '/_authenticated/services/'
-  fileRoutesById: FileRoutesById
+    | "__root__"
+    | "/_authenticated"
+    | "/_authenticated/"
+    | "/maintenance/"
+    | "/map/"
+    | "/privacy-policy/"
+    | "/terms-of-service/"
+    | "/welcome/"
+    | "/(auth)/login/"
+    | "/_authenticated/account/"
+    | "/_authenticated/activity/"
+    | "/_authenticated/create-trashbin/"
+    | "/_authenticated/register-trashbin/"
+    | "/_authenticated/rewards/"
+    | "/_authenticated/services/";
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  MaintenanceIndexRoute: typeof MaintenanceIndexRoute
-  MapIndexRoute: typeof MapIndexRoute
-  PrivacyPolicyIndexRoute: typeof PrivacyPolicyIndexRoute
-  TermsOfServiceIndexRoute: typeof TermsOfServiceIndexRoute
-  WelcomeIndexRoute: typeof WelcomeIndexRoute
-  authLoginIndexRoute: typeof authLoginIndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren;
+  MaintenanceIndexRoute: typeof MaintenanceIndexRoute;
+  MapIndexRoute: typeof MapIndexRoute;
+  PrivacyPolicyIndexRoute: typeof PrivacyPolicyIndexRoute;
+  TermsOfServiceIndexRoute: typeof TermsOfServiceIndexRoute;
+  WelcomeIndexRoute: typeof WelcomeIndexRoute;
+  authLoginIndexRoute: typeof authLoginIndexRoute;
 }
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/welcome/': {
-      id: '/welcome/'
-      path: '/welcome'
-      fullPath: '/welcome'
-      preLoaderRoute: typeof WelcomeIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/terms-of-service/': {
-      id: '/terms-of-service/'
-      path: '/terms-of-service'
-      fullPath: '/terms-of-service'
-      preLoaderRoute: typeof TermsOfServiceIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy-policy/': {
-      id: '/privacy-policy/'
-      path: '/privacy-policy'
-      fullPath: '/privacy-policy'
-      preLoaderRoute: typeof PrivacyPolicyIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/map/': {
-      id: '/map/'
-      path: '/map'
-      fullPath: '/map'
-      preLoaderRoute: typeof MapIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/maintenance/': {
-      id: '/maintenance/'
-      path: '/maintenance'
-      fullPath: '/maintenance'
-      preLoaderRoute: typeof MaintenanceIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/services/': {
-      id: '/_authenticated/services/'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof AuthenticatedServicesIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/rewards/': {
-      id: '/_authenticated/rewards/'
-      path: '/rewards'
-      fullPath: '/rewards'
-      preLoaderRoute: typeof AuthenticatedRewardsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/register-trashbin/': {
-      id: '/_authenticated/register-trashbin/'
-      path: '/register-trashbin'
-      fullPath: '/register-trashbin'
-      preLoaderRoute: typeof AuthenticatedRegisterTrashbinIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/create-trashbin/': {
-      id: '/_authenticated/create-trashbin/'
-      path: '/create-trashbin'
-      fullPath: '/create-trashbin'
-      preLoaderRoute: typeof AuthenticatedCreateTrashbinIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/activity/': {
-      id: '/_authenticated/activity/'
-      path: '/activity'
-      fullPath: '/activity'
-      preLoaderRoute: typeof AuthenticatedActivityIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/account/': {
-      id: '/_authenticated/account/'
-      path: '/account'
-      fullPath: '/account'
-      preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/(auth)/login/': {
-      id: '/(auth)/login/'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+    "/_authenticated": {
+      id: "/_authenticated";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/welcome/": {
+      id: "/welcome/";
+      path: "/welcome";
+      fullPath: "/welcome";
+      preLoaderRoute: typeof WelcomeIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/terms-of-service/": {
+      id: "/terms-of-service/";
+      path: "/terms-of-service";
+      fullPath: "/terms-of-service";
+      preLoaderRoute: typeof TermsOfServiceIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/privacy-policy/": {
+      id: "/privacy-policy/";
+      path: "/privacy-policy";
+      fullPath: "/privacy-policy";
+      preLoaderRoute: typeof PrivacyPolicyIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/map/": {
+      id: "/map/";
+      path: "/map";
+      fullPath: "/map";
+      preLoaderRoute: typeof MapIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/maintenance/": {
+      id: "/maintenance/";
+      path: "/maintenance";
+      fullPath: "/maintenance";
+      preLoaderRoute: typeof MaintenanceIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/_authenticated/": {
+      id: "/_authenticated/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/services/": {
+      id: "/_authenticated/services/";
+      path: "/services";
+      fullPath: "/services";
+      preLoaderRoute: typeof AuthenticatedServicesIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/rewards/": {
+      id: "/_authenticated/rewards/";
+      path: "/rewards";
+      fullPath: "/rewards";
+      preLoaderRoute: typeof AuthenticatedRewardsIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/register-trashbin/": {
+      id: "/_authenticated/register-trashbin/";
+      path: "/register-trashbin";
+      fullPath: "/register-trashbin";
+      preLoaderRoute: typeof AuthenticatedRegisterTrashbinIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/create-trashbin/": {
+      id: "/_authenticated/create-trashbin/";
+      path: "/create-trashbin";
+      fullPath: "/create-trashbin";
+      preLoaderRoute: typeof AuthenticatedCreateTrashbinIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/activity/": {
+      id: "/_authenticated/activity/";
+      path: "/activity";
+      fullPath: "/activity";
+      preLoaderRoute: typeof AuthenticatedActivityIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/_authenticated/account/": {
+      id: "/_authenticated/account/";
+      path: "/account";
+      fullPath: "/account";
+      preLoaderRoute: typeof AuthenticatedAccountIndexRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
+    };
+    "/(auth)/login/": {
+      id: "/(auth)/login/";
+      path: "/login";
+      fullPath: "/login";
+      preLoaderRoute: typeof authLoginIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
-  AuthenticatedActivityIndexRoute: typeof AuthenticatedActivityIndexRoute
-  AuthenticatedCreateTrashbinIndexRoute: typeof AuthenticatedCreateTrashbinIndexRoute
-  AuthenticatedRegisterTrashbinIndexRoute: typeof AuthenticatedRegisterTrashbinIndexRoute
-  AuthenticatedRewardsIndexRoute: typeof AuthenticatedRewardsIndexRoute
-  AuthenticatedServicesIndexRoute: typeof AuthenticatedServicesIndexRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute;
+  AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute;
+  AuthenticatedActivityIndexRoute: typeof AuthenticatedActivityIndexRoute;
+  AuthenticatedCreateTrashbinIndexRoute: typeof AuthenticatedCreateTrashbinIndexRoute;
+  AuthenticatedRegisterTrashbinIndexRoute: typeof AuthenticatedRegisterTrashbinIndexRoute;
+  AuthenticatedRewardsIndexRoute: typeof AuthenticatedRewardsIndexRoute;
+  AuthenticatedServicesIndexRoute: typeof AuthenticatedServicesIndexRoute;
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -328,10 +328,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedRegisterTrashbinIndexRoute,
   AuthenticatedRewardsIndexRoute: AuthenticatedRewardsIndexRoute,
   AuthenticatedServicesIndexRoute: AuthenticatedServicesIndexRoute,
-}
+};
 
 const AuthenticatedRouteRouteWithChildren =
-  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren);
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -341,7 +341,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsOfServiceIndexRoute: TermsOfServiceIndexRoute,
   WelcomeIndexRoute: WelcomeIndexRoute,
   authLoginIndexRoute: authLoginIndexRoute,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
